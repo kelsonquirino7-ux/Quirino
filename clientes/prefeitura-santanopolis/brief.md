@@ -2,7 +2,7 @@
 
 - Nome oficial: Prefeitura Municipal de Santanópolis (BA) — slogan "Ao lado do povo"
 - Responsável pelo contato / aprovação:
-- Redes sociais (@):
+- Redes sociais (@): Instagram @pmssantanopolis
 - Cores oficiais (HEX): Azul institucional `#002F67` (único); apoio: `#1D4F8F`, fundo claro `#E7EEF8`, branco
 - Fontes usadas nos modelos: Exo 2 (títulos, próxima ao logo) + Inter (texto)
 - Arquivos de marca em `identidade/`: `logo-prefeitura-horizontal.jpg` (original), `logo-prefeitura-azul-transparente.png`, `logo-prefeitura-branco.png`

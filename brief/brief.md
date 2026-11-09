@@ -4,7 +4,7 @@
 
 ## Negócio
 - O que a Quirino faz / vende:
-- Segmento:
+- Segmento: Tecnologia / digital
 - Cidade / região de atuação:
 - Concorrentes ou marcas de referência:
 
@@ -13,15 +13,15 @@
 - Faixa de preço (popular / médio / premium):
 
 ## Personalidade
-- 3 palavras que descrevem a marca:
+- 3 palavras que descrevem a marca: ousada, vibrante, digital (proposta)
 - A marca NÃO é:
 - Tom de voz (formal, próximo, divertido, técnico...):
 
 ## Preferências visuais
-- Cores que gosta:
+- Cores que gosta: azul e verde
 - Cores a evitar:
-- Estilo (minimalista, clássico, moderno, artesanal, tecnológico...):
-- Tipo de logo (só nome, símbolo + nome, monograma "Q", emblema):
+- Estilo: ousado / vibrante
+- Tipo de logo: só o nome (logotipo tipográfico)
 
 ## Onde a marca vai aparecer
 - [ ] Instagram / redes sociais

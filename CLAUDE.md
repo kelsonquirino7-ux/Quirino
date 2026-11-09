@@ -69,3 +69,7 @@ deve ser salva ali com nome descritivo e commitada, para reuso.
    e `legenda.txt` com a legenda pronta para o Instagram (texto + @ do cliente + 3–6 hashtags locais).
 4. Commit + push, e enviar o arquivo final e a legenda no chat (SendUserFile) para o dono postar.
 5. Trabalhar direto no branch padrão (`main`) quando não houver branch definido para a sessão.
+
+## Atalhos do dono
+Pedidos seguem `COMO-PEDIR.md`: apelidos (`prefeitura`, `vitor`, `deni`, `itamar`), formato
+`cliente · peça · dados`. `rascunho` = renderizar e mostrar sem commit. `urgente` = só o arquivo, sem texto extra.

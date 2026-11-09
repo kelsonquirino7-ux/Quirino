@@ -2,7 +2,7 @@
 
 - Nome oficial: Vitor — marca "Vitor Prefeito do Povo" (perfil pessoal/político)
 - Responsável pelo contato / aprovação:
-- Redes sociais (@):
+- Redes sociais (@): Instagram @prefeitovitor
 - Cores oficiais (HEX): Verde vivo `#0AA514`, verde escuro `#015927`, branco
 - Fontes usadas nos modelos: Montserrat 900/600
 - Arquivos de marca em `identidade/`: `logo-vitor-prefeito-do-povo.png` (fundo transparente)

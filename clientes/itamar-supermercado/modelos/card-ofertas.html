@@ -1,0 +1,27 @@
+<!doctype html><meta charset="utf-8"><meta name="tamanho" content="1080x1350"><link rel="stylesheet" href="../../../ferramentas/fontes.css">
+<!-- Modelo: card de ofertas (1080x1350). Troque produtos, preços e datas. Fotos: coloque PNG sem fundo em .foto (background-image). -->
+<style>
+:root{--amarelo:#FFD302;--vermelho:#FF291E;--marrom:#280E01}
+*{box-sizing:border-box;margin:0}
+body{width:1080px;height:1350px;background:var(--amarelo);font-family:"Baloo 2",sans-serif;color:var(--marrom);display:flex;flex-direction:column;padding:48px 56px 40px;gap:28px;background-image:radial-gradient(circle at 85% 8%,#FFE45C 0 220px,transparent 221px)}
+.top{display:flex;align-items:center;justify-content:space-between}
+.top img{height:200px;filter:drop-shadow(0 8px 14px rgba(40,14,1,.25))}
+.titulo{text-align:right;line-height:.9}
+.titulo b{display:block;font:800 120px/0.9 "Baloo 2";color:var(--vermelho)}
+.titulo span{font:800 46px "Baloo 2"}
+.grid{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.p{background:#fff;border-radius:28px;padding:22px;display:flex;flex-direction:column;box-shadow:0 6px 0 rgba(40,14,1,.12)}
+.foto{flex:1;border-radius:18px;background:repeating-linear-gradient(45deg,#F4F0E6 0 18px,#ECE6D8 18px 36px);display:grid;place-items:center;font:600 30px "Baloo 2";color:#B6A98F}
+.nome{font:600 34px/1.1 "Baloo 2";margin-top:14px}
+.preco{align-self:flex-start;margin-top:10px;background:var(--vermelho);color:#fff;border-radius:14px;padding:4px 18px 0;font:800 60px/1.1 "Baloo 2"}
+.preco small{font-size:30px;margin-right:6px}
+.rod{text-align:center;font:600 26px "Baloo 2"}
+</style>
+<div class="top"><img src="../identidade/logo-itamar-3d-transparente.png" alt=""><div class="titulo"><b>OFERTAS</b><span>DA SEMANA</span></div></div>
+<div class="grid">
+  <div class="p"><div class="foto">[FOTO]</div><div class="nome">[Produto 1 – 1 kg]</div><div class="preco"><small>R$</small>0,00</div></div>
+  <div class="p"><div class="foto">[FOTO]</div><div class="nome">[Produto 2 – 5 kg]</div><div class="preco"><small>R$</small>0,00</div></div>
+  <div class="p"><div class="foto">[FOTO]</div><div class="nome">[Produto 3 – 900 ml]</div><div class="preco"><small>R$</small>0,00</div></div>
+  <div class="p"><div class="foto">[FOTO]</div><div class="nome">[Produto 4 – unidade]</div><div class="preco"><small>R$</small>0,00</div></div>
+</div>
+<p class="rod">Ofertas válidas de [dd/mm] a [dd/mm] ou enquanto durarem os estoques.</p>

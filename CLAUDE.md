@@ -30,6 +30,13 @@ Conceito **A · Pixel** (`logo/fontes/A-*`). B e C estão em `logo/descartados/`
   enviados pelo cliente e marcar o que falta com [PREENCHER].
 - Entregas em `clientes/<cliente>/entregas/AAAA-MM-DD-nome/` com fonte editável + exportados.
 
+## Como produzir um card
+1. Copie `clientes/<cliente>/modelos/<modelo>.html` para a pasta da entrega (ajuste os caminhos `../` relativos).
+2. Troque os textos entre colchetes e as fotos (`background-image` em `.foto`).
+3. Renderize: `node ferramentas/render.js caminho/arquivo.html` → gera o `.png` ao lado.
+4. Confira o PNG, faça commit e mande a imagem para o celular.
+Fontes locais (licença OFL) em `ferramentas/fontes/`, declaradas em `ferramentas/fontes.css`.
+
 ## Regras
 - Logo sempre em SVG vetorial como fonte; exportar PNG em 512, 1024 e 2048 px,
   versões colorida, preta, branca e símbolo isolado.

@@ -37,6 +37,13 @@ Conceito **A · Pixel** (`logo/fontes/A-*`). B e C estão em `logo/descartados/`
 4. Confira o PNG, faça commit e mande a imagem para o celular.
 Fontes locais (licença OFL) em `ferramentas/fontes/`, declaradas em `ferramentas/fontes.css`.
 
+## Edição com IA e créditos (OBRIGATÓRIO)
+- Em edições de vídeo/imagem, perguntar ao dono **antes de cada passo** (roteiro/prompt, modelo,
+  duração, ajustes) e só seguir com o OK dele.
+- **Nunca gastar crédito (Magnific, Canva etc.) sem autorização explícita.** Antes de cada geração
+  paga, consultar o saldo e informar: custo estimado, saldo atual e quanto vai sobrar.
+- Depois de gerar, informar quanto foi gasto e o saldo restante.
+
 ## Regras
 - Logo sempre em SVG vetorial como fonte; exportar PNG em 512, 1024 e 2048 px,
   versões colorida, preta, branca e símbolo isolado.

@@ -2,19 +2,23 @@
 # Finaliza um vídeo de cliente: ajusta formato, legenda opcional, logo no canto e vinheta final.
 #
 # Uso:
-#   bash ferramentas/video.sh -c <cliente> -i entrada.mp4 -o saida.mp4 [-f 9x16|16x9] [-l legenda.srt] [-m] [-q]
+#   bash ferramentas/video.sh -c <cliente> -i entrada.mp4 -o saida.mp4 [-f 9x16|16x9] [-l legenda.srt [-a]] [-d destaques.txt] [-z 2.5,8] [-m] [-q]
 #     -c  pasta do cliente em clientes/ (ex.: itamar-supermercado)
 #     -f  formato final (padrão 9x16 = Reels/Stories; 16x9 = YouTube/TV)
 #     -l  arquivo .srt para queimar a legenda no vídeo
 #     -m  coloca o logo do cliente pequeno no canto superior
 #     -q  coloca o crédito "PRODUÇÃO quirino" nos 4 primeiros segundos
 #     -v  duração da vinheta final em segundos (padrão 3; 0 = sem vinheta)
+#     -a  legenda animada estilo Reels (usa o .srt do -l; palavra da vez em caixa na cor do cliente)
+#     -d  arquivo de textos de destaque, uma linha por texto:  0:03-0:06 OBRA ENTREGUE
+#     -z  zoom de impacto nos segundos indicados, separados por vírgula (ex.: -z 2.5,8,14)
 set -euo pipefail
 RAIZ="$(cd "$(dirname "$0")/.." && pwd)"
-FMT=9x16; LEG=""; MARCA=0; CRED=0; VDUR=3
-while getopts "c:i:o:f:l:mqv:" o; do case $o in
+FMT=9x16; LEG=""; MARCA=0; CRED=0; VDUR=3; ANIM=0; DEST=""; ZOOM=""
+while getopts "c:i:o:f:l:mqv:ad:z:" o; do case $o in
+  a) ANIM=1;; d) DEST=$OPTARG;; z) ZOOM=$OPTARG;;
   c) CLI=$OPTARG;; i) IN=$OPTARG;; o) OUT=$OPTARG;; f) FMT=$OPTARG;; l) LEG=$OPTARG;;
-  m) MARCA=1;; q) CRED=1;; v) VDUR=$OPTARG;; *) sed -n '2,12p' "$0"; exit 1;; esac; done
+  m) MARCA=1;; q) CRED=1;; v) VDUR=$OPTARG;; *) sed -n '2,15p' "$0"; exit 1;; esac; done
 : "${CLI:?falta -c cliente}" "${IN:?falta -i entrada}" "${OUT:?falta -o saida}"
 D="$RAIZ/clientes/$CLI"; [ -d "$D" ] || { echo "Cliente não encontrado: $D"; exit 1; }
 if [ "$FMT" = 9x16 ]; then W=1080; H=1920; else W=1920; H=1080; fi
@@ -30,6 +34,20 @@ TEM_AUDIO=$(ffprobe -v error -select_streams a -show_entries stream=index -of cs
 F="[0:v]split[a][b];[a]scale=$W:$H:force_original_aspect_ratio=increase,crop=$W:$H,gblur=sigma=40,eq=brightness=-0.08[bg];"
 F+="[b]scale=$W:$H:force_original_aspect_ratio=decrease[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1,fps=30,format=yuv420p[v0];"
 ENTR=(-i "$IN"); N=1; ATUAL=v0
+if [ -n "$ZOOM" ]; then
+  # zoom rápido de 18% (entra em 0,15 s, segura 0,5 s, volta em 0,3 s) em cada instante pedido
+  Z="1"; for T in ${ZOOM//,/ }; do Z+="+0.18*clip((it-$T)/0.15,0,1)*clip(($T+0.95-it)/0.3,0,1)"; done
+  F+="[$ATUAL]zoompan=z='$Z':x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':d=1:s=${W}x$H:fps=30,setsar=1[vz];"; ATUAL=vz
+fi
+if [ $ANIM = 1 ] || [ -n "$DEST" ]; then
+  # legenda animada e/ou destaques: gera o .ass editável ao lado do vídeo final
+  python3 -c "import fontTools" 2>/dev/null || pip install -q fonttools 2>/dev/null
+  ASS="${OUT%.*}-efeitos.ass"; mkdir -p "$(dirname "$OUT")"
+  python3 "$RAIZ/ferramentas/efeitos.py" -c "$CLI" -f "$FMT" -o "$ASS" \
+    $([ $ANIM = 1 ] && [ -n "$LEG" ] && echo "-l $LEG") $([ -n "$DEST" ] && echo "-d $DEST") >/dev/null
+  F+="[$ATUAL]ass='$(realpath "$ASS")':fontsdir='$RAIZ/ferramentas/fontes/ttf'[va];"; ATUAL=va
+  [ $ANIM = 1 ] && LEG=""   # já está no .ass
+fi
 if [ -n "$LEG" ]; then
   ESTILO="FontName=Inter,Bold=1,FontSize=$([ $FMT = 9x16 ] && echo 13 || echo 18),PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=1,Outline=2,Shadow=0,MarginV=$([ $FMT = 9x16 ] && echo 70 || echo 40)"
   F+="[$ATUAL]subtitles='$(realpath "$LEG")':force_style='$ESTILO'[v1];"; ATUAL=v1

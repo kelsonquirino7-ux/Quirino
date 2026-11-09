@@ -3,13 +3,14 @@
 > Preencha o que souber. O que ficar vazio o Claude pergunta ou propõe.
 
 ## Negócio
-- O que a Quirino faz / vende:
-- Segmento: Tecnologia / digital
-- Cidade / região de atuação:
+- O que a Quirino faz / vende: produção de vídeos, relatórios e cards (artes para redes sociais)
+- Segmento: produção de conteúdo digital para governos e empresas
+- Cidade / região de atuação: Santanópolis (BA) e região
 - Concorrentes ou marcas de referência:
 
 ## Público
-- Quem é o cliente ideal:
+- Quem é o cliente ideal: prefeituras, agentes públicos e comércio local
+- Clientes atuais: Prefeitura Municipal de Santanópolis, prefeito Vitor, Deni de Vitor, Itamar Supermercado
 - Faixa de preço (popular / médio / premium):
 
 ## Personalidade
@@ -21,7 +22,7 @@
 - Cores que gosta: azul e verde
 - Cores a evitar:
 - Estilo: ousado / vibrante
-- Tipo de logo: só o nome (logotipo tipográfico)
+- Tipo de logo: só o nome — **conceito A · Pixel aprovado**
 
 ## Onde a marca vai aparecer
 - [ ] Instagram / redes sociais

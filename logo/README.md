@@ -1,12 +1,16 @@
-# Logo — conceitos v1
+# Logo oficial — conceito A · Pixel ✅
 
-O texto está convertido em contornos (`fontes/*.svg`), então não depende de fonte instalada.
-PNG com fundo transparente em 512, 1024 e 2048 px está em `exportados/`.
+`quirino` em minúsculas (Space Grotesk Bold, convertida em contornos); os pingos dos dois "i"
+são pixels Verde Neon. O texto está vetorizado — não depende de fonte instalada.
 
-| Conceito | Ideia | Arquivos |
-|---|---|---|
-| **A — Pixel** (recomendado) | `quirino` minúsculo; os pingos dos dois "i" viram pixels verdes. Remete a tela e ao digital sem perder legibilidade. Tem ícone de app "q" + pixel. | `A-*` |
-| B — Cursor | `QUIRINO` maiúsculo e um cursor verde piscando no fim: marca "em construção", ativa. | `B-*` |
-| C — Fluxo | `quirino` minúsculo em gradiente azul → verde: mais vibrante, mas menos versátil (não funciona em uma cor). | `C-*` |
+| Arquivo | Uso |
+|---|---|
+| `fontes/A-pixel-cor.svg` | Principal, sobre fundo claro |
+| `fontes/A-pixel-negativo.svg` | Sobre fundo Noite |
+| `fontes/A-pixel-azul.svg` | Sobre fundo Azul Elétrico |
+| `fontes/A-pixel-preto.svg` / `A-pixel-branco.svg` | Uma cor (impressão, carimbo, marca-d'água) |
+| `fontes/A-icone-*.svg` | Ícone de app / foto de perfil |
+| `exportados/*.png` | PNG transparente em 512, 1024 e 2048 px |
 
-Área de proteção: altura do "n" em todos os lados. Tamanho mínimo: 80 px / 20 mm de largura.
+Área de proteção: altura do "n" em todos os lados. Mínimo: 80 px / 20 mm.
+Conceitos B e C ficaram em `descartados/` só como histórico.

@@ -1,6 +1,8 @@
 # Quirino — Identidade Visual
 
-Repositório da identidade visual da marca **Quirino**. O dono trabalha principalmente
+Repositório da **Quirino**, produtora de vídeos, relatórios e cards (artes para redes sociais)
+para governos e empresas de Santanópolis (BA) e região. Contém a identidade visual da Quirino
+e as pastas de cada cliente. O dono trabalha principalmente
 pelo celular, então o Claude deve agir com autonomia: decidir, executar, commitar e
 reportar de forma curta, em português.
 
@@ -12,6 +14,21 @@ reportar de forma curta, em português.
 - `logo/` — `fontes/` (SVG editável) e `exportados/` (PNG/SVG/PDF finais).
 - `aplicacoes/` — mockups e peças (cartão, redes sociais, papelaria, fachada...).
 - `referencias/` — moodboard e referências enviadas pelo dono.
+- `aplicacoes/video/` — vinhetas finais (16:9, 9:16, 1:1), marca-d'água e crédito "PRODUÇÃO quirino".
+- `clientes/<cliente>/` — `brief.md`, `identidade/` (arquivos do cliente) e `entregas/`.
+
+## Logo aprovado
+Conceito **A · Pixel** (`logo/fontes/A-*`). B e C estão em `logo/descartados/` e não devem ser usados.
+
+## Trabalho para clientes
+- Peças de cliente usam a identidade **do cliente**; leia `clientes/<cliente>/brief.md` antes.
+  Se faltar logo/brasão oficial, peça o arquivo; não redesenhe marca de cliente.
+- A Quirino entra só como assinatura discreta, se o brief permitir.
+- Prefeitura: seguir as regras de comunicação pública do brief (CF art. 37 §1º, sem promoção
+  pessoal). Conteúdo pessoal/político fica nas pastas do político, nunca na da Prefeitura.
+- Nunca inventar números, obras, datas ou falas para relatórios e cards: usar só dados
+  enviados pelo cliente e marcar o que falta com [PREENCHER].
+- Entregas em `clientes/<cliente>/entregas/AAAA-MM-DD-nome/` com fonte editável + exportados.
 
 ## Regras
 - Logo sempre em SVG vetorial como fonte; exportar PNG em 512, 1024 e 2048 px,

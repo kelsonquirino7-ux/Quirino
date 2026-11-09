@@ -45,6 +45,27 @@ Fontes locais (licença OFL) em `ferramentas/fontes/`, declaradas em `ferramenta
 - Ferramentas: conectores Canva e Magnific (geração de imagem, vetorização,
   mockups) e Artifacts para o manual da marca em página web.
 - Não criar nada que imite marca de terceiros.
-- Ao terminar uma entrega: commit descritivo, push no branch de trabalho e resumo curto
+- Ao terminar uma entrega: commit descritivo, push e resumo curto
   com link/preview para o celular.
 - Não abrir PR sem pedido explícito.
+
+## Como finalizar um vídeo
+`bash ferramentas/video.sh -c <cliente> -i bruto.mp4 -o clientes/<cliente>/entregas/AAAA-MM-DD-nome/video.mp4 [-f 9x16|16x9] [-l legenda.srt] [-m] [-q]`
+- Ajusta para Reels (9x16, padrão) ou YouTube (16x9) com fundo desfocado, sem cortar o vídeo.
+- `-l` queima legenda .srt (o Claude escreve o .srt a partir do texto/roteiro enviado pelo dono;
+  não há transcrição automática de áudio neste ambiente).
+- `-m` logo do cliente no canto · `-q` crédito "PRODUÇÃO quirino" nos 4 s iniciais (só se o brief permitir).
+- Vinheta final de 3 s com logo e @ do cliente (`-v 0` desliga). Vinhetas: `python3 ferramentas/vinhetas.py`.
+- Depois de gerar, extrair 2 quadros com ffmpeg, conferir e mandar o vídeo pelo SendUserFile.
+
+## Fotos
+`clientes/<cliente>/fotos/` — ver `LEIA-ME.md` de cada cliente. Toda foto que o dono mandar no chat
+deve ser salva ali com nome descritivo e commitada, para reuso.
+
+## Fluxo pelo celular (padrão para todo pedido)
+1. Identificar cliente e peça. Faltou dado essencial (data, preço, local)? Perguntar UMA vez, tudo junto.
+2. Produzir a partir do modelo do cliente; conferir a imagem renderizada.
+3. Salvar em `clientes/<cliente>/entregas/AAAA-MM-DD-nome/`: fonte (.html/.srt), final (.png/.mp4)
+   e `legenda.txt` com a legenda pronta para o Instagram (texto + @ do cliente + 3–6 hashtags locais).
+4. Commit + push, e enviar o arquivo final e a legenda no chat (SendUserFile) para o dono postar.
+5. Trabalhar direto no branch padrão (`main`) quando não houver branch definido para a sessão.

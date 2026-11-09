@@ -1,0 +1,18 @@
+<!doctype html><meta charset="utf-8"><meta name="tamanho" content="1080x1350"><link rel="stylesheet" href="../../../ferramentas/fontes.css">
+<!-- Modelo: card de mensagem (1080x1350). Coloque a foto em .foto (background-image). -->
+<style>
+:root{--verde:#00802B;--escuro:#004E1C;--vermelho:#EB1C24}
+*{box-sizing:border-box;margin:0}
+body{width:1080px;height:1350px;background:#fff;font-family:Montserrat,sans-serif;color:var(--escuro);display:grid;grid-template-rows:auto 1fr auto}
+header{padding:56px 72px 32px;display:flex;justify-content:space-between;align-items:flex-end}
+header img{height:170px}
+.foto{margin:0 72px;border-radius:28px;background:repeating-linear-gradient(45deg,#E6EFE8 0 22px,#DCE8DF 22px 44px);display:grid;place-items:center;font:600 40px Montserrat;color:#97B5A0}
+.txt{background:linear-gradient(180deg,var(--verde),var(--escuro));color:#fff;margin-top:48px;padding:56px 72px 64px;display:grid;gap:20px;position:relative}
+.txt::before{content:"";position:absolute;top:-6px;left:72px;width:200px;height:12px;background:var(--vermelho);border-radius:6px}
+h1{font:900 76px/1.02 Montserrat;letter-spacing:-.02em;text-transform:uppercase}
+p{font:600 34px/1.35 Montserrat;color:#D8EEDD}
+.arroba{font:800 28px Montserrat;color:#9FDDB0;justify-self:end;margin-top:6px}
+</style>
+<header><img src="../identidade/logo-deni-de-vitor-transparente.png" alt=""></header>
+<div class="foto">[FOTO]</div>
+<div class="txt"><h1>[Frase principal da mensagem]</h1><p>[Texto complementar em até duas linhas.]</p><span class="arroba">@denidevitorofc</span></div>

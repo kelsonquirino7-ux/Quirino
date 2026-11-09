@@ -1,0 +1,22 @@
+<!doctype html><meta charset="utf-8"><meta name="tamanho" content="1080x1350"><link rel="stylesheet" href="../../../ferramentas/fontes.css">
+<!-- Modelo: card de mensagem para perfil pessoal (1080x1350). Coloque a foto em .foto (background-image). Não usar brasão/logo da Prefeitura aqui. -->
+<style>
+:root{--verde:#0AA514;--escuro:#015927}
+*{box-sizing:border-box;margin:0}
+body{width:1080px;height:1350px;background:var(--escuro);font-family:Montserrat,sans-serif;color:#fff;position:relative;overflow:hidden}
+.foto{position:absolute;inset:0 0 420px 0;background:repeating-linear-gradient(45deg,#2C6B45 0 22px,#286341 22px 44px);display:grid;place-items:center;font:600 40px Montserrat;color:#6FA584}
+.fade{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 38%,var(--escuro) 66%)}
+.selo{position:absolute;top:48px;left:48px;background:#fff;border-radius:24px;padding:10px 22px}
+.selo img{height:150px;display:block}
+.txt{position:absolute;left:72px;right:72px;bottom:120px;display:grid;gap:26px}
+h1{font:900 96px/1 Montserrat;letter-spacing:-.02em;text-transform:uppercase}
+h1 em{font-style:normal;color:#7CF07F}
+p{font:600 36px/1.35 Montserrat;color:#DDF5E0}
+.arroba{position:absolute;right:72px;bottom:44px;font:800 30px Montserrat;color:#BFEFC4;letter-spacing:.02em}
+.barra{position:absolute;left:0;right:0;bottom:0;height:20px;background:var(--verde)}
+</style>
+<div class="foto">[FOTO]</div><div class="fade"></div>
+<div class="selo"><img src="../identidade/logo-vitor-prefeito-do-povo.png" alt=""></div>
+<div class="txt"><h1>[Frase de impacto <em>em destaque</em>]</h1><p>[Mensagem complementar em até duas linhas.]</p></div>
+<div class="arroba">@prefeitovitor</div>
+<div class="barra"></div>

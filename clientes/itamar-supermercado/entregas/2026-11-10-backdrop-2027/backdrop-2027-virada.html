@@ -12,42 +12,51 @@ text{font-family:"Baloo 2",sans-serif;font-weight:800}
 <defs>
   <radialGradient id="fundo" gradientUnits="userSpaceOnUse" cx="2250" cy="900" r="1500"><stop offset="0" stop-color="#FFE65C"/><stop offset=".5" stop-color="#FFD302"/><stop offset="1" stop-color="#F0B400"/></radialGradient>
   <radialGradient id="pagina" gradientUnits="userSpaceOnUse" cx="1000" cy="650" r="1500"><stop offset="0" stop-color="#4A1C08"/><stop offset=".6" stop-color="#280E01"/><stop offset="1" stop-color="#1A0800"/></radialGradient>
-  <linearGradient id="dobra" gradientUnits="userSpaceOnUse" x1="1800" y1="700" x2="2350" y2="420"><stop offset="0" stop-color="#C4170F"/><stop offset=".45" stop-color="#FF3A2A"/><stop offset="1" stop-color="#E01B10"/></linearGradient>
+  <linearGradient id="dobra" gradientUnits="userSpaceOnUse" x1="1790" y1="640" x2="2230" y2="760"><stop offset="0" stop-color="#8E0E0A"/><stop offset=".16" stop-color="#D2160E"/><stop offset=".42" stop-color="#FF6A58"/><stop offset=".7" stop-color="#E8200F"/><stop offset="1" stop-color="#A8120B"/></linearGradient>
   <linearGradient id="amarelo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE65C"/><stop offset="1" stop-color="#FFC800"/></linearGradient>
 </defs>
 <!-- camada de baixo (2027): amarelo -->
 <rect width="2710" height="1730" fill="url(#fundo)"/>
 <g id="fogosA"></g>
-<text x="2000" y="1010" font-size="900" fill="#B3140D" transform="translate(18,18)">7</text>
-<text x="2000" y="1010" font-size="900" fill="#280E01">7</text>
-<text x="150" y="1560" font-size="112" fill="#280E01">Feliz Natal e um 2027 completo,</text>
-<text x="150" y="1672" font-size="112" fill="#B3140D">igual ao Itamar.</text>
-<image href="../../identidade/logo-itamar-3d-transparente.png" x="1900" y="1265" width="700" height="335"/>
+<g id="vol7"></g>
+<text id="n7" x="2000" y="1010" font-size="900" fill="#280E01">7</text>
+<text x="150" y="1548" font-size="112" fill="#280E01">Feliz Natal e um 2027 completo,</text>
+<text x="150" y="1664" font-size="112" fill="#B3140D">igual ao Itamar.</text>
+<image href="../../identidade/logo-itamar-3d-transparente.png" x="1880" y="1270" width="730" height="349.3"/>
 
 <!-- página de cima (2026 indo embora): marrom -->
 <g id="sombraPag"></g>
 <path id="pag" d="M0,0 L2710,0 C2670,60 2620,95 2560,110 L1850,300 Q1790,760 1800,1230 C1500,1350 800,1270 0,1440 Z" fill="url(#pagina)"/>
 <path d="M2710,0 C2670,60 2620,95 2560,110 M1800,1230 C1500,1350 800,1270 0,1440" fill="none" stroke="#FFF3C4" stroke-width="4" opacity=".7"/>
-<g id="fogosB"></g>
+<g id="brilhosB"></g><g id="fogosB"></g>
 <text x="330" y="330" font-size="124" letter-spacing="22" fill="#FFF3C4">FELIZ</text>
-<text x="300" y="1010" font-size="900" fill="url(#amarelo)">202</text>
+<g id="vol202"></g><text id="n202" x="300" y="1010" font-size="900" fill="url(#amarelo)">202</text>
 <text x="330" y="1180" font-size="124" letter-spacing="22" fill="#FFF3C4">ANO NOVO</text>
 
 <!-- dobra da página -->
 <g id="sombraDobra"></g>
 <path id="dob" d="M1850,300 Q2230,235 2560,110 C2120,290 1900,640 1800,1230 Q1790,760 1850,300 Z" fill="url(#dobra)"/>
-<path d="M2560,110 C2120,290 1900,640 1800,1230" fill="none" stroke="#FF8A7A" stroke-width="5" opacity=".8"/>
+<path d="M2560,110 C2120,290 1900,640 1800,1230" fill="none" stroke="#FFB3A6" stroke-width="5" opacity=".9"/>
+<path d="M1850,300 Q1790,760 1800,1230" fill="none" stroke="#1A0800" stroke-width="6" opacity=".45"/>
 </svg>
 <script>
 const NS='http://www.w3.org/2000/svg',$=id=>document.getElementById(id);
 const el=(p,n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e};
 // sombras suaves (camadas vetoriais)
+// volume dos números
+const vol=(id,g,cor)=>{const t=$(id);for(let i=20;i>=2;i-=2){const c=t.cloneNode(true);c.removeAttribute('id');c.setAttribute('fill',cor);c.setAttribute('transform',`translate(${i},${i})`);$(g).appendChild(c)}};
+vol('n202','vol202','#B97A00');vol('n7','vol7','#B3140D');
+// brilhos dourados na página marrom
+let sd=7;const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
+const est=(cx,cy,R)=>{let p='';for(let i=0;i<8;i++){const a=Math.PI*i/4-Math.PI/2,q=i%2?R*.16:R;p+=(cx+q*Math.cos(a)).toFixed(1)+','+(cy+q*Math.sin(a)).toFixed(1)+' '}return p};
+for(let i=0;i<70;i++){const x=rnd()*1780,y=rnd()*1250;el($('brilhosB'),'circle',{cx:x,cy:y,r:3+rnd()*7,fill:'#FFD302',opacity:.12+rnd()*.3})}
+[[1010,300,34],[1700,170,40],[210,1150,30],[1650,1040,26],[90,140,28],[2330,95,22]].forEach(([x,y,R])=>el($('brilhosB'),'polygon',{points:est(x,y,R),fill:'#FFF3C4',opacity:.95}));
 for(let i=1;i<=10;i++){el($('sombraPag'),'path',{d:$('pag').getAttribute('d'),fill:'#280E01',opacity:.035,transform:`translate(${i*2},${i*5})`});
-  el($('sombraDobra'),'path',{d:$('dob').getAttribute('d'),fill:'#1A0800',opacity:.045,transform:`translate(${i*7},${i*4})`})}
+  el($('sombraDobra'),'path',{d:$('dob').getAttribute('d'),fill:'#1A0800',opacity:.04,transform:`translate(${i*9},${i*5})`})}
 // fogos de traço fino: [grupo, x, y, raio, cor]
 const fogo=(g,x,y,R,cor)=>{const n=20;for(let i=0;i<n;i++){const a=2*Math.PI*i/n,l=i%2,r1=R*(l?.22:.4),r2=R*(l?1:.72),cx=Math.cos(a),cy=Math.sin(a);
   el($(g),'line',{x1:x+r1*cx,y1:y+r1*cy,x2:x+r2*cx,y2:y+r2*cy,stroke:cor,'stroke-width':R*.035,'stroke-linecap':'round','stroke-dasharray':l?'none':`${R*.09} ${R*.09}`});
   el($(g),'circle',{cx:x+(r2+R*.1)*cx,cy:y+(r2+R*.1)*cy,r:R*.022,fill:cor})}};
 fogo('fogosB',1290,215,150,'#FFF3C4');fogo('fogosB',150,760,120,'#FFD302');fogo('fogosB',1480,1150,85,'#FFF3C4');
-fogo('fogosA',2590,330,90,'#FFFFFF');fogo('fogosA',1790,1480,80,'#FFFFFF');fogo('fogosA',2610,1130,75,'#B3140D');
+fogo('fogosA',2590,330,90,'#FFFFFF');fogo('fogosA',2590,1090,70,'#B3140D');fogo('fogosA',1480,1650,60,'#FFFFFF');
 </script>

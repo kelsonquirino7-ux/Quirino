@@ -16,7 +16,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#5E0600;font-fam
 #topo{position:absolute;left:0;top:0;width:1080px;height:150px;background:#FF291E;display:flex;align-items:center;justify-content:space-between;padding:0 44px;box-shadow:0 8px 0 #FFD302}
 #topo img{height:124px}
 #topo .t{text-align:right;line-height:1}
-#topo .t b{display:block;font-size:76px;font-weight:800;color:#FFD302;letter-spacing:1px;text-shadow:0 4px 0 #280E01}
+#topo .t b{display:block;font-family:"Lilita One","Baloo 2",sans-serif;font-size:82px;font-weight:400;color:#FFD302;letter-spacing:1px;text-shadow:0 5px 0 #9C0B00}
 #topo .t span{font-size:32px;font-weight:600;color:#fff}
 /* destaque */
 #dest{position:absolute;left:40px;top:186px;width:1000px;height:640px;border-radius:44px;background:#C00E00;overflow:hidden;box-shadow:0 14px 0 #4E0500}
@@ -43,9 +43,16 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#5E0600;font-fam
 /* abertura */
 #abre{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,#FF4A32 0%,#FF291E 45%,#B81200 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:50px}
 #abre .r{position:absolute;left:540px;top:860px;width:2600px;height:2600px;margin:-1300px;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,211,2,.22) 0 9deg,rgba(255,211,2,0) 9deg 18deg)}
-#abre img{width:820px;position:relative}
-#abre .s{position:relative;background:#280E01;color:#FFD302;font-size:92px;font-weight:800;padding:14px 60px 2px;border-radius:70px;line-height:1.05;text-align:center;box-shadow:0 12px 0 #FFD302}
-#abre .p{position:relative;font-size:52px;font-weight:600;color:#fff;text-shadow:0 4px 0 #280E01}
+#abre{gap:26px}
+#abre img{width:640px;position:relative}
+/* selo de varejo: estrela amarela com letreiro inclinado */
+#abre .s{position:relative;width:1040px;height:700px;display:flex;align-items:center;justify-content:center}
+#abre .e,#abre .e2{position:absolute;inset:0;background:#FFD302}
+#abre .e2{background:#9C0B00;transform:translate(0,22px)}
+#abre .tx{position:relative;transform:rotate(-6deg);text-align:center;font-family:"Lilita One","Baloo 2",sans-serif;line-height:.92;paint-order:stroke fill}
+#abre .o{display:block;font-size:118px;color:#fff;-webkit-text-stroke:16px #FF291E;paint-order:stroke fill;filter:drop-shadow(0 8px 0 #9C0B00)}
+#abre .a{display:block;font-size:206px;color:#FF291E;-webkit-text-stroke:18px #fff;paint-order:stroke fill;filter:drop-shadow(0 12px 0 #9C0B00)}
+#abre .p{position:relative;font-family:"Lilita One","Baloo 2",sans-serif;font-size:64px;color:#FF291E;background:#fff;padding:10px 54px 6px;border-radius:60px;box-shadow:0 10px 0 #9C0B00;letter-spacing:1px}
 </style>
 <body>
 <div id="palco">
@@ -60,7 +67,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#5E0600;font-fam
   </div>
   <div id="lista"><div class="col" id="c0"></div><div class="col" id="c1"></div></div>
 </div>
-<div id="abre"><div class="r"></div><img src="../../identidade/logo-itamar-3d-transparente.png" alt=""><div class="s">OFERTAS DO<br>AÇOUGUE</div><div class="p">Confira os preços por kg</div></div>
+<div id="abre"><div class="r"></div><img src="../../identidade/logo-itamar-3d-transparente.png" alt=""><div class="s"><div class="e2"></div><div class="e"></div><div class="tx"><span class="o">OFERTAS DO</span><span class="a">AÇOUGUE</span></div></div><div class="p">PREÇOS POR KG</div></div>
 <script>
 const F = '../../fotos/produtos/acougue/';
 // [nome completo no destaque, nome curto na lista, preço, foto]
@@ -116,6 +123,9 @@ const GRUPOS = [
 const DUR = 66.3663, ABRE = 4.6, PASSO = 49.5;
 const $ = s => document.querySelector(s);
 const itens = []; const lin = [0,0];
+// estrela do selo de abertura (28 pontas)
+{ const pts=[]; for(let k=0;k<56;k++){ const r=k%2?43:50, a=k/56*2*Math.PI; pts.push((50+r*Math.cos(a)).toFixed(2)+'% '+(50+r*Math.sin(a)).toFixed(2)+'%'); }
+  document.querySelectorAll('#abre .e,#abre .e2').forEach(e=>e.style.clipPath='polygon('+pts.join(',')+')'); }
 const marcas = [0,1].map(c => { const m = document.createElement('div'); m.className='marca'; m.style.width='100%'; m.style.opacity=0; $('#c'+c).appendChild(m); return m; });
 for (const g of GRUPOS) {
   const col = $('#c'+g.col);
@@ -140,7 +150,7 @@ window.setT = t => {
     a.style.display='flex'; a.style.opacity = 1 - suave((t-(ABRE-0.35))/0.35);
     a.querySelector('.r').style.transform = `rotate(${t*14}deg)`;
     a.querySelector('img').style.transform = `scale(${0.3+0.7*fora(t/0.6)})`;
-    a.querySelector('.s').style.transform = `scale(${fora((t-0.7)/0.5)})`;
+    a.querySelector('.s').style.transform = `scale(${fora((t-0.7)/0.5)*(1+0.02*Math.sin(t*5))}) rotate(${-14*(1-suave((t-0.7)/0.5))}deg)`;
     a.querySelector('.s').style.opacity = cl((t-0.7)/0.15);
     a.querySelector('.p').style.opacity = cl((t-1.5)/0.3);
     a.querySelector('.p').style.transform = `translateY(${40*(1-suave((t-1.5)/0.3))}px)`;

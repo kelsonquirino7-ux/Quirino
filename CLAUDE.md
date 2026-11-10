@@ -45,6 +45,10 @@ Fontes locais (licença OFL) em `ferramentas/fontes/`, declaradas em `ferramenta
 - Ferramentas: conectores Canva e Magnific (geração de imagem, vetorização,
   mockups) e Artifacts para o manual da marca em página web.
 - Não criar nada que imite marca de terceiros.
+- **Créditos pagos: perguntar SEMPRE antes de gastar.** Qualquer geração no Magnific (imagem, vídeo, áudio,
+  remoção de fundo, upscale) ou outra ferramenta que consuma créditos só roda depois de o dono aprovar,
+  informando o custo estimado e o saldo. O modo ilimitado da conta não vale para gerações feitas pelo chat.
+  Preferir sempre a alternativa sem custo (recorte próprio, fotos já salvas do cliente) quando existir.
 - Ao terminar uma entrega: commit descritivo, push e resumo curto
   com link/preview para o celular.
 - Não abrir PR sem pedido explícito.

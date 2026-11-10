@@ -58,16 +58,14 @@ const fogo=(x,y,R,c1,c2)=>{const g=el($('fogos'),'g',{});const n=22;
     el(g,'circle',{cx:x+(r2+R*.1)*cx,cy:y+(r2+R*.1)*cy,r:R*(l?.04:.028),fill:l?c2:c1})}
   el(g,'polygon',{points:est(x,y,R*.2),fill:'#FFFFFF'})};
 const V='#FF291E',B='#FFFFFF',E='#B3140D',L='#F08A00';
-[[330,300,235,V,B],[880,230,165,B,L],[1215,470,105,E,B],[310,1440,190,B,V],[820,1430,225,V,B],[1270,1570,120,L,B],
- [1790,130,105,B,V],[2330,120,95,V,B],[1880,1590,105,V,B],[2440,1580,100,B,L]].forEach(a=>fogo(...a));
+[[330,300,225,V,B],[930,260,150,B,L],[760,1440,215,V,B],[250,1480,140,B,V],[2360,125,95,B,V],[1900,1585,105,V,B]].forEach(a=>fogo(...a));
 // Serpentinas
 const fita=(x,y,ang,comp,cor,w)=>{let d=`M${x},${y}`;const dx=Math.cos(ang),dy=Math.sin(ang),nx=-dy,ny=dx,p=90;
   for(let s=0,k=1;s<comp;s+=p,k=-k)d+=` q${(dx*p/2+nx*46*k).toFixed(1)},${(dy*p/2+ny*46*k).toFixed(1)} ${(dx*p).toFixed(1)},${(dy*p).toFixed(1)}`;
   el($('fitas'),'path',{d,fill:'none',stroke:cor,'stroke-width':w,'stroke-linecap':'round',opacity:.9})};
-fita(40,-20,1.15,520,V,13);fita(620,-20,1.75,330,B,12);fita(1330,-20,1.45,270,V,12);fita(2690,-10,2.2,300,B,12);
-fita(-10,1250,-.5,330,B,12);fita(1100,1740,-1.35,330,B,12);fita(2725,1500,-4.2,230,V,13);fita(1560,1740,-1.2,250,E,11);
+fita(1330,-20,1.45,270,V,12);fita(2690,-10,2.2,300,B,12);fita(1250,1740,-1.35,300,B,12);fita(2725,1500,-4.2,230,V,13);
 // Confetes
-for(let i=0,k=0;i<400&&k<120;i++){const x=rnd()*2710,y=rnd()*1730;if(!livre(x,y,60))continue;k++;
+for(let i=0,k=0;i<400&&k<50;i++){const x=rnd()*2710,y=rnd()*1730;if(!livre(x,y,60))continue;k++;
   const cor=[V,B,E,L,'#280E01'][k%5],t=rnd();
   if(t<.35)el($('confete'),'circle',{cx:x,cy:y,r:7+rnd()*9,fill:cor,opacity:cor=='#280E01'?.5:.95});
   else{const w=22+rnd()*22,h=9+rnd()*7;el($('confete'),'rect',{x:x-w/2,y:y-h/2,width:w,height:h,rx:3,fill:cor,opacity:cor=='#280E01'?.5:.95,transform:`rotate(${(rnd()*180).toFixed(0)} ${x.toFixed(0)} ${y.toFixed(0)})`})}}

@@ -4,7 +4,7 @@ const { chromium } = require('playwright');
 const { execFileSync } = require('child_process');
 const fs = require('fs'), path = require('path'), os = require('os');
 const AQUI = __dirname, URL = 'file://' + path.join(AQUI, 'tv-acougue.html');
-const FPS = 30000 / 1001, DUR = 66.3663, TOTAL = Math.round(DUR * FPS), PARALELO = 4;
+const FPS = 30000 / 1001, DUR = 4.6 + 37 * 4, TOTAL = Math.round(DUR * FPS), PARALELO = 4;
 
 (async () => {
   const b = await chromium.launch();
@@ -25,6 +25,6 @@ const FPS = 30000 / 1001, DUR = 66.3663, TOTAL = Math.round(DUR * FPS), PARALELO
   await b.close();
   const saida = path.join(AQUI, 'tv-acougue.mp4');
   execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-framerate', '30000/1001', '-i', path.join(tmp, '%05d.jpg'),
-    '-vf', 'transpose=2', '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', saida]);
+    '-vf', 'transpose=2', '-c:v', 'libx264', '-preset', 'slow', '-crf', '22', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', saida]);
   console.log('Pronto:', saida, TOTAL, 'quadros');
 })();

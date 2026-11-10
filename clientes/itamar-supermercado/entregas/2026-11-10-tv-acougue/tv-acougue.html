@@ -120,7 +120,8 @@ const GRUPOS = [
   ['SAPATEL','SAPATEL','19,90','sapatel'],
  ]},
 ];
-const DUR = 66.3663, ABRE = 4.6, PASSO = 49.5;
+const POR_PRODUTO = 4; // segundos que cada produto fica na tela
+const ABRE = 4.6, DUR = ABRE + 37 * POR_PRODUTO, PASSO = 49.5;
 const $ = s => document.querySelector(s);
 const itens = []; const lin = [0,0];
 // estrela do selo de abertura (28 pontas)

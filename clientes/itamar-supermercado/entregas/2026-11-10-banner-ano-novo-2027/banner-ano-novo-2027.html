@@ -2,73 +2,85 @@
 <!-- Banner Ano Novo 2027 · Itamar Supermercado · 2,71 m x 1,73 m (largura x altura). 1 px = 1 mm.
      Render: node render.js  (gera PNG 5420x3460 = 50 dpi no tamanho real, PDF e prévia) -->
 <style>
-:root{--amarelo:#FFD302;--vermelho:#FF291E;--marrom:#280E01}
 *{box-sizing:border-box;margin:0}
-html,body{width:2710px;height:1730px;overflow:hidden;background:var(--amarelo)}
+html,body{width:2710px;height:1730px;overflow:hidden;background:#280E01}
 svg{display:block;width:2710px;height:1730px}
-text{font-family:"Baloo 2",sans-serif;font-weight:800}
-.logo{position:absolute;left:110px;top:90px;width:520px;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45))}
+text{font-family:"Montserrat",sans-serif;font-weight:800}
+.logo{position:absolute;left:120px;top:96px;width:500px;filter:drop-shadow(0 14px 24px rgba(0,0,0,.6))}
 @page{size:2710px 1730px;margin:0}
 </style>
 <svg viewBox="0 0 2710 1730" xmlns="http://www.w3.org/2000/svg">
 <defs>
-  <!-- dobra (vinco) da folha: do topo até a base -->
-  <path id="vinco" d="M2290 0 C2150 430 1830 980 1500 1730"/>
-  <clipPath id="folha"><path d="M0 0 H2290 C2150 430 1830 980 1500 1730 H0 Z"/></clipPath>
-  <clipPath id="fundo"><path d="M2290 0 C2150 430 1830 980 1500 1730 H2710 V0 Z"/></clipPath>
-  <radialGradient id="gFolha" cx="38%" cy="42%" r="75%"><stop offset="0" stop-color="#4A1C04"/><stop offset=".55" stop-color="#280E01"/><stop offset="1" stop-color="#180800"/></radialGradient>
-  <radialGradient id="gFundo" cx="80%" cy="45%" r="70%"><stop offset="0" stop-color="#FFE45C"/><stop offset=".6" stop-color="#FFD302"/><stop offset="1" stop-color="#F7B500"/></radialGradient>
-  <linearGradient id="gAba" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FF4A3A"/><stop offset=".55" stop-color="#FF291E"/><stop offset="1" stop-color="#B8120A"/></linearGradient>
-  <linearGradient id="gNum" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9E2DA"/></linearGradient>
-  <linearGradient id="gSete" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A1C04"/><stop offset="1" stop-color="#280E01"/></linearGradient>
-  <filter id="blur40" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="40"/></filter>
-  <filter id="blur22" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="22"/></filter>
+  <!-- contorno da folha escura: borda de cima → ponta da aba → vinco → curva de baixo -->
+  <path id="pFolha" d="M0 0 H2710 C2640 170 2520 270 2330 330 C2050 560 1800 900 1700 1380 C1450 1560 800 1330 0 1420 Z"/>
+  <path id="pVinco" d="M2330 330 C2050 560 1800 900 1700 1380"/>
+  <path id="pBorda" d="M2710 0 C2640 170 2520 270 2330 330 M1700 1380 C1450 1560 800 1330 0 1420"/>
+  <path id="pAba" d="M2330 330 C2050 560 1800 900 1700 1380 C1330 1040 1560 560 2330 330 Z"/>
+  <clipPath id="cFolha"><use href="#pFolha"/></clipPath>
+  <clipPath id="cAba"><use href="#pAba"/></clipPath>
+  <radialGradient id="gFolha" gradientUnits="userSpaceOnUse" cx="1150" cy="760" r="1500"><stop offset="0" stop-color="#3B1503"/><stop offset=".5" stop-color="#220B01"/><stop offset="1" stop-color="#120500"/></radialGradient>
+  <linearGradient id="gFundo" gradientUnits="userSpaceOnUse" x1="2500" y1="100" x2="900" y2="1730"><stop offset="0" stop-color="#FF3A2B"/><stop offset=".45" stop-color="#F01F14"/><stop offset="1" stop-color="#9E0D07"/></linearGradient>
+  <radialGradient id="gLuz" gradientUnits="userSpaceOnUse" cx="2300" cy="1000" r="700"><stop offset="0" stop-color="#FF6A4D" stop-opacity=".55"/><stop offset="1" stop-color="#FF6A4D" stop-opacity="0"/></radialGradient>
+  <linearGradient id="gAba" gradientUnits="userSpaceOnUse" x1="1480" y1="820" x2="1900" y2="960"><stop offset="0" stop-color="#FF5B47"/><stop offset=".3" stop-color="#FF3526"/><stop offset=".72" stop-color="#E81C12"/><stop offset="1" stop-color="#A30E08"/></linearGradient>
+  <linearGradient id="gNum" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".7" stop-color="#F6F2EE"/><stop offset="1" stop-color="#D9D0C8"/></linearGradient>
+  <filter id="b60" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="60"/></filter>
+  <filter id="b28" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="28"/></filter>
+  <filter id="b10" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="10"/></filter>
+  <filter id="sNum" x="-10%" y="-10%" width="125%" height="130%"><feDropShadow dx="10" dy="16" stdDeviation="16" flood-color="#000" flood-opacity=".45"/></filter>
 </defs>
 
-<!-- camada de baixo (amarela) -->
+<!-- ===== camada de baixo (vermelha) ===== -->
 <rect width="2710" height="1730" fill="url(#gFundo)"/>
-<g clip-path="url(#fundo)">
-  <g id="fogosFundo" stroke="#280E01" stroke-linecap="round" fill="none" opacity=".55"></g>
-  <text id="sete" x="1960" y="1120" font-size="900" fill="url(#gSete)">7</text>
-  <!-- sombra da dobra sobre o amarelo -->
-  <use href="#vinco" stroke="#5A2A00" stroke-width="150" fill="none" filter="url(#blur40)" opacity=".5"/>
-  <text x="2610" y="1385" text-anchor="end" font-size="62" font-weight="600" fill="#280E01">O Itamar Supermercado</text>
-  <text x="2610" y="1463" text-anchor="end" font-size="62" font-weight="600" fill="#280E01">deseja a você e à sua família</text>
-  <text x="2610" y="1553" text-anchor="end" font-size="84" fill="#280E01">um Feliz Ano Novo!</text>
-  <text x="2610" y="1652" text-anchor="end" font-size="56" fill="#280E01">@itamarsupermercado</text>
-</g>
+<rect width="2710" height="1730" fill="url(#gLuz)"/>
+<g id="fogosFundo" stroke="#fff" stroke-linecap="round" fill="none" opacity=".6"></g>
+<!-- sombra da folha levantada sobre o vermelho -->
+<use href="#pFolha" fill="#3A0300" opacity=".55" filter="url(#b60)" transform="translate(26 34)"/>
+<text x="1806" y="1340" font-size="880" fill="url(#gNum)" filter="url(#sNum)">7</text>
+<!-- sombra da aba caindo sobre o 7 -->
+<use href="#pAba" fill="#2A0200" opacity=".6" filter="url(#b28)" transform="translate(70 30)"/>
+<text x="1355" y="1560" text-anchor="middle" font-size="60" font-weight="600" fill="#fff">O Itamar Supermercado deseja a você e à sua família um <tspan font-weight="800">Feliz Ano Novo!</tspan></text>
+<text x="1355" y="1640" text-anchor="middle" font-size="60" font-weight="600" fill="#fff">Que 2027 chegue com saúde, união e mesa farta.</text>
+<text x="1355" y="1702" text-anchor="middle" font-size="38" font-weight="600" fill="#FFD302" letter-spacing="4">@itamarsupermercado</text>
 
-<!-- folha de cima (marrom) -->
-<g clip-path="url(#folha)">
+<!-- ===== folha de cima (escura) ===== -->
+<g clip-path="url(#cFolha)">
   <rect width="2710" height="1730" fill="url(#gFolha)"/>
-  <g id="fogosFolha" stroke="#FFD302" stroke-linecap="round" fill="none"></g>
-  <text x="215" y="1120" font-size="900" fill="url(#gNum)" letter-spacing="-12">202</text>
-  <text x="228" y="490" font-size="120" fill="#FFD302" letter-spacing="14">FELIZ</text>
-  <text x="228" y="1300" font-size="120" fill="#FFD302" letter-spacing="14">ANO NOVO</text>
+  <g id="fogosFolha" stroke="#fff" stroke-linecap="round" fill="none"></g>
+  <g filter="url(#sNum)">
+    <text x="640" y="740" font-size="880" fill="url(#gNum)" letter-spacing="-18">20</text>
+    <text x="1235" y="1340" font-size="880" fill="url(#gNum)" stroke="#260C01" stroke-width="34" paint-order="stroke" stroke-linejoin="round">2</text>
+  </g>
+  <text id="feliz" x="1190" y="1215" text-anchor="end" font-size="92" fill="#FFFFFF" letter-spacing="6">FELIZ</text>
+  <text x="1190" y="1330" text-anchor="end" font-size="92" fill="#FFD302" letter-spacing="6">ANO NOVO</text>
   <!-- sombra da aba sobre a folha -->
-  <path d="M2290 0 C2150 430 1830 980 1500 1730 C1470 1180 1640 520 2290 0Z" fill="#000" opacity=".55" filter="url(#blur40)" transform="translate(-55 18)"/>
+  <use href="#pAba" fill="#000" opacity=".75" filter="url(#b60)" transform="translate(-90 40)"/>
+  <use href="#pAba" fill="#000" opacity=".5" filter="url(#b10)" transform="translate(-14 8)"/>
 </g>
+<use href="#pBorda" stroke="#FFE9DD" stroke-opacity=".55" stroke-width="3" fill="none"/>
 
-<!-- aba dobrada (verso vermelho da folha) -->
-<path d="M2290 0 C2150 430 1830 980 1500 1730 C1470 1180 1640 520 2290 0Z" fill="url(#gAba)"/>
-<path d="M2290 0 C2150 430 1830 980 1500 1730" stroke="#fff" stroke-opacity=".35" stroke-width="5" fill="none"/>
+<!-- ===== aba dobrada ===== -->
+<use href="#pAba" fill="url(#gAba)"/>
+<g clip-path="url(#cAba)">
+  <!-- escurece junto ao vinco e clareia a borda livre: dá o volume do papel enrolado -->
+  <use href="#pVinco" stroke="#6E0703" stroke-width="150" fill="none" filter="url(#b28)" opacity=".55"/>
+  <path d="M1700 1380 C1330 1040 1560 560 2330 330" stroke="#FFB3A3" stroke-width="60" fill="none" filter="url(#b28)" opacity=".5"/>
+</g>
+<path d="M1700 1380 C1330 1040 1560 560 2330 330" stroke="#FFD9CF" stroke-opacity=".7" stroke-width="2.5" fill="none"/>
 </svg>
 <img class="logo" src="../../identidade/logo-itamar-3d-transparente.png" alt="Itamar Supermercado">
 <script>
-// fogos em traço (determinísticos)
-function fogos(id,cx,cy,r,n,w){const g=document.getElementById(id);let s='';
-  for(let i=0;i<n;i++){const a=i*2*Math.PI/n,longo=i%2===0;
-    const r0=r*(longo?.22:.35),r1=r*(longo?1:.72);
-    const p=(q)=>(cx+Math.cos(a)*q).toFixed(1)+' '+(cy+Math.sin(a)*q).toFixed(1);
-    s+=`<path d="M${p(r0)} L${p(r1)}" stroke-width="${w}" ${longo?'':`stroke-dasharray="${w*2.4} ${w*3}"`}/>`;
-    if(longo)s+=`<circle cx="${(cx+Math.cos(a)*r*1.12).toFixed(1)}" cy="${(cy+Math.sin(a)*r*1.12).toFixed(1)}" r="${w*.9}" fill="currentColor" stroke="none"/>`;}
-  g.innerHTML+=s;}
-document.getElementById('fogosFolha').style.color='#FFD302';
-document.getElementById('fogosFundo').style.color='#280E01';
-fogos('fogosFolha',1120,250,170,24,7);
-fogos('fogosFolha',1760,330,105,18,5);
-fogos('fogosFolha',150,1050,120,20,5);
-fogos('fogosFolha',1080,1490,130,20,6);
-fogos('fogosFundo',2500,250,150,24,6);
-fogos('fogosFundo',2560,1090,95,18,5);
+// fogos em traço fino (determinísticos)
+function fogos(id,cx,cy,r,n,w,cor){const g=document.getElementById(id);let s='';
+  const P=(a,q)=>(cx+Math.cos(a)*q).toFixed(1)+' '+(cy+Math.sin(a)*q).toFixed(1);
+  for(let i=0;i<n;i++){const a=i*2*Math.PI/n-Math.PI/2,t=i%3;
+    if(t===0){s+=`<path d="M${P(a,r*.18)} L${P(a,r)}" stroke-width="${w}"/>`;}
+    else if(t===1){s+=`<path d="M${P(a,r*.42)} L${P(a,r*.8)}" stroke-width="${w*.8}" stroke-dasharray="${w*3} ${w*3.2}"/>`;}
+    else{s+=`<path d="M${P(a,r*.3)} L${P(a,r*.62)}" stroke-width="${w*.8}"/><circle cx="${P(a,r*.9).split(' ')[0]}" cy="${P(a,r*.9).split(' ')[1]}" r="${w*.95}" fill="${cor}" stroke="none"/>`;}
+  }
+  g.innerHTML+=`<g stroke="${cor}">${s}</g>`;}
+fogos('fogosFolha',2030,150,120,30,3.6,'#FFD302');
+fogos('fogosFolha',300,800,175,36,4,'#FFFFFF');
+fogos('fogosFolha',760,960,85,24,3,'#FFD302');
+fogos('fogosFundo',2490,560,130,30,3.6,'#FFFFFF');
+fogos('fogosFundo',2545,1235,125,30,3.6,'#FFFFFF');
 </script>

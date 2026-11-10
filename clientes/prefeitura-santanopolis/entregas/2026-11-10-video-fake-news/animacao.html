@@ -1,0 +1,129 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="tamanho" content="1080x1920"><meta name="duracao" content="38.5">
+<link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<style>
+:root{--azul:#002F67;--apoio:#1D4F8F;--claro:#E7EEF8;--noite:#06142B;--tinta:#0B1F3A}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1080px;height:1920px;overflow:hidden;background:var(--azul);color:#fff;font-family:"Inter",sans-serif}
+body::before{content:"";position:absolute;inset:0;background:radial-gradient(900px 900px at 85% 8%,rgba(29,79,143,.75),transparent 70%),radial-gradient(800px 800px at 5% 95%,rgba(6,20,43,.7),transparent 70%)}
+section{position:absolute;inset:0}
+[data-in]{opacity:0;will-change:transform,opacity}
+.t{font-family:"Exo 2",sans-serif;font-weight:800;line-height:1.08;letter-spacing:-.5px}
+.abs{position:absolute;left:90px;right:90px}
+.selo{position:absolute;top:190px;left:90px;font:600 28px "Inter";letter-spacing:4px;border:2px solid var(--claro);color:var(--claro);padding:12px 22px;border-radius:999px}
+/* cena 1 */
+.fone{position:absolute;left:110px;top:310px;width:860px;height:1080px;background:var(--claro);border-radius:56px;overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,.45)}
+.topo{height:150px;background:var(--apoio);display:flex;align-items:center;gap:26px;padding:0 40px}
+.av{width:84px;height:84px;border-radius:50%;background:var(--claro);display:grid;place-items:center;color:var(--apoio);font:800 40px "Exo 2"}
+.topo b{font:700 44px "Exo 2";display:block}.topo small{font:400 28px "Inter";color:var(--claro)}
+.bolha{position:absolute;left:36px;max-width:660px;background:#fff;color:var(--tinta);font:400 42px/1.3 "Inter";padding:26px 32px;border-radius:8px 32px 32px 32px;box-shadow:0 4px 10px rgba(0,47,103,.12)}
+.bolha i{display:block;font:italic 400 28px "Inter";color:#4A5B75;margin-bottom:10px}
+.bolha b{font-weight:600}
+.minha{left:auto;right:36px;background:var(--apoio);color:#fff;border-radius:32px 8px 32px 32px}
+/* cena 2 */
+.ficha{position:absolute;left:90px;right:90px;top:690px;background:#fff;color:var(--tinta);border-radius:40px;padding:56px 56px 64px;box-shadow:0 40px 90px rgba(0,0,0,.4)}
+.ficha small{font:600 30px "Inter";letter-spacing:4px;color:var(--apoio)}
+.ficha h3{font:800 68px/1.1 "Exo 2";margin:18px 0 12px}
+.ficha p{font:400 40px "Inter";color:#4A5B75}
+.st{position:relative;height:96px;margin-top:44px}
+.st span{position:absolute;left:0;top:0;font:800 44px "Exo 2";letter-spacing:2px;padding:20px 36px;border-radius:18px;color:#fff;background:var(--apoio)}
+.st span.n{background:var(--noite)}
+/* grade */
+.grade{position:absolute;left:100px;top:640px;width:880px;height:880px}
+.p{position:absolute;width:80px;height:80px;border-radius:50%;background:var(--apoio);display:grid;place-items:center;font:800 46px "Exo 2"}
+/* cena 5 */
+.custo div{font-family:"Exo 2";font-weight:800;font-size:88px;line-height:1.05;margin-bottom:56px;padding-left:36px;border-left:10px solid var(--claro)}
+/* cena 6 */
+.passo{display:flex;align-items:center;gap:34px;margin-bottom:50px;font:600 50px/1.2 "Inter"}
+.passo em{flex:none;width:96px;height:96px;border-radius:50%;background:#fff;color:var(--azul);display:grid;place-items:center;font:800 54px "Exo 2";font-style:normal}
+.arroba{display:inline-block;background:#fff;color:var(--azul);font:800 60px "Exo 2";padding:26px 48px;border-radius:999px}
+</style></head><body>
+
+<div class="selo" data-in="0.3" data-out="26.3" data-fx="fade">HISTÓRIA ILUSTRATIVA</div>
+
+<!-- 1 · a mensagem chega -->
+<section data-in="0" data-out="6.5">
+  <div class="fone" id="fone" data-in="0.2" data-fx="up">
+    <div class="topo"><div class="av">G</div><div><b>Grupo da Rua</b><small>vizinhos, família, amigos</small></div></div>
+    <div class="bolha" style="top:200px" data-in="0.9" data-fx="pop"><i>Encaminhada muitas vezes</i><b>URGENTE!!!</b> O posto de saúde vai <b>FECHAR</b> amanhã. Nem adianta ir lá!</div>
+    <div class="bolha" style="top:560px" data-in="2.4" data-fx="pop">Repassem pra todo mundo!!!</div>
+    <div class="bolha minha" style="top:740px" data-in="3.7" data-fx="pop">Meu Deus! Já mandei pra família toda</div>
+  </div>
+  <div class="abs t" style="top:1425px;font-size:54px;text-align:center" data-in="4.5" data-fx="up">Sem fonte. Sem data. Sem autor.</div>
+</section>
+
+<!-- 2 · quem acreditou -->
+<section data-in="6.5" data-out="13">
+  <div class="abs t" style="top:340px;font-size:108px" data-in="6.8" data-fx="up">Dona Maria acreditou.</div>
+  <div class="ficha" data-in="7.7" data-fx="up">
+    <small>POSTO DE SAÚDE</small><h3>Consulta marcada</h3><p>Esperada há meses.</p>
+    <div class="st"><span data-in="7.9" data-out="9.7" data-fx="fade">AGENDADA</span><span class="n" data-in="9.8" data-fx="pop">NÃO COMPARECEU</span></div>
+  </div>
+  <div class="abs" style="top:1270px;font:600 56px/1.25 'Inter'" data-in="10.4" data-fx="up">Ficou em casa.<br>Perdeu o atendimento por causa de um boato.</div>
+</section>
+
+<!-- 3 e 4 · a mentira corre, a verdade demora -->
+<section data-in="13" data-out="26.5">
+  <div class="abs t" style="top:290px;font-size:76px" data-in="13.2" data-out="19" data-fx="up">Enquanto isso, a mentira seguia de grupo em grupo.</div>
+  <div class="abs t" style="top:290px;font-size:76px" data-in="19.3" data-out="22.5" data-fx="up">O posto nunca fechou.<br>Era boato.</div>
+  <div class="abs t" style="top:290px;font-size:76px" data-in="22.8" data-fx="up">A informação correta saiu. Mas não alcançou todo mundo.</div>
+  <div class="grade" id="grade" data-in="13.2" data-fx="fade"></div>
+</section>
+
+<!-- 5 · o custo -->
+<section data-in="26.5" data-out="32">
+  <div class="abs" style="top:330px;font:600 54px 'Inter';color:var(--claro)" data-in="26.8" data-fx="up">Uma informação falsa pode custar:</div>
+  <div class="abs custo" style="top:500px">
+    <div data-in="27.4" data-fx="up">uma consulta perdida</div>
+    <div data-in="28.1" data-fx="up">um direito que deixou de ser usado</div>
+    <div data-in="28.8" data-fx="up">a confiança de uma cidade inteira</div>
+  </div>
+  <div class="abs" style="top:1330px;font:600 50px/1.3 'Inter'" data-in="29.9" data-fx="up">Espalhar leva segundos.<br>Desfazer o estrago leva muito mais.</div>
+</section>
+
+<!-- 6 · o que fazer -->
+<section data-in="32" data-out="99">
+  <div class="abs t" style="top:300px;font-size:96px" data-in="32.3" data-fx="up">Antes de repassar,<br>confira.</div>
+  <div class="abs" style="top:660px">
+    <div class="passo" data-in="33.3" data-fx="up"><em>1</em><span>Desconfie de “urgente” e “repassem”.</span></div>
+    <div class="passo" data-in="34.0" data-fx="up"><em>2</em><span>Procure a fonte e a data.</span></div>
+    <div class="passo" data-in="34.7" data-fx="up"><em>3</em><span>Confira nos canais oficiais da Prefeitura.</span></div>
+  </div>
+  <div class="abs" style="top:1190px;text-align:center" data-in="35.6" data-fx="pop"><span class="arroba">@pmssantanopolis</span></div>
+  <div class="abs t" style="top:1400px;font-size:66px;text-align:center" data-in="36.4" data-fx="up">Na dúvida, não compartilhe.</div>
+</section>
+
+<script>
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)), eo=p=>1-Math.pow(1-p,3);
+const back=p=>{const c=1.9;return 1+(c+1)*Math.pow(p-1,3)+c*Math.pow(p-1,2)};
+const rnd=i=>{const x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x)};
+// grade de pessoas: a mentira parte de um ponto e toma tudo; a verdade volta uma a uma
+const G=document.getElementById('grade'),N=8,P=[];
+for(let r=0;r<N;r++)for(let c=0;c<N;c++){const e=document.createElement('div');e.className='p';
+  e.style.left=(c*114+1)+'px';e.style.top=(r*114+1)+'px';G.appendChild(e);
+  const i=r*N+c,d=Math.hypot(c-2,r-5);P.push({e,tm:14.0+d*0.5+rnd(i)*0.5,tv:null});}
+[...P.keys()].sort((a,b)=>rnd(a+99)-rnd(b+99)).slice(0,15).forEach((i,k)=>P[i].tv=20.2+k*0.42);
+const els=[...document.querySelectorAll('[data-in]')].map(e=>{
+  const sec=e.closest('section');const pai=e.tagName==='SECTION'?null:sec;
+  return {e,i:+e.dataset.in,o:e.dataset.out?+e.dataset.out:(pai?+pai.dataset.out:99),fx:e.dataset.fx||(e.tagName==='SECTION'?'cena':'fade')}});
+const fone=document.getElementById('fone');
+window.seek=t=>{
+  for(const {e,i,o,fx} of els){
+    const p=cl((t-i)/0.5),q=fx==='cena'?(t>=i&&t<o?1:0):cl((o-t)/0.3);
+    let tr='';
+    if(fx==='up')tr=`translateY(${(1-eo(p))*50}px)`;
+    if(fx==='pop')tr=`scale(${p<=0?0:back(cl((t-i)/0.4))})`;
+    e.style.opacity=fx==='cena'?q:Math.min(cl((t-i)/0.3),q);
+    if(e!==fone)e.style.transform=tr;
+  }
+  // o celular vibra quando cada mensagem chega
+  let v=0;for(const s of [0.9,2.4]){const k=t-s;if(k>0&&k<0.45)v=Math.sin(k*70)*7*(1-k/0.45)}
+  fone.style.transform=`translate(${v}px,${(1-eo(cl((t-0.2)/0.5)))*50}px) rotate(${v*0.08}deg)`;
+  for(const {e,tm,tv} of P){
+    if(tv&&t>=tv){const k=cl((t-tv)/0.35);e.style.background='#fff';e.style.color='#002F67';e.textContent='✓';e.style.transform=`scale(${back(k)})`}
+    else if(t>=tm){const k=cl((t-tm)/0.3);e.style.background='#06142B';e.style.color='#fff';e.textContent='!';e.style.transform=`scale(${back(k)})`}
+    else{e.style.background='#1D4F8F';e.textContent='';e.style.transform='scale(1)'}
+  }
+};
+seek(0);
+</script></body></html>

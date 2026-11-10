@@ -68,6 +68,11 @@ Fontes locais (licença OFL) em `ferramentas/fontes/`, declaradas em `ferramenta
 - Vinheta final de 3 s com logo e @ do cliente (`-v 0` desliga). Vinhetas: `python3 ferramentas/vinhetas.py`.
 - Depois de gerar, extrair 2 quadros com ffmpeg, conferir e mandar o vídeo pelo SendUserFile.
 
+## Vídeo animado (sem filmagem)
+Quando não houver vídeo bruto: animação em HTML com `window.seek(t)` e metas `tamanho`/`duracao`,
+renderizada por `node ferramentas/animacao.js arquivo.html bruto.mp4`; depois passar no `video.sh` para a vinheta.
+Exemplo: `clientes/prefeitura-santanopolis/entregas/2026-11-10-video-fake-news/animacao.html`.
+
 ## Fotos
 `clientes/<cliente>/fotos/` — ver `LEIA-ME.md` de cada cliente. Toda foto que o dono mandar no chat
 deve ser salva ali com nome descritivo e commitada, para reuso.

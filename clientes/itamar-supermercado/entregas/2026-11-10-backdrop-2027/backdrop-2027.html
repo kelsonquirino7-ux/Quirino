@@ -1,66 +1,91 @@
 <!doctype html><meta charset="utf-8"><meta name="tamanho" content="2710x1730"><link rel="stylesheet" href="../../../../ferramentas/fontes.css">
 <!-- Backdrop Itamar Supermercado · Natal / Ano Novo 2027 · 2,71 m x 1,73 m (1 unidade do viewBox = 1 mm).
-     Textos: edite os <text> abaixo. Enfeites: lista no <script>. Gerar: node render.js -->
+     Textos grandes: <text class="t3d"> (o script cria contorno e volume). Enfeites: listas no <script>. Gerar: node render.js -->
 <style>
 @page{size:2710mm 1730mm;margin:0}
-*{margin:0}html,body{background:#280E01}
+*{margin:0}html,body{background:#E0A000}
 svg{display:block;width:2710px;height:1730px}
 @media print{svg{width:2710mm;height:1730mm}}
-text{font-family:"Baloo 2",sans-serif;font-weight:800;text-anchor:middle}
+text{text-anchor:middle}
+.lob{font-family:"Lobster",cursive}
+.nat{font-family:"Mountains of Christmas",cursive;font-weight:700}
 </style>
-<svg id="s" viewBox="0 0 2710 1730" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg id="s" viewBox="0 0 2710 1730" xmlns="http://www.w3.org/2000/svg">
 <defs>
-  <radialGradient id="fundo" cx="50%" cy="50%" r="72%"><stop offset="0" stop-color="#B0160F"/><stop offset=".5" stop-color="#7A0D08"/><stop offset="1" stop-color="#280E01"/></radialGradient>
-  <linearGradient id="ouro" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF6C2"/><stop offset=".3" stop-color="#FFD302"/><stop offset=".55" stop-color="#F2B200"/><stop offset=".72" stop-color="#FFE873"/><stop offset="1" stop-color="#C98A00"/></linearGradient>
-  <radialGradient id="bolaOuro" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FFF6C2"/><stop offset=".45" stop-color="#FFD302"/><stop offset="1" stop-color="#B97A00"/></radialGradient>
-  <radialGradient id="bolaVerm" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FF8A7A"/><stop offset=".45" stop-color="#FF291E"/><stop offset="1" stop-color="#8E0E0A"/></radialGradient>
-  <radialGradient id="brilho" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFD302" stop-opacity=".55"/><stop offset="1" stop-color="#FFD302" stop-opacity="0"/></radialGradient>
+  <radialGradient id="fundo" gradientUnits="userSpaceOnUse" cx="1355" cy="720" r="1600"><stop offset="0" stop-color="#FFF7B8"/><stop offset=".3" stop-color="#FFD938"/><stop offset=".65" stop-color="#F0B000"/><stop offset="1" stop-color="#B97A00"/></radialGradient>
+  <linearGradient id="verm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF3A2A"/><stop offset=".55" stop-color="#D2160E"/><stop offset="1" stop-color="#8E0E0A"/></linearGradient>
+  <radialGradient id="faixa" gradientUnits="userSpaceOnUse" cx="1355" cy="1480" r="1500"><stop offset="0" stop-color="#C4170F"/><stop offset=".5" stop-color="#8E0E0A"/><stop offset="1" stop-color="#4A0603"/></radialGradient>
+  <linearGradient id="ouro" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF6C2"/><stop offset=".45" stop-color="#FFD302"/><stop offset="1" stop-color="#E0A000"/></linearGradient>
+  <radialGradient id="bolaOuro" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FFFBE0"/><stop offset=".45" stop-color="#FFD302"/><stop offset="1" stop-color="#B97A00"/></radialGradient>
+  <radialGradient id="bolaVerm" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FF9A8A"/><stop offset=".4" stop-color="#F0261B"/><stop offset="1" stop-color="#7A0D08"/></radialGradient>
+  <radialGradient id="brilho" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFE873" stop-opacity=".8"/><stop offset="1" stop-color="#FFD302" stop-opacity="0"/></radialGradient>
 </defs>
 <rect width="2710" height="1730" fill="url(#fundo)"/>
-<g id="fogos"></g><g id="brilhos"></g><g id="cordao"></g><g id="enfeites"></g>
+<g id="raios"></g><g id="fogos"></g><g id="brilhos"></g>
+
+<!-- Faixa vermelha de baixo -->
+<path d="M0,1180 Q1355,1330 2710,1180 L2710,1730 L0,1730Z" fill="#FFF6C2"/>
+<path d="M0,1196 Q1355,1346 2710,1196 L2710,1730 L0,1730Z" fill="url(#faixa)"/>
+<path d="M0,1222 Q1355,1372 2710,1222" fill="none" stroke="#FFD302" stroke-width="6"/>
+<g id="fogos2"></g>
+
+<g id="pinho"></g><g id="enfeites"></g>
 
 <!-- TEXTOS -->
-<text x="1355" y="372" font-size="128" letter-spacing="14" fill="#FFF3C4">FELIZ NATAL E UM</text>
-<text x="1367" y="842" font-size="640" letter-spacing="6" fill="#280E01">2027</text>
-<text x="1355" y="830" font-size="640" letter-spacing="6" fill="url(#ouro)">2027</text>
-<text x="1364" y="1139" font-size="330" letter-spacing="10" fill="#280E01">COMPLETO</text>
-<text x="1355" y="1130" font-size="330" letter-spacing="10" fill="url(#ouro)">COMPLETO</text>
-<text x="905" y="1475" font-size="150" letter-spacing="6" fill="#FFF3C4">IGUAL AO</text>
-<ellipse cx="1760" cy="1420" rx="560" ry="300" fill="url(#brilho)"/>
-<image href="../../identidade/logo-itamar-3d-transparente.png" x="1330" y="1214" width="860" height="411.5"/>
+<text class="nat" x="1355" y="368" font-size="200" letter-spacing="6" fill="#7A0D08" stroke="#7A0D08" stroke-width="7" stroke-linejoin="round">Feliz Natal e um</text>
+<text class="lob t3d" x="1355" y="848" font-size="540" letter-spacing="14">2027</text>
+<text class="lob t3d" x="1355" y="1136" font-size="350" letter-spacing="6">Completo</text>
+<text class="nat" x="900" y="1560" font-size="210" fill="#280E01" stroke="#280E01" stroke-width="7">igual ao</text>
+<text class="nat" x="894" y="1553" font-size="210" fill="url(#ouro)" stroke="#FFD302" stroke-width="7" stroke-linejoin="round">igual ao</text>
+<ellipse cx="1745" cy="1500" rx="560" ry="270" fill="url(#brilho)"/>
+<image href="../../identidade/logo-itamar-3d-transparente.png" x="1345" y="1318" width="760" height="363.6"/>
 </svg>
 <script>
 const NS='http://www.w3.org/2000/svg',$=id=>document.getElementById(id);
 const el=(p,n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e};
-let sd=27;const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
+let sd=2027;const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
 const estrela=(cx,cy,R,r,n)=>{let p='';for(let i=0;i<n*2;i++){const a=Math.PI*i/n-Math.PI/2,q=i%2?r:R;p+=(cx+q*Math.cos(a)).toFixed(1)+','+(cy+q*Math.sin(a)).toFixed(1)+' '}return p};
 
-// Fogos de artifício (fundo)
-[[330,1330,300],[2400,1330,300],[620,560,210],[2090,560,210]].forEach(([x,y,R])=>{const g=el($('fogos'),'g',{opacity:.38});
-  for(let i=0;i<28;i++){const a=2*Math.PI*i/28,r1=R*.28,r2=R*(i%2?1:.72);
-    el(g,'line',{x1:x+r1*Math.cos(a),y1:y+r1*Math.sin(a),x2:x+r2*Math.cos(a),y2:y+r2*Math.sin(a),stroke:'#FFD302','stroke-width':5,'stroke-linecap':'round'});
-    el(g,'circle',{cx:x+(r2+16)*Math.cos(a),cy:y+(r2+16)*Math.sin(a),r:6,fill:'#FFF3C4'})}});
+// Raios de luz atrás do 2027
+for(let i=0;i<24;i++){const a=2*Math.PI*i/24,b=a+Math.PI/24,R=3200,cx=1355,cy=720;
+  el($('raios'),'polygon',{points:`${cx},${cy} ${cx+R*Math.cos(a)},${cy+R*Math.sin(a)} ${cx+R*Math.cos(b)},${cy+R*Math.sin(b)}`,fill:'#FFFBE0',opacity:.22})}
 
-// Brilhos e confetes dourados (fora da área dos textos)
-for(let i=0;i<150;i++){const x=rnd()*2710,y=rnd()*1730,s=rnd();
-  const meio=x>560&&x<2150&&y>240&&y<1650;
-  if(s<.3&&!meio)el($('brilhos'),'polygon',{points:estrela(x,y,10+rnd()*20,3,4),fill:'#FFF3C4',opacity:.6+rnd()*.4});
-  else el($('brilhos'),'circle',{cx:x,cy:y,r:2+rnd()*(meio?3:8),fill:'#FFD302',opacity:meio?.18:.2+rnd()*.5})}
+// Fogos: claros no dourado, dourados na faixa vermelha
+const fogo=(g,x,y,R,cor,op)=>{const q=el(g,'g',{opacity:op});for(let i=0;i<30;i++){const a=2*Math.PI*i/30,r1=R*.25,r2=R*(i%2?1:.7);
+  el(q,'line',{x1:x+r1*Math.cos(a),y1:y+r1*Math.sin(a),x2:x+r2*Math.cos(a),y2:y+r2*Math.sin(a),stroke:cor,'stroke-width':6,'stroke-linecap':'round'});
+  el(q,'circle',{cx:x+(r2+18)*Math.cos(a),cy:y+(r2+18)*Math.sin(a),r:7,fill:cor})}};
+[[300,820,250],[2410,820,250]].forEach(([x,y,R])=>fogo($('fogos'),x,y,R,'#FFFBE0',.75));
+[[300,1520,200],[2410,1520,200]].forEach(([x,y,R])=>fogo($('fogos2'),x,y,R,'#FFD302',.55));
 
-// Cordão de luzes no topo
-for(let k=0;k<5;k++){const x0=k*542,x1=x0+542,sag=92;
-  el($('cordao'),'path',{d:`M${x0},-6 Q${x0+271},${sag*2} ${x1},-6`,fill:'none',stroke:'#C98A00','stroke-width':4});
-  for(let i=1;i<12;i++){const t=i/12,x=x0+542*t,y=-6+2*(1-t)*t*(sag*2+6);
-    el($('cordao'),'circle',{cx:x,cy:y+9,r:13,fill:['#FFD302','#FFF3C4','#FF291E'][i%3],stroke:'#FFF3C4','stroke-width':i%3==2?3:0})}}
+// Brilhos
+for(let i=0;i<110;i++){const x=rnd()*2710,y=rnd()*1730,meio=x>520&&x<2190&&y>230;
+  if(rnd()<.45&&!meio)el($('brilhos'),'polygon',{points:estrela(x,y,14+rnd()*26,4,4),fill:'#FFFFFF',opacity:.75+rnd()*.25});
+  else el($('brilhos'),'circle',{cx:x,cy:y,r:3+rnd()*(meio?4:10),fill:'#FFFBE0',opacity:meio?.3:.35+rnd()*.4})}
 
-// Bolas e estrelas penduradas: [x, comprimento do fio, raio, tipo]
-[[150,400,82,'o'],[345,255,58,'v'],[520,395,56,'e'],[2560,400,82,'o'],[2365,255,58,'v'],[2190,395,56,'e'],
- [130,900,50,'e'],[2580,900,50,'e']].forEach(([x,L,r,t])=>{const g=$('enfeites');
-  if(L<600)el(g,'line',{x1:x,y1:0,x2:x,y2:L-r,stroke:'#FFD302','stroke-width':4});
-  if(t=='e'){el(g,'polygon',{points:estrela(x,L,r*1.25,r*.55,5),fill:'url(#bolaOuro)',stroke:'#FFF3C4','stroke-width':3,'stroke-linejoin':'round'});return}
-  el(g,'rect',{x:x-r*.2,y:L-r-r*.22,width:r*.4,height:r*.3,rx:4,fill:'#C98A00'});
-  el(g,'circle',{cx:x,cy:L,r,fill:t=='o'?'url(#bolaOuro)':'url(#bolaVerm)',stroke:t=='o'?'#C98A00':'#FFD302','stroke-width':4});
-  el(g,'ellipse',{cx:x-r*.34,cy:L-r*.38,rx:r*.2,ry:r*.3,fill:'#fff',opacity:.55,transform:`rotate(-30 ${x-r*.34} ${L-r*.38})`});
-  el(g,'path',{d:`M${x-r*.93},${L+r*.1} Q${x},${L+r*.5} ${x+r*.93},${L+r*.1}`,fill:'none',stroke:t=='o'?'#FF291E':'#FFD302','stroke-width':r*.11});
-});
+// Guirlanda de pinheiro no topo (mais cheia nos cantos)
+const verdes=['#0B4A22','#14692F','#1F8A40','#2FA552'];
+for(let i=0;i<150;i++){const x=rnd()*2710,borda=Math.abs(x-1355)/1355,L=70+rnd()*60+230*borda*borda,ang=Math.PI/2+(rnd()-.5)*1.5,y=-20;
+  const cor=verdes[i%4],dx=Math.cos(ang),dy=Math.sin(ang);let d='';
+  for(let s=14;s<L;s+=11){const px=x+dx*s,py=y+dy*s,n=34*(1-s/L*.55);
+    for(const lado of[-1,1]){const a=ang+lado*.6;d+=`M${px.toFixed(1)},${py.toFixed(1)}l${(Math.cos(a)*n).toFixed(1)},${(Math.sin(a)*n).toFixed(1)}`}}
+  el($('pinho'),'path',{d:`M${x},${y}L${x+dx*L},${y+dy*L}`+d,stroke:cor,'stroke-width':5,'stroke-linecap':'round',fill:'none'})}
+
+// Bolas e estrelas: [x, y do centro, raio, tipo, fio?]
+const bola=(x,y,r,t,fio)=>{const g=$('enfeites');
+  if(fio)el(g,'line',{x1:x,y1:0,x2:x,y2:y-r,stroke:'#7A0D08','stroke-width':4});
+  if(t=='e'){el(g,'polygon',{points:estrela(x,y,r*1.25,r*.55,5),fill:'#FFFBE0',stroke:'#D2160E','stroke-width':6,'stroke-linejoin':'round'});return}
+  el(g,'rect',{x:x-r*.2,y:y-r-r*.22,width:r*.4,height:r*.3,rx:4,fill:'#B97A00'});
+  el(g,'circle',{cx:x,cy:y,r,fill:t=='o'?'url(#bolaOuro)':'url(#bolaVerm)',stroke:t=='o'?'#B97A00':'#7A0D08','stroke-width':4});
+  el(g,'ellipse',{cx:x-r*.34,cy:y-r*.38,rx:r*.2,ry:r*.3,fill:'#fff',opacity:.6,transform:`rotate(-30 ${x-r*.34} ${y-r*.38})`});
+  el(g,'path',{d:`M${x-r*.93},${y+r*.1} Q${x},${y+r*.5} ${x+r*.93},${y+r*.1}`,fill:'none',stroke:t=='o'?'#D2160E':'#FFD302','stroke-width':r*.11})};
+[[150,470,92,'v',1],[360,330,64,'o',1],[545,455,52,'e',1],[2560,470,92,'v',1],[2350,330,64,'o',1],[2165,455,52,'e',1],
+ [700,120,44,'v'],[900,95,34,'o'],[1130,80,38,'v'],[1355,70,34,'o'],[1580,80,38,'v'],[1810,95,34,'o'],[2010,120,44,'v'],
+ [60,200,50,'o'],[2650,200,50,'o'],[250,150,40,'v'],[2460,150,40,'v'],[470,140,36,'o'],[2240,140,36,'o']].forEach(a=>bola(...a));
+
+// Textos grandes com contorno claro e volume
+document.querySelectorAll('.t3d').forEach(t=>{const p=t.parentNode,cp=(a)=>{const c=t.cloneNode(true);c.removeAttribute('class');c.setAttribute('class','lob');for(const k in a)c.setAttribute(k,a[k]);p.insertBefore(c,t);return c};
+  const sw=+t.getAttribute('font-size')*.05;
+  for(let i=22;i>=1;i-=3)cp({transform:`translate(${i},${i})`,fill:'#4A0603',stroke:'#4A0603','stroke-width':sw,'stroke-linejoin':'round'});
+  cp({fill:'#FFFBE0',stroke:'#FFFBE0','stroke-width':sw,'stroke-linejoin':'round'});
+  t.setAttribute('fill','url(#verm)')});
 </script>

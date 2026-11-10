@@ -19,12 +19,8 @@ text{font-family:"Baloo 2",sans-serif;font-weight:800}
 <rect width="2710" height="1730" fill="url(#fundo)"/>
 <g id="brilhos"></g>
 
-<!-- TEXTO (esquerda) -->
-<text class="f" x="150" y="372" font-size="124" fill="#280E01">Feliz Natal e um</text>
-<text x="142" y="620" font-size="262" fill="#B3140D">Ano Novo</text>
-<text x="142" y="850" font-size="262" fill="#280E01">completo.</text>
-<text class="f" x="150" y="1050" font-size="124" fill="#280E01">igual ao</text>
-<image href="../../identidade/logo-itamar-3d-transparente.png" x="120" y="1100" width="860" height="411.5"/>
+<!-- LOGO (esquerda) -->
+<image href="../../identidade/logo-itamar-3d-transparente.png" x="150" y="601" width="1100" height="526.3"/>
 
 <!-- INTERRUPTORES (direita) -->
 <g id="sombras"></g>
@@ -48,5 +44,5 @@ const el=(p,n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.set
 [[290,.05],[900,.025]].forEach(([y,op])=>{for(let i=0;i<10;i++)el($('sombras'),'rect',{x:1420-i*3+14,y:y-i*3+26,width:1140+i*6,height:480+i*6,rx:240+i*3,fill:'#280E01',opacity:op})});
 // brilhos de 4 pontas
 const est=(cx,cy,R)=>{let p='';for(let i=0;i<8;i++){const a=Math.PI*i/4-Math.PI/2,q=i%2?R*.16:R;p+=(cx+q*Math.cos(a)).toFixed(1)+','+(cy+q*Math.sin(a)).toFixed(1)+' '}return p};
-[[1180,250,70],[1290,1420,46],[2630,160,40],[1090,1560,34],[2600,1560,60],[70,120,36],[1300,640,30],[1000,90,28]].forEach(([x,y,R])=>el($('brilhos'),'polygon',{points:est(x,y,R),fill:'#FFFFFF',opacity:.9}));
+[[1180,330,70],[1290,1420,46],[2630,160,40],[330,1420,40],[2600,1560,60],[180,260,50],[700,200,30],[900,1500,28]].forEach(([x,y,R])=>el($('brilhos'),'polygon',{points:est(x,y,R),fill:'#FFFFFF',opacity:.9}));
 </script>

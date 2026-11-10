@@ -1,0 +1,52 @@
+<!doctype html><meta charset="utf-8"><meta name="tamanho" content="2710x1730"><link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<!-- Backdrop Itamar Supermercado · versão "interruptor" (2027 ligado, 2026 desligado) · 2,71 m x 1,73 m (1 unidade = 1 mm).
+     Inspirado na referência referencias/ref-ano-novo-interruptor.jpg, nas cores do Itamar. Gerar: node render.js -->
+<style>
+@page{size:2710mm 1730mm;margin:0}
+*{margin:0}html,body{background:#FFD302}
+svg{display:block;width:2710px;height:1730px}
+@media print{svg{width:2710mm;height:1730mm}}
+text{font-family:"Baloo 2",sans-serif;font-weight:800}
+.f{font-weight:600}
+</style>
+<svg id="s" viewBox="0 0 2710 1730" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <radialGradient id="fundo" gradientUnits="userSpaceOnUse" cx="1990" cy="560" r="1900"><stop offset="0" stop-color="#FFE65C"/><stop offset=".45" stop-color="#FFD302"/><stop offset="1" stop-color="#F2B800"/></radialGradient>
+  <linearGradient id="ligado" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3B1705"/><stop offset="1" stop-color="#280E01"/></linearGradient>
+  <radialGradient id="botao" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#FF6A5A"/><stop offset=".5" stop-color="#FF291E"/><stop offset="1" stop-color="#C4170F"/></radialGradient>
+  <radialGradient id="botaoOff" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#D9B94A"/><stop offset="1" stop-color="#B8962A"/></radialGradient>
+</defs>
+<rect width="2710" height="1730" fill="url(#fundo)"/>
+<g id="brilhos"></g>
+
+<!-- TEXTO (esquerda) -->
+<text class="f" x="150" y="372" font-size="124" fill="#280E01">Feliz Natal e um</text>
+<text x="142" y="620" font-size="262" fill="#B3140D">Ano Novo</text>
+<text x="142" y="850" font-size="262" fill="#280E01">completo.</text>
+<text class="f" x="150" y="1050" font-size="124" fill="#280E01">igual ao</text>
+<image href="../../identidade/logo-itamar-3d-transparente.png" x="120" y="1100" width="860" height="411.5"/>
+
+<!-- INTERRUPTORES (direita) -->
+<g id="sombras"></g>
+<!-- ligado: 2027 -->
+<rect x="1420" y="290" width="1140" height="480" rx="240" fill="url(#ligado)"/>
+<text class="f" x="1526" y="470" font-size="104" fill="#FFF3C4">Bem-vindo,</text>
+<text x="1516" y="696" font-size="256" fill="#FFD302">2027</text>
+<circle cx="2330" cy="542" r="184" fill="#000" opacity=".25"/>
+<circle cx="2320" cy="530" r="184" fill="url(#botao)"/>
+<!-- desligado: 2026 -->
+<rect x="1420" y="900" width="1140" height="480" rx="240" fill="#FFF8D6" opacity=".62"/>
+<circle cx="1668" cy="1150" r="184" fill="#280E01" opacity=".12"/>
+<circle cx="1660" cy="1140" r="184" fill="url(#botaoOff)"/>
+<g opacity=".62"><text class="f" x="1910" y="1080" font-size="104" fill="#280E01">Obrigado,</text>
+<text x="1900" y="1310" font-size="270" fill="#280E01">2026</text></g>
+</svg>
+<script>
+const NS='http://www.w3.org/2000/svg',$=id=>document.getElementById(id);
+const el=(p,n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e};
+// sombra suave dos interruptores (camadas vetoriais)
+[[290,.05],[900,.025]].forEach(([y,op])=>{for(let i=0;i<10;i++)el($('sombras'),'rect',{x:1420-i*3+14,y:y-i*3+26,width:1140+i*6,height:480+i*6,rx:240+i*3,fill:'#280E01',opacity:op})});
+// brilhos de 4 pontas
+const est=(cx,cy,R)=>{let p='';for(let i=0;i<8;i++){const a=Math.PI*i/4-Math.PI/2,q=i%2?R*.16:R;p+=(cx+q*Math.cos(a)).toFixed(1)+','+(cy+q*Math.sin(a)).toFixed(1)+' '}return p};
+[[1180,250,70],[1290,1420,46],[2630,160,40],[1090,1560,34],[2600,1560,60],[70,120,36],[1300,640,30],[1000,90,28]].forEach(([x,y,R])=>el($('brilhos'),'polygon',{points:est(x,y,R),fill:'#FFFFFF',opacity:.9}));
+</script>

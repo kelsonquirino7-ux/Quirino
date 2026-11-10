@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<title>Itamar · TV do açougue</title>
+<link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<!--
+  Vídeo para a TV do açougue (tela em pé). Palco 1080x1920; o vídeo final é girado para 1920x1080.
+  Para trocar preços: edite a lista GRUPOS abaixo e rode  node render-video.js
+  A animação é função do tempo: window.setT(segundos) desenha o quadro daquele instante.
+-->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#5E0600;font-family:"Baloo 2",sans-serif;color:#fff}
+#palco{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 22%,#A30C00 0%,#720700 55%,#4E0500 100%)}
+/* topo */
+#topo{position:absolute;left:0;top:0;width:1080px;height:150px;background:#FF291E;display:flex;align-items:center;justify-content:space-between;padding:0 44px;box-shadow:0 8px 0 #FFD302}
+#topo img{height:124px}
+#topo .t{text-align:right;line-height:1}
+#topo .t b{display:block;font-size:76px;font-weight:800;color:#FFD302;letter-spacing:1px;text-shadow:0 4px 0 #280E01}
+#topo .t span{font-size:32px;font-weight:600;color:#fff}
+/* destaque */
+#dest{position:absolute;left:40px;top:186px;width:1000px;height:640px;border-radius:44px;background:#C00E00;overflow:hidden;box-shadow:0 14px 0 #4E0500}
+#raios{position:absolute;left:500px;top:230px;width:1500px;height:1500px;margin:-750px;border-radius:50%;
+  background:repeating-conic-gradient(from 0deg,rgba(255,211,2,.13) 0 10deg,rgba(255,211,2,0) 10deg 20deg)}
+#chip{position:absolute;left:32px;top:28px;background:#280E01;color:#FFD302;font-size:34px;font-weight:800;padding:4px 26px 0;border-radius:40px;letter-spacing:1px}
+#cont{position:absolute;right:32px;top:28px;background:#FFD302;color:#280E01;font-size:34px;font-weight:800;padding:4px 24px 0;border-radius:40px}
+#foto{position:absolute;left:0;top:44px;width:1000px;height:350px;display:flex;align-items:center;justify-content:center}
+#foto img{max-width:620px;max-height:340px;filter:drop-shadow(0 18px 14px rgba(40,14,1,.55))}
+#nome{position:absolute;left:0;top:392px;width:1000px;text-align:center;font-size:58px;font-weight:800;line-height:1;white-space:nowrap;text-shadow:0 4px 0 #720700}
+#preco{position:absolute;left:0;top:446px;width:1000px;height:180px;display:flex;align-items:flex-start;justify-content:center;color:#FFD302;font-weight:800;line-height:1;text-shadow:0 7px 0 #280E01}
+#preco .rs{font-size:70px;margin-top:74px;margin-right:10px}
+#preco .int{font-size:214px;letter-spacing:-4px}
+#preco .dec{font-size:108px;margin-top:10px}
+#preco .kg{position:absolute;font-size:50px;color:#fff;text-shadow:0 4px 0 #280E01}
+#barra{position:absolute;left:0;bottom:0;height:14px;background:#FFD302;width:0}
+/* lista */
+#lista{position:absolute;left:40px;top:858px;width:1000px;height:1040px;display:flex;gap:24px}
+.col{flex:1;position:relative}
+.lin{position:absolute;left:0;width:100%;height:49px;display:flex;align-items:center;justify-content:space-between;padding:4px 16px 0;font-size:32px;font-weight:600;border-radius:12px;white-space:nowrap;line-height:1}
+.lin b{font-weight:800;color:#FFD302}
+.cab{background:#280E01;color:#FFD302;font-weight:800;font-size:30px;letter-spacing:1px;justify-content:center}
+.marca{position:absolute;left:0;height:49px;border-radius:12px;background:#FFD302;box-shadow:0 5px 0 #280E01}
+/* abertura */
+#abre{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,#FF4A32 0%,#FF291E 45%,#B81200 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:50px}
+#abre .r{position:absolute;left:540px;top:860px;width:2600px;height:2600px;margin:-1300px;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,211,2,.22) 0 9deg,rgba(255,211,2,0) 9deg 18deg)}
+#abre img{width:820px;position:relative}
+#abre .s{position:relative;background:#280E01;color:#FFD302;font-size:92px;font-weight:800;padding:14px 60px 2px;border-radius:70px;line-height:1.05;text-align:center;box-shadow:0 12px 0 #FFD302}
+#abre .p{position:relative;font-size:52px;font-weight:600;color:#fff;text-shadow:0 4px 0 #280E01}
+</style>
+<body>
+<div id="palco">
+  <div id="topo"><img src="../../identidade/logo-itamar-3d-transparente.png" alt="Itamar Supermercado"><div class="t"><b>AÇOUGUE</b><span>preços por kg</span></div></div>
+  <div id="dest">
+    <div id="raios"></div>
+    <div id="chip"></div><div id="cont"></div>
+    <div id="foto"><img id="img" alt=""></div>
+    <div id="nome"></div>
+    <div id="preco"><span class="rs">R$</span><span class="int"></span><span class="dec"></span><span class="kg">kg</span></div>
+    <div id="barra"></div>
+  </div>
+  <div id="lista"><div class="col" id="c0"></div><div class="col" id="c1"></div></div>
+</div>
+<div id="abre"><div class="r"></div><img src="../../identidade/logo-itamar-3d-transparente.png" alt=""><div class="s">OFERTAS DO<br>AÇOUGUE</div><div class="p">Confira os preços por kg</div></div>
+<script>
+const F = '../../fotos/produtos/acougue/';
+// [nome completo no destaque, nome curto na lista, preço, foto]
+const GRUPOS = [
+ {col:0, titulo:'BOVINOS', itens:[
+  ['CARNE BOVINA ALCATRA','ALCATRA','55,90','alcatra'],
+  ['CARNE BOVINA ACÉM COM OSSO','ACÉM C/ OSSO','31,99','acem-com-osso'],
+  ['CARNE BOVINA PICANHA','PICANHA','62,90','picanha'],
+  ['CARNE BOVINA CUPIM','CUPIM','52,90','cupim'],
+  ['CARNE BOVINA FRALDINHA','FRALDINHA','49,90','fraldinha'],
+  ['CRUZ MACHADO COM OSSO','CRUZ MACHADO C/ OSSO','33,90','cruz-machado-com-osso'],
+  ['CRUZ MACHADO SEM OSSO','CRUZ MACHADO S/ OSSO','36,99','cruz-machado-sem-osso'],
+  ['CARNE BOVINA PEITO COM OSSO','PEITO C/ OSSO','31,99','peito-com-osso'],
+  ['CARNE BOVINA COSTELA','COSTELA','31,99','costela'],
+  ['CARNE BOVINA CHÃ DE DENTRO','CHÃ DE DENTRO','55,90','cha-de-dentro'],
+  ['CARNE BOVINA CHÃ DE FORA','CHÃ DE FORA','49,90','cha-de-fora'],
+  ['CHÃ DE FORA COM OSSO','CHÃ DE FORA C/ OSSO','41,99','cha-de-fora-com-osso'],
+  ['CARNE BOVINA PAULISTA','PAULISTA','51,90','paulista'],
+  ['CARNE BOVINA CONTRA FILÉ','CONTRA FILÉ','55,90','contra-file'],
+  ['CARNE BOVINA FILÉ ESPECIAL','FILÉ ESPECIAL','56,90','file-especial'],
+  ['CARNE BOVINA MAMINHA','MAMINHA','49,90','maminha'],
+  ['MÚSCULO DIANTEIRO','MÚSCULO DIANTEIRO','30,90','musculo-dianteiro'],
+  ['MÚSCULO TRASEIRO','MÚSCULO TRASEIRO','30,90','musculo-traseiro'],
+  ['CARNE BOVINA PATINHO','PATINHO','47,99','patinho'],
+  ['CARNE DO SOL BOVINA','CARNE DO SOL BOVINA','49,90','carne-do-sol-bovina'],
+ ]},
+ {col:1, titulo:'SUÍNOS', itens:[
+  ['CARNE DO SOL SUÍNA','CARNE DO SOL SUÍNA','25,90','carne-do-sol-suina'],
+  ['CARNE SUÍNA','CARNE SUÍNA','18,90','carne-suina'],
+  ['FATO SUÍNO','FATO SUÍNO','11,99','fato-suino'],
+  ['TRIPA SUÍNA','TRIPA SUÍNA','20,90','tripa-suina'],
+ ]},
+ {col:1, titulo:'MIÚDOS BOVINOS', itens:[
+  ['FÍGADO BOVINO','FÍGADO','19,90','figado-bovino'],
+  ['BUCHO BOVINO','BUCHO','18,90','bucho-bovino'],
+  ['TRIPA BOVINA','TRIPA BOVINA','21,99','tripa-bovina'],
+  ['FATO BOVINO MISTO','FATO BOVINO MISTO','21,90','fato-bovino-misto'],
+  ['MOCOTÓ BOVINO','MOCOTÓ','8,99','mocoto-bovino'],
+  ['RABO BOVINO','RABO','47,90','rabo-bovino'],
+  ['BAÇO BOVINO','BAÇO','10,99','baco-bovino'],
+  ['RIM BOVINO','RIM','11,99','rim-bovino'],
+  ['OSSOS BOVINOS','OSSOS','6,99','ossos-bovinos'],
+ ]},
+ {col:1, titulo:'CARNEIRO', itens:[
+  ['CARNE DE CARNEIRO','CARNE DE CARNEIRO','39,99','carne-de-carneiro'],
+  ['FATO DE CARNEIRO','FATO DE CARNEIRO','19,90','fato-de-carneiro'],
+ ]},
+ {col:1, titulo:'E MAIS', itens:[
+  ['CARNE MOÍDA','CARNE MOÍDA','30,99','carne-moida'],
+  ['SAPATEL','SAPATEL','19,90','sapatel'],
+ ]},
+];
+const DUR = 66.3663, ABRE = 4.6, PASSO = 49.5;
+const $ = s => document.querySelector(s);
+const itens = []; const lin = [0,0];
+const marcas = [0,1].map(c => { const m = document.createElement('div'); m.className='marca'; m.style.width='100%'; m.style.opacity=0; $('#c'+c).appendChild(m); return m; });
+for (const g of GRUPOS) {
+  const col = $('#c'+g.col);
+  const h = document.createElement('div'); h.className='lin cab'; h.textContent=g.titulo; h.style.top=(lin[g.col]++*PASSO)+'px'; col.appendChild(h);
+  for (const [nome,curto,preco,foto] of g.itens) {
+    const d = document.createElement('div'); d.className='lin'; d.style.top=(lin[g.col]*PASSO)+'px';
+    d.innerHTML = `<span>${curto}</span><b>${preco}</b>`; col.appendChild(d);
+    const im = new Image(); im.src = F+foto+'.png';
+    itens.push({nome,preco,foto:im.src,grupo:g.titulo,col:g.col,y:lin[g.col]*PASSO,el:d});
+    lin[g.col]++;
+  }
+}
+const N = itens.length, D = (DUR-ABRE)/N;
+const cl = (x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const fora = x => { x=cl(x); const c=1.70158*1.4; return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2); }; // passa do ponto e volta
+const suave = x => { x=cl(x); return x*x*(3-2*x); };
+let atual = -1;
+window.setT = t => {
+  // abertura
+  const a = $('#abre');
+  if (t < ABRE) {
+    a.style.display='flex'; a.style.opacity = 1 - suave((t-(ABRE-0.35))/0.35);
+    a.querySelector('.r').style.transform = `rotate(${t*14}deg)`;
+    a.querySelector('img').style.transform = `scale(${0.3+0.7*fora(t/0.6)})`;
+    a.querySelector('.s').style.transform = `scale(${fora((t-0.7)/0.5)})`;
+    a.querySelector('.s').style.opacity = cl((t-0.7)/0.15);
+    a.querySelector('.p').style.opacity = cl((t-1.5)/0.3);
+    a.querySelector('.p').style.transform = `translateY(${40*(1-suave((t-1.5)/0.3))}px)`;
+  } else a.style.display='none';
+  // produto da vez
+  const tt = Math.max(0,t-ABRE), i = Math.min(N-1,Math.floor(tt/D)), u = tt-i*D, it = itens[i];
+  if (i !== atual) {
+    atual = i;
+    $('#img').src = it.foto; $('#nome').textContent = it.nome; $('#chip').textContent = it.grupo;
+    $('#cont').textContent = (i+1)+' / '+N;
+    const [pi,pd] = it.preco.split(','); $('#preco .int').textContent = pi; $('#preco .dec').textContent = ','+pd;
+    itens.forEach((o,k)=>{ o.el.style.color = k===i ? '#280E01' : '#fff'; o.el.querySelector('b').style.color = k===i ? '#280E01' : '#FFD302'; o.el.style.fontWeight = k===i?800:600; });
+  }
+  const sai = i < N-1 ? 1 - suave((u-(D-0.12))/0.12) : 1;
+  $('#raios').style.transform = `rotate(${t*22}deg)`;
+  $('#foto').style.transform = `scale(${(0.55+0.45*fora(u/0.32))*(1+0.035*Math.sin(u*3.2))}) rotate(${-5*(1-suave(u/0.32))}deg)`;
+  $('#foto').style.opacity = cl(u/0.1)*sai;
+  $('#nome').style.transform = `translateX(${70*(1-suave((u-0.06)/0.22))}px)`;
+  $('#nome').style.opacity = cl((u-0.06)/0.14)*sai;
+  $('#preco').style.transform = `scale(${fora((u-0.16)/0.34)})`;
+  $('#preco').style.opacity = cl((u-0.16)/0.08)*sai;
+  $('#barra').style.width = (cl(u/D)*100)+'%';
+  // "kg" logo depois dos centavos
+  const dec = $('#preco .dec'); const kg = $('#preco .kg');
+  kg.style.left = (dec.offsetLeft+dec.offsetWidth-92)+'px'; kg.style.top = '118px';
+  // marcador da lista desliza até a linha da vez
+  const ant = i>0 ? itens[i-1] : null, k = suave(u/0.26);
+  marcas.forEach((m,c) => {
+    if (c === it.col) { const de = ant && ant.col===c ? ant.y : it.y; m.style.top = (de+(it.y-de)*k)+'px'; m.style.opacity = ant && ant.col!==c ? k : 1; }
+    else m.style.opacity = ant && ant.col===c ? 1-k : 0;
+  });
+  it.el.style.transform = `scale(${1+0.04*Math.sin(Math.PI*cl(u/0.3))})`;
+};
+window.pronto = Promise.all([document.fonts.ready, ...[...document.images].map(i=>i.decode().catch(()=>{})), ...itens.map(o=>{const i=new Image(); i.src=o.foto; return i.decode().catch(()=>{});})]);
+window.DUR = DUR;
+setT(new URLSearchParams(location.search).get('t')*1 || 0);
+</script>
+</body>
+</html>

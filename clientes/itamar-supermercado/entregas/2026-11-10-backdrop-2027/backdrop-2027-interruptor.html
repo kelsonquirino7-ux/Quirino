@@ -17,7 +17,7 @@ text{font-family:"Baloo 2",sans-serif;font-weight:800}
   <radialGradient id="botaoOff" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#D9B94A"/><stop offset="1" stop-color="#B8962A"/></radialGradient>
 </defs>
 <rect width="2710" height="1730" fill="url(#fundo)"/>
-<g id="brilhos"></g>
+<g id="fitas"></g><g id="fogos"></g><g id="confete"></g><g id="brilhos"></g>
 
 <!-- LOGO (esquerda) -->
 <image href="../../identidade/logo-itamar-3d-transparente.png" x="150" y="601" width="1100" height="526.3"/>
@@ -45,4 +45,30 @@ const el=(p,n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.set
 // brilhos de 4 pontas
 const est=(cx,cy,R)=>{let p='';for(let i=0;i<8;i++){const a=Math.PI*i/4-Math.PI/2,q=i%2?R*.16:R;p+=(cx+q*Math.cos(a)).toFixed(1)+','+(cy+q*Math.sin(a)).toFixed(1)+' '}return p};
 [[1180,330,70],[1290,1420,46],[2630,160,40],[330,1420,40],[2600,1560,60],[180,260,50],[700,200,30],[900,1500,28]].forEach(([x,y,R])=>el($('brilhos'),'polygon',{points:est(x,y,R),fill:'#FFFFFF',opacity:.9}));
+
+// ---------- Enfeites de Ano Novo (ficam atrás do logo e dos interruptores) ----------
+let sd=2027;const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
+// áreas reservadas: logo e interruptores (com folga)
+const livre=(x,y,m=40)=>!((x>150-m&&x<1250+m&&y>600-m&&y<1130+m)||(x>1420-m&&x<2560+m&&y>290-m&&y<1420+m));
+// Fogos: [x, y, raio, cor principal, cor das pontas]
+const fogo=(x,y,R,c1,c2)=>{const g=el($('fogos'),'g',{});const n=22;
+  el(g,'path',{d:`M${x+R*.25},${y+R*2.1} Q${x+R*.3},${y+R} ${x},${y+R*.2}`,fill:'none',stroke:c1,'stroke-width':R*.03,'stroke-linecap':'round',opacity:.45});
+  for(let i=0;i<n;i++){const a=2*Math.PI*i/n+.1,l=i%2,r1=R*(l?.2:.34),r2=R*(l?1:.7),w=R*(l?.05:.035),cx=Math.cos(a),cy=Math.sin(a);
+    el(g,'line',{x1:x+r1*cx,y1:y+r1*cy,x2:x+r2*cx,y2:y+r2*cy,stroke:l?c1:c2,'stroke-width':w,'stroke-linecap':'round'});
+    el(g,'circle',{cx:x+(r2+R*.1)*cx,cy:y+(r2+R*.1)*cy,r:R*(l?.04:.028),fill:l?c2:c1})}
+  el(g,'polygon',{points:est(x,y,R*.2),fill:'#FFFFFF'})};
+const V='#FF291E',B='#FFFFFF',E='#B3140D',L='#F08A00';
+[[330,300,235,V,B],[880,230,165,B,L],[1215,470,105,E,B],[310,1440,190,B,V],[820,1430,225,V,B],[1270,1570,120,L,B],
+ [1790,130,105,B,V],[2330,120,95,V,B],[1880,1590,105,V,B],[2440,1580,100,B,L]].forEach(a=>fogo(...a));
+// Serpentinas
+const fita=(x,y,ang,comp,cor,w)=>{let d=`M${x},${y}`;const dx=Math.cos(ang),dy=Math.sin(ang),nx=-dy,ny=dx,p=90;
+  for(let s=0,k=1;s<comp;s+=p,k=-k)d+=` q${(dx*p/2+nx*46*k).toFixed(1)},${(dy*p/2+ny*46*k).toFixed(1)} ${(dx*p).toFixed(1)},${(dy*p).toFixed(1)}`;
+  el($('fitas'),'path',{d,fill:'none',stroke:cor,'stroke-width':w,'stroke-linecap':'round',opacity:.9})};
+fita(40,-20,1.15,520,V,13);fita(620,-20,1.75,330,B,12);fita(1330,-20,1.45,270,V,12);fita(2690,-10,2.2,300,B,12);
+fita(-10,1250,-.5,330,B,12);fita(1100,1740,-1.35,330,B,12);fita(2725,1500,-4.2,230,V,13);fita(1560,1740,-1.2,250,E,11);
+// Confetes
+for(let i=0,k=0;i<400&&k<120;i++){const x=rnd()*2710,y=rnd()*1730;if(!livre(x,y,60))continue;k++;
+  const cor=[V,B,E,L,'#280E01'][k%5],t=rnd();
+  if(t<.35)el($('confete'),'circle',{cx:x,cy:y,r:7+rnd()*9,fill:cor,opacity:cor=='#280E01'?.5:.95});
+  else{const w=22+rnd()*22,h=9+rnd()*7;el($('confete'),'rect',{x:x-w/2,y:y-h/2,width:w,height:h,rx:3,fill:cor,opacity:cor=='#280E01'?.5:.95,transform:`rotate(${(rnd()*180).toFixed(0)} ${x.toFixed(0)} ${y.toFixed(0)})`})}}
 </script>

@@ -1,0 +1,83 @@
+<!doctype html><meta charset="utf-8">
+<!-- Cena 3D do letreiro (three.js). Renderizar com: node render-3d.js  → gera letreiro-3d.png (fundo transparente). -->
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+<script src="/three/clipper.js"></script>
+<script type="importmap">{"imports":{"three":"/three/build/three.module.js","three/addons/":"/three/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {TTFLoader} from 'three/addons/loaders/TTFLoader.js';
+import {Font} from 'three/addons/loaders/FontLoader.js';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+
+const W=1080,H=1350,AMARELO=0xFFD302,VERMELHO=0xFF291E,MARROM=0x280E01;
+const r=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});
+r.setSize(W,H);r.setPixelRatio(2);r.setClearColor(0,0);r.shadowMap.enabled=true;r.shadowMap.type=THREE.PCFSoftShadowMap;
+r.toneMapping=THREE.NoToneMapping;document.body.appendChild(r.domElement);
+const cena=new THREE.Scene();
+cena.environment=new THREE.PMREMGenerator(r).fromScene(new RoomEnvironment(),.04).texture;cena.environmentIntensity=.1;
+const DIST=2600,cam=new THREE.PerspectiveCamera(2*Math.atan(H/2/DIST)*180/Math.PI,W/H,100,6000);cam.position.set(0,0,DIST);
+
+const sol=new THREE.DirectionalLight(0xffffff,3.0);sol.position.set(-1100,1500,1500);sol.castShadow=true;
+Object.assign(sol.shadow.camera,{left:-1000,right:1000,top:1000,bottom:-1000,near:100,far:5000});sol.shadow.mapSize.set(4096,4096);sol.shadow.radius=10;sol.shadow.bias=-.0005;cena.add(sol);
+const contra=new THREE.PointLight(0xff3a20,1.6,0,0);contra.position.set(900,-700,500);cena.add(contra);
+cena.add(new THREE.AmbientLight(0xffffff,.9));
+
+const mat=(cor,o={})=>new THREE.MeshPhysicalMaterial({color:cor,roughness:.62,metalness:0,specularIntensity:.35,clearcoat:.12,clearcoatRoughness:.4,...o});
+const M={face:mat(0x1D0A03,{roughness:.5,clearcoat:.25,clearcoatRoughness:.3}),lado:mat(0x160702,{roughness:.35,clearcoat:.5,specularIntensity:1}),base:mat(VERMELHO,{roughness:.45,clearcoat:.3}),
+  amarelo:mat(AMARELO,{roughness:.35}),amareloLado:mat(0xD9A800),marrom:mat(MARROM),verm:mat(0xD81A0E)};
+
+new TTFLoader().load('/ferramentas/fontes/ttf/baloo-2-latin-800-normal.ttf',json=>{
+  const fonte=new Font(json),esc=s=>s/fonte.data.resolution;
+  const larg=(t,s)=>[...t].map(c=>(fonte.data.glyphs[c]||fonte.data.glyphs['?']).ha*esc(s));
+  // une os contornos sobrepostos do glifo (regra nonzero) para a extrusão sair limpa
+  const unir=shapes=>{const E=200,cs=shapes.flatMap(s=>[s.getPoints(14),...s.holes.map(h=>h.getPoints(14))]).map(p=>p.map(v=>({X:Math.round(v.x*E),Y:Math.round(v.y*E)})));
+    const c=new ClipperLib.Clipper(),arv=new ClipperLib.PolyTree();c.AddPaths(cs,ClipperLib.PolyType.ptSubject,true);
+    c.Execute(ClipperLib.ClipType.ctUnion,arv,ClipperLib.PolyFillType.pftNonZero,ClipperLib.PolyFillType.pftNonZero);
+    const v2=p=>p.map(q=>new THREE.Vector2(q.X/E,q.Y/E));
+    return ClipperLib.JS.PolyTreeToExPolygons(arv).map(e=>{const sh=new THREE.Shape(v2(e.outer));sh.holes=e.holes.map(h=>new THREE.Path(v2(h)));return sh;});};
+  const solido=(shapes0,prof,chanfro,mats)=>{const shapes=shapes0[0]?.type==='Shape'&&shapes0!==RET&&shapes0!==RET2?unir(shapes0):shapes0;const g=new THREE.ExtrudeGeometry(shapes,{depth:prof,bevelEnabled:chanfro>0,bevelSize:chanfro,bevelThickness:chanfro,bevelSegments:5,curveSegments:10});
+    const m=new THREE.Mesh(g,mats);m.castShadow=m.receiveShadow=true;return m;};
+  // texto simples (uma peça), centralizado em x
+  const texto=(t,s,prof,m,ch=2)=>{const sh=fonte.generateShapes(t,s),o=solido(sh,prof,ch,m);o.geometry.computeBoundingBox();const b=o.geometry.boundingBox;o.geometry.translate(-(b.min.x+b.max.x)/2,0,0);return o;};
+
+  const RET=[],RET2=[];
+  // ---------- LETREIRO: cada letra é uma peça com giro próprio + placa vermelha por trás
+  const letreiro=new THREE.Group();
+  const LINHAS=[["BLACK",40,770,[[-5,6,1,.10],[4,-10,.95,-.08],[-3,8,1.05,.06],[5,-6,.96,-.10],[-4,10,1.04,.08]]],
+                ["FRIDAY",-215,890,[[4,-4,1.04,.09],[-5,10,.96,-.07],[3,-12,1.05,.05],[-4,6,.97,-.06],[5,-8,1.05,.08],[-3,8,1,-.09]]]];
+  let n=0;
+  for(const [t,y,alvo,v] of LINHAS){
+    const w0=larg(t,300),k=alvo/w0.reduce((a,b)=>a+b,0),s=300*k;let x=-alvo/2;
+    [...t].forEach((c,i)=>{const [rz,dy,sc,ry]=v[i],w=w0[i]*k,sh=fonte.generateShapes(c,s);
+      const p=new THREE.Group(),alt=s*.33;
+      const letra=solido(sh,95,7,[M.face,M.lado]);letra.geometry.translate(-w/2,-alt,0);
+      const placa=solido(sh,26,36,M.base);placa.geometry.translate(-w/2,-alt,0);placa.position.z=-95-(n++%3)*4;placa.castShadow=false;
+      p.add(letra,placa);p.position.set(x+w/2,y+dy+alt,0);p.rotation.set(0,ry,rz*Math.PI/180);p.scale.setScalar(sc);letreiro.add(p);x+=w;});
+  }
+  letreiro.position.set(-8,-5,120);letreiro.rotation.set(-.30,-.22,-7*Math.PI/180);cena.add(letreiro);
+
+  // ---------- FAIXA "DE ELETRO"
+  const faixa=new THREE.Group(),fw=690,fh=136,rr=26,ret=new THREE.Shape();RET.push(ret);
+  ret.moveTo(-fw/2+rr,-fh/2);ret.lineTo(fw/2-rr,-fh/2);ret.quadraticCurveTo(fw/2,-fh/2,fw/2,-fh/2+rr);ret.lineTo(fw/2,fh/2-rr);ret.quadraticCurveTo(fw/2,fh/2,fw/2-rr,fh/2);
+  ret.lineTo(-fw/2+rr,fh/2);ret.quadraticCurveTo(-fw/2,fh/2,-fw/2,fh/2-rr);ret.lineTo(-fw/2,-fh/2+rr);ret.quadraticCurveTo(-fw/2,-fh/2,-fw/2+rr,-fh/2);
+  faixa.add(solido(RET,46,6,[M.amarelo,M.amareloLado]));
+  const el=texto("DE ELETRO",96,16,M.marrom);el.position.set(0,-34,50);faixa.add(el);
+  faixa.position.set(0,-402,150);faixa.rotation.set(-.26,-.2,-6*Math.PI/180);cena.add(faixa);
+
+  // ---------- SELO da data
+  const selo=new THREE.Group(),est=new THREE.Shape();
+  for(let i=0;i<48;i++){const a=i*Math.PI/24,R=i%2?116:131;est[i?'lineTo':'moveTo'](R*Math.cos(a),R*Math.sin(a));}
+  RET2.push(est);selo.add(solido(RET2,34,4,[M.amarelo,M.amareloLado]));
+  [["SEXTA-FEIRA",25,50,M.marrom],["27/11",70,-20,M.verm],["NO ITAMAR",25,-60,M.marrom]].forEach(([t,s,y,m])=>{const o=texto(t,s,10,m,1);o.position.set(0,y,38);selo.add(o);});
+  selo.position.set(345,312,160);selo.rotation.set(-.2,-.28,-9*Math.PI/180);cena.add(selo);
+
+  // ---------- "%" flutuando
+  [[-430,250,60,150,.3,.5,.3],[455,-345,200,120,-.3,-.5,-.25],[-455,-395,40,95,.2,.6,-.4]].forEach(([x,y,z,s,rx,ry,rz])=>{
+    const o=texto("%",s,34,[M.amarelo,M.amareloLado],5);o.position.set(x,y,z);o.rotation.set(rx,ry,rz);cena.add(o);});
+
+  // ---------- chão invisível que só recebe sombra
+  const chao=new THREE.Mesh(new THREE.PlaneGeometry(4000,4000),new THREE.ShadowMaterial({opacity:.24}));chao.position.z=-60;chao.receiveShadow=true;cena.add(chao);
+
+  r.render(cena,cam);window.pronto=true;
+});
+</script>

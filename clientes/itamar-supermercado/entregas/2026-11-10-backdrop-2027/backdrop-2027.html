@@ -1,0 +1,66 @@
+<!doctype html><meta charset="utf-8"><meta name="tamanho" content="2710x1730"><link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<!-- Backdrop Itamar Supermercado · Natal / Ano Novo 2027 · 2,71 m x 1,73 m (1 unidade do viewBox = 1 mm).
+     Textos: edite os <text> abaixo. Enfeites: lista no <script>. Gerar: node render.js -->
+<style>
+@page{size:2710mm 1730mm;margin:0}
+*{margin:0}html,body{background:#280E01}
+svg{display:block;width:2710px;height:1730px}
+@media print{svg{width:2710mm;height:1730mm}}
+text{font-family:"Baloo 2",sans-serif;font-weight:800;text-anchor:middle}
+</style>
+<svg id="s" viewBox="0 0 2710 1730" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+  <radialGradient id="fundo" cx="50%" cy="50%" r="72%"><stop offset="0" stop-color="#B0160F"/><stop offset=".5" stop-color="#7A0D08"/><stop offset="1" stop-color="#280E01"/></radialGradient>
+  <linearGradient id="ouro" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF6C2"/><stop offset=".3" stop-color="#FFD302"/><stop offset=".55" stop-color="#F2B200"/><stop offset=".72" stop-color="#FFE873"/><stop offset="1" stop-color="#C98A00"/></linearGradient>
+  <radialGradient id="bolaOuro" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FFF6C2"/><stop offset=".45" stop-color="#FFD302"/><stop offset="1" stop-color="#B97A00"/></radialGradient>
+  <radialGradient id="bolaVerm" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FF8A7A"/><stop offset=".45" stop-color="#FF291E"/><stop offset="1" stop-color="#8E0E0A"/></radialGradient>
+  <radialGradient id="brilho" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFD302" stop-opacity=".55"/><stop offset="1" stop-color="#FFD302" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="2710" height="1730" fill="url(#fundo)"/>
+<g id="fogos"></g><g id="brilhos"></g><g id="cordao"></g><g id="enfeites"></g>
+
+<!-- TEXTOS -->
+<text x="1355" y="372" font-size="128" letter-spacing="14" fill="#FFF3C4">FELIZ NATAL E UM</text>
+<text x="1367" y="842" font-size="640" letter-spacing="6" fill="#280E01">2027</text>
+<text x="1355" y="830" font-size="640" letter-spacing="6" fill="url(#ouro)">2027</text>
+<text x="1364" y="1139" font-size="330" letter-spacing="10" fill="#280E01">COMPLETO</text>
+<text x="1355" y="1130" font-size="330" letter-spacing="10" fill="url(#ouro)">COMPLETO</text>
+<text x="905" y="1475" font-size="150" letter-spacing="6" fill="#FFF3C4">IGUAL AO</text>
+<ellipse cx="1760" cy="1420" rx="560" ry="300" fill="url(#brilho)"/>
+<image href="../../identidade/logo-itamar-3d-transparente.png" x="1330" y="1214" width="860" height="411.5"/>
+</svg>
+<script>
+const NS='http://www.w3.org/2000/svg',$=id=>document.getElementById(id);
+const el=(p,n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e};
+let sd=27;const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
+const estrela=(cx,cy,R,r,n)=>{let p='';for(let i=0;i<n*2;i++){const a=Math.PI*i/n-Math.PI/2,q=i%2?r:R;p+=(cx+q*Math.cos(a)).toFixed(1)+','+(cy+q*Math.sin(a)).toFixed(1)+' '}return p};
+
+// Fogos de artifício (fundo)
+[[330,1330,300],[2400,1330,300],[620,560,210],[2090,560,210]].forEach(([x,y,R])=>{const g=el($('fogos'),'g',{opacity:.38});
+  for(let i=0;i<28;i++){const a=2*Math.PI*i/28,r1=R*.28,r2=R*(i%2?1:.72);
+    el(g,'line',{x1:x+r1*Math.cos(a),y1:y+r1*Math.sin(a),x2:x+r2*Math.cos(a),y2:y+r2*Math.sin(a),stroke:'#FFD302','stroke-width':5,'stroke-linecap':'round'});
+    el(g,'circle',{cx:x+(r2+16)*Math.cos(a),cy:y+(r2+16)*Math.sin(a),r:6,fill:'#FFF3C4'})}});
+
+// Brilhos e confetes dourados (fora da área dos textos)
+for(let i=0;i<150;i++){const x=rnd()*2710,y=rnd()*1730,s=rnd();
+  const meio=x>560&&x<2150&&y>240&&y<1650;
+  if(s<.3&&!meio)el($('brilhos'),'polygon',{points:estrela(x,y,10+rnd()*20,3,4),fill:'#FFF3C4',opacity:.6+rnd()*.4});
+  else el($('brilhos'),'circle',{cx:x,cy:y,r:2+rnd()*(meio?3:8),fill:'#FFD302',opacity:meio?.18:.2+rnd()*.5})}
+
+// Cordão de luzes no topo
+for(let k=0;k<5;k++){const x0=k*542,x1=x0+542,sag=92;
+  el($('cordao'),'path',{d:`M${x0},-6 Q${x0+271},${sag*2} ${x1},-6`,fill:'none',stroke:'#C98A00','stroke-width':4});
+  for(let i=1;i<12;i++){const t=i/12,x=x0+542*t,y=-6+2*(1-t)*t*(sag*2+6);
+    el($('cordao'),'circle',{cx:x,cy:y+9,r:13,fill:['#FFD302','#FFF3C4','#FF291E'][i%3],stroke:'#FFF3C4','stroke-width':i%3==2?3:0})}}
+
+// Bolas e estrelas penduradas: [x, comprimento do fio, raio, tipo]
+[[150,400,82,'o'],[345,255,58,'v'],[520,395,56,'e'],[2560,400,82,'o'],[2365,255,58,'v'],[2190,395,56,'e'],
+ [130,900,50,'e'],[2580,900,50,'e']].forEach(([x,L,r,t])=>{const g=$('enfeites');
+  if(L<600)el(g,'line',{x1:x,y1:0,x2:x,y2:L-r,stroke:'#FFD302','stroke-width':4});
+  if(t=='e'){el(g,'polygon',{points:estrela(x,L,r*1.25,r*.55,5),fill:'url(#bolaOuro)',stroke:'#FFF3C4','stroke-width':3,'stroke-linejoin':'round'});return}
+  el(g,'rect',{x:x-r*.2,y:L-r-r*.22,width:r*.4,height:r*.3,rx:4,fill:'#C98A00'});
+  el(g,'circle',{cx:x,cy:L,r,fill:t=='o'?'url(#bolaOuro)':'url(#bolaVerm)',stroke:t=='o'?'#C98A00':'#FFD302','stroke-width':4});
+  el(g,'ellipse',{cx:x-r*.34,cy:L-r*.38,rx:r*.2,ry:r*.3,fill:'#fff',opacity:.55,transform:`rotate(-30 ${x-r*.34} ${L-r*.38})`});
+  el(g,'path',{d:`M${x-r*.93},${L+r*.1} Q${x},${L+r*.5} ${x+r*.93},${L+r*.1}`,fill:'none',stroke:t=='o'?'#FF291E':'#FFD302','stroke-width':r*.11});
+});
+</script>

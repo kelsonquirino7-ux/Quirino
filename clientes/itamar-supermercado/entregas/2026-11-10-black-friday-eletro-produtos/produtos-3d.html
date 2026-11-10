@@ -1,0 +1,109 @@
+<!doctype html><meta charset="utf-8">
+<!-- Cena 3D dos produtos (three.js), modelados com formas simples. Renderizar: node render-3d.js → produtos-3d.png (transparente). -->
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"/three/build/three.module.js","three/addons/":"/three/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+
+const W=1080,H=1350;
+const r=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});
+r.setSize(W,H);r.setPixelRatio(2);r.setClearColor(0,0);r.shadowMap.enabled=true;r.shadowMap.type=THREE.PCFSoftShadowMap;r.toneMapping=THREE.NoToneMapping;
+document.body.appendChild(r.domElement);
+const cena=new THREE.Scene();
+cena.environment=new THREE.PMREMGenerator(r).fromScene(new RoomEnvironment(),.04).texture;cena.environmentIntensity=.22;
+// câmera: olha de cima (~10°); DESLOC empurra o conjunto para a parte de baixo do card
+const DIST=1380,ANG=11*Math.PI/180,DESLOC=300,cam=new THREE.PerspectiveCamera(22,W/H,100,6000);
+cam.position.set(0,60+DIST*Math.sin(ANG),DIST*Math.cos(ANG));cam.lookAt(0,60,0);cam.setViewOffset(W,H,0,-DESLOC,W,H);
+const sol=new THREE.DirectionalLight(0xffffff,2.6);sol.position.set(-500,900,800);sol.castShadow=true;
+Object.assign(sol.shadow.camera,{left:-420,right:420,top:420,bottom:-420,near:100,far:3000});sol.shadow.mapSize.set(4096,4096);sol.shadow.radius=8;sol.shadow.bias=-.0004;cena.add(sol);
+const contra=new THREE.PointLight(0xffd302,1.2,0,0);contra.position.set(500,300,-300);cena.add(contra);
+cena.add(new THREE.AmbientLight(0xffffff,.8));
+
+// ---------- materiais e ajudantes
+const mat=(cor,o={})=>new THREE.MeshPhysicalMaterial({color:cor,roughness:.5,metalness:0,specularIntensity:.5,clearcoat:.25,clearcoatRoughness:.35,...o});
+const BRANCO=mat(0xE4E4E2),PRETO=mat(0x151515,{roughness:.35}),CINZA=mat(0x6E7074),GRAFITE=mat(0x2B2C30),
+  CROMO=mat(0xC9CBCF,{metalness:.9,roughness:.25}),VERM=mat(0xE32015),ROSA=mat(0xD81B72),OURO=mat(0xC9A24A,{metalness:.8,roughness:.3}),
+  VIDRO=mat(0xBFD6E6,{transparent:true,opacity:.32,roughness:.1,side:THREE.DoubleSide,depthWrite:false}),
+  VIDROESC=mat(0x0B0D10,{roughness:.08,clearcoat:1,clearcoatRoughness:.05,specularIntensity:1}),AMARELO=mat(0xFFD302,{roughness:.55});
+const m=(geo,ma,x=0,y=0,z=0)=>{const o=new THREE.Mesh(geo,ma);o.position.set(x,y,z);o.castShadow=o.receiveShadow=true;return o;};
+const caixa=(w,h,d,ma,x,y,z,rr=1)=>m(new RoundedBoxGeometry(w,h,d,4,Math.min(rr,w/2-.01,h/2-.01,d/2-.01)),ma,x,y,z);
+const cil=(r1,r2,h,ma,x,y,z,seg=40)=>m(new THREE.CylinderGeometry(r1,r2,h,seg),ma,x,y,z);
+const grupo=(x,z,ry=0,s=1,...f)=>{const g=new THREE.Group();g.add(...f);g.position.set(x,0,z);g.rotation.y=ry;g.scale.setScalar(s);cena.add(g);return g;};
+
+// ---------- telas das TVs (textura desenhada em canvas)
+const tela=(logo)=>{const c=document.createElement('canvas');c.width=1024;c.height=576;const x=c.getContext('2d');
+  const g=x.createLinearGradient(0,0,1024,576);g.addColorStop(0,'#1a0502');g.addColorStop(1,'#050100');x.fillStyle=g;x.fillRect(0,0,1024,576);
+  [['#FF291E',.95,60],['#FF7A1A',.9,130],['#FFD302',.95,200]].forEach(([cor,a,o],i)=>{x.globalAlpha=a;x.strokeStyle=cor;x.lineWidth=70-i*14;x.lineCap='round';x.beginPath();
+    x.moveTo(-60,520-o*.4);x.bezierCurveTo(300,620-o,520,-80+o,1090,240-o*.9);x.stroke();});x.globalAlpha=1;
+  if(logo){const h=300,w=h*logo.width/logo.height;x.shadowColor='rgba(0,0,0,.7)';x.shadowBlur=40;x.drawImage(logo,512-w/2,288-h/2,w,h);}
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;return new THREE.MeshBasicMaterial({map:t,toneMapped:false});};
+
+// ---------- produtos (medidas em cm; origem no chão)
+const tv=(w,h,telaMat)=>{const g=[caixa(w,h,3.5,PRETO,0,h/2+6,0,.8),m(new THREE.PlaneGeometry(w-2.4,h-2.4),telaMat,0,h/2+6,1.8)];g[1].castShadow=false;
+  for(const s of[-1,1]){const pe=caixa(2,7,16,GRAFITE,s*w*.32,3,0,.6);g.push(pe);}return g;};
+const fogao=()=>{const g=[caixa(50,78,54,BRANCO,0,41,0,2),caixa(50.4,2.4,54.4,PRETO,0,81,0,.8),
+    caixa(41,33,1,VIDROESC,0,36,27.2,1),caixa(38,8,.8,GRAFITE,0,10,27.2,.4),caixa(47,9,1,mat(0xCFCFCD),0,69,27.2,.5)];
+  const pux=cil(1.1,1.1,40,CROMO,0,57,29.6);pux.rotation.z=Math.PI/2;g.push(pux);
+  for(let i=0;i<5;i++){const b=cil(2.3,2.3,2.4,PRETO,-18+i*9,69,28.6);b.rotation.x=Math.PI/2;g.push(b);}
+  for(const[x,z]of[[-12,-12],[12,-12],[-12,12],[12,12]]){g.push(cil(5.2,5.8,1.6,GRAFITE,x,83,z),cil(2.6,2.6,2.2,CINZA,x,83.4,z));
+    const gr=m(new THREE.TorusGeometry(8,.7,8,4),PRETO,x,84.3,z);gr.rotation.set(Math.PI/2,0,Math.PI/4);g.push(gr);}
+  const tampa=caixa(49,44,.8,VIDRO,0,104,-27,.3);tampa.rotation.x=-.12;tampa.castShadow=false;g.push(tampa);
+  for(const[x,z]of[[-21,-23],[21,-23],[-21,23],[21,23]])g.push(cil(1.6,1.3,3,PRETO,x,1.5,z));return g;};
+const tanquinho=()=>{const AZUL=mat(0x2E6FB8,{transparent:true,opacity:.55,roughness:.15,depthWrite:false});
+  const g=[caixa(54,78,50,BRANCO,0,42,0,7),caixa(55.5,7,51.5,mat(0xD2D4D8),0,79,0,3),caixa(47,4.5,43,AZUL,0,84.5,-1,2),
+    caixa(34,11,1.2,mat(0x1F3F73),0,66,25.2,1.5)];g[2].castShadow=false;
+  const bot=cil(3.6,3.6,3,BRANCO,-8,66,26.6);bot.rotation.x=Math.PI/2;g.push(bot);const ind=caixa(.8,3.2,.6,VERM,-8,67.2,28.3,.2);g.push(ind);
+  g.push(caixa(9,3,.6,AMARELO,8,66,26,.3));
+  for(let i=0;i<3;i++)g.push(caixa(40,.9,.6,mat(0xC4C6CA),0,26+i*9,25.3,.2));
+  const mang=m(new THREE.TorusGeometry(13,1.5,10,40,Math.PI*1.2),CINZA,27.5,40,0);mang.rotation.y=Math.PI/2;g.push(mang);
+  for(const[x,z]of[[-21,-19],[21,-19],[-21,19],[21,19]])g.push(cil(2.4,2,3,GRAFITE,x,1.5,z));return g;};
+const ventilador=(alt,cor=PRETO)=>{const g=[cil(19,21,2.6,cor,0,1.3,0,60),cil(5,7,4,cor,0,4,0),cil(1.7,1.7,alt-6,CROMO,0,alt/2+2,0),cil(2.6,2.6,alt*.35,cor,0,alt*.2+4,0)];
+  const cab=new THREE.Group();cab.position.set(0,alt,4);cab.rotation.x=-.12;
+  const motor=cil(6.5,5,13,cor,0,0,-8);motor.rotation.x=Math.PI/2;cab.add(motor);
+  const R=25,fio=mat(0xB9BBBF,{metalness:.8,roughness:.3});
+  for(const s of[1,-1]){cab.add(m(new THREE.TorusGeometry(R,.75,8,80),fio,0,0,s*.6));
+    for(const rr of[8,16.5]){cab.add(m(new THREE.TorusGeometry(rr,.28,6,60),fio,0,0,s*(6-rr*.2)));}
+    for(let i=0;i<44;i++){const a=i/44*Math.PI*2,L=Math.hypot(R-3,5.2),ra=m(new THREE.CylinderGeometry(.22,.22,L,5),fio);
+      ra.castShadow=false;const piv=new THREE.Group();piv.rotation.z=a;ra.position.set(0,3+(R-3)/2,s*(6-2.6));ra.rotation.x=s*Math.atan2(5.2,R-3);piv.add(ra);cab.add(piv);}
+    cab.add(m(new THREE.CylinderGeometry(3.4,3.4,.8,30).rotateX(Math.PI/2),s>0?VERM:cor,0,0,s*6));}
+  const PA=mat(0x7FA9C9,{transparent:true,opacity:.8,roughness:.25});
+  for(let i=0;i<3;i++){const piv=new THREE.Group();piv.rotation.z=i*Math.PI*2/3+.4;const pa=m(new THREE.SphereGeometry(1,24,12),PA,0,12.5,1);pa.scale.set(6.5,10.5,.35);pa.rotation.y=.45;piv.add(pa);cab.add(piv);}
+  cab.add(m(new THREE.CylinderGeometry(3,3,5,24).rotateX(Math.PI/2),cor,0,0,1));g.push(cab);return g;};
+const liquidificador=()=>{const g=[cil(8.5,11,13,VERM,0,6.5,0),cil(8.7,8.7,1.6,CROMO,0,13.6,0)];
+  const bt=cil(2.6,2.6,1.4,PRETO,0,6.5,10);bt.rotation.x=Math.PI/2+.19;g.push(bt);
+  const perfil=[[6.6,0],[7,.6],[10,25],[10.3,25.6]].map(p=>new THREE.Vector2(...p));const copo=m(new THREE.LatheGeometry(perfil,48),VIDRO,0,14.4,0);copo.castShadow=false;g.push(copo);
+  const suco=m(new THREE.LatheGeometry([[0,0],[6.3,0],[8.2,15],[0,15]].map(p=>new THREE.Vector2(...p)),48),mat(0xFF9A1F,{roughness:.3}),0,15,0);suco.castShadow=false;g.push(suco);
+  g.push(cil(10.6,10.4,2.4,PRETO,0,41,0),cil(3.2,3.6,2.2,PRETO,0,43,0));
+  const alca=m(new THREE.TorusGeometry(8,1.3,10,30,Math.PI),PRETO,10,28,0);alca.rotation.z=-Math.PI/2;g.push(alca);return g;};
+const secador=(cor)=>{const g=[];const corpo=cil(5.6,5.2,15,cor,0,24,0);corpo.rotation.z=Math.PI/2;g.push(corpo);
+  const tras=m(new THREE.SphereGeometry(5.6,30,16,0,Math.PI*2,0,Math.PI/2),cor,7.5,24,0);tras.rotation.z=-Math.PI/2;tras.scale.y=.5;g.push(tras);
+  const grade=cil(4.2,4.2,.5,GRAFITE,10.2,24,0);grade.rotation.z=Math.PI/2;g.push(grade);
+  const bico=cil(4.9,3.9,7,PRETO,-11,24,0);bico.rotation.z=Math.PI/2;bico.scale.z=.8;g.push(bico);
+  const anel=cil(5.5,5.5,1.2,OURO,-7.4,24,0);anel.rotation.z=Math.PI/2;g.push(anel);
+  const cabo=caixa(4.4,20,4.8,cor,3.2,10,0,2);cabo.rotation.z=-.16;g.push(cabo);
+  g.push(caixa(.8,5,2,PRETO,.9,13,0,.3),cil(1,1.4,3,PRETO,4.9,0,0));return g;};
+const prancha=(cor)=>{const g=[];for(const s of[-1,1]){const br=new THREE.Group();br.rotation.z=s*.1;
+    br.add(caixa(1.7,27,3.4,cor,s*.95,14.5,0,.8),caixa(.5,10.5,2.6,OURO,s*.05,21,0,.1));g.push(br);}
+  g.push(caixa(3.2,4,3.6,cor,0,2.6,0,1.2),cil(.6,.9,2.4,PRETO,0,0,0));return g;};
+
+// ---------- montagem
+new THREE.ImageLoader().load('/clientes/itamar-supermercado/identidade/logo-itamar-3d-transparente.png',logo=>{
+  // palco amarelo + degraus do fundo
+  const palco=cil(222,222,9,[mat(0xD41A0F),AMARELO,AMARELO],0,-4.5,8,120);palco.scale.z=.62;palco.castShadow=false;cena.add(palco);
+  cena.add(caixa(140,50,32,mat(0x1c0a03),0,25,-78,2),caixa(80,72,26,mat(0x1c0a03),150,36,-72,2));
+  grupo(0,-78,0,1,...tv(132,76,tela(logo))).position.y=50;
+  grupo(150,-72,-.22,1,...tv(84,49,tela(null))).position.y=72;
+  grupo(-172,-50,.3,1,...ventilador(134));
+  grupo(-102,6,.34,1,...fogao());
+  grupo(98,10,-.34,1,...tanquinho());
+  grupo(-136,96,.35,1.2,...ventilador(40,BRANCO));
+  grupo(-62,104,.2,1.75,...liquidificador());
+  grupo(-8,108,.35,1.9,...secador(VERM)).rotation.z=.06;
+  grupo(44,116,-.4,1.9,...secador(GRAFITE)).rotation.z=-.05;
+  grupo(100,112,.5,1.9,...prancha(ROSA));
+  grupo(140,100,-.3,1.9,...prancha(PRETO)).rotation.z=-.08;
+  r.render(cena,cam);window.pronto=true;
+});
+</script>

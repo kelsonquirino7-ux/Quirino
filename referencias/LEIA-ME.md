@@ -4,10 +4,10 @@ Moodboard enviado pelo dono em 2026-11-11 (218 imagens + lista de 20 ferramentas
 **Leia antes de criar qualquer peça ou vídeo da própria Quirino.** Para cliente, vale só a
 *técnica* (ritmo, hierarquia, animação); cor, fonte e logo continuam sendo os do cliente.
 
-- `inspiracoes/geral/` — 175 peças: cards, posts, interfaces, fundos.
-- `inspiracoes/texto-na-tela/` — 9 quadros de legenda/título em Reels de entrevista.
-- `inspiracoes/graficos-na-tela/` — 34 quadros de gráficos e cartões animados sobre vídeo.
-- `inspiracoes/pranchas/` — folhas de contato para ver tudo de uma vez pelo celular.
+- `../inspiracoes/geral/` — 175 peças: cards, posts, interfaces, fundos.
+- `../inspiracoes/texto-na-tela/` — 9 quadros de legenda/título em Reels de entrevista.
+- `../inspiracoes/graficos-na-tela/` — 34 quadros de gráficos e cartões animados sobre vídeo.
+- `../inspiracoes/pranchas/` — folhas de contato para ver tudo de uma vez pelo celular.
 - `ferramentas-video.md` — as 20 ferramentas do PDF e o que já dá para usar aqui.
 
 Referência é para estudar estilo. Não copiar layout, logo, texto nem imagem de terceiros.

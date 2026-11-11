@@ -13,6 +13,7 @@ reportar de forma curta, em português.
 - `tipografia/tipografia.md` — fontes oficiais e hierarquia.
 - `logo/` — `fontes/` (SVG editável) e `exportados/` (PNG/SVG/PDF finais).
 - `aplicacoes/` — mockups e peças (cartão, redes sociais, papelaria, fachada...).
+- `inspiracoes/` — imagens de inspiração enviadas pelo dono (`novas/` é a entrada; ver `LEIA-ME.md` da pasta).
 - `referencias/` — moodboard e referências enviadas pelo dono. **`referencias/LEIA-ME.md` resume o estilo
   desejado (escuro, vidro, brilho, número herói, texto na tela); ler antes de peças e vídeos da Quirino.**
   `referencias/ferramentas-video.md` lista as ferramentas de animação/vídeo e o que funciona neste ambiente.

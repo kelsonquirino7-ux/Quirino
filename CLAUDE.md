@@ -18,6 +18,7 @@ reportar de forma curta, em português.
   desejado (escuro, vidro, brilho, número herói, texto na tela); ler antes de peças e vídeos da Quirino.**
   `referencias/ferramentas-video.md` lista as ferramentas de animação/vídeo e o que funciona neste ambiente.
 - `aplicacoes/video/` — vinhetas finais (16:9, 9:16, 1:1), marca-d'água e crédito "PRODUÇÃO quirino".
+- `projetos/` — trabalhos da própria Quirino (testes, peças da marca), um por pasta `AAAA-MM-DD-nome/`.
 - `clientes/<cliente>/` — `brief.md`, `identidade/` (arquivos do cliente) e `entregas/`.
 
 ## Logo aprovado

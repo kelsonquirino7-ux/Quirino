@@ -13,7 +13,9 @@ reportar de forma curta, em português.
 - `tipografia/tipografia.md` — fontes oficiais e hierarquia.
 - `logo/` — `fontes/` (SVG editável) e `exportados/` (PNG/SVG/PDF finais).
 - `aplicacoes/` — mockups e peças (cartão, redes sociais, papelaria, fachada...).
-- `referencias/` — moodboard e referências enviadas pelo dono.
+- `referencias/` — moodboard e referências enviadas pelo dono. **`referencias/LEIA-ME.md` resume o estilo
+  desejado (escuro, vidro, brilho, número herói, texto na tela); ler antes de peças e vídeos da Quirino.**
+  `referencias/ferramentas-video.md` lista as ferramentas de animação/vídeo e o que funciona neste ambiente.
 - `aplicacoes/video/` — vinhetas finais (16:9, 9:16, 1:1), marca-d'água e crédito "PRODUÇÃO quirino".
 - `clientes/<cliente>/` — `brief.md`, `identidade/` (arquivos do cliente) e `entregas/`.
 

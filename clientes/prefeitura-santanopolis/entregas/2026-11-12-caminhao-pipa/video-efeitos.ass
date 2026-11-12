@@ -7,10 +7,10 @@ ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Titulo,Exo 2 ExtraBold,92,&H00FFFFFF,&H00FFFFFF,&H20201000,&H40000000,0,0,0,0,100,100,7,0,1,4,6,5,40,40,0,1
-Style: Sub,Exo 2 Medium,54,&H00FFFFFF,&H00FFFFFF,&H20201000,&H40000000,0,0,0,0,100,100,9,0,1,3,4,5,40,40,0,1
+Style: Titulo,Exo 2 ExtraBold,92,&H00FFFFFF,&H00FFFFFF,&H20201000,&H40000000,0,0,0,0,100,100,7,0,1,1.5,4,5,40,40,0,1
+Style: Sub,Exo 2 Medium,54,&H00FFFFFF,&H00FFFFFF,&H20201000,&H40000000,0,0,0,0,100,100,9,0,1,1.2,3,5,40,40,0,1
 Style: Linha,Exo 2 Medium,20,&H00FFFFFF,&H00FFFFFF,&H5A000000,&H78000000,0,0,0,0,100,100,0,0,1,0,2,5,0,0,0,1
-Style: Fala,Inter SemiBold,58,&H00FFFFFF,&H00FFFFFF,&H00000000,&HA0000000,0,0,0,0,100,100,0,0,1,4,3,5,60,60,0,1
+Style: Fala,Inter SemiBold,58,&H00FFFFFF,&H00FFFFFF,&H00000000,&HA0000000,0,0,0,0,100,100,0,0,1,2,2,5,60,60,0,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text

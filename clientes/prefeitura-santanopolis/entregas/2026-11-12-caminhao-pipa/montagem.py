@@ -5,19 +5,19 @@ Cada linha: take, início no bruto (s), duração em batidas, velocidade, zoom (
 import subprocess, sys
 B = 2 / 3  # uma batida a 90 bpm
 CORTES = [
-    ("3428", 0.3, 4, 1.0, 0.07),   # seca: árvores sem folha ao pôr do sol
-    ("3419", 1.0, 4, 1.0, 0.08),   # balde vazio
-    ("3409", 2.6, 6, 1.25, 0.0),   # caminhão chegando pela estrada
-    ("3410", 0.8, 3, 1.0, 0.05),   # passando pela cerca
-    ("3417", 0.6, 3, 1.0, 0.0),    # lateral do caminhão
-    ("3411", 3.0, 4, 1.0, 0.04),   # motorista desce
-    ("3413", 1.0, 4, 1.0, 0.06),   # mãos na mangueira
+    ("3428", 0.3, 4, 1.0, 0.07),   # sol: Santanópolis, data
+    ("3419", 1.0, 4, 1.0, 0.08),   # balde vazio: quando a água falta
+    ("3420", 1.3, 3, 1.0, 0.0),    # cachorro: todos sofrem
+    ("3409", 2.6, 5, 1.5, 0.0),    # caminhão chegando: mas jamais soltaremos...
+    ("3410", 0.8, 2, 1.0, 0.05),   # passando pela cerca
+    ("3417", 0.8, 2, 1.0, 0.0),    # lateral do caminhão
+    ("3411", 3.0, 4, 1.0, 0.04),   # motorista desce: vamos levar água
+    ("3413", 1.0, 4, 1.0, 0.06),   # mangueira: para todos que precisam
     ("3414", 1.6, 4, 1.0, 0.06),   # registro abrindo
-    ("3416", 0.2, 5, 1.0, -0.10),  # ÁGUA (virada da música)
+    ("3416", 0.2, 5, 1.0, -0.10),  # água (virada da música)
     ("3422", 0.3, 4, 1.0, 0.06),   # água caindo na cisterna
-    ("3426", 5.6, 6, 1.0, 0.05),   # balde cheio subindo
-    ("3420", 1.3, 3, 1.0, 0.0),    # cachorro
-    ("3425", 0.0, 7, 1.0, 0.0),    # depoimento (áudio original)
+    ("3426", 5.6, 6, 1.0, 0.05),   # balde cheio: água é direito de todos
+    ("3425", 0.0, 7, 1.0, 0.0),    # depoimento (áudio original + legenda)
     ("3427", 0.0, 5, 1.0, 0.06),   # aceno
 ]
 pasta, saida = sys.argv[1], sys.argv[2]

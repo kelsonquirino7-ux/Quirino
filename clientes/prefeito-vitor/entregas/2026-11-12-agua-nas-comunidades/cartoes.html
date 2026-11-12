@@ -1,47 +1,161 @@
 <!doctype html><meta charset="utf-8">
 <link rel="stylesheet" href="../../../../ferramentas/fontes.css">
-<!-- Cartões de tela do Reels "Água nas comunidades". Cada [data-cartao] vira um PNG transparente
-     em cartoes/ (node cartoes.js). Sem fundo: texto solto com contorno. Cores só do brief: #0AA514, #015927 e branco. -->
+<!-- Cartões ANIMADOS do Reels "Água nas comunidades" (estilo painel tecnológico/institucional, sem fundo).
+     Cada .card é desenhado quadro a quadro por cartoes.js chamando draw(nome, t, duração, marcas).
+     Animação por atributo: data-a="tipo,início,duração"  (início aceita m0, m1... = momento da fala)
+       up/left/fade/pop · w (linha se desenha) · count (contador até data-to) · pulse (anel pulsando) · on (acende)
+     Cores só do brief: #0AA514, #015927 e branco. A marca-d'água do canto é cartoes/marca.png (estática). -->
 <style>
 *{margin:0;box-sizing:border-box}
 body{background:transparent;font-family:Montserrat,sans-serif;color:#fff;width:1080px}
-.w{display:inline-block;padding:44px}
-.c{width:900px;padding:30px 40px;-webkit-text-stroke:10px rgba(0,0,0,.72);paint-order:stroke fill;
-   text-shadow:0 6px 18px rgba(0,0,0,.75),0 0 34px rgba(0,0,0,.6)}
-.i{font-family:"Playfair Display",serif;font-style:italic;font-weight:700;color:#fff}
-.r{font-weight:800;font-size:34px;letter-spacing:.1em;text-transform:uppercase;color:#fff;-webkit-text-stroke-width:8px}
-.n{font-weight:900;font-size:240px;line-height:.9;color:#0AA514;-webkit-text-stroke:14px #fff;text-shadow:0 8px 22px rgba(0,0,0,.8)}
-.cen{text-align:center}
-.titulo .a{font-weight:900;font-size:82px;line-height:1}.titulo .i{font-size:104px;line-height:1.05}
-.num{display:flex;align-items:center;justify-content:center;gap:36px}.num .t{font-weight:900;font-size:60px;line-height:1.05;white-space:nowrap}.num .i{font-size:50px;display:block;margin-top:10px}
-.lista .i{font-size:72px;margin-bottom:14px}.lista .g{display:grid;grid-template-columns:1fr 1fr;column-gap:20px}.lista .it{font-size:46px;white-space:nowrap}
-.it{display:flex;align-items:center;gap:22px;font-weight:800;font-size:50px;padding:9px 0;opacity:0}
-.it b{width:48px;height:48px;border-radius:50%;border:4px solid #fff;flex:none}
-.it.on{opacity:1}.it.on b{background:#0AA514;border-color:#0AA514;border-color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.7);position:relative}
-.it.on b:after{content:"";position:absolute;left:13px;top:6px;width:11px;height:20px;border:solid #fff;border-width:0 5px 5px 0;transform:rotate(45deg)}
-.seg .a{font-weight:800;font-size:46px}.seg .i{font-size:112px;line-height:1.1}.seg .r{margin-top:16px;font-size:30px}
-.rota .r{margin-bottom:22px;font-size:30px}
-.rota .it{font-size:54px;padding:14px 0;position:relative}
-.rota .it+.it:before{content:"";position:absolute;left:21px;top:-20px;width:6px;height:40px;background:#fff;box-shadow:0 0 8px #000}
-.final{width:900px;border-radius:56px;padding:70px 60px 64px;background:#fff;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 70px rgba(10,165,20,.75)}
-.final img{width:740px}.final div{font-weight:800;font-size:60px;color:#015927;margin-top:26px}
-.marca img{width:250px;filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 3px #fff) drop-shadow(0 0 10px rgba(255,255,255,.9))}
+.card{position:relative;width:1000px;margin:0 40px 60px;filter:drop-shadow(0 3px 3px rgba(0,0,0,.85)) drop-shadow(0 0 16px rgba(0,0,0,.5))}
+.tx{-webkit-text-stroke:8px rgba(0,0,0,.6);paint-order:stroke fill}
+.lb{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:30px;letter-spacing:.2em;text-transform:uppercase}
+.it{font-family:"Playfair Display",serif;font-style:italic;font-weight:700}
+.ln{height:6px;background:#0AA514;border-radius:3px;box-shadow:0 0 14px #0AA514;transform-origin:left}
+.cn{position:absolute;width:46px;height:46px;border:6px solid #fff}
+.cn.a1{left:0;top:0;border-right:0;border-bottom:0}.cn.a2{right:0;top:0;border-left:0;border-bottom:0}
+.cn.a3{left:0;bottom:0;border-right:0;border-top:0}.cn.a4{right:0;bottom:0;border-left:0;border-top:0}
+.dot{position:relative;width:26px;height:26px;border-radius:50%;background:#0AA514;border:4px solid #fff;flex:none}
+.ring{position:absolute;inset:-4px;border-radius:50%;border:4px solid #0AA514}
+.num{font-weight:900;color:#0AA514;-webkit-text-stroke:14px #fff;paint-order:stroke fill;line-height:.9;font-variant-numeric:tabular-nums}
+.row{display:flex;align-items:center}
+
+#titulo{height:360px;padding:44px 0;text-align:center}
+#titulo .t1{font-weight:900;font-size:86px;line-height:1}#titulo .t2{font-size:118px;line-height:1.05}
+#titulo .ln{width:520px;margin:18px auto 0;transform-origin:center}
+
+#pipa{height:400px;padding:30px 50px}
+#pipa .num{font-size:270px;width:210px;text-align:center}
+#pipa .t1{font-weight:900;font-size:68px;line-height:1;white-space:nowrap}
+#pipa svg{width:120px;height:74px;margin-right:14px;opacity:.35}#pipa svg.on{opacity:1}
+#pipa svg .f{fill:#fff}#pipa svg.on .f{fill:#0AA514;stroke:#fff;stroke-width:3}
+
+#lista{height:450px;padding:26px 50px}
+#lista .hd{gap:22px;margin-bottom:18px}#lista .hd .ln{flex:1}
+#lista .gr{display:grid;grid-template-columns:1fr 1fr;gap:14px 24px}
+#lista .i{gap:18px;font-weight:800;font-size:54px;white-space:nowrap}
+#lista .pin{width:50px;height:50px;flex:none}
+
+#segunda{height:420px;padding:28px 50px;text-align:center}
+#segunda .wk{justify-content:center;gap:12px;margin:16px 0 4px}
+#segunda .d{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:30px;width:104px;padding:12px 0;border:4px solid #fff;border-radius:16px;position:relative}
+#segunda .d.on{background:#0AA514;box-shadow:0 0 22px #0AA514}
+#segunda .t2{font-size:118px;line-height:1.1}
+#segunda .ft{justify-content:center;gap:16px;margin-top:6px}#segunda .ft .lb{font-size:27px;letter-spacing:.12em}
+
+#rota{height:330px;padding:26px 0}
+#rota .lb{text-align:center}
+#rota .tr{position:absolute;left:170px;right:170px;top:128px;height:8px;background:rgba(255,255,255,.45);border-radius:4px}
+#rota .sg{position:absolute;top:128px;height:8px;width:330px;background:#0AA514;box-shadow:0 0 16px #0AA514;transform-origin:left;border-radius:4px}
+#rota .nd{position:absolute;top:104px;width:56px;height:56px;border-radius:50%;background:#0AA514;border:6px solid #fff}
+#rota .nd .ring{inset:-6px;border-width:6px}
+#rota .nm{position:absolute;top:186px;width:340px;text-align:center;font-weight:800;font-size:42px;line-height:1.08}
+
+#cestas{height:500px;padding:26px 0;text-align:center}
+#cestas .num{font-size:250px}
+#cestas .t1{font-weight:900;font-size:76px;margin-top:10px}
+#cestas .t2{font-size:52px;margin-top:4px}
+#cestas .ln{width:440px;margin:16px auto 0;transform-origin:center}
+
+#final{width:1080px;height:1920px;margin:0;filter:none;overflow:hidden;background:linear-gradient(160deg,#FFFFFF 38%,#DDF5E0 78%,#BFEBC5)}
+#final .gl{position:absolute;left:50%;top:50%;width:1500px;height:1500px;margin:-750px;border-radius:50%;background:radial-gradient(closest-side,rgba(10,165,20,.22),rgba(10,165,20,0))}
+#final .bd{position:absolute;left:-200px;width:1500px;height:150px;transform-origin:left;background:linear-gradient(90deg,#0AA514,#015927)}
+#final .b1{top:-40px;transform:rotate(-8deg)}#final .b2{bottom:-40px;transform:rotate(-8deg)}
+#final img{position:absolute;left:120px;top:714px;width:840px}
+#final .ln{position:absolute;left:340px;top:1250px;width:400px;transform-origin:center}
 </style>
 
-<div class="w" data-cartao="titulo"><div class="c titulo cen"><div class="a">Água nas</div><div class="i">comunidades</div></div></div>
+<div class="card" id="titulo">
+  <i class="cn a1" data-a="fade,0,.3"></i><i class="cn a2" data-a="fade,0,.3"></i><i class="cn a3" data-a="fade,0,.3"></i><i class="cn a4" data-a="fade,0,.3"></i>
+  <div class="t1 tx" data-a="up,.12,.4">Água nas</div>
+  <div class="t2 it tx" data-a="up,.3,.45">comunidades</div>
+  <div class="ln" data-a="w,.5,.5"></div>
+</div>
 
-<div class="w" data-cartao="pipa"><div class="c num"><div class="n">4</div><div><div class="t">caminhões-pipa</div><span class="i">já em andamento</span></div></div></div>
+<div class="card" id="pipa">
+  <div class="row" style="gap:34px;justify-content:center">
+    <div class="num" data-a="count,.05,.55" data-to="4">0</div>
+    <div>
+      <div class="t1 tx" data-a="left,.2,.4">caminhões-pipa</div>
+      <div class="row" style="margin-top:20px">
+        <svg viewBox="0 0 104 64" data-a="on,.25,.1"><rect class="f" x="2" y="8" width="64" height="34" rx="16"/><path class="f" d="M70 18h18l12 14v14H70z"/><circle class="f" cx="22" cy="52" r="10"/><circle class="f" cx="84" cy="52" r="10"/></svg>
+        <svg viewBox="0 0 104 64" data-a="on,.38,.1"><rect class="f" x="2" y="8" width="64" height="34" rx="16"/><path class="f" d="M70 18h18l12 14v14H70z"/><circle class="f" cx="22" cy="52" r="10"/><circle class="f" cx="84" cy="52" r="10"/></svg>
+        <svg viewBox="0 0 104 64" data-a="on,.51,.1"><rect class="f" x="2" y="8" width="64" height="34" rx="16"/><path class="f" d="M70 18h18l12 14v14H70z"/><circle class="f" cx="22" cy="52" r="10"/><circle class="f" cx="84" cy="52" r="10"/></svg>
+        <svg viewBox="0 0 104 64" data-a="on,.64,.1"><rect class="f" x="2" y="8" width="64" height="34" rx="16"/><path class="f" d="M70 18h18l12 14v14H70z"/><circle class="f" cx="22" cy="52" r="10"/><circle class="f" cx="84" cy="52" r="10"/></svg>
+      </div>
+      <div class="row" style="gap:16px;margin-top:22px" data-a="fade,.8,.3"><span class="dot"><i class="ring" data-a="pulse,.8,1"></i></span><span class="lb tx">já em andamento</span></div>
+    </div>
+  </div>
+</div>
 
-<div class="w" data-cartao="lista" data-estados="5"><div class="c lista"><div class="i">Prioridades</div>
-<div class="g"><div class="it"><b></b>Pinheiro</div><div class="it"><b></b>Canto Escuro</div><div class="it"><b></b>Candeias</div><div class="it"><b></b>Junquinho</div><div class="it"><b></b>Alto</div></div></div></div>
+<div class="card" id="lista">
+  <div class="row hd"><span class="lb tx" data-a="left,0,.3">Prioridades</span><div class="ln" data-a="w,.1,.5"></div></div>
+  <div class="gr">
+    <div class="row i tx" data-a="left,m0,.3"><svg class="pin" viewBox="0 0 50 50"><path d="M25 3c-9 0-16 7-16 16 0 12 16 28 16 28s16-16 16-28c0-9-7-16-16-16z" fill="#0AA514" stroke="#fff" stroke-width="4"/><circle cx="25" cy="19" r="6" fill="#fff"/></svg>Pinheiro</div>
+    <div class="row i tx" data-a="left,m1,.3"><svg class="pin" viewBox="0 0 50 50"><path d="M25 3c-9 0-16 7-16 16 0 12 16 28 16 28s16-16 16-28c0-9-7-16-16-16z" fill="#0AA514" stroke="#fff" stroke-width="4"/><circle cx="25" cy="19" r="6" fill="#fff"/></svg>Canto Escuro</div>
+    <div class="row i tx" data-a="left,m2,.3"><svg class="pin" viewBox="0 0 50 50"><path d="M25 3c-9 0-16 7-16 16 0 12 16 28 16 28s16-16 16-28c0-9-7-16-16-16z" fill="#0AA514" stroke="#fff" stroke-width="4"/><circle cx="25" cy="19" r="6" fill="#fff"/></svg>Candeias</div>
+    <div class="row i tx" data-a="left,m3,.3"><svg class="pin" viewBox="0 0 50 50"><path d="M25 3c-9 0-16 7-16 16 0 12 16 28 16 28s16-16 16-28c0-9-7-16-16-16z" fill="#0AA514" stroke="#fff" stroke-width="4"/><circle cx="25" cy="19" r="6" fill="#fff"/></svg>Junquinho</div>
+    <div class="row i tx" data-a="left,m4,.3"><svg class="pin" viewBox="0 0 50 50"><path d="M25 3c-9 0-16 7-16 16 0 12 16 28 16 28s16-16 16-28c0-9-7-16-16-16z" fill="#0AA514" stroke="#fff" stroke-width="4"/><circle cx="25" cy="19" r="6" fill="#fff"/></svg>Alto</div>
+  </div>
+</div>
 
-<div class="w" data-cartao="segunda"><div class="c seg cen"><div class="a">A partir de</div><div class="i">segunda-feira</div><div class="r">Escavação da rede de água · Pinheiro</div></div></div>
+<div class="card" id="segunda">
+  <div class="lb tx" data-a="fade,0,.3">A partir de</div>
+  <div class="row wk">
+    <div class="d tx" data-a="on,.45,.1">SEG<i class="ring" style="border-radius:20px;inset:-8px" data-a="pulse,.45,1"></i></div>
+    <div class="d tx" data-a="up,.10,.25">TER</div><div class="d tx" data-a="up,.15,.25">QUA</div><div class="d tx" data-a="up,.20,.25">QUI</div>
+    <div class="d tx" data-a="up,.25,.25">SEX</div><div class="d tx" data-a="up,.30,.25">SÁB</div><div class="d tx" data-a="up,.35,.25">DOM</div>
+  </div>
+  <div class="t2 it tx" data-a="up,.4,.45">segunda-feira</div>
+  <div class="row ft" data-a="fade,1.0,.4"><span class="dot"><i class="ring" data-a="pulse,1.0,1"></i></span><span class="lb tx">Escavação da rede de água · Pinheiro</span></div>
+</div>
 
-<div class="w" data-cartao="rota" data-estados="3"><div class="c rota"><div class="r">Extensão de rede de água</div>
-<div class="it"><b></b>Pinheiro</div><div class="it"><b></b>Alto do Tanque</div><div class="it"><b></b>Alto e Junquinho</div></div></div>
+<div class="card" id="rota">
+  <div class="lb tx" data-a="fade,0,.3">Extensão de rede de água</div>
+  <div class="tr" data-a="w,0,.5"></div>
+  <div class="sg" style="left:170px" data-a="w,m0+.2,1.1"></div>
+  <div class="sg" style="left:500px" data-a="w,m1+.2,1.8"></div>
+  <div class="nd" style="left:142px" data-a="pop,m0,.35"><i class="ring" data-a="pulse,m0,1"></i></div>
+  <div class="nd" style="left:472px" data-a="pop,m1,.35"><i class="ring" data-a="pulse,m1,1"></i></div>
+  <div class="nd" style="left:802px" data-a="pop,m2,.35"><i class="ring" data-a="pulse,m2,1"></i></div>
+  <div class="nm tx" style="left:0px" data-a="up,m0,.3">Pinheiro</div>
+  <div class="nm tx" style="left:330px" data-a="up,m1,.3">Alto do Tanque</div>
+  <div class="nm tx" style="left:660px" data-a="up,m2,.3">Alto e Junquinho</div>
+</div>
 
-<div class="w" data-cartao="cestas"><div class="c num" style="flex-direction:column;gap:6px;text-align:center"><div class="n">+500</div><div class="t">cestas básicas</div><span class="i">para quem realmente precisa</span></div></div>
+<div class="card" id="cestas">
+  <div class="num" data-a="count,.05,.9" data-to="500" data-pre="+">+0</div>
+  <div class="t1 tx" data-a="up,.5,.4">cestas básicas</div>
+  <div class="t2 it tx" data-a="up,.75,.4">para quem realmente precisa</div>
+  <div class="ln" data-a="w,.9,.5"></div>
+</div>
 
-<div class="w" data-cartao="final"><div class="final"><img src="../../identidade/logo-vitor-prefeito-do-povo.png"></div></div>
+<div class="card" id="final" data-sem-saida="1">
+  <div class="gl" data-a="fade,.2,.8"></div>
+  <div class="bd b1" data-a="w,.15,.6"></div><div class="bd b2" data-a="w,.25,.6"></div>
+  <img src="../../identidade/logo-vitor-prefeito-do-povo.png" data-a="pop,.3,.55">
+  <div class="ln" data-a="w,.75,.5"></div>
+</div>
 
-<div class="w marca" data-cartao="marca"><img src="../../identidade/logo-vitor-prefeito-do-povo.png"></div>
+<script>
+const cl=x=>Math.max(0,Math.min(1,x)), out=x=>1-Math.pow(1-x,3),
+      back=x=>{const c=1.9;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+function draw(nome,t,dur,marcas){
+  const card=document.getElementById(nome), fixo=card.dataset.semSaida;
+  card.style.opacity=fixo?cl(t/0.3):cl((dur-t)/0.25);
+  for(const el of card.querySelectorAll('[data-a]')){
+    let [tipo,s,d]=el.dataset.a.split(',');
+    if(s[0]=='m'){const [i,ex]=s.slice(1).split('+');s=(marcas||[])[+i]+(+ex||0)}
+    s=+s;d=+d;const p=cl((t-s)/d),e=out(p),base=el.dataset.base??(el.dataset.base=el.style.transform||getComputedStyle(el).transform.replace('none',''));
+    if(tipo=='up'){el.style.opacity=cl(p*2.5);el.style.transform=`translateY(${(1-e)*44}px)`}
+    else if(tipo=='left'){el.style.opacity=cl(p*2.5);el.style.transform=`translateX(${-(1-e)*70}px)`}
+    else if(tipo=='fade'){el.style.opacity=e}
+    else if(tipo=='pop'){el.style.opacity=p>0?1:0;el.style.transform=`scale(${p>0?back(p):0})`}
+    else if(tipo=='w'){el.style.transform=`${base} scaleX(${e})`}
+    else if(tipo=='count'){el.textContent=(el.dataset.pre||'')+Math.round(+el.dataset.to*e)}
+    else if(tipo=='on'){el.classList.toggle('on',p>0)}
+    else if(tipo=='pulse'){const f=t<s?0:((t-s)%1.1)/1.1;el.style.opacity=t<s?0:(1-f)*.9;el.style.transform=`scale(${1+f*.9})`}
+  }
+}
+</script>

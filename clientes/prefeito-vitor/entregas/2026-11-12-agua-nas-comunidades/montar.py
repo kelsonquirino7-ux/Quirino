@@ -149,40 +149,34 @@ ASS.write_text(cab + "".join(f"Dialogue: {l},{ts(i)},{ts(z)},{s},,0,0,0,,{x}\n" 
 st = lambda s: f"{int(s // 3600):02d}:{int(s // 60 % 60):02d}:{int(s % 60):02d},{int(round(s % 1 * 1000)) % 1000:03d}"
 (AQUI / "legenda.srt").write_text("".join(f"{i}\n{st(a)} --> {st(z)}\n{x}\n\n" for i, (a, z, x) in enumerate(srt, 1)), encoding="utf-8")
 
-# ---------- 4) Cartões, marca-d'água, legenda e logo final -----------------------------------
+# ---------- 4) Cartões animados, marca-d'água, legenda e logo final ---------------------------
 BAIXO, MEIO = H * 0.735, H * 0.34  # centro dos cartões sobre o Vitor / sobre cena de apoio
-# (png, início, fim, centro y, entra animado?, sai animado?)
+m = lambda ini, *ts: [round(x - ini, 3) for x in ts]  # momentos da fala relativos ao início do cartão
+# (cartão, início, fim, centro y ou None = tela cheia, marcas)
 CART = [
-    ("titulo", 0.25, 3.30, BAIXO, 1, 1),
-    ("pipa", G("2", 2.25), G("2", 4.42), MEIO, 1, 1),
-    ("lista-1", G("2", 8.95), G("2", 9.32), BAIXO, 1, 0),
-    ("lista-2", G("2", 9.32), G("2", 10.14), BAIXO, 0, 0),
-    ("lista-3", G("2", 10.14), G("2", 11.12), BAIXO, 0, 0),
-    ("lista-4", G("2", 11.12), G("2", 11.82), BAIXO, 0, 0),
-    ("lista-5", G("2", 11.82), G("2", 12.68), BAIXO, 0, 1),
-    ("segunda", G("2", 19.60), G("2", 23.45), BAIXO, 1, 1),
-    ("rota-1", G("2", 26.20), G("2", 27.60), BAIXO, 1, 0),
-    ("rota-2", G("2", 27.60), G("2", 29.80), BAIXO, 0, 0),
-    ("rota-3", G("2", 29.80), G("2", 31.22), BAIXO, 0, 1),
-    ("cestas", G("4", 6.05), G("4", 9.55), MEIO, 1, 1),
-    ("final", T_FINAL + 0.35, TOTAL, H * 0.47, 1, 0),
+    ("titulo", 0.25, 3.30, BAIXO, []),
+    ("pipa", G("2", 2.25), G("2", 4.42), MEIO, []),
+    ("lista", G("2", 8.90), G("2", 12.68), BAIXO, m(8.90, 9.12, 9.40, 10.14, 11.12, 11.82)),
+    ("segunda", G("2", 19.60), G("2", 23.45), BAIXO, []),
+    ("rota", G("2", 26.20), G("2", 31.22), BAIXO, m(26.20, 26.48, 27.62, 29.84)),
+    ("cestas", G("4", 6.05), G("4", 9.55), MEIO, []),
+    ("final", T_FINAL + 0.10, TOTAL, None, []),
 ]
+QUADROS = TMP / "quadros"
+(TMP / "tempos.json").write_text(json.dumps({n: {"dur": round(z - a, 3), "marcas": mk} for n, a, z, _, mk in CART}))
+subprocess.run(["node", str(AQUI / "cartoes.js"), str(TMP / "tempos.json"), str(QUADROS)], check=True)
 from PIL import Image  # noqa: E402
 ent = ["-i", TMP / "base.mp4", "-i", TMP / "audio.wav", "-i", AQUI / "cartoes/marca.png"]
-f = f"[2:v]format=rgba,colorchannelmixer=aa=0.92[mk];[0:v][mk]overlay={W - 338 + 14}:54:enable='lt(t,{T_FINAL:.3f})'[v0];"
+f = f"[2:v]format=rgba,colorchannelmixer=aa=0.92[mk];[0:v][mk]overlay={W - 338 + 14}:54:enable='lt(t,{T_FINAL + 0.2:.3f})'[v0];"
 ult, k = "v0", 3
-legendado = False
-for nome, a, z, cy, ein, eout in CART:
+for nome, a, z, cy, _ in CART:
     if nome == "final":  # legenda entra por baixo da logo final
-        f += f"[{ult}]ass='{ASS}':fontsdir='{RAIZ / 'ferramentas/fontes/ttf'}'[vl];"; ult = "vl"; legendado = True
-    png = AQUI / f"cartoes/{nome}.png"
-    w, h = Image.open(png).size
-    ent += ["-loop", "1", "-framerate", FPS, "-t", f"{TOTAL:.3f}", "-i", png]
-    fx = "format=rgba"
-    if ein: fx += f",fade=t=in:st={a:.3f}:d=0.25:alpha=1"
-    if eout: fx += f",fade=t=out:st={z - 0.2:.3f}:d=0.2:alpha=1"
-    y = f"{cy - h / 2:.0f}" + (f"+44*pow(1-min((t-{a:.3f})/0.28\\,1)\\,2)" if ein else "")
-    f += f"[{k}:v]{fx}[c{k}];[{ult}][c{k}]overlay={(W - w) // 2}:'{y}':enable='between(t,{a:.3f},{z:.3f})'[v{k}];"
+        f += f"[{ult}]ass='{ASS}':fontsdir='{RAIZ / 'ferramentas/fontes/ttf'}'[vl];"; ult = "vl"
+    w, h = Image.open(QUADROS / nome / "0000.png").size
+    ent += ["-framerate", FPS, "-i", QUADROS / nome / "%04d.png"]
+    x, y = ((W - w) // 2, round(cy - h / 2)) if cy else (0, 0)
+    f += (f"[{k}:v]format=rgba,setpts=PTS+{a:.3f}/TB[c{k}];"
+          f"[{ult}][c{k}]overlay={x}:{y}:eof_action=repeat:enable='between(t,{a:.3f},{z:.3f})'[v{k}];")
     ult = f"v{k}"; k += 1
 f += f"[{ult}]format=yuv420p[v]"
 run(*ent, "-filter_complex", f, "-map", "[v]", "-map", "1:a", "-t", f"{TOTAL:.3f}",

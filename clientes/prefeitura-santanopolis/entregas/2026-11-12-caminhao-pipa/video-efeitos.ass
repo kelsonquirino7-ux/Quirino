@@ -16,42 +16,34 @@ Style: Fala,Inter SemiBold,62,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 Dialogue: 0,0:00:00.60,0:00:02.70,Grande,,0,0,0,,{\an5\move(540,1151,540,1125,0,520)\fad(380,320)\fsp22\t(0,2100,\fsp9)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}SANTANÓPOLIS
 Dialogue: 1,0:00:00.60,0:00:02.70,Grande,,0,0,0,,{\an5\move(540,1151,540,1125,0,520)\fad(380,320)\fsp22\t(0,2100,\fsp9)\bord0\shad0\blur6\t(0,450,\blur0.4)}SANTANÓPOLIS
-Dialogue: 1,0:00:01.00,0:00:02.70,Traco,,0,0,0,,{\an5\pos(540,1203)\fad(250,300)\fscx0\t(0,550,\fscx100)\bord0\shad0\p1}m 0 0 l 360 0 l 360 3 l 0 3{\p0}
-Dialogue: 0,0:00:01.00,0:00:02.70,Pequena,,0,0,0,,{\an5\move(540,1294,540,1268,0,520)\fad(380,320)\fsp8\t(0,1700,\fsp5)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}12 DE NOVEMBRO DE 2026
-Dialogue: 1,0:00:01.00,0:00:02.70,Pequena,,0,0,0,,{\an5\move(540,1294,540,1268,0,520)\fad(380,320)\fsp8\t(0,1700,\fsp5)\bord0\shad0\blur6\t(0,450,\blur0.4)}12 DE NOVEMBRO DE 2026
-Dialogue: 0,0:00:02.95,0:00:05.25,Pequena,,0,0,0,,{\an5\move(540,1122,540,1096,0,520)\fad(380,320)\fsp10\t(0,2300,\fsp6)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}QUANDO A
-Dialogue: 1,0:00:02.95,0:00:05.25,Pequena,,0,0,0,,{\an5\move(540,1122,540,1096,0,520)\fad(380,320)\fsp10\t(0,2300,\fsp6)\bord0\shad0\blur6\t(0,450,\blur0.4)}QUANDO A
-Dialogue: 1,0:00:03.15,0:00:05.25,Traco,,0,0,0,,{\an5\pos(540,1154)\fad(250,300)\fscx0\t(0,550,\fscx100)\bord0\shad0\p1}m 0 0 l 120 0 l 120 3 l 0 3{\p0}
+Dialogue: 0,0:00:01.00,0:00:02.70,Pequena,,0,0,0,,{\an5\move(540,1272,540,1246,0,520)\fad(380,320)\fsp8\t(0,1700,\fsp5)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}12 DE NOVEMBRO DE 2026
+Dialogue: 1,0:00:01.00,0:00:02.70,Pequena,,0,0,0,,{\an5\move(540,1272,540,1246,0,520)\fad(380,320)\fsp8\t(0,1700,\fsp5)\bord0\shad0\blur6\t(0,450,\blur0.4)}12 DE NOVEMBRO DE 2026
+Dialogue: 0,0:00:02.95,0:00:05.25,Pequena,,0,0,0,,{\an5\move(540,1138,540,1112,0,520)\fad(380,320)\fsp10\t(0,2300,\fsp6)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}QUANDO A
+Dialogue: 1,0:00:02.95,0:00:05.25,Pequena,,0,0,0,,{\an5\move(540,1138,540,1112,0,520)\fad(380,320)\fsp10\t(0,2300,\fsp6)\bord0\shad0\blur6\t(0,450,\blur0.4)}QUANDO A
 Dialogue: 0,0:00:03.17,0:00:05.25,Grande,,0,0,0,,{\an5\move(540,1262,540,1236,0,520)\fad(380,320)\fsp12\t(0,2079,\fsp3)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}ÁGUA FALTA
 Dialogue: 1,0:00:03.17,0:00:05.25,Grande,,0,0,0,,{\an5\move(540,1262,540,1236,0,520)\fad(380,320)\fsp12\t(0,2079,\fsp3)\bord0\shad0\blur6\t(0,450,\blur0.4)}ÁGUA FALTA
-Dialogue: 0,0:00:05.65,0:00:07.25,Pequena,,0,0,0,,{\an5\move(540,1122,540,1096,0,520)\fad(380,320)\fsp10\t(0,1599,\fsp6)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}TODOS
-Dialogue: 1,0:00:05.65,0:00:07.25,Pequena,,0,0,0,,{\an5\move(540,1122,540,1096,0,520)\fad(380,320)\fsp10\t(0,1599,\fsp6)\bord0\shad0\blur6\t(0,450,\blur0.4)}TODOS
-Dialogue: 1,0:00:05.85,0:00:07.25,Traco,,0,0,0,,{\an5\pos(540,1154)\fad(250,300)\fscx0\t(0,550,\fscx100)\bord0\shad0\p1}m 0 0 l 120 0 l 120 3 l 0 3{\p0}
+Dialogue: 0,0:00:05.65,0:00:07.25,Pequena,,0,0,0,,{\an5\move(540,1138,540,1112,0,520)\fad(380,320)\fsp10\t(0,1599,\fsp6)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}TODOS
+Dialogue: 1,0:00:05.65,0:00:07.25,Pequena,,0,0,0,,{\an5\move(540,1138,540,1112,0,520)\fad(380,320)\fsp10\t(0,1599,\fsp6)\bord0\shad0\blur6\t(0,450,\blur0.4)}TODOS
 Dialogue: 0,0:00:05.87,0:00:07.25,Grande,,0,0,0,,{\an5\move(540,1262,540,1236,0,520)\fad(380,320)\fsp12\t(0,1380,\fsp3)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}SOFREM
 Dialogue: 1,0:00:05.87,0:00:07.25,Grande,,0,0,0,,{\an5\move(540,1262,540,1236,0,520)\fad(380,320)\fsp12\t(0,1380,\fsp3)\bord0\shad0\blur6\t(0,450,\blur0.4)}SOFREM
-Dialogue: 0,0:00:07.75,0:00:10.60,Pequena,,0,0,0,,{\an5\move(540,1122,540,1096,0,520)\fad(380,320)\fsp10\t(0,2849,\fsp6)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}MAS JAMAIS SOLTAREMOS
-Dialogue: 1,0:00:07.75,0:00:10.60,Pequena,,0,0,0,,{\an5\move(540,1122,540,1096,0,520)\fad(380,320)\fsp10\t(0,2849,\fsp6)\bord0\shad0\blur6\t(0,450,\blur0.4)}MAS JAMAIS SOLTAREMOS
-Dialogue: 1,0:00:07.95,0:00:10.60,Traco,,0,0,0,,{\an5\pos(540,1154)\fad(250,300)\fscx0\t(0,550,\fscx100)\bord0\shad0\p1}m 0 0 l 120 0 l 120 3 l 0 3{\p0}
+Dialogue: 0,0:00:07.75,0:00:10.60,Pequena,,0,0,0,,{\an5\move(540,1138,540,1112,0,520)\fad(380,320)\fsp10\t(0,2849,\fsp6)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}MAS JAMAIS SOLTAREMOS
+Dialogue: 1,0:00:07.75,0:00:10.60,Pequena,,0,0,0,,{\an5\move(540,1138,540,1112,0,520)\fad(380,320)\fsp10\t(0,2849,\fsp6)\bord0\shad0\blur6\t(0,450,\blur0.4)}MAS JAMAIS SOLTAREMOS
 Dialogue: 0,0:00:07.97,0:00:10.60,Grande,,0,0,0,,{\an5\move(540,1262,540,1236,0,520)\fad(380,320)\fsp12\t(0,2630,\fsp3)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}A MÃO
 Dialogue: 1,0:00:07.97,0:00:10.60,Grande,,0,0,0,,{\an5\move(540,1262,540,1236,0,520)\fad(380,320)\fsp12\t(0,2630,\fsp3)\bord0\shad0\blur6\t(0,450,\blur0.4)}A MÃO
-Dialogue: 0,0:00:10.90,0:00:13.25,Pequena,,0,0,0,,{\an5\move(540,1122,540,1096,0,520)\fad(380,320)\fsp10\t(0,2349,\fsp6)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}DO NOSSO
-Dialogue: 1,0:00:10.90,0:00:13.25,Pequena,,0,0,0,,{\an5\move(540,1122,540,1096,0,520)\fad(380,320)\fsp10\t(0,2349,\fsp6)\bord0\shad0\blur6\t(0,450,\blur0.4)}DO NOSSO
-Dialogue: 1,0:00:11.10,0:00:13.25,Traco,,0,0,0,,{\an5\pos(540,1154)\fad(250,300)\fscx0\t(0,550,\fscx100)\bord0\shad0\p1}m 0 0 l 120 0 l 120 3 l 0 3{\p0}
+Dialogue: 0,0:00:10.90,0:00:13.25,Pequena,,0,0,0,,{\an5\move(540,1138,540,1112,0,520)\fad(380,320)\fsp10\t(0,2349,\fsp6)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}DO NOSSO
+Dialogue: 1,0:00:10.90,0:00:13.25,Pequena,,0,0,0,,{\an5\move(540,1138,540,1112,0,520)\fad(380,320)\fsp10\t(0,2349,\fsp6)\bord0\shad0\blur6\t(0,450,\blur0.4)}DO NOSSO
 Dialogue: 0,0:00:11.12,0:00:13.25,Grande,,0,0,0,,{\an5\move(540,1262,540,1236,0,520)\fad(380,320)\fsp12\t(0,2129,\fsp3)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}POVO
 Dialogue: 1,0:00:11.12,0:00:13.25,Grande,,0,0,0,,{\an5\move(540,1262,540,1236,0,520)\fad(380,320)\fsp12\t(0,2129,\fsp3)\bord0\shad0\blur6\t(0,450,\blur0.4)}POVO
-Dialogue: 0,0:00:13.65,0:00:15.90,Pequena,,0,0,0,,{\an5\move(540,1122,540,1096,0,520)\fad(380,320)\fsp10\t(0,2250,\fsp6)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}VAMOS LEVAR
-Dialogue: 1,0:00:13.65,0:00:15.90,Pequena,,0,0,0,,{\an5\move(540,1122,540,1096,0,520)\fad(380,320)\fsp10\t(0,2250,\fsp6)\bord0\shad0\blur6\t(0,450,\blur0.4)}VAMOS LEVAR
-Dialogue: 1,0:00:13.85,0:00:15.90,Traco,,0,0,0,,{\an5\pos(540,1154)\fad(250,300)\fscx0\t(0,550,\fscx100)\bord0\shad0\p1}m 0 0 l 120 0 l 120 3 l 0 3{\p0}
+Dialogue: 0,0:00:13.65,0:00:15.90,Pequena,,0,0,0,,{\an5\move(540,1138,540,1112,0,520)\fad(380,320)\fsp10\t(0,2250,\fsp6)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}VAMOS LEVAR
+Dialogue: 1,0:00:13.65,0:00:15.90,Pequena,,0,0,0,,{\an5\move(540,1138,540,1112,0,520)\fad(380,320)\fsp10\t(0,2250,\fsp6)\bord0\shad0\blur6\t(0,450,\blur0.4)}VAMOS LEVAR
 Dialogue: 0,0:00:13.87,0:00:15.90,Grande,,0,0,0,,{\an5\move(540,1262,540,1236,0,520)\fad(380,320)\fsp12\t(0,2029,\fsp3)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}ÁGUA
 Dialogue: 1,0:00:13.87,0:00:15.90,Grande,,0,0,0,,{\an5\move(540,1262,540,1236,0,520)\fad(380,320)\fsp12\t(0,2029,\fsp3)\bord0\shad0\blur6\t(0,450,\blur0.4)}ÁGUA
-Dialogue: 0,0:00:16.30,0:00:18.55,Pequena,,0,0,0,,{\an5\move(540,1122,540,1096,0,520)\fad(380,320)\fsp10\t(0,2250,\fsp6)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}PARA TODOS
-Dialogue: 1,0:00:16.30,0:00:18.55,Pequena,,0,0,0,,{\an5\move(540,1122,540,1096,0,520)\fad(380,320)\fsp10\t(0,2250,\fsp6)\bord0\shad0\blur6\t(0,450,\blur0.4)}PARA TODOS
-Dialogue: 1,0:00:16.50,0:00:18.55,Traco,,0,0,0,,{\an5\pos(540,1154)\fad(250,300)\fscx0\t(0,550,\fscx100)\bord0\shad0\p1}m 0 0 l 120 0 l 120 3 l 0 3{\p0}
+Dialogue: 0,0:00:16.30,0:00:18.55,Pequena,,0,0,0,,{\an5\move(540,1138,540,1112,0,520)\fad(380,320)\fsp10\t(0,2250,\fsp6)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}PARA TODOS
+Dialogue: 1,0:00:16.30,0:00:18.55,Pequena,,0,0,0,,{\an5\move(540,1138,540,1112,0,520)\fad(380,320)\fsp10\t(0,2250,\fsp6)\bord0\shad0\blur6\t(0,450,\blur0.4)}PARA TODOS
 Dialogue: 0,0:00:16.52,0:00:18.55,Grande,,0,0,0,,{\an5\move(540,1262,540,1236,0,520)\fad(380,320)\fsp12\t(0,2030,\fsp3)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}QUE PRECISAM
 Dialogue: 1,0:00:16.52,0:00:18.55,Grande,,0,0,0,,{\an5\move(540,1262,540,1236,0,520)\fad(380,320)\fsp12\t(0,2030,\fsp3)\bord0\shad0\blur6\t(0,450,\blur0.4)}QUE PRECISAM
-Dialogue: 0,0:00:27.75,0:00:31.20,Pequena,,0,0,0,,{\an5\move(540,1122,540,1096,0,520)\fad(380,320)\fsp10\t(0,3449,\fsp6)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}ÁGUA É DIREITO
-Dialogue: 1,0:00:27.75,0:00:31.20,Pequena,,0,0,0,,{\an5\move(540,1122,540,1096,0,520)\fad(380,320)\fsp10\t(0,3449,\fsp6)\bord0\shad0\blur6\t(0,450,\blur0.4)}ÁGUA É DIREITO
-Dialogue: 1,0:00:27.95,0:00:31.20,Traco,,0,0,0,,{\an5\pos(540,1154)\fad(250,300)\fscx0\t(0,550,\fscx100)\bord0\shad0\p1}m 0 0 l 120 0 l 120 3 l 0 3{\p0}
+Dialogue: 0,0:00:27.75,0:00:31.20,Pequena,,0,0,0,,{\an5\move(540,1138,540,1112,0,520)\fad(380,320)\fsp10\t(0,3449,\fsp6)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}ÁGUA É DIREITO
+Dialogue: 1,0:00:27.75,0:00:31.20,Pequena,,0,0,0,,{\an5\move(540,1138,540,1112,0,520)\fad(380,320)\fsp10\t(0,3449,\fsp6)\bord0\shad0\blur6\t(0,450,\blur0.4)}ÁGUA É DIREITO
 Dialogue: 0,0:00:27.97,0:00:31.20,Grande,,0,0,0,,{\an5\move(540,1262,540,1236,0,520)\fad(380,320)\fsp12\t(0,3230,\fsp3)\1c&H000000&\3c&H000000&\1a&H38&\3a&H38&\bord7\blur12}DE TODOS
 Dialogue: 1,0:00:27.97,0:00:31.20,Grande,,0,0,0,,{\an5\move(540,1262,540,1236,0,520)\fad(380,320)\fsp12\t(0,3230,\fsp3)\bord0\shad0\blur6\t(0,450,\blur0.4)}DE TODOS
 Dialogue: 0,0:00:31.50,0:00:33.65,Fala,,0,0,0,,{\an5\pos(540,1530)\fad(120,120)\1c&H000000&\3c&H000000&\1a&H30&\3a&H30&\bord7\blur12}O caminhão já chegou

@@ -30,11 +30,9 @@ def traco(a, z, y, larg=300):
             f"\\bord0\\shad0\\p1}}m 0 0 l {larg} 0 l {larg} 3 l 0 3{{\\p0}}\n")
 
 ev = linha(0.6, 2.7, "SANTANÓPOLIS", 1125, "Grande", (22, 9))
-ev += traco(1.0, 2.7, 1203, 360)
-ev += linha(0.6, 2.7, "12 DE NOVEMBRO DE 2026", 1268, "Pequena", (8, 5), atraso=0.4)
+ev += linha(0.6, 2.7, "12 DE NOVEMBRO DE 2026", 1246, "Pequena", (8, 5), atraso=0.4)
 for a, z, p, g in TEXTOS:
-    ev += linha(a, z, p, 1096, "Pequena", (10, 6))
-    ev += traco(a + 0.2, z, 1154, 120)
+    ev += linha(a, z, p, 1112, "Pequena", (10, 6))
     ev += linha(a, z, g, 1236, "Grande", (12, 3), atraso=0.22)
 for a, z, txt in FALA:
     ev += f"Dialogue: 0,{t(a)},{t(z)},Fala,,0,0,0,,{{\\an5\\pos(540,{Y_FALA})\\fad(120,120)\\1c&H000000&\\3c&H000000&\\1a&H30&\\3a&H30&\\bord7\\blur12}}{txt}\n"

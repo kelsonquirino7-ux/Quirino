@@ -1,34 +1,34 @@
 <!doctype html><meta charset="utf-8">
 <link rel="stylesheet" href="../../../../ferramentas/fontes.css">
 <!-- Cartões de tela do Reels "Água nas comunidades". Cada [data-cartao] vira um PNG transparente
-     em cartoes/ (node cartoes.js). Cores só do brief: #0AA514, #015927 e branco. -->
+     em cartoes/ (node cartoes.js). Sem fundo: texto solto com contorno. Cores só do brief: #0AA514, #015927 e branco. -->
 <style>
 *{margin:0;box-sizing:border-box}
 body{background:transparent;font-family:Montserrat,sans-serif;color:#fff;width:1080px}
 .w{display:inline-block;padding:44px}
-.c{width:860px;border-radius:44px;padding:44px 52px;background:linear-gradient(180deg,rgba(1,26,12,.93),rgba(1,48,22,.93));
-   border:2px solid rgba(255,255,255,.22);box-shadow:0 18px 40px rgba(0,0,0,.45),0 0 44px rgba(10,165,20,.55),inset 0 -6px 30px rgba(10,165,20,.35)}
-.i{font-family:"Playfair Display",serif;font-style:italic;font-weight:700;color:#fff;text-shadow:0 0 26px rgba(10,165,20,.9)}
-.r{font-weight:600;font-size:34px;letter-spacing:.14em;text-transform:uppercase;color:#fff;opacity:.92}
-.n{font-weight:900;font-size:230px;line-height:.9;color:#0AA514;text-shadow:0 0 40px rgba(10,165,20,.6)}
+.c{width:900px;padding:30px 40px;-webkit-text-stroke:10px rgba(0,0,0,.72);paint-order:stroke fill;
+   text-shadow:0 6px 18px rgba(0,0,0,.75),0 0 34px rgba(0,0,0,.6)}
+.i{font-family:"Playfair Display",serif;font-style:italic;font-weight:700;color:#fff}
+.r{font-weight:800;font-size:34px;letter-spacing:.1em;text-transform:uppercase;color:#fff;-webkit-text-stroke-width:8px}
+.n{font-weight:900;font-size:240px;line-height:.9;color:#0AA514;-webkit-text-stroke:14px #fff;text-shadow:0 8px 22px rgba(0,0,0,.8)}
 .cen{text-align:center}
 .titulo .a{font-weight:900;font-size:82px;line-height:1}.titulo .i{font-size:104px;line-height:1.05}
-.num{display:flex;align-items:center;gap:36px}.num .t{font-weight:900;font-size:60px;line-height:1.05;white-space:nowrap}.num .i{font-size:50px;display:block;margin-top:10px}
-.lista .i{font-size:60px;margin-bottom:14px}.lista .g{display:grid;grid-template-columns:1fr 1fr;column-gap:20px}.lista .it{font-size:40px;white-space:nowrap}
-.it{display:flex;align-items:center;gap:22px;font-weight:800;font-size:50px;padding:9px 0;opacity:.28}
-.it b{width:44px;height:44px;border-radius:50%;border:4px solid #fff;flex:none}
-.it.on{opacity:1}.it.on b{background:#0AA514;border-color:#0AA514;box-shadow:0 0 20px rgba(10,165,20,.9);position:relative}
-.it.on b:after{content:"";position:absolute;left:12px;top:5px;width:11px;height:20px;border:solid #fff;border-width:0 5px 5px 0;transform:rotate(45deg)}
+.num{display:flex;align-items:center;justify-content:center;gap:36px}.num .t{font-weight:900;font-size:60px;line-height:1.05;white-space:nowrap}.num .i{font-size:50px;display:block;margin-top:10px}
+.lista .i{font-size:72px;margin-bottom:14px}.lista .g{display:grid;grid-template-columns:1fr 1fr;column-gap:20px}.lista .it{font-size:46px;white-space:nowrap}
+.it{display:flex;align-items:center;gap:22px;font-weight:800;font-size:50px;padding:9px 0;opacity:0}
+.it b{width:48px;height:48px;border-radius:50%;border:4px solid #fff;flex:none}
+.it.on{opacity:1}.it.on b{background:#0AA514;border-color:#0AA514;border-color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.7);position:relative}
+.it.on b:after{content:"";position:absolute;left:13px;top:6px;width:11px;height:20px;border:solid #fff;border-width:0 5px 5px 0;transform:rotate(45deg)}
 .seg .a{font-weight:800;font-size:46px}.seg .i{font-size:112px;line-height:1.1}.seg .r{margin-top:16px;font-size:30px}
 .rota .r{margin-bottom:22px;font-size:30px}
 .rota .it{font-size:54px;padding:14px 0;position:relative}
-.rota .it+.it:before{content:"";position:absolute;left:20px;top:-22px;width:4px;height:44px;background:#fff;opacity:.6}
-.final{width:900px;border-radius:56px;padding:70px 60px 56px;background:#fff;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 70px rgba(10,165,20,.75)}
+.rota .it+.it:before{content:"";position:absolute;left:21px;top:-20px;width:6px;height:40px;background:#fff;box-shadow:0 0 8px #000}
+.final{width:900px;border-radius:56px;padding:70px 60px 64px;background:#fff;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 70px rgba(10,165,20,.75)}
 .final img{width:740px}.final div{font-weight:800;font-size:60px;color:#015927;margin-top:26px}
 .marca img{width:250px;filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 3px #fff) drop-shadow(0 0 10px rgba(255,255,255,.9))}
 </style>
 
-<div class="w" data-cartao="titulo"><div class="c titulo cen"><div class="r">@prefeitovitor</div><div class="a" style="margin-top:14px">Água nas</div><div class="i">comunidades</div></div></div>
+<div class="w" data-cartao="titulo"><div class="c titulo cen"><div class="a">Água nas</div><div class="i">comunidades</div></div></div>
 
 <div class="w" data-cartao="pipa"><div class="c num"><div class="n">4</div><div><div class="t">caminhões-pipa</div><span class="i">já em andamento</span></div></div></div>
 
@@ -42,6 +42,6 @@ body{background:transparent;font-family:Montserrat,sans-serif;color:#fff;width:1
 
 <div class="w" data-cartao="cestas"><div class="c num" style="flex-direction:column;gap:6px;text-align:center"><div class="n">+500</div><div class="t">cestas básicas</div><span class="i">para quem realmente precisa</span></div></div>
 
-<div class="w" data-cartao="final"><div class="final"><img src="../../identidade/logo-vitor-prefeito-do-povo.png"><div>@prefeitovitor</div></div></div>
+<div class="w" data-cartao="final"><div class="final"><img src="../../identidade/logo-vitor-prefeito-do-povo.png"></div></div>
 
 <div class="w marca" data-cartao="marca"><img src="../../identidade/logo-vitor-prefeito-do-povo.png"></div>

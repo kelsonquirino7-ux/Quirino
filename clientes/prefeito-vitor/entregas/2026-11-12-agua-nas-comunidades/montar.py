@@ -35,18 +35,16 @@ FALAS = [("1", 0.45, 8.15), ("2", 0.55, 31.25), ("3", 0.00, 2.95), ("4", 0.30, 1
 # Por fala: (início, fim, "v" Vitor | nome do apoio, zoom ou início no apoio)
 CORTES = {
     "1": [(0.45, 3.50, "v", 1.0), (3.50, 5.20, "v", 1.14), (5.20, 8.15, "v", 1.0)],
-    "2": [(0.55, 2.20, "v", 1.0), (2.20, 4.45, "tubos-e-carro-pipa", 2.6), (4.45, 7.90, "v", 1.14),
-          (7.90, 12.70, "v", 1.0), (12.70, 15.30, "tubos", 0.5), (15.30, 17.30, "v", 1.14),
+    "2": [(0.55, 2.20, "v", 1.0), (2.20, 4.45, "tubos-e-carro-pipa", 2.6), (4.45, 7.40, "tubos-e-carro-pipa", 8.0),
+          (7.40, 8.95, "v", 1.14), (8.95, 12.70, "v", 1.0), (12.70, 15.30, "tubos", 0.5), (15.30, 17.30, "v", 1.14),
           (17.30, 20.90, "v", 1.0), (20.90, 23.50, "tubos", 3.8), (23.50, 25.60, "v", 1.14),
-          (25.60, 31.25, "v", 1.0)],
+          (25.60, 27.10, "v", 1.0), (27.10, 29.70, "tubos", 5.0), (29.70, 31.25, "v", 1.0)],
     "3": [(0.00, 2.95, "v", 1.14)],
-    "4": [(0.30, 3.45, "v", 1.0), (3.45, 6.00, "v", 1.14), (6.00, 9.60, "cesta-basica", 0.5),
-          (9.60, 14.05, "v", 1.0)],
+    "4": [(0.30, 3.45, "v", 1.0), (3.45, 4.55, "v", 1.14), (4.55, 6.00, "cesta-basica", 5.8),
+          (6.00, 9.60, "cesta-basica", 0.5), (9.60, 14.05, "v", 1.0)],
 }
-# Final: jogo de imagens (0,5 s cada) com a logo entrando por cima
-FINAL = [("tubos", 2.0), ("tubos-e-carro-pipa", 3.5), ("cesta-basica", 1.0), ("tubos-e-carro-pipa", 9.0),
-         ("tubos-e-carro-pipa", 0.5), ("cesta-basica", 5.0), ("tubos", 6.0), ("tubos-e-carro-pipa", 5.5)]
-DUR_FINAL = len(FINAL) * 0.5
+# Final: a última cena do Vitor desfoca e a logo entra por cima (as imagens de apoio ficam só durante a fala)
+DUR_FINAL = 3.0
 
 inicio = {}  # início de cada fala na linha do tempo
 t = 0.0
@@ -61,16 +59,18 @@ segs = []
 for nome, _, _ in FALAS:
     for a, z, tipo, p in CORTES[nome]:
         segs.append((BRUTOS / f"{nome}.MOV", a, q(z - a), p, 1) if tipo == "v" else (BRUTOS / f"{tipo}.MOV", p, q(z - a), 1.0, 0))
-for src, a in FINAL:
-    segs.append((BRUTOS / f"{src}.MOV", a, 0.5, 1.06, 0))
+segs.append((BRUTOS / "4.MOV", 14.05, DUR_FINAL, 1.0, 2))
 
 partes = []
-for i, (src, a, d, zoom, _) in enumerate(segs):
+for i, (src, a, d, zoom, tipo) in enumerate(segs):
     out = TMP / f"seg{i:02d}.mp4"
     partes.append(out)
     if out.exists():
         continue
     vf = (f"scale={round(W * zoom / 2) * 2}:-2,crop={W}:{H}:(iw-{W})/2:(ih-{H})*0.30,fps={FPS},setsar=1,format=yuv420p")
+    if tipo == 2:  # fundo do final: mesma cena em câmera lenta, desfocando e escurecendo
+        vf = ("setpts=1.85*PTS," + vf + ",split[s][t];[t]gblur=sigma=24,eq=brightness=-0.09,format=yuva420p,"
+              "fade=t=in:st=0:d=0.5:alpha=1[u];[s][u]overlay,format=yuv420p")
     run("-ss", f"{a:.3f}", "-i", src, "-an", "-vf", vf, "-frames:v", round(d * FPS),
         "-c:v", "libx264", "-preset", "veryfast", "-crf", "15", out)
 (TMP / "lista.txt").write_text("".join(f"file '{p}'\n" for p in partes))
@@ -165,7 +165,7 @@ CART = [
     ("rota-2", G("2", 27.60), G("2", 29.80), BAIXO, 0, 0),
     ("rota-3", G("2", 29.80), G("2", 31.22), BAIXO, 0, 1),
     ("cestas", G("4", 6.05), G("4", 9.55), MEIO, 1, 1),
-    ("final", T_FINAL + 0.55, TOTAL, H * 0.47, 1, 0),
+    ("final", T_FINAL + 0.35, TOTAL, H * 0.47, 1, 0),
 ]
 from PIL import Image  # noqa: E402
 ent = ["-i", TMP / "base.mp4", "-i", TMP / "audio.wav", "-i", AQUI / "cartoes/marca.png"]

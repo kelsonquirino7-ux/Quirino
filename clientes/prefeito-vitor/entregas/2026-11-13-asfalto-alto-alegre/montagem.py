@@ -39,6 +39,7 @@ T_VOZ5 = 21.20            # "Estrada sinalizada e asfaltada do Rumo até aqui"
 T_S7 = 25.60              # fala final
 T_VIN = 32.15             # vinheta
 T_FIM = 35.15
+VEL = 0.90   # velocidade final da fala/imagem (0.90 = 10% mais lenta; voz sem mudar o tom, boca sincronizada)
 
 # (início, fim, arquivo, ponto de entrada na fonte, velocidade, transição de entrada, zoom lento)
 PLANOS = [
@@ -586,22 +587,27 @@ def mixar():
     nm = len(falas) + 1
     cmd += ["-i", str(MIDIA / "trilha-vitoria.mp3"), "-i", str(TMP / "sfx.wav")]
     # trilha: baixa sob a fala, sobe nas viradas (máquinas, asfalto e encerramento)
+    F = 1 / VEL   # tempos da trilha na linha do tempo já desacelerada
     pts = [(0, .30), (.25, .11), (15.3, .11), (15.6, .34), (16.6, .34), (16.8, .11), (18.6, .11), (T_ASF, .50),
            (T_VOZ5 - .1, .50), (T_VOZ5 + .2, .15), (T_VOZ5 + 2.8, .15), (T_VOZ5 + 3.1, .42), (T_S7 - .1, .42),
            (T_S7 + .2, .11), (31.2, .11), (T_VIN, .46), (T_FIM - .9, .46), (T_FIM, 0)]
+    pts = [(t * F, v) for t, v in pts]
     expr = "0"
     for (t0, v0), (t1, v1) in reversed(list(zip(pts, pts[1:]))):
         expr = f"if(lt(t,{t1}),{v0}+({v1}-{v0})*(t-{t0})/{t1 - t0},{expr})"
-    fc.append(f"[{nm}:a]aresample=48000,atrim=0:{T_FIM},volume='{expr}':eval=frame[mus]")
-    fc.append(f"[{nm + 1}:a]aresample=48000,volume=0.9[sfx]")
-    fc.append(f"{''.join(nomes)}amix=inputs={len(falas)}:normalize=0,acompressor=threshold=-18dB:ratio=3:attack=5:release=120:makeup=2[voz]")
-    fc.append(f"[voz][mus][sfx]amix=inputs=3:normalize=0,alimiter=limit=0.89,apad,atrim=0:{T_FIM}[a]")
-    cmd += ["-filter_complex", ";".join(fc), "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
+    TF = T_FIM * F
+    fc.append(f"[0:v]setpts=PTS/{VEL},fps={FPS}[v]")
+    fc.append(f"[{nm}:a]aresample=48000,atrim=0:{TF:.3f},volume='{expr}':eval=frame[mus]")
+    fc.append(f"[{nm + 1}:a]aresample=48000,atempo={VEL},volume=0.9[sfx]")
+    fc.append(f"{''.join(nomes)}amix=inputs={len(falas)}:normalize=0,atempo={VEL},acompressor=threshold=-18dB:ratio=3:attack=5:release=120:makeup=2[voz]")
+    fc.append(f"[voz][mus][sfx]amix=inputs=3:normalize=0,alimiter=limit=0.89,apad,atrim=0:{TF:.3f}[a]")
+    cmd += ["-filter_complex", ";".join(fc), "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "medium", "-crf", "20",
+            "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k",
             "-ac", "2", "-movflags", "+faststart", str(SAIDA)]
     subprocess.run(cmd, check=True)
 
 def srt():
-    def ts(s): ms = round(s * 1000); return f"{ms // 3600000:02d}:{ms // 60000 % 60:02d}:{ms // 1000 % 60:02d},{ms % 1000:03d}"
+    def ts(s): ms = round(s / VEL * 1000); return f"{ms // 3600000:02d}:{ms // 60000 % 60:02d}:{ms // 1000 % 60:02d},{ms % 1000:03d}"
     (AQUI / "legenda.srt").write_text("\n".join(f"{i}\n{ts(a)} --> {ts(b)}\n{t}\n" for i, (a, b, t) in enumerate(LEGENDAS, 1)), encoding="utf-8")
 
 if __name__ == "__main__":

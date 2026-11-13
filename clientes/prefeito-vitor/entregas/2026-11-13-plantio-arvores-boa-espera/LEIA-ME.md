@@ -1,8 +1,8 @@
 # Reels — Plantio de árvores · Praça de Boa Espera (13/11/2026)
 - `video.mp4` — final 9:16, 45 s (42 s de cenas + vinheta do Vitor).
-- `lettering.html` + `render-lettering.js` → `lettering/l1..l5.png` (fonte editável do lettering, Lilita One).
-  Estilo: selo inclinado inspirado na referência enviada pelo dono, versão infantil e colorida
-  (amarelo/laranja/azul além do verde do brief, a pedido do dono).
+- `lettering.html` + `render-lettering.js` → quadros animados em `lettering/lN/` (não versionados; regenerar com `node render-lettering.js`).
+  Estilo v2: selo inclinado inspirado na referência do dono, bem infantil: letras 3D coloridas (rosa, amarelo, turquesa,
+  lima, laranja, lilás) com contorno roxo escuro, sol, estrelas, folhas e confete. Cores fora do brief a pedido do dono.
 - `montar.sh <corte.mp4>` — junta corte mudo, lettering animado, trilha e vinheta.
 - `trilha.mp3` — instrumental infantil gerado no Magnific (900 créditos, aprovado pelo dono).
 - Bruto (9 clipes .MOV 4K) fica no Drive do dono, pasta "PLANTAÇÃO DE ÁRVORE PRAÇA DE BOA ESPERA"; não está no repositório.

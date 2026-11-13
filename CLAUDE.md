@@ -78,4 +78,5 @@ deve ser salva ali com nome descritivo e commitada, para reuso.
 3. Salvar em `clientes/<cliente>/entregas/AAAA-MM-DD-nome/`: fonte (.html/.srt), final (.png/.mp4)
    e `legenda.txt` com a legenda pronta para o Instagram (texto + @ do cliente + 3–6 hashtags locais).
 4. Commit + push, e enviar o arquivo final e a legenda no chat (SendUserFile) para o dono postar.
+   O arquivo final leva o nome da peça (ex.: `plantio-de-arvores-praca-de-boa-espera.mp4`), nunca `video.mp4`.
 5. Trabalhar direto no branch padrão (`main`) quando não houver branch definido para a sessão.

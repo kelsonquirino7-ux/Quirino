@@ -1,5 +1,5 @@
 # Reels — Plantio de árvores · Praça de Boa Espera (13/11/2026)
-- `video.mp4` — final 9:16, 45 s (42 s de cenas + vinheta do Vitor).
+- `plantio-de-arvores-praca-de-boa-espera.mp4` — final 9:16, 45 s (42 s de cenas + vinheta do Vitor).
 - `lettering.html` + `render-lettering.js` → quadros animados em `lettering/lN/` (não versionados; regenerar com `node render-lettering.js`).
   Estilo v2: selo inclinado inspirado na referência do dono, bem infantil: letras 3D coloridas (rosa, amarelo, turquesa,
   lima, laranja, lilás) com contorno roxo escuro, sol, estrelas, folhas e confete. Cores fora do brief a pedido do dono.

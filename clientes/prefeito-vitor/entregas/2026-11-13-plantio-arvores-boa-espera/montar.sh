@@ -10,4 +10,4 @@ for i in 1 2 3 4 5; do a=${T[$((i-1))]}
 done
 F="$F[6:v]fps=30,format=yuv420p,fade=t=in:st=0:d=0.3[vin];[v5][vin]concat=n=2:v=1:a=0[v];[7:a]afade=t=out:st=43.5:d=1.5,atrim=0:45[a]"
 ffmpeg -v error -y -i "$CORTE" $IN -loop 1 -t 3 -i $V -i trilha.mp3 -filter_complex "$F" -map "[v]" -map "[a]" \
-  -r 30 -c:v libx264 -preset medium -crf 21 -maxrate 8M -bufsize 16M -pix_fmt yuv420p -c:a aac -b:a 192k -movflags +faststart -t 45 video.mp4
+  -r 30 -c:v libx264 -preset medium -crf 21 -maxrate 8M -bufsize 16M -pix_fmt yuv420p -c:a aac -b:a 192k -movflags +faststart -t 45 plantio-de-arvores-praca-de-boa-espera.mp4

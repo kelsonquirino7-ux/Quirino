@@ -16,4 +16,4 @@ F="$F[7:v]format=rgba[lg];[v6][lg]overlay[v7];"
 F="$F[8:v]fps=30,format=yuv420p,fade=t=in:st=0:d=0.3[vin];[v7][vin]concat=n=2:v=1:a=0[v];[9:a]afade=t=out:st=43.5:d=1.5,atrim=0:45[a]"
 ffmpeg -v error -y -i "$CORTE" $IN -loop 1 -framerate 30 -t 42 -i lettering/s1/0000.png -loop 1 -framerate 30 -t 42 -i lettering/s2/0000.png \
   -loop 1 -framerate 30 -t 42 -i lettering/lg/0000.png -loop 1 -t 3 -i vinheta-sem-arroba.png -i trilha.mp3 -filter_complex "$F" -map "[v]" -map "[a]" \
-  -r 30 -c:v libx264 -preset medium -crf 21 -maxrate 8M -bufsize 16M -pix_fmt yuv420p -c:a aac -b:a 192k -movflags +faststart -t 45 video.mp4
+  -r 30 -c:v libx264 -preset medium -crf 21 -maxrate 8M -bufsize 16M -pix_fmt yuv420p -c:a aac -b:a 192k -movflags +faststart -t 45 antes-x-agora-posto-de-saude-queimada-grande.mp4

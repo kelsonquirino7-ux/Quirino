@@ -1,5 +1,5 @@
 # Reels — Antes x Agora · Posto de Saúde Satélite da Queimada Grande (13/11/2026)
-- `video.mp4` — final 9:16, 45 s (17 s de antes + 25 s de agora + vinheta da Prefeitura sem @).
+- `antes-x-agora-posto-de-saude-queimada-grande.mp4` — final 9:16, 45 s (17 s de antes + 25 s de agora + vinheta da Prefeitura sem @).
 - `lettering.html` + `render-lettering.js` → quadros animados em `lettering/` (não versionados; regenerar com `node render-lettering.js`).
   Estilo institucional inspirado na referência enviada pelo dono (selo inclinado de caixas empilhadas), Exo 2 800,
   só cores do brief (#002F67, #1D4F8F, branco).

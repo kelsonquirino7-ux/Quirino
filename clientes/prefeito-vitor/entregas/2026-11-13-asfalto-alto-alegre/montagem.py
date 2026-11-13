@@ -111,8 +111,10 @@ class Plano:
     def __init__(s, t0, t1, src, entrada, vel, trans, zoom):
         s.t0, s.t1, s.trans, s.zoom = t0, t1, trans, zoom
         s.n = round((t1 - t0) * FPS) + 8
-        s.i = 0; s.ult = None; s.img = None; s.p = None
-        if src.startswith("IMG:"):
+        s.i = 0; s.ult = None; s.img = None; s.p = None; s.tapete = None
+        if src == "TAPETE":
+            s.tapete = Tapete()
+        elif src.startswith("IMG:"):
             s.img = np.asarray(Image.open(src[4:]).convert("RGB").resize((W, H), Image.LANCZOS))
         else:
             vf = f"setpts=PTS/{vel},fps={FPS},scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}"
@@ -121,6 +123,8 @@ class Plano:
                                    stdout=subprocess.PIPE)
 
     def quadro(s):
+        if s.tapete is not None:
+            s.i += 1; return s.tapete.quadro((s.i - 1) / FPS)
         if s.img is not None:
             return s.img
         b = s.p.stdout.read(W * H * 3)
@@ -130,6 +134,63 @@ class Plano:
 
     def fechar(s):
         if s.p: s.p.kill(); s.p.wait()
+
+class Tapete:
+    """Asfalto desenrolando como tapete (feito aqui, sem IA): um rolo escuro corre pela estrada de
+    terra real, do primeiro plano até o horizonte, e deixa a estrada pronta (midia/estrada-asfaltada.png)."""
+    YH = 1128                      # fim visível da pista (horizonte da estrada)
+    def __init__(s):
+        s.terra = np.asarray(Image.open(MIDIA / "estrada-terra-original.jpg").convert("RGB").resize((W, H), Image.LANCZOS)).astype(np.float32)
+        s.pronta = np.asarray(Image.open(MIDIA / "estrada-asfaltada.png").convert("RGB").resize((W, H), Image.LANCZOS)).astype(np.float32)
+        rng = np.random.default_rng(5)
+        s.poeira = [(rng.uniform(-1, 1), rng.uniform(0.6, 1.4), rng.uniform(0, 6.3)) for _ in range(26)]
+    def frente(s, t):              # posição y da frente do rolo
+        p = ease_out(min(1, max(0, (t - 0.15) / 2.6)) ) if t > 0.15 else 0
+        return s.YH + (H + 260 - s.YH) * (1 - p) ** 2.2, p
+    def xr(s, y):
+        return float(np.interp(y, [s.YH, s.YH + 30, 1575, 1920], [W, 700, 900, 1060]))
+    def quadro(s, t):
+        y, p = s.frente(t)
+        esc = max(0.0, (y - s.YH) / (H - s.YH))           # escala de perspectiva
+        th = 14 + 300 * esc                               # espessura do rolo
+        yi = int(min(H, max(0, y)))
+        out = s.terra.copy()
+        # tudo abaixo da base do rolo já é estrada pronta (com transição curta)
+        borda = int(6 + 30 * esc)
+        if yi < H:
+            out[yi:] = s.pronta[yi:]
+            y0 = max(0, yi - borda)
+            if yi > y0:
+                k = np.linspace(0, 1, yi - y0)[:, None, None]
+                out[y0:yi] = s.terra[y0:yi] * (1 - k) + s.pronta[y0:yi] * k
+        # no fim, o resto da paisagem (acostamento, talude) assenta na versão pronta
+        f = min(1, max(0, (t - 2.7) / 0.6))
+        if f > 0: out = out * (1 - f) + s.pronta * f
+        im = Image.fromarray(out.clip(0, 255).astype(np.uint8))
+        if p < 1 and yi > s.YH - 5:
+            d = ImageDraw.Draw(im, "RGBA")
+            x0, x1 = -40, s.xr(y) + 30 * esc
+            top = y - th
+            # sombra
+            d.rectangle((x0, y - th * 0.15, x1, y + th * 0.12), fill=(0, 0, 0, 90))
+            # corpo do rolo: faixas com sombreamento de cilindro
+            n = max(6, int(th / 3))
+            for i in range(n):
+                a = i / n; yy = top + a * th
+                c = 18 + 70 * max(0, 1 - abs(a - 0.28) / 0.28) ** 1.5 + 12 * a
+                d.rectangle((x0, yy, x1, yy + th / n + 1), fill=(int(c), int(c), int(c + 3), 255))
+            # tampa do rolo (espiral) na ponta direita
+            r = th / 2; cx, cy = x1, top + r
+            d.ellipse((cx - r * 0.42, cy - r, cx + r * 0.42, cy + r), fill=(28, 28, 30, 255), outline=(70, 70, 72, 255), width=max(1, int(r * 0.05)))
+            for k in (0.7, 0.45, 0.22):
+                d.ellipse((cx - r * 0.42 * k, cy - r * k, cx + r * 0.42 * k, cy + r * k), outline=(55, 55, 58, 255), width=max(1, int(r * 0.03)))
+            # poeira leve levantada nas pontas e atrás do rolo
+            for u, v, ph in s.poeira:
+                px = (x1 if u > 0 else 40 + 200 * esc) + u * 60 * esc
+                py = y - th * 0.1 - abs(math.sin(ph + t * 3)) * th * 0.6 * v
+                rr = (18 + 60 * esc) * v
+                d.ellipse((px - rr, py - rr * 0.6, px + rr, py + rr * 0.6), fill=(205, 180, 150, int(28 * min(1, 2 * (1 - p)))))
+        return np.asarray(im)
 
 # ───────────── efeitos de imagem ─────────────
 def ease_out(x): x = min(1, max(0, x)); return 1 - (1 - x) ** 3

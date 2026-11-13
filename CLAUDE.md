@@ -53,6 +53,10 @@ Fontes locais (licença OFL) em `ferramentas/fontes/`, declaradas em `ferramenta
   com link/preview para o celular.
 - Não abrir PR sem pedido explícito.
 
+## Vídeo de obra (skill)
+Pedido de vídeo de obra/asfalto/estrada com cenas de IA e lettering de obra: usar a skill
+`.claude/skills/video-obra/` (modelo do vídeo do asfalto Rumo–Alto Alegre).
+
 ## Como finalizar um vídeo
 `bash ferramentas/video.sh -c <cliente> -i bruto.mp4 -o clientes/<cliente>/entregas/AAAA-MM-DD-nome/video.mp4 [-f 9x16|16x9] [-l legenda.srt [-a]] [-d destaques.txt] [-z 2.5,8] [-m] [-q]`
 - Ajusta para Reels (9x16, padrão) ou YouTube (16x9) com fundo desfocado, sem cortar o vídeo.

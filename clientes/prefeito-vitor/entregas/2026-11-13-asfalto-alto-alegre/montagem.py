@@ -373,7 +373,7 @@ def legenda_img(txt):
     im = Image.new("RGBA", (W, 60 * len(linhas) + 30), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
     for i, l in enumerate(linhas):
         d.text((W / 2, 38 + 58 * i), l, font=f, fill=BRANCO + (255,), anchor="mm",
-               stroke_width=5, stroke_fill=(0, 0, 0, 255))
+               stroke_width=5, stroke_fill=ESCURO + (255,))   # borda verde do brief
     return im
 
 LET = [bloco_lettering(i) for i in LETTERING]

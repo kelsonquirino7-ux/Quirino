@@ -1,0 +1,68 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- Lettering + legenda da fala do Reels "Antes x Agora (com fala) · Posto de Saúde Satélite da Queimada Grande" (Prefeitura).
+     Cores só do brief (#002F67, #1D4F8F, #E7EEF8, branco). Cada .q é um lettering; data-dur = segundos na tela;
+     data-fixo = selo de canto (1 quadro). Quadros: node render-lettering.js -->
+<link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<style>
+:root{--az:#002F67;--az2:#1D4F8F;--cl:#E7EEF8}
+*{margin:0;box-sizing:border-box}
+html,body{background:transparent}
+body{width:1080px;font-family:"Exo 2";font-weight:800;text-transform:uppercase}
+.q{position:relative;width:1080px;height:1920px;overflow:hidden}
+.wrap{position:absolute;inset:0;animation:sai .28s cubic-bezier(.6,0,.9,.4) both;animation-delay:calc(var(--dur)*1s - .28s)}
+@keyframes sai{to{transform:translateX(-140px);opacity:0}}
+@keyframes abre{from{clip-path:inset(-40px 100% -40px -40px)}to{clip-path:inset(-40px)}}
+@keyframes sobe{from{transform:translateY(70px);opacity:0}to{transform:none;opacity:1}}
+@keyframes risca{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.bloco{position:absolute;left:64px;top:1120px;transform:rotate(-5deg) skewX(-8deg);transform-origin:left top;white-space:nowrap;line-height:1}
+.b{display:inline-block;position:relative;padding:20px 40px 22px;animation:abre .45s cubic-bezier(.2,.9,.2,1) both;animation-delay:var(--d,0s)}
+.b>span{display:inline-block;animation:sobe .4s cubic-bezier(.2,.9,.2,1) both;animation-delay:calc(var(--d,0s) + .15s)}
+.b::after{content:"";position:absolute;inset:9px;border:3px solid currentColor;opacity:.35;border-radius:10px}
+.br{background:#fff;color:var(--az);border-radius:18px;box-shadow:12px 12px 0 var(--az)}
+.ba{background:var(--az);color:#fff;border-radius:16px;box-shadow:10px 10px 0 var(--az2)}
+.bm{background:var(--az2);color:#fff;border-radius:14px;box-shadow:8px 8px 0 var(--az)}
+.l2{margin:-4px 0 0 56px}.l3{margin:-2px 0 0 110px}
+.risco{position:absolute;left:0;top:-34px;width:210px;height:14px;background:#fff;border-radius:7px;box-shadow:5px 5px 0 var(--az);transform-origin:left;animation:risca .4s cubic-bezier(.2,.9,.2,1) both;animation-delay:.1s}
+/* selo de canto */
+.selo{position:absolute;left:56px;top:210px;transform:rotate(-4deg) skewX(-8deg);font-size:58px;line-height:1;padding:14px 30px 16px;border-radius:14px}
+</style></head><body>
+<div class="q" id="l1" data-dur="3"><div class="wrap"><div class="bloco" style="top:1160px">
+  <div class="risco"></div>
+  <div class="b br" style="font-size:210px"><span>Antes</span></div><br>
+  <div class="b ba l2" style="font-size:76px;--d:.25s"><span>Escola desativada</span></div>
+</div></div></div>
+
+<div class="q" id="l2" data-dur="3.9"><div class="wrap"><div class="bloco" style="top:1090px">
+  <div class="risco"></div>
+  <div class="b bm" style="font-size:100px"><span>Agora</span></div><br>
+  <div class="b br l2" style="font-size:96px;--d:.2s;margin-left:36px"><span>Posto de Saúde</span></div><br>
+  <div class="b ba l3" style="font-size:50px;--d:.4s"><span>Satélite da Queimada Grande</span></div>
+</div></div></div>
+
+<div class="q" id="l3" data-dur="4.5"><div class="wrap"><div class="bloco" style="top:1170px">
+  <div class="risco"></div>
+  <div class="b bm" style="font-size:54px"><span>Posto de Saúde Satélite</span></div><br>
+  <div class="b br l2" style="font-size:70px;--d:.2s;margin-left:36px"><span>Reforma e ampliação</span></div>
+</div></div></div>
+
+<div class="q" id="l4" data-dur="2.4"><div class="wrap"><div class="bloco" style="top:1170px">
+  <div class="risco"></div>
+  <div class="b br" style="font-size:132px"><span>Novos ares</span></div><br>
+  <div class="b ba l2" style="font-size:66px;--d:.25s"><span>Queimada Grande</span></div>
+</div></div></div>
+
+<div class="q" id="s1" data-fixo><div class="selo br" style="box-shadow:7px 7px 0 var(--az)">Antes</div></div>
+<div class="q" id="s2" data-fixo><div class="selo ba" style="box-shadow:7px 7px 0 #fff">Agora</div></div>
+<div class="q" id="lg" data-fixo><div style="position:absolute;right:48px;top:196px;background:#002F67;border-radius:16px;padding:16px 22px;box-shadow:0 6px 18px rgba(0,0,0,.3)"><img src="../../identidade/logo-prefeitura-branco.png" style="display:block;width:300px"></div></div>
+<div class="q" id="cap" data-dur="35.4" data-clip="1430,300"><div id="capt"></div></div>
+<style>#capt{position:absolute;left:0;right:0;top:1490px;text-align:center;font-size:70px;line-height:1.5;white-space:nowrap}
+#capt span{display:inline-block;padding:2px 16px 6px;margin:0 -4px;border-radius:14px;color:#fff;-webkit-text-stroke:12px #002F67;paint-order:stroke fill}
+#capt span.v{background:#1D4F8F;-webkit-text-stroke:0;box-shadow:5px 5px 0 #002F67}</style>
+<script>const CAP=[[["Mais", 0.0, 0.22], ["investimentos", 0.22, 0.62]], [["chegando", 0.62, 0.86], ["no", 0.86, 1.0], ["nosso", 1.0, 1.14]], [["município", 1.14, 1.62]], [["Agora", 1.78, 1.88], ["é", 1.88, 2.26], ["a", 2.26, 2.34]], [["vez", 2.26, 2.56]], [["mais", 2.74, 2.94], ["uma", 2.94, 3.16], ["vez", 3.16, 3.34]], [["da", 3.68, 3.84], ["comunidade", 3.84, 4.32], ["da", 4.32, 4.42]], [["Queimada", 4.42, 4.68], ["Grande", 4.68, 4.86]], [["posto", 5.16, 5.54], ["de", 5.54, 5.62], ["saúde", 5.54, 5.68]], [["satélite", 5.68, 6.3]], [["Agradecer", 6.52, 6.96], ["e", 6.96, 7.08], ["parabenizar", 7.08, 7.5]], [["a", 7.5, 7.68], ["secretária", 7.68, 8.12], ["Dominique", 8.12, 8.52]], [["pela", 8.52, 8.6], ["atitude", 8.6, 9.14]], [["ao", 9.46, 9.6], ["vereador", 9.6, 9.96], ["Vadão", 9.96, 10.48]], [["pela", 10.48, 10.66], ["indicação", 10.66, 11.16]], [["ao", 11.46, 11.6], ["nosso", 11.6, 11.82], ["amigo", 11.82, 12.08]], [["Júnior", 12.08, 12.38], ["de", 12.38, 12.56], ["Tereza", 12.56, 13.22]], [["que", 13.34, 13.5], ["doou", 13.5, 14.16], ["vários", 14.16, 14.48]], [["materiais", 14.48, 15.14], ["para", 15.14, 15.3], ["a", 15.3, 15.52]], [["reforma", 15.52, 15.8], ["e", 15.8, 15.88], ["ampliação", 15.84, 16.64]], [["desse", 16.64, 17.0], ["posto", 17.0, 17.16], ["de", 17.16, 17.26]], [["saúde", 17.26, 17.44], ["satélite", 17.44, 17.66]], [["Então", 17.74, 17.86]], [["Júnior", 17.86, 18.08], ["de", 18.08, 18.16], ["Tereza", 18.14, 18.42]], [["muito", 18.52, 18.66], ["obrigado", 18.66, 19.54], ["por", 19.54, 19.8]], [["estar", 19.8, 20.0], ["ajudando", 20.0, 20.3], ["o", 20.3, 20.42]], [["nosso", 20.42, 20.62], ["município", 20.62, 21.1], ["a", 21.1, 21.24]], [["melhorar", 21.24, 21.58], ["cada", 21.58, 21.8], ["vez", 21.8, 22.04]], [["mais", 22.04, 22.36]], [["E", 22.56, 22.66], ["a", 22.66, 22.74], ["Queimada", 22.72, 23.06]], [["Grande", 23.06, 23.26]], [["mais", 23.34, 23.46], ["uma", 23.46, 23.56], ["vez", 23.56, 23.68]], [["sempre", 23.7, 23.84], ["contemplada", 23.84, 24.26]], [["Agradeço", 24.34, 24.62], ["também", 24.62, 25.12], ["ao", 25.12, 25.32]], [["deputado", 25.32, 25.76], ["Matheus", 25.76, 26.18], ["Ferreira", 26.18, 26.6]], [["que", 26.8, 26.88], ["vai", 26.86, 27.08], ["doar", 27.08, 27.28]], [["todos", 27.28, 27.52], ["os", 27.52, 27.72], ["equipamentos", 27.72, 28.18]], [["desse", 28.18, 28.42], ["posto", 28.42, 28.76], ["satélite", 28.76, 29.26]], [["Agradeço", 29.26, 29.6], ["a", 29.6, 29.72], ["secretária", 29.72, 30.16]], [["Roberta", 30.16, 30.72], ["Santana", 30.72, 31.4]], [["ao", 31.48, 31.58], ["nosso", 31.58, 31.72], ["governador", 31.72, 32.12]], [["Jerônimo", 32.12, 32.62]], [["por", 32.82, 32.9], ["estar", 32.86, 33.02], ["ajudando", 33.02, 33.38]], [["Santanópolis", 33.38, 33.94], ["a", 33.94, 34.02], ["desenvolver", 34.0, 34.42]], [["cada", 34.42, 34.68], ["vez", 34.68, 34.9], ["mais", 34.9, 35.28]]];
+window.__tempo=t=>{t/=1000;const el=document.getElementById('capt');let h='';
+ for(let i=0;i<CAP.length;i++){const c=CAP[i],ini=c[0][1],prox=CAP[i+1]?CAP[i+1][0][1]:1e9,fim=Math.min(c[c.length-1][2]+.5,prox);
+  if(t>=ini-.03&&t<fim){let a=0;c.forEach((p,k)=>{if(t>=p[1]-.03)a=k});
+   const e=Math.min(1,(t-ini+.03)/.12),s=.8+.2*e;h='<div style="transform:scale('+s+');opacity:'+e+'">'+c.map((p,k)=>'<span class="'+(k==a?'v':'')+'">'+p[0]+'</span>').join(' ')+'</div>';break}}
+ el.innerHTML=h};</script>
+<script>document.querySelectorAll('.q').forEach(q=>q.style.setProperty('--dur',q.dataset.dur||9))</script>
+</body></html>

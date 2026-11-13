@@ -1,0 +1,58 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- Lettering institucional do Reels "Antes x Agora · Posto de Saúde Satélite da Queimada Grande" (Prefeitura).
+     Cores só do brief (#002F67, #1D4F8F, #E7EEF8, branco). Cada .q é um lettering; data-dur = segundos na tela;
+     data-fixo = selo de canto (1 quadro). Quadros: node render-lettering.js -->
+<link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<style>
+:root{--az:#002F67;--az2:#1D4F8F;--cl:#E7EEF8}
+*{margin:0;box-sizing:border-box}
+html,body{background:transparent}
+body{width:1080px;font-family:"Exo 2";font-weight:800;text-transform:uppercase}
+.q{position:relative;width:1080px;height:1920px;overflow:hidden}
+.wrap{position:absolute;inset:0;animation:sai .28s cubic-bezier(.6,0,.9,.4) both;animation-delay:calc(var(--dur)*1s - .28s)}
+@keyframes sai{to{transform:translateX(-140px);opacity:0}}
+@keyframes abre{from{clip-path:inset(-40px 100% -40px -40px)}to{clip-path:inset(-40px)}}
+@keyframes sobe{from{transform:translateY(70px);opacity:0}to{transform:none;opacity:1}}
+@keyframes risca{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.bloco{position:absolute;left:64px;top:1120px;transform:rotate(-5deg) skewX(-8deg);transform-origin:left top;white-space:nowrap;line-height:1}
+.b{display:inline-block;position:relative;padding:20px 40px 22px;animation:abre .45s cubic-bezier(.2,.9,.2,1) both;animation-delay:var(--d,0s)}
+.b>span{display:inline-block;animation:sobe .4s cubic-bezier(.2,.9,.2,1) both;animation-delay:calc(var(--d,0s) + .15s)}
+.b::after{content:"";position:absolute;inset:9px;border:3px solid currentColor;opacity:.35;border-radius:10px}
+.br{background:#fff;color:var(--az);border-radius:18px;box-shadow:12px 12px 0 var(--az)}
+.ba{background:var(--az);color:#fff;border-radius:16px;box-shadow:10px 10px 0 var(--az2)}
+.bm{background:var(--az2);color:#fff;border-radius:14px;box-shadow:8px 8px 0 var(--az)}
+.l2{margin:-4px 0 0 56px}.l3{margin:-2px 0 0 110px}
+.risco{position:absolute;left:0;top:-34px;width:210px;height:14px;background:#fff;border-radius:7px;box-shadow:5px 5px 0 var(--az);transform-origin:left;animation:risca .4s cubic-bezier(.2,.9,.2,1) both;animation-delay:.1s}
+/* selo de canto */
+.selo{position:absolute;left:56px;top:210px;transform:rotate(-4deg) skewX(-8deg);font-size:58px;line-height:1;padding:14px 30px 16px;border-radius:14px}
+</style></head><body>
+<div class="q" id="l1" data-dur="3.2"><div class="wrap"><div class="bloco" style="top:1160px">
+  <div class="risco"></div>
+  <div class="b br" style="font-size:210px"><span>Antes</span></div><br>
+  <div class="b ba l2" style="font-size:104px;--d:.25s"><span>Escola</span></div>
+</div></div></div>
+
+<div class="q" id="l2" data-dur="5.4"><div class="wrap"><div class="bloco" style="top:1090px">
+  <div class="risco"></div>
+  <div class="b bm" style="font-size:100px"><span>Agora</span></div><br>
+  <div class="b br l2" style="font-size:96px;--d:.2s;margin-left:36px"><span>Posto de Saúde</span></div><br>
+  <div class="b ba l3" style="font-size:50px;--d:.4s"><span>Satélite da Queimada Grande</span></div>
+</div></div></div>
+
+<div class="q" id="l3" data-dur="4"><div class="wrap"><div class="bloco" style="top:1170px">
+  <div class="risco"></div>
+  <div class="b bm" style="font-size:54px"><span>Posto de Saúde Satélite</span></div><br>
+  <div class="b br l2" style="font-size:136px;--d:.2s;margin-left:36px"><span>Reformado</span></div>
+</div></div></div>
+
+<div class="q" id="l4" data-dur="4.3"><div class="wrap"><div class="bloco" style="top:1170px">
+  <div class="risco"></div>
+  <div class="b br" style="font-size:132px"><span>Novos ares</span></div><br>
+  <div class="b ba l2" style="font-size:66px;--d:.25s"><span>Queimada Grande</span></div>
+</div></div></div>
+
+<div class="q" id="s1" data-fixo><div class="selo br" style="box-shadow:7px 7px 0 var(--az)">Antes</div></div>
+<div class="q" id="s2" data-fixo><div class="selo ba" style="box-shadow:7px 7px 0 #fff">Agora</div></div>
+<div class="q" id="lg" data-fixo><div style="position:absolute;right:48px;top:196px;background:#002F67;border-radius:16px;padding:16px 22px;box-shadow:0 6px 18px rgba(0,0,0,.3)"><img src="../../identidade/logo-prefeitura-branco.png" style="display:block;width:300px"></div></div>
+<script>document.querySelectorAll('.q').forEach(q=>q.style.setProperty('--dur',q.dataset.dur||9))</script>
+</body></html>

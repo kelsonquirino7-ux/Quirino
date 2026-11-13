@@ -6,7 +6,7 @@
 - `montar.sh <corte.mp4>` — junta corte, lettering, selos ANTES/AGORA, logo no canto, trilha e vinheta.
 - `vinheta-sem-arroba.html/.png` — vinheta desta entrega, só com a logo.
 - `trilha.mp3` — instrumental "novos ares" gerado no Magnific (900 créditos, aprovado pelo dono).
-- Textos: fornecidos pelo dono (antes escola; agora posto de saúde satélite da Queimada Grande reformado; novos ares).
+- Textos: fornecidos pelo dono (antes escola sem uso; agora posto de saúde satélite da Queimada Grande reformado; novos ares).
 - Bruto (11 clipes .MOV 4K) no Drive do dono, pasta "ANTES x DEPOIS POSTO DE SAÚDE QUEIMADA GRANDE".
   Antes = clipes de 24/08/2026 (dessaturados no corte); agora = clipes de 13/11/2026.
 - Corte (clipe, início s, duração s): 0011 1/3 · 9991 2.5/4 · 9997 7/3.5 · 0009 1/3 · 0010 6/3.5 ·

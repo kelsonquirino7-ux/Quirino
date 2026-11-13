@@ -1,0 +1,41 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- Lettering do Reels "Plantio de árvores · Praça de Boa Espera" (Prefeito Vitor).
+     Cada .q vira um PNG transparente 1080x1920: node render-lettering.js -->
+<link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<style>
+*{margin:0;box-sizing:border-box}
+html,body{background:transparent}
+body{width:1080px;font-family:"Lilita One";text-transform:uppercase}
+.q{position:relative;width:1080px;height:1920px;overflow:hidden}
+.selo{position:absolute;left:90px;top:1060px;transform:rotate(-6deg);transform-origin:left top}
+.cx1{display:inline-block;background:#FFD21E;color:#015927;font-size:150px;line-height:1;padding:26px 44px 18px;border-radius:34px;
+  border:10px solid #fff;box-shadow:0 14px 0 #FF7A00, 0 30px 40px rgba(0,0,0,.35)}
+.cx1 small{display:block;font-size:84px;margin-bottom:4px}
+.cx2{display:inline-block;margin:-10px 0 0 70px;white-space:nowrap;background:#1565C0;color:#fff;font-size:68px;line-height:1;padding:24px 40px 18px;border-radius:28px;
+  border:8px solid #fff;box-shadow:0 12px 0 #015927, 0 26px 36px rgba(0,0,0,.35);position:relative}
+.folha{position:absolute;width:120px;height:120px;background:#0AA514;border:8px solid #fff;border-radius:0 70% 0 70%;box-shadow:0 8px 0 #015927}
+.est{position:absolute;font-size:110px;color:#FFD21E;-webkit-text-stroke:10px #fff;paint-order:stroke fill;filter:drop-shadow(0 6px 0 #FF7A00)}
+.frase{position:absolute;left:80px;top:1180px;transform:rotate(-5deg);transform-origin:left top;line-height:.95;white-space:nowrap}
+.frase .p{display:block;font-size:92px;color:#FFD21E;-webkit-text-stroke:14px #015927;paint-order:stroke fill;filter:drop-shadow(0 8px 0 #015927)}
+.frase .g{display:block;font-size:190px;color:#fff;-webkit-text-stroke:22px #015927;paint-order:stroke fill;filter:drop-shadow(0 12px 0 #0AA514) drop-shadow(0 18px 20px rgba(0,0,0,.35))}
+.frase .g.m{font-size:150px}
+.frase .g i{font-style:normal;display:inline-block}
+.frase .g i:nth-child(odd){transform:translateY(-10px) rotate(-4deg)}
+.frase .g i:nth-child(even){transform:translateY(8px) rotate(4deg)}
+.frase .g i:nth-child(4n+1){color:#FFD21E}.frase .g i:nth-child(4n+2){color:#fff}.frase .g i:nth-child(4n+3){color:#FF9A1F}.frase .g i:nth-child(4n){color:#7FDBFF}
+.d1{left:60px;top:1090px;transform:rotate(-25deg)} .d2{left:820px;top:1090px;transform:rotate(12deg)}
+</style></head><body>
+<div class="q" id="l1"><div class="selo">
+  <div class="folha" style="left:-50px;top:-70px;transform:rotate(-20deg)"></div>
+  <div class="est" style="left:640px;top:-90px;transform:rotate(15deg)">★</div>
+  <div class="cx1"><small>Plantio de</small>Árvores</div><br><div class="cx2">Praça de Boa Espera</div></div></div>
+<div class="q" id="l2"><div class="est d2">★</div><div class="folha d1"></div>
+  <div class="frase"><span class="p">Mãozinhas</span><span class="g" data-t="Na terra"></span></div></div>
+<div class="q" id="l3"><div class="est d2">★</div><div class="folha d1"></div>
+  <div class="frase"><span class="p">Todo mundo</span><span class="g" data-t="Junto"></span></div></div>
+<div class="q" id="l4"><div class="est d2">★</div><div class="folha d1"></div>
+  <div class="frase"><span class="p">Plantando</span><span class="g m" data-t="O futuro"></span></div></div>
+<div class="q" id="l5"><div class="est d2">★</div><div class="folha d1"></div>
+  <div class="frase"><span class="p">Boa Espera</span><span class="g m" data-t="Mais verde"></span></div></div>
+<script>document.querySelectorAll('.g').forEach(g=>{g.innerHTML=g.dataset.t.split(' ').map(w=>[...w].map(c=>'<i>'+c+'</i>').join('')).join(' ')})</script>
+</body></html>

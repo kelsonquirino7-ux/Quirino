@@ -1,7 +1,7 @@
 #!/bin/bash
 # Monta o Reels final. Uso: bash montar.sh <corte-mudo-42s.mp4>
 # Entradas: corte 1080x1920 (42 s), lettering/l1..l5/%04d.png (node render-lettering.js), trilha.mp3, vinheta do cliente.
-set -e; cd "$(dirname "$0")"; CORTE="$1"; V=../../modelos/vinheta-9x16.png
+set -e; cd "$(dirname "$0")"; CORTE="$1"; V=vinheta-sem-arroba.png
 T=(0.5 25.8 31.8 35.8 39.7)   # segundo em que cada lettering entra (duração: data-dur no HTML)
 F="[0:v]format=yuv420p[v0];"; IN=""
 for i in 1 2 3 4 5; do a=${T[$((i-1))]}

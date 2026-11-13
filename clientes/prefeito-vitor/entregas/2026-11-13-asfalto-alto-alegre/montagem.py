@@ -98,7 +98,7 @@ LEGENDAS = [
 #   ("vazado",  início, fim, texto)
 LETTERING = [
     ("pilha", 1.36, 2.08, "OLHA ONDE EU TÔ:", "ALTO ALEGRE", ""),
-    ("selo", 2.22, 4.05, "A ESTRADA", "RUMO • ALTO ALEGRE"),
+    ("selo", 2.22, 4.05, "A ESTRADA", "RUMO • ALTO ALEGRE", 1.75, H / 2),
     ("pilha", 5.40, 6.36, "NO VERÃO,", "POEIRA", ""),
     ("pilha", 6.50, 7.70, "NO INVERNO,", "LAMA", ""),
     ("rotulo", 8.72, 9.82, "MÁQUINA NA ESTRADA"),
@@ -279,8 +279,8 @@ def _pilha(peq, grande, peq2):
                 g=_sombra(_txt(grande, fg, VERDE + (255,), 4, ESCURO + (255,)), 12, 170),
                 p2=_sombra(_txt(peq2, fp, BRANCO + (255,))) if peq2 else None)
 
-def _selo(placa, fita):
-    fpl = fonte(FB9, 108); ff = fonte(FB9, 60)
+def _selo(placa, fita, esc=1.0, cy=None):
+    fpl = fonte(FB9, int(108 * esc)); ff = fonte(FB9, int(60 * esc))
     t = _txt(placa, fpl, ESCURO + (255,)); w, h = t.width + 64, t.height + 46
     pl = Image.new("RGBA", (w, h), (0, 0, 0, 0)); d = ImageDraw.Draw(pl)
     d.rounded_rectangle((0, 0, w - 1, h - 1), 26, fill=ESCURO + (255,))
@@ -291,7 +291,7 @@ def _selo(placa, fita):
     d.polygon([(22, 0), (fw, 0), (fw - 22, fh), (0, fh)], fill=VERDE + (255,))
     d.polygon([(fw - 30, fh), (fw - 22, fh), (fw - 4, fh + 0), (fw - 30, fh)], fill=ESCURO + (255,))
     fi.alpha_composite(tf, ((fw - tf.width) // 2, (fh - tf.height) // 2))
-    return dict(tipo="selo", pl=_sombra(pl, 14, 160), fi=_sombra(fi, 12, 150))
+    return dict(tipo="selo", pl=_sombra(pl, 14, 160), fi=_sombra(fi, 12, 150), cy=cy, esc=esc)
 
 def _rotulo(txt):
     f = fonte(FB9, 84)
@@ -335,13 +335,13 @@ def desenha_lettering(base, L, k, fora):
             e2 = ease_out((k - 0.3) / 0.22)
             cola(base, L["p2"], X0 + 30 + L["p2"].width / 2 + 60 * (1 - e2), y + L["g"].height - 30 + L["p2"].height / 2, alfa=e2 * fora)
     elif L["tipo"] == "selo":
-        cx, cy = W / 2, TOPO + 40
+        cx, cy = W / 2, (L["cy"] or TOPO + 40)
         e = elastico(k / 0.32); ang = -4 - 10 * (1 - min(1, k / 0.3))
         pl = L["pl"].rotate(ang, Image.BICUBIC, expand=True)
-        cola(base, pl, cx - 20, cy, escala=max(0.05, e), alfa=min(1, k / 0.06) * fora)
+        cola(base, pl, cx - (20 if L["esc"] == 1 else 0), cy, escala=max(0.05, e), alfa=min(1, k / 0.06) * fora)
         if k > 0.18:
             fi = _corta_x(L["fi"], ease_out((k - 0.18) / 0.25)).rotate(-4, Image.BICUBIC, expand=True)
-            cola(base, fi, cx + 60, cy + pl.height * 0.42, alfa=fora)
+            cola(base, fi, cx + (60 if L["esc"] == 1 else 0), cy + pl.height * 0.42, alfa=fora)
     elif L["tipo"] == "rotulo":
         y = TOPO + 40; e = ease_out(k / 0.25); t = L["t"]
         cola(base, _borrao(t, 1 - e), X0 + t.width / 2 - 300 * (1 - e), y, alfa=min(1, k / 0.06) * fora)
@@ -429,7 +429,7 @@ def _fundo_vinheta():
     a = np.array([255, 255, 255]) * (1 - g) + np.array([232, 240, 233]) * g      # branco -> cinza-esverdeado bem claro
     im = Image.fromarray(np.broadcast_to(a, (H, W, 3)).astype(np.uint8).copy())
     d = ImageDraw.Draw(im)
-    d.rectangle((0, H - 170, W, H), fill=ESCURO); d.rectangle((0, H - 186, W, H - 170), fill=VERDE)
+    d.rectangle((0, H - 64, W, H), fill=ESCURO); d.rectangle((0, H - 72, W, H - 64), fill=VERDE)
     im.paste(LOGO_IMG, ((W - LOGO_IMG.width) // 2, int(H * 0.45 - LOGO_IMG.height / 2)), LOGO_IMG)
     return im
 VINHETA = _fundo_vinheta()

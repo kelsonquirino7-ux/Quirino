@@ -22,6 +22,8 @@ FONTES = RAIZ / "ferramentas" / "fontes" / "ttf"
 F900 = str(FONTES / "montserrat-latin-900-normal.ttf")
 F600 = str(FONTES / "montserrat-latin-600-normal.ttf")
 FSERIF = str(FONTES / "playfair-display-latin-800-italic.ttf")
+FB9 = str(FONTES / "barlow-condensed-latin-900-italic.ttf")
+FB7 = str(FONTES / "barlow-condensed-latin-700-italic.ttf")
 LOGO = RAIZ / "clientes/prefeito-vitor/identidade/logo-vitor-prefeito-do-povo.png"
 
 W, H, FPS = 1080, 1920, 30
@@ -43,8 +45,8 @@ PLANOS = [
     (0.00, 2.10, mov(5340), 0.75, 1, "", 0.03),
     (2.10, 4.10, mov(5331), 0.30, 1, "whip", 0.10),
     (4.10, 5.30, mov(5340), 4.85, 1, "soco", 0.03),
-    (5.30, 6.30, str(MIDIA / "poeira.mp4"), 1.80, 1.0, "soco", 0.06),
-    (6.30, 7.75, str(MIDIA / "lama.mp4"), 0.60, 1, "whip", 0.06),
+    (5.30, 6.40, mov(5336), 1.45, 1.0, "soco", 0.05),
+    (6.40, 7.75, str(MIDIA / "lama.mp4"), 0.60, 1, "whip", 0.06),
     (7.75, 8.60, mov(5329), 0.30, 1, "whip", 0.08),
     (8.60, 9.85, str(MIDIA / "escavadeira-cavando.mp4"), 1.70, 1.15, "soco", 0.06),
     (9.85, 11.05, mov(5343), 4.55, 1, "glitch", 0.03),
@@ -87,23 +89,30 @@ LEGENDAS = [
 # lettering no estilo de inspiracoes/texto-na-tela: apoio pequeno branco + palavra-chave grande
 # em serifa itálica na cor do cliente, na altura do peito, sem caixa, com sombra leve.
 # (início, fim, apoio acima, destaque, apoio abaixo, centro-y)
+# Lettering de obra (inspirado no vídeo de referência enviado pelo dono): condensada itálica pesada,
+# caixa alta, palavra-chave grande na cor do cliente, selo inclinado com fita, rótulo com pontilhado
+# e texto vazado. Cores só do brief (verde, verde escuro, branco).
+#   ("pilha",   início, fim, pequeno acima, GRANDE, pequeno abaixo)
+#   ("selo",    início, fim, placa, fita)
+#   ("rotulo",  início, fim, texto)
+#   ("vazado",  início, fim, texto)
 LETTERING = [
-    (1.36, 2.08, "olha onde eu tô:", "Alto Alegre", "", 1090),
-    (2.22, 4.05, "a estrada que liga o", "Rumo", "ao Alto Alegre", 1060),
-    (5.36, 6.28, "no verão,", "poeira", "", 1060),
-    (6.44, 7.70, "no inverno,", "lama", "", 1060),
-    (8.72, 9.82, "agora a", "máquina", "está na estrada", 1090),
-    (9.95, 11.02, "e o asfalto", "está chegando", "", 1100),
-    (13.90, 16.65, "estamos na fase de", "terraplanagem", "", 1060),
-    (17.25, 18.66, "quer ver como", "vai ficar?", "", 1100),
-    (T_VOZ5 + 0.45, T_S7 - 0.12, "estrada", "sinalizada", "e asfaltada", 1040),
-    (26.05, 27.00, "", "Compromisso", "é isso", 1100),
-    (27.20, 27.85, "sair do", "papel", "", 1100),
-    (28.45, 29.95, "chegar na", "estrada", "que você usa todo dia", 1100),
-    (30.35, 31.95, "e eu volto aqui", "pra mostrar", "", 1100),
+    ("pilha", 1.36, 2.08, "OLHA ONDE EU TÔ:", "ALTO ALEGRE", ""),
+    ("selo", 2.22, 4.05, "A ESTRADA", "RUMO • ALTO ALEGRE"),
+    ("pilha", 5.40, 6.36, "NO VERÃO,", "POEIRA", ""),
+    ("pilha", 6.50, 7.70, "NO INVERNO,", "LAMA", ""),
+    ("rotulo", 8.72, 9.82, "MÁQUINA NA ESTRADA"),
+    ("selo", 9.95, 11.02, "O ASFALTO", "ESTÁ CHEGANDO"),
+    ("rotulo", 13.90, 16.65, "TERRAPLANAGEM"),
+    ("pilha", 17.25, 18.66, "QUER VER COMO", "VAI FICAR?", ""),
+    ("pilha", T_VOZ5 + 0.45, T_S7 - 0.12, "ESTRADA", "SINALIZADA", "E ASFALTADA"),
+    ("vazado", 26.05, 27.00, "COMPROMISSO"),
+    ("pilha", 27.20, 27.85, "SAIR DO", "PAPEL", ""),
+    ("pilha", 28.45, 29.95, "CHEGAR NA", "ESTRADA", ""),
+    ("selo", 30.35, 31.95, "EU VOLTO", "PRA MOSTRAR"),
 ]
 CONTADOR = (11.42, 12.58)   # 9 KM
-SELOS = [(T_ASF + 0.25, T_S7, "PROJEÇÃO · IMAGEM ILUSTRATIVA"), (5.30, 7.75, "IMAGEM ILUSTRATIVA")]
+SELOS = [(T_ASF + 0.25, T_S7, "PROJEÇÃO · IMAGEM ILUSTRATIVA"), (6.40, 7.75, "IMAGEM ILUSTRATIVA")]
 CORTES = [(p[0], p[5]) for p in PLANOS if p[5]]
 
 # ───────────── leitura dos planos ─────────────
@@ -247,26 +256,102 @@ def _texto_sombra(txt, f, cor):
     ImageDraw.Draw(im).text((w / 2, 25 + asc), txt, font=f, fill=cor + (255,), anchor="ms")
     return im
 
-def bloco_lettering(apoio, destaque, apoio2):
-    """Devolve as camadas (apoio, destaque, apoio2) já desenhadas, cada uma com sombra leve."""
-    fa = fonte(F600, 46); fd = fonte(FSERIF, 150)
-    while fd.getlength(destaque) > 880: fd = fonte(FSERIF, fd.size - 6)
-    return (_texto_sombra(apoio, fa, BRANCO) if apoio else None,
-            _texto_sombra(destaque, fd, VERDE_TXT),
-            _texto_sombra(apoio2, fa, BRANCO) if apoio2 else None)
+def _sombra(im, raio=10, alfa=150, dx=6, dy=8):
+    """Sombra suave atrás de um RGBA (para ler sobre qualquer fundo)."""
+    a = im.getchannel("A").point(lambda v: v * alfa // 255)
+    sh = Image.new("RGBA", (im.width + 60, im.height + 60), (0, 0, 0, 0))
+    sh.paste(Image.new("RGBA", im.size, (0, 0, 0, 255)), (30 + dx, 30 + dy), a)
+    sh = sh.filter(ImageFilter.GaussianBlur(raio)); sh.alpha_composite(im, (30, 30))
+    return sh
 
-def desenha_lettering(base, camadas, cy, k, fora):
-    ap, de, ap2 = camadas
-    hd = de.height
-    if ap is not None:
-        e = ease_out(k / 0.25)
-        cola(base, ap, W / 2, cy - hd * 0.42 + 20 * (1 - e), alfa=e * fora)
-    kd = max(0, k - 0.08); e = ease_out(kd / 0.35)
-    img = de if e > 0.85 else de.filter(ImageFilter.GaussianBlur(10 * (1 - e)))
-    cola(base, img, W / 2, cy, escala=0.88 + 0.12 * elastico(kd / 0.4), alfa=min(1, kd / 0.15) * fora)
-    if ap2 is not None:
-        e2 = ease_out((k - 0.25) / 0.25)
-        cola(base, ap2, W / 2, cy + hd * 0.40 - 20 * (1 - e2), alfa=max(0, e2) * fora)
+def _txt(txt, f, cor, contorno=0, cor_cont=None):
+    asc, desc = f.getmetrics(); w = int(f.getlength(txt)) + 30 + 2 * contorno
+    im = Image.new("RGBA", (w, asc + desc + 2 * contorno + 10), (0, 0, 0, 0))
+    ImageDraw.Draw(im).text((15 + contorno, 5 + contorno), txt, font=f, fill=cor, stroke_width=contorno,
+                            stroke_fill=cor_cont if cor_cont else cor)
+    return im.crop(im.getbbox())
+
+def _pilha(peq, grande, peq2):
+    fg = fonte(FB9, 240)
+    while fg.getlength(grande) > 940: fg = fonte(FB9, fg.size - 8)
+    fp = fonte(FB7, 70)
+    return dict(tipo="pilha", p=_sombra(_txt(peq, fp, BRANCO + (255,))) if peq else None,
+                g=_sombra(_txt(grande, fg, VERDE + (255,), 4, ESCURO + (255,)), 12, 170),
+                p2=_sombra(_txt(peq2, fp, BRANCO + (255,))) if peq2 else None)
+
+def _selo(placa, fita):
+    fpl = fonte(FB9, 170); ff = fonte(FB9, 92)
+    t = _txt(placa, fpl, ESCURO + (255,)); w, h = t.width + 90, t.height + 70
+    pl = Image.new("RGBA", (w, h), (0, 0, 0, 0)); d = ImageDraw.Draw(pl)
+    d.rounded_rectangle((0, 0, w - 1, h - 1), 26, fill=ESCURO + (255,))
+    d.rounded_rectangle((12, 12, w - 13, h - 13), 18, fill=BRANCO + (255,))
+    pl.alpha_composite(t, ((w - t.width) // 2, (h - t.height) // 2))
+    tf = _txt(fita, ff, BRANCO + (255,)); fw, fh = tf.width + 80, tf.height + 44
+    fi = Image.new("RGBA", (fw, fh), (0, 0, 0, 0)); d = ImageDraw.Draw(fi)
+    d.polygon([(22, 0), (fw, 0), (fw - 22, fh), (0, fh)], fill=VERDE + (255,))
+    d.polygon([(fw - 30, fh), (fw - 22, fh), (fw - 4, fh + 0), (fw - 30, fh)], fill=ESCURO + (255,))
+    fi.alpha_composite(tf, ((fw - tf.width) // 2, (fh - tf.height) // 2))
+    return dict(tipo="selo", pl=_sombra(pl, 14, 160), fi=_sombra(fi, 12, 150))
+
+def _rotulo(txt):
+    f = fonte(FB9, 120)
+    return dict(tipo="rotulo", t=_sombra(_txt(txt, f, BRANCO + (255,), 3, ESCURO + (255,)), 10, 160))
+
+def _vazado(txt):
+    f = fonte(FB9, 230)
+    while f.getlength(txt) > 960: f = fonte(FB9, f.size - 8)
+    return dict(tipo="vazado", o=_txt(txt, f, (0, 0, 0, 0), 6, BRANCO + (255,)),
+                c=_sombra(_txt(txt, f, VERDE + (255,), 6, ESCURO + (255,)), 12, 170))
+
+def bloco_lettering(item):
+    tipo, a, b, *arg = item
+    return a, b, {"pilha": _pilha, "selo": _selo, "rotulo": _rotulo, "vazado": _vazado}[tipo](*arg)
+
+def _borrao(im, k):
+    """Borrão de movimento horizontal (entrada em chicote)."""
+    if k < 0.05: return im
+    n = max(2, int(im.width / (1 + 40 * k)))
+    return im.resize((n, im.height), Image.BOX).resize(im.size, Image.BILINEAR)
+
+def _corta_x(im, frac):
+    frac = min(1, max(0, frac)); w = max(1, int(im.width * frac))
+    out = Image.new("RGBA", im.size, (0, 0, 0, 0)); out.paste(im.crop((0, 0, w, im.height)), (0, 0)); return out
+
+def desenha_lettering(base, L, k, fora):
+    X0 = 60
+    if L["tipo"] == "pilha":
+        y = 1000
+        if L["p"] is not None:
+            e = ease_out(k / 0.22)
+            cola(base, _corta_x(L["p"], e), X0 + L["p"].width / 2, y - L["p"].height / 2 + 20, alfa=fora)
+        kg = k - 0.08; e = ease_out(kg / 0.3)
+        if kg > 0:
+            g = _borrao(L["g"], 1 - e)
+            dx = -380 * (1 - e) + 18 * math.sin(min(1, kg / 0.45) * math.pi) * (1 - min(1, kg / 0.45))
+            cola(base, g, X0 + g.width / 2 + dx, y + g.height / 2 - 25, escala=1 + 0.06 * (1 - elastico(kg / 0.4)), alfa=min(1, kg / 0.08) * fora)
+        if L["p2"] is not None and k > 0.3:
+            e2 = ease_out((k - 0.3) / 0.22)
+            cola(base, L["p2"], X0 + 30 + L["p2"].width / 2 + 60 * (1 - e2), y + L["g"].height - 30 + L["p2"].height / 2, alfa=e2 * fora)
+    elif L["tipo"] == "selo":
+        cx, cy = W / 2, 980
+        e = elastico(k / 0.32); ang = -4 - 10 * (1 - min(1, k / 0.3))
+        pl = L["pl"].rotate(ang, Image.BICUBIC, expand=True)
+        cola(base, pl, cx - 20, cy, escala=max(0.05, e), alfa=min(1, k / 0.06) * fora)
+        if k > 0.18:
+            fi = _corta_x(L["fi"], ease_out((k - 0.18) / 0.25)).rotate(-4, Image.BICUBIC, expand=True)
+            cola(base, fi, cx + 60, cy + pl.height * 0.42, alfa=fora)
+    elif L["tipo"] == "rotulo":
+        y = 1120; e = ease_out(k / 0.25); t = L["t"]
+        cola(base, _borrao(t, 1 - e), X0 + t.width / 2 - 300 * (1 - e), y, alfa=min(1, k / 0.06) * fora)
+        d = ImageDraw.Draw(base); n = int(min(1, max(0, (k - 0.2) / 0.5)) * 14)
+        for i in range(n):
+            x = X0 + t.width + 10 + i * 26; r = 6
+            d.ellipse((x - r, y + 30 - r, x + r, y + 30 + r), fill=VERDE)
+    elif L["tipo"] == "vazado":
+        cx, cy = W / 2, 1080; e = ease_out(k / 0.35)
+        cola(base, L["o"], cx, cy, escala=1.25 - 0.25 * e, alfa=min(1, k / 0.1) * fora)
+        if k > 0.3:
+            cola(base, _corta_x(L["c"], ease_out((k - 0.3) / 0.35)), cx, cy, alfa=fora)
 
 def cola(base, rgba, cx, cy, escala=1.0, alfa=1.0):
     if alfa <= 0.01: return
@@ -288,10 +373,10 @@ def legenda_img(txt):
                stroke_width=5, stroke_fill=(0, 0, 0, 255))
     return im
 
-LET = [(a, b, bloco_lettering(ap, de, ap2), cy) for a, b, ap, de, ap2, cy in LETTERING]
+LET = [bloco_lettering(i) for i in LETTERING]
 LEG = [(a, b, legenda_img(t)) for a, b, t in LEGENDAS]
-KM_SUB = _texto_sombra("quilômetros de asfalto", fonte(F600, 46), BRANCO)
-KM_NUM = {n: _texto_sombra(f"{n} km", fonte(FSERIF, 230), VERDE_TXT) for n in range(1, 10)}
+KM_SUB = _sombra(_txt("DE ASFALTO", fonte(FB7, 80), BRANCO + (255,)))
+KM_NUM = {n: _sombra(_txt(f"+{n}KM", fonte(FB9, 300), VERDE + (255,), 5, ESCURO + (255,)), 12, 170) for n in range(1, 10)}
 # degradê escuro suave na base (como nas referências) para o texto ler sobre qualquer imagem
 _g = np.clip((np.arange(H) - H * 0.38) / (H * 0.62), 0, 1) ** 1.2 * 175
 BASE_ESCURA = Image.fromarray(np.dstack([np.zeros((H, W, 3), np.uint8),
@@ -350,6 +435,27 @@ def vinheta(t):
     """Encerramento limpo: fundo branco com degradê suave, faixa verde embaixo e logo, sem @ e sem efeitos."""
     return VINHETA.copy()
 
+# poeira leve levantada a cada pisada (cena do Vitor andando na terra, IMG_5336)
+PISADAS = [(5.36, 330, 930), (5.84, 690, 890), (6.30, 430, 850)]   # (instante, x, y do pé)
+def _textura_poeira(seed):
+    rng = np.random.default_rng(seed); w, h = 520, 300
+    a = np.zeros((h, w), np.float32); yy, xx = np.mgrid[0:h, 0:w]
+    for _ in range(40):
+        cx, cy = rng.normal(w / 2, w / 7), rng.normal(h * 0.62, h / 8); r = rng.uniform(25, 70)
+        a += np.exp(-(((xx - cx) ** 2) + ((yy - cy) * 1.4) ** 2) / (2 * r * r)) * rng.uniform(0.3, 1)
+    ruido = np.asarray(Image.fromarray((rng.random((h // 8, w // 8)) * 255).astype(np.uint8)).resize((w, h), Image.BICUBIC)) / 255
+    a = np.clip(a / a.max() * (0.55 + 0.45 * ruido), 0, 1)
+    rgba = np.dstack([np.full((h, w), 214), np.full((h, w), 190), np.full((h, w), 158), a * 255]).astype(np.uint8)
+    return Image.fromarray(rgba, "RGBA").filter(ImageFilter.GaussianBlur(6))
+POEIRA_TEX = [_textura_poeira(i) for i in range(3)]
+def poeira_pisada(im, t):
+    for i, (tp, x, y) in enumerate(PISADAS):
+        k = (t - tp) / 0.9
+        if 0 <= k < 1:
+            e = ease_out(k / 0.5)
+            alfa = 0.42 * min(1, k / 0.12) * (1 - k) ** 1.3
+            cola(im, POEIRA_TEX[i], x + 30 * k, y - 60 * e, escala=0.55 + 0.75 * e, alfa=alfa)
+
 # ───────────── composição quadro a quadro ─────────────
 def render():
     total = round(T_FIM * FPS)
@@ -398,6 +504,7 @@ def render():
         for tc, tr in CORTES:                       # piscada leve nos cortes "soco"
             if tr == "soco" and tc <= t < tc + 0.1 and tc != 18.70:
                 im = clarao(im, 0.28 * (1 - (t - tc) / 0.1))
+        poeira_pisada(im, t)
         im.paste(BASE_ESCURA, (0, 0), BASE_ESCURA)
         d = ImageDraw.Draw(im)
         # confete de vitória quando a estrada fica pronta
@@ -406,17 +513,18 @@ def render():
         for a, b, simg in SELO_IMGS:
             if a <= t < b:
                 cola(im, simg, 40 + simg.width / 2, 250, alfa=min(1, (t - a) / 0.3))
-        # contador 9 KM
+        # contador +9KM
         a, b = CONTADOR
         if a <= t < b:
-            k = t - a; num = min(9, 1 + int(k / 0.045)); fora = min(1, (b - t) / 0.12)
-            cola(im, KM_NUM[num], W / 2, 1060, escala=0.88 + 0.12 * elastico(k / 0.35), alfa=min(1, k / 0.1) * fora)
+            k = t - a; num = min(9, 1 + int(k / 0.045)); fora = min(1, (b - t) / 0.12); g = KM_NUM[num]
+            cola(im, g, 60 + g.width / 2, 1000 + g.height / 2 - 40, escala=1 + 0.08 * (1 - elastico(k / 0.35)), alfa=min(1, k / 0.08) * fora)
             if k > 0.25:
-                cola(im, KM_SUB, W / 2, 1060 + KM_NUM[9].height * 0.42, alfa=ease_out((k - 0.25) / 0.25) * fora)
+                e = ease_out((k - 0.25) / 0.25)
+                cola(im, KM_SUB, 90 + KM_SUB.width / 2 + 60 * (1 - e), 1000 + g.height - 10, alfa=e * fora)
         # lettering
-        for a, b, cam, cy in LET:
+        for a, b, L in LET:
             if a <= t < b:
-                desenha_lettering(im, cam, cy, t - a, min(1, (b - t) / 0.15))
+                desenha_lettering(im, L, t - a, min(1, (b - t) / 0.15))
         # legenda pequena
         for a, b, img in LEG:
             if a <= t < b:

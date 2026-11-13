@@ -1,0 +1,113 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- Lettering animado do Reels "Plantio de árvores · Praça de Boa Espera" (Prefeito Vitor).
+     Cada .q é um lettering; data-dur = segundos na tela. Quadros: node render-lettering.js -->
+<link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<style>
+:root{--esc:#3A1778;--rosa:#FF4FA3;--ama:#FFD21E;--tur:#19C8E6;--lima:#7ED321;--lar:#FF8A1F;--lil:#B15CFF;--roxo:#7B2FF7}
+*{margin:0;box-sizing:border-box}
+html,body{background:transparent}
+body{width:1080px;font-family:"Lilita One";text-transform:uppercase}
+.q{position:relative;width:1080px;height:1920px;overflow:hidden}
+.wrap{position:absolute;inset:0;transform-origin:45% 68%;animation:sai .25s cubic-bezier(.5,0,.9,.4) both;animation-delay:calc(var(--dur)*1s - .25s)}
+@keyframes sai{to{transform:scale(0) rotate(-10deg);opacity:0}}
+@keyframes pop{0%{transform:translateY(90px) scale(0) rotate(-25deg)}100%{transform:none}}
+@keyframes popc{0%{transform:scale(0) rotate(-20deg)}100%{transform:none}}
+@keyframes entra{0%{transform:translateX(-900px) rotate(-8deg)}100%{transform:none}}
+@keyframes bal{0%{transform:translateY(-7px) rotate(-3.5deg)}100%{transform:translateY(7px) rotate(3.5deg)}}
+@keyframes gira{to{transform:rotate(360deg)}}
+@keyframes pisca{0%{transform:scale(.8) rotate(-10deg)}100%{transform:scale(1.15) rotate(10deg)}}
+@keyframes conf{0%{transform:translate(0,0) rotate(0) scale(0);opacity:1}15%{transform:translate(calc(var(--dx)*.5),calc(var(--dy)*.5)) rotate(120deg) scale(1);opacity:1}
+  100%{transform:translate(var(--dx),calc(var(--dy) + 260px)) rotate(540deg) scale(1);opacity:0}}
+.ov{cubic:0}
+.bloco{position:absolute;left:70px;transform:rotate(-5deg);transform-origin:left top;white-space:nowrap}
+/* palavra grande em 3 camadas (contorno escuro, contorno branco, cor) */
+.g{display:grid;line-height:1;margin-top:6px}
+.g>span{grid-area:1/1;display:block}
+.g i{font-style:normal;display:inline-block;animation:pop .5s cubic-bezier(.34,1.56,.64,1) both;animation-delay:calc(.28s + var(--i)*.055s)}
+.g b{font-weight:400;display:inline-block;animation:bal .55s ease-in-out infinite alternate;animation-delay:calc(var(--i)*-.17s)}
+.g .c1 b{color:var(--esc);-webkit-text-stroke:40px var(--esc);filter:drop-shadow(0 16px 0 var(--esc)) drop-shadow(0 14px 14px rgba(0,0,0,.35))}
+.g .c2 b{color:#fff;-webkit-text-stroke:18px #fff}
+.g .c3 b{background:linear-gradient(180deg,color-mix(in srgb,var(--c),#fff 55%) 8%,var(--c) 52%,color-mix(in srgb,var(--c),#000 16%) 96%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.g .esp{display:inline-block;width:.28em}
+/* faixa pequena */
+.p{display:inline-block;font-size:78px;line-height:1;padding:20px 38px 12px;border-radius:26px;border:8px solid #fff;
+  box-shadow:0 0 0 7px var(--esc),0 14px 0 7px var(--esc),0 26px 24px rgba(0,0,0,.3);margin-left:14px;
+  animation:entra .5s cubic-bezier(.34,1.4,.64,1) both;animation-delay:.05s;
+  background-image:radial-gradient(rgba(255,255,255,.28) 22%,transparent 24%);background-size:26px 26px}
+.p.roxo{background-color:var(--roxo);color:#fff}.p.ama{background-color:var(--ama);color:var(--esc);background-image:radial-gradient(rgba(255,138,31,.35) 22%,transparent 24%)}
+.p.tur{background-color:var(--tur);color:var(--esc)}
+/* selo do titulo */
+.cx1{display:inline-block;background-color:var(--ama);background-image:radial-gradient(rgba(255,138,31,.38) 22%,transparent 24%);background-size:30px 30px;
+  padding:26px 52px 26px 44px;border-radius:40px;border:10px solid #fff;box-shadow:0 0 0 8px var(--esc),0 18px 0 8px var(--esc),0 34px 30px rgba(0,0,0,.35);
+  animation:popc .5s cubic-bezier(.34,1.56,.64,1) both}
+.cx1 small{display:block;font-size:84px;line-height:1;color:var(--esc)}
+.cx2{position:relative;display:inline-block;margin:-6px 0 0 80px;font-size:66px;line-height:1;padding:24px 40px 16px;border-radius:28px;border:8px solid #fff;
+  background-color:var(--roxo);color:#fff;background-image:radial-gradient(rgba(255,255,255,.2) 22%,transparent 24%);background-size:26px 26px;
+  box-shadow:0 0 0 7px var(--esc),0 14px 0 7px var(--esc),0 26px 24px rgba(0,0,0,.3);animation:entra .5s cubic-bezier(.34,1.4,.64,1) both;animation-delay:.5s}
+/* enfeites */
+.e{position:absolute;animation:popc .45s cubic-bezier(.34,1.8,.64,1) both}
+.e svg{display:block;overflow:visible}
+.e .gira{animation:gira 6s linear infinite;transform-origin:50% 50%;transform-box:fill-box}
+.e .pisca{animation:pisca .5s ease-in-out infinite alternate;transform-origin:50% 50%;transform-box:fill-box}
+.cf{position:absolute;width:26px;height:16px;border-radius:5px;animation:conf 1.3s cubic-bezier(.2,.7,.4,1) both;animation-delay:.22s}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <g id="estrela"><path d="M60 4l15 34 37 4-28 25 8 37-32-19-32 19 8-37L8 42l37-4z" fill="#FFD21E" stroke="#3A1778" stroke-width="16" stroke-linejoin="round"/><path d="M60 4l15 34 37 4-28 25 8 37-32-19-32 19 8-37L8 42l37-4z" fill="#FFD21E" stroke="#fff" stroke-width="7" stroke-linejoin="round"/></g>
+  <g id="folha"><path d="M10 110C0 40 50 4 122 8c6 70-34 114-112 102z" fill="#7ED321" stroke="#3A1778" stroke-width="16" stroke-linejoin="round"/><path d="M10 110C0 40 50 4 122 8c6 70-34 114-112 102z" fill="#7ED321" stroke="#fff" stroke-width="7" stroke-linejoin="round"/><path d="M22 98C50 70 78 44 106 24" fill="none" stroke="#0AA514" stroke-width="7" stroke-linecap="round"/></g>
+  <g id="sol"><g class="gira"><path d="M100 0l18 38 38-18-6 42 42 6-30 30 30 30-42 6 6 42-38-18-18 38-18-38-38 18 6-42-42-6 30-30-30-30 42-6-6-42 38 18z" transform="translate(0,-2)" fill="#FF8A1F" stroke="#3A1778" stroke-width="10" stroke-linejoin="round"/></g>
+    <circle cx="100" cy="98" r="56" fill="#FFD21E" stroke="#3A1778" stroke-width="9"/><circle cx="82" cy="90" r="7" fill="#3A1778"/><circle cx="118" cy="90" r="7" fill="#3A1778"/>
+    <path d="M78 108q22 24 44 0" fill="none" stroke="#3A1778" stroke-width="8" stroke-linecap="round"/><circle cx="70" cy="106" r="8" fill="#FF4FA3" opacity=".7"/><circle cx="130" cy="106" r="8" fill="#FF4FA3" opacity=".7"/></g>
+</defs></svg>
+
+<div class="q" id="l1" data-dur="2.8"><div class="wrap">
+  <div class="e" style="left:760px;top:880px;animation-delay:.18s"><svg width="230" height="230" viewBox="0 0 200 200"><use href="#sol"/></svg></div>
+  <div class="bloco" style="top:1040px;left:80px">
+    <div class="cx1"><small>Plantio de</small><div class="g" data-t="Árvores" style="font-size:168px"></div></div><br>
+    <div class="cx2">Praça de Boa Espera</div>
+  </div>
+  <div class="e" style="left:22px;top:960px;animation-delay:.35s"><svg width="140" height="130" viewBox="0 0 130 120"><use href="#folha" class="pisca"/></svg></div>
+  <div class="e" style="left:880px;top:1250px;animation-delay:.7s"><svg width="110" height="110" viewBox="0 0 120 120"><use href="#estrela" class="pisca"/></svg></div>
+  <div class="cfs" style="left:480px;top:1200px"></div>
+</div></div>
+
+<div class="q" id="l2" data-dur="4.5"><div class="wrap">
+  <div class="bloco" style="top:1130px"><span class="p roxo">Mãozinhas</span><div class="g" data-t="Na terra" style="font-size:196px"></div></div>
+  <div class="e" style="left:24px;top:1050px;animation-delay:.3s"><svg width="130" height="120" viewBox="0 0 130 120"><use href="#folha" class="pisca"/></svg></div>
+  <div class="e" style="left:860px;top:1080px;animation-delay:.6s"><svg width="120" height="120" viewBox="0 0 120 120"><use href="#estrela" class="pisca"/></svg></div>
+  <div class="e" style="left:700px;top:1480px;animation-delay:.75s"><svg width="80" height="80" viewBox="0 0 120 120"><use href="#estrela" class="pisca"/></svg></div>
+  <div class="cfs" style="left:480px;top:1320px"></div>
+</div></div>
+
+<div class="q" id="l5" data-dur="2.1"><div class="wrap">
+  <div class="e" style="left:720px;top:980px;animation-delay:.2s"><svg width="210" height="210" viewBox="0 0 200 200"><use href="#sol"/></svg></div>
+  <div class="bloco" style="top:1130px"><span class="p roxo">Boa Espera</span><div class="g" data-t="Mais verde" style="font-size:158px"></div></div>
+  <div class="e" style="left:24px;top:1050px;animation-delay:.3s"><svg width="130" height="120" viewBox="0 0 130 120"><use href="#folha" class="pisca"/></svg></div>
+  <div class="e" style="left:880px;top:1440px;animation-delay:.6s"><svg width="100" height="100" viewBox="0 0 120 120"><use href="#estrela" class="pisca"/></svg></div>
+  <div class="cfs" style="left:480px;top:1320px"></div>
+</div></div>
+<div class="q" id="l6" data-dur="2.9"><div class="wrap">
+  <div class="bloco" style="top:1130px"><div class="g" data-t="70%" style="font-size:250px"></div><span class="p ama" style="margin-top:14px">Da praça já pronta</span></div>
+  <div class="e" style="left:560px;top:1090px;animation-delay:.5s"><svg width="120" height="120" viewBox="0 0 120 120"><use href="#estrela" class="pisca"/></svg></div>
+  <div class="cfs" style="left:380px;top:1300px"></div>
+</div></div>
+
+<div class="q" id="cap" data-dur="44.1" data-clip="1430,300"><div id="capt"></div></div>
+<style>#capt{position:absolute;left:0;right:0;top:1500px;text-align:center;font-size:56px;line-height:1.5;white-space:nowrap}
+#capt span{display:inline-block;padding:4px 14px 2px;margin:0 -3px;border-radius:14px;color:#fff;-webkit-text-stroke:11px #3A1778;paint-order:stroke fill}
+#capt span.v{background:#FFD21E;color:#3A1778;-webkit-text-stroke:0;box-shadow:0 0 0 5px #fff,0 6px 0 5px #3A1778;transform:rotate(-3deg) scale(1.08)}</style>
+<script>const CAP=[[["Uma", 0.2, 0.68], ["sexta-feira", 0.68, 1.18], ["é", 1.18, 1.3]], [["diferente", 1.3, 1.56]], [["uma", 1.62, 1.72], ["sexta-feira", 1.72, 2.12], ["na", 2.12, 2.24]], [["comunidade", 2.24, 2.6], ["da", 2.6, 2.78], ["Boa", 2.78, 3.08]], [["Espera", 3.08, 3.34]], [["Agradecer", 3.58, 3.84], ["a", 3.84, 3.92], ["Deus", 3.86, 4.0]], [["pela", 4.0, 4.08], ["oportunidade", 4.06, 4.74]], [["aqui", 4.74, 5.18], ["na", 5.18, 5.74], ["Escola", 5.74, 6.04]], [["Rui", 6.04, 6.22], ["Barbosa", 6.22, 6.64], ["com", 6.64, 6.84]], [["nossos", 6.84, 7.08], ["alunos", 7.08, 7.68]], [["pra", 7.78, 7.86], ["plantação", 7.86, 8.26], ["de", 8.26, 8.52]], [["árvores", 8.52, 8.98], ["na", 8.98, 9.48], ["praça", 9.48, 9.74]], [["da", 9.74, 9.9], ["Boa", 9.9, 10.02], ["Espera", 10.02, 10.34]], [["Agradecer", 11.26, 11.74], ["imensamente", 11.74, 12.22]], [["ao", 12.22, 12.54], ["amigo", 12.54, 12.74], ["Filipe", 12.74, 13.02]], [["do", 13.02, 13.28], ["Saco", 13.28, 13.52]], [["a", 13.7, 13.84], ["Eco", 13.84, 14.0], ["Irrigação", 14.0, 14.36]], [["e", 14.36, 14.5], ["Jardim", 14.5, 14.94]], [["por", 15.12, 15.22], ["doar", 15.22, 15.4], ["essas", 15.4, 15.64]], [["árvores", 15.64, 15.98]], [["cumprir", 16.18, 16.36], ["seu", 16.36, 16.58], ["compromisso", 16.58, 17.22]], [["Filipe", 17.52, 17.76], ["irmão", 17.76, 18.08]], [["muito", 18.22, 18.34], ["obrigado", 18.34, 18.66]], [["Deus", 18.72, 18.84], ["lhe", 18.84, 18.94], ["abençoe", 18.94, 19.48]], [["e", 19.48, 19.98], ["continuando", 19.98, 20.7], ["trabalhando", 20.7, 21.34]], [["pela", 21.34, 21.62], ["Boa", 21.62, 21.82], ["Espera", 21.82, 22.12]], [["Logo", 22.22, 22.44], ["em", 22.44, 22.64], ["breve", 22.64, 23.0]], [["estaremos", 23.0, 23.42], ["aqui", 23.42, 23.74], ["com", 23.74, 23.88]], [["nossa", 23.88, 24.1], ["praça", 24.1, 24.34], ["concluída", 24.34, 24.84]], [["70%", 24.96, 25.56], ["da", 25.56, 25.76], ["praça", 25.76, 25.96]], [["já", 25.96, 26.2], ["pronta", 26.2, 26.62]], [["falta", 26.76, 26.92], ["chegar", 26.92, 27.18], ["aos", 27.18, 27.36]], [["bancos", 27.36, 27.96]], [["os", 28.06, 28.14], ["equipamentos", 28.14, 28.62], ["da", 28.62, 28.84]], [["Academia", 28.84, 29.12], ["do", 29.12, 29.3], ["Idoso", 29.3, 29.58]], [["e", 29.58, 29.92], ["dessa", 29.92, 30.1], ["forma", 30.1, 30.36]], [["a", 30.36, 30.44], ["gente", 30.42, 30.62], ["trabalhando", 30.62, 31.2]], [["por", 31.2, 31.36], ["Santanópolis", 31.36, 31.94], ["cada", 31.94, 32.1]], [["vez", 32.1, 32.28], ["melhor", 32.28, 32.6]], [["Agradecer", 32.86, 33.22], ["ao", 33.22, 33.38], ["amigo", 33.38, 33.5]], [["BA", 33.5, 33.9]], [["representante", 33.9, 34.42]], [["agradecer", 34.6, 34.92], ["a", 34.92, 35.22], ["Sérgio", 35.22, 35.92]], [["nosso", 36.12, 36.24], ["secretário", 36.24, 36.62], ["de", 36.62, 36.7]], [["Administração", 36.66, 36.92], ["e", 36.92, 37.04], ["Finanças", 37.04, 37.58]], [["que", 37.58, 37.84], ["está", 37.84, 38.12], ["trabalhando", 38.12, 38.42]], [["nessa", 38.42, 38.58], ["comunidade", 38.58, 39.02], ["como", 39.02, 39.26]], [["nunca", 39.26, 39.56]], [["E", 39.8, 39.88], ["é", 39.82, 40.0], ["assim", 40.0, 40.18]], [["Vitor", 40.3, 40.5], ["do", 40.5, 40.64], ["Povo", 40.64, 40.88]], [["e", 40.88, 40.96], ["toda", 40.96, 41.08], ["sua", 41.08, 41.26]], [["equipe", 41.26, 41.84], ["trabalhando", 41.84, 42.34]], [["por", 42.34, 42.52], ["Santanópolis", 42.52, 43.18], ["cada", 43.18, 43.42]], [["vez", 43.42, 43.64], ["melhor", 43.64, 43.94]]];
+window.__tempo=t=>{t/=1000;const el=document.getElementById('capt');let h='';
+ for(let i=0;i<CAP.length;i++){const c=CAP[i],ini=c[0][1],prox=CAP[i+1]?CAP[i+1][0][1]:1e9,fim=Math.min(c[c.length-1][2]+.5,prox);
+  if(t>=ini-.03&&t<fim){let a=0;c.forEach((p,k)=>{if(t>=p[1]-.03)a=k});
+   const e=Math.min(1,(t-ini+.03)/.12),s=.8+.2*e;h='<div style="transform:scale('+s+');opacity:'+e+'">'+c.map((p,k)=>'<span class="'+(k==a?'v':'')+'">'+p[0]+'</span>').join(' ')+'</div>';break}}
+ el.innerHTML=h};</script>
+<script>
+const cores=['#FF4FA3','#FFD21E','#19C8E6','#7ED321','#FF8A1F','#B15CFF'];
+document.querySelectorAll('.q').forEach((q,qi)=>{q.style.setProperty('--dur',q.dataset.dur);
+  q.querySelectorAll('.g').forEach(g=>{let n=0;const letras=[...g.dataset.t].map(c=>c===' '?'<span class="esp"></span>':`<i style="--i:${n};--c:${cores[(n+++qi*2)%6]}"><b>${c}</b></i>`).join('');
+    g.innerHTML=['c1','c2','c3'].map(k=>`<span class="${k}">${letras}</span>`).join('')});
+  q.querySelectorAll('.cfs').forEach(c=>{c.style.position='absolute';let h='';
+    for(let k=0;k<22;k++){const a=k/22*6.283+qi,r=330+((k*37)%170);h+=`<span class="cf" style="background:${cores[k%6]};--dx:${Math.round(Math.cos(a)*r*1.25)}px;--dy:${Math.round(Math.sin(a)*r-120)}px"></span>`}
+    c.innerHTML=h})});
+</script>
+</body></html>

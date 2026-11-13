@@ -272,21 +272,21 @@ def _txt(txt, f, cor, contorno=0, cor_cont=None):
     return im.crop(im.getbbox())
 
 def _pilha(peq, grande, peq2):
-    fg = fonte(FB9, 240)
-    while fg.getlength(grande) > 940: fg = fonte(FB9, fg.size - 8)
-    fp = fonte(FB7, 70)
+    fg = fonte(FB9, 150)
+    while fg.getlength(grande) > 880: fg = fonte(FB9, fg.size - 8)
+    fp = fonte(FB7, 50)
     return dict(tipo="pilha", p=_sombra(_txt(peq, fp, BRANCO + (255,))) if peq else None,
                 g=_sombra(_txt(grande, fg, VERDE + (255,), 4, ESCURO + (255,)), 12, 170),
                 p2=_sombra(_txt(peq2, fp, BRANCO + (255,))) if peq2 else None)
 
 def _selo(placa, fita):
-    fpl = fonte(FB9, 170); ff = fonte(FB9, 92)
-    t = _txt(placa, fpl, ESCURO + (255,)); w, h = t.width + 90, t.height + 70
+    fpl = fonte(FB9, 108); ff = fonte(FB9, 60)
+    t = _txt(placa, fpl, ESCURO + (255,)); w, h = t.width + 64, t.height + 46
     pl = Image.new("RGBA", (w, h), (0, 0, 0, 0)); d = ImageDraw.Draw(pl)
     d.rounded_rectangle((0, 0, w - 1, h - 1), 26, fill=ESCURO + (255,))
     d.rounded_rectangle((12, 12, w - 13, h - 13), 18, fill=BRANCO + (255,))
     pl.alpha_composite(t, ((w - t.width) // 2, (h - t.height) // 2))
-    tf = _txt(fita, ff, BRANCO + (255,)); fw, fh = tf.width + 80, tf.height + 44
+    tf = _txt(fita, ff, BRANCO + (255,)); fw, fh = tf.width + 60, tf.height + 30
     fi = Image.new("RGBA", (fw, fh), (0, 0, 0, 0)); d = ImageDraw.Draw(fi)
     d.polygon([(22, 0), (fw, 0), (fw - 22, fh), (0, fh)], fill=VERDE + (255,))
     d.polygon([(fw - 30, fh), (fw - 22, fh), (fw - 4, fh + 0), (fw - 30, fh)], fill=ESCURO + (255,))
@@ -294,12 +294,12 @@ def _selo(placa, fita):
     return dict(tipo="selo", pl=_sombra(pl, 14, 160), fi=_sombra(fi, 12, 150))
 
 def _rotulo(txt):
-    f = fonte(FB9, 120)
+    f = fonte(FB9, 84)
     return dict(tipo="rotulo", t=_sombra(_txt(txt, f, BRANCO + (255,), 3, ESCURO + (255,)), 10, 160))
 
 def _vazado(txt):
-    f = fonte(FB9, 230)
-    while f.getlength(txt) > 960: f = fonte(FB9, f.size - 8)
+    f = fonte(FB9, 150)
+    while f.getlength(txt) > 900: f = fonte(FB9, f.size - 8)
     return dict(tipo="vazado", o=_txt(txt, f, (0, 0, 0, 0), 6, BRANCO + (255,)),
                 c=_sombra(_txt(txt, f, VERDE + (255,), 6, ESCURO + (255,)), 12, 170))
 
@@ -317,10 +317,12 @@ def _corta_x(im, frac):
     frac = min(1, max(0, frac)); w = max(1, int(im.width * frac))
     out = Image.new("RGBA", im.size, (0, 0, 0, 0)); out.paste(im.crop((0, 0, w, im.height)), (0, 0)); return out
 
+TOPO = 190   # linha de base do lettering: faixa de cima da tela, acima do rosto
+
 def desenha_lettering(base, L, k, fora):
     X0 = 60
     if L["tipo"] == "pilha":
-        y = 1000
+        y = TOPO
         if L["p"] is not None:
             e = ease_out(k / 0.22)
             cola(base, _corta_x(L["p"], e), X0 + L["p"].width / 2, y - L["p"].height / 2 + 20, alfa=fora)
@@ -333,7 +335,7 @@ def desenha_lettering(base, L, k, fora):
             e2 = ease_out((k - 0.3) / 0.22)
             cola(base, L["p2"], X0 + 30 + L["p2"].width / 2 + 60 * (1 - e2), y + L["g"].height - 30 + L["p2"].height / 2, alfa=e2 * fora)
     elif L["tipo"] == "selo":
-        cx, cy = W / 2, 980
+        cx, cy = W / 2, TOPO + 40
         e = elastico(k / 0.32); ang = -4 - 10 * (1 - min(1, k / 0.3))
         pl = L["pl"].rotate(ang, Image.BICUBIC, expand=True)
         cola(base, pl, cx - 20, cy, escala=max(0.05, e), alfa=min(1, k / 0.06) * fora)
@@ -341,14 +343,14 @@ def desenha_lettering(base, L, k, fora):
             fi = _corta_x(L["fi"], ease_out((k - 0.18) / 0.25)).rotate(-4, Image.BICUBIC, expand=True)
             cola(base, fi, cx + 60, cy + pl.height * 0.42, alfa=fora)
     elif L["tipo"] == "rotulo":
-        y = 1120; e = ease_out(k / 0.25); t = L["t"]
+        y = TOPO + 40; e = ease_out(k / 0.25); t = L["t"]
         cola(base, _borrao(t, 1 - e), X0 + t.width / 2 - 300 * (1 - e), y, alfa=min(1, k / 0.06) * fora)
         d = ImageDraw.Draw(base); n = int(min(1, max(0, (k - 0.2) / 0.5)) * 14)
         for i in range(n):
-            x = X0 + t.width + 10 + i * 26; r = 6
-            d.ellipse((x - r, y + 30 - r, x + r, y + 30 + r), fill=VERDE)
+            x = X0 + t.width - 10 + i * 22; r = 5
+            d.ellipse((x - r, y + 22 - r, x + r, y + 22 + r), fill=VERDE)
     elif L["tipo"] == "vazado":
-        cx, cy = W / 2, 1080; e = ease_out(k / 0.35)
+        cx, cy = W / 2, TOPO + 60; e = ease_out(k / 0.35)
         cola(base, L["o"], cx, cy, escala=1.25 - 0.25 * e, alfa=min(1, k / 0.1) * fora)
         if k > 0.3:
             cola(base, _corta_x(L["c"], ease_out((k - 0.3) / 0.35)), cx, cy, alfa=fora)
@@ -375,10 +377,11 @@ def legenda_img(txt):
 
 LET = [bloco_lettering(i) for i in LETTERING]
 LEG = [(a, b, legenda_img(t)) for a, b, t in LEGENDAS]
-KM_SUB = _sombra(_txt("DE ASFALTO", fonte(FB7, 80), BRANCO + (255,)))
-KM_NUM = {n: _sombra(_txt(f"+{n}KM", fonte(FB9, 300), VERDE + (255,), 5, ESCURO + (255,)), 12, 170) for n in range(1, 10)}
+KM_SUB = _sombra(_txt("DE ASFALTO", fonte(FB7, 54), BRANCO + (255,)))
+KM_NUM = {n: _sombra(_txt(f"+{n}KM", fonte(FB9, 180), VERDE + (255,), 4, ESCURO + (255,)), 12, 170) for n in range(1, 10)}
 # degradê escuro suave na base (como nas referências) para o texto ler sobre qualquer imagem
-_g = np.clip((np.arange(H) - H * 0.38) / (H * 0.62), 0, 1) ** 1.2 * 175
+_y = np.arange(H)
+_g = np.clip((_y - H * 0.62) / (H * 0.38), 0, 1) ** 1.3 * 140 + np.clip(1 - _y / (H * 0.30), 0, 1) ** 1.6 * 120
 BASE_ESCURA = Image.fromarray(np.dstack([np.zeros((H, W, 3), np.uint8),
                                          np.broadcast_to(_g[:, None], (H, W)).astype(np.uint8)]), "RGBA")
 def selo_img(t):
@@ -512,15 +515,15 @@ def render():
         # selo
         for a, b, simg in SELO_IMGS:
             if a <= t < b:
-                cola(im, simg, 40 + simg.width / 2, 250, alfa=min(1, (t - a) / 0.3))
+                cola(im, simg, 40 + simg.width / 2, H - 120, alfa=min(1, (t - a) / 0.3))
         # contador +9KM
         a, b = CONTADOR
         if a <= t < b:
             k = t - a; num = min(9, 1 + int(k / 0.045)); fora = min(1, (b - t) / 0.12); g = KM_NUM[num]
-            cola(im, g, 60 + g.width / 2, 1000 + g.height / 2 - 40, escala=1 + 0.08 * (1 - elastico(k / 0.35)), alfa=min(1, k / 0.08) * fora)
+            cola(im, g, 60 + g.width / 2, TOPO + g.height / 2 - 40, escala=1 + 0.08 * (1 - elastico(k / 0.35)), alfa=min(1, k / 0.08) * fora)
             if k > 0.25:
                 e = ease_out((k - 0.25) / 0.25)
-                cola(im, KM_SUB, 90 + KM_SUB.width / 2 + 60 * (1 - e), 1000 + g.height - 10, alfa=e * fora)
+                cola(im, KM_SUB, 90 + KM_SUB.width / 2 + 60 * (1 - e), TOPO + g.height - 20, alfa=e * fora)
         # lettering
         for a, b, L in LET:
             if a <= t < b:

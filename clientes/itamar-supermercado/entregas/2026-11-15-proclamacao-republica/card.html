@@ -1,11 +1,11 @@
 <!doctype html><meta charset="utf-8"><meta name="tamanho" content="1080x1350"><link rel="stylesheet" href="../../../../ferramentas/fontes.css">
 <!-- Ref.: Designi — fundo amarelo com cena histórica desbotada, "REPÚBLICA" serifado em eco, quadro verde 3D com losango e esfera,
-     balões 3D com coração azul, fitas desfocadas nos cantos, "Proclamação da" manuscrito sobre "REPÚBLICA". -->
+     balões 3D com coração azul, (cena antiga: Magnific / Nano Banana 2.1, ilustrativa) fitas desfocadas nos cantos, "Proclamação da" manuscrito sobre "REPÚBLICA". -->
 <style>
 *{box-sizing:border-box;margin:0}
 body{width:1080px;height:1350px;overflow:hidden;position:relative;font-family:"Playfair Display",serif;
  background:radial-gradient(90% 70% at 50% 45%,#FFC81A 0%,#FFBE0B 55%,#F7A800 100%)}
-#cena{position:absolute;left:0;top:0;filter:blur(3px) sepia(.4);opacity:.32;-webkit-mask:linear-gradient(180deg,#000 55%,transparent 100%)}
+#cena{position:absolute;left:-40px;top:0;width:1160px;height:647px;object-fit:cover;mix-blend-mode:multiply;opacity:.24;filter:sepia(.6) blur(1.6px);-webkit-mask:linear-gradient(180deg,#000 60%,transparent 100%)}
 .raios{position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.07) 0 26px,rgba(255,255,255,0) 26px 70px);
  -webkit-mask:radial-gradient(70% 60% at 80% 80%,#000,transparent)}
 .eco{position:absolute;left:0;right:0;top:252px;text-align:center;font:400 112px/135px "Playfair Display";letter-spacing:-.005em}
@@ -45,7 +45,7 @@ body{width:1080px;height:1350px;overflow:hidden;position:relative;font-family:"P
 .data{margin-top:30px;font:600 25px Montserrat;letter-spacing:.22em;padding-left:.22em;color:#2B3A12}
 .logo{position:absolute;left:50%;transform:translateX(-50%);top:1170px;height:132px;filter:drop-shadow(0 8px 12px rgba(140,70,0,.35))}
 </style>
-<canvas id="cena" width="1080" height="560"></canvas>
+<img id="cena" src="fundo-antigo-ia.png" alt="">
 <div class="raios"></div>
 <div class="eco"><div>REPÚBLICA</div><div>REPÚBLICA</div><div>REPÚBLICA</div><div>REPÚBLICA</div></div>
 <div class="fita f1"></div><div class="fita f2"></div>
@@ -56,14 +56,3 @@ body{width:1080px;height:1350px;overflow:hidden;position:relative;font-family:"P
 <div class="balao b1"><i></i></div><div class="balao b2"><i></i></div>
 <div class="titulo"><div class="rep">REPÚBLICA</div><div class="proc">Proclamação da</div><div class="data">15 de Novembro</div></div>
 <img class="logo" src="../../identidade/logo-itamar-3d-transparente.png" alt="">
-<script>
-// prédio histórico genérico, em tom sépia desbotado (no lugar da foto antiga da referência)
-const c=document.getElementById('cena').getContext('2d');
-c.fillStyle='rgba(150,95,20,.55)';
-function predio(x,y,w,h,andares){c.fillStyle='rgba(170,110,25,.45)';c.fillRect(x,y,w,h);
-  c.fillStyle='rgba(120,70,10,.55)';c.fillRect(x-8,y-14,w+16,14);c.fillRect(x-4,y+h*0.48,w+8,8);
-  for(let a=0;a<andares;a++){const yy=y+24+a*(h/andares);for(let xx=x+18;xx<x+w-30;xx+=46){
-    c.fillStyle='rgba(110,60,5,.55)';c.beginPath();c.moveTo(xx,yy+50);c.lineTo(xx,yy+14);c.arc(xx+13,yy+14,13,Math.PI,0);c.lineTo(xx+26,yy+50);c.fill();}}}
-predio(-20,60,560,300,3);predio(560,30,560,330,3);
-c.fillStyle='rgba(120,70,10,.35)';for(let i=0;i<220;i++){const x=Math.random()*1080,y=380+Math.random()*90;c.fillRect(x,y,4+Math.random()*4,18+Math.random()*22)}
-</script>

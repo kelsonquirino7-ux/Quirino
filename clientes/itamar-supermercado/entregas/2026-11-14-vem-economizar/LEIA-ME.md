@@ -12,8 +12,9 @@ Sem áudio, 16 s, 30 fps.
   Uma tentativa anterior no Kling 2.5 (650 créditos) foi descartada porque deformava o logo da camisa.
 
 Recriar os quadros recortados (não vão para o git): `python3 recorte.py avatar-seedance-verde.mp4 avatar`.
-O recorte é próprio (não o chromakey do ffmpeg) para não apagar o brócolis e a salsa, que são verdes como o fundo,
-e já tira a borda clara e a sombra verde do chão.
+Requer `pip install opencv-python-headless`. O recorte é próprio (não o chromakey do ffmpeg): não apaga o brócolis
+e a salsa, que são verdes como o fundo; recolhe e suaviza a borda e pinta a faixa de borda com a cor do interior do avatar,
+então não fica contorno verde/cinza; tapa furinhos internos e tira a sombra verde do chão.
 `avatar/pes.js` guarda a posição dos pés em cada quadro (usada para a sombra no chão).
 
 Fundo: corredor de supermercado gerado no Magnific (imagem `fundo-mercado.png`, 2×65 créditos, a 2ª trocando o hortifrúti

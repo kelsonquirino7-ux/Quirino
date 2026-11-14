@@ -165,7 +165,7 @@ window.setT = async t => {
   $('chao').style.opacity = t >= T_LET + .45 ? 0 : $('chao').style.opacity;
   const lk = (gt - .55) / .8;
   $('logo').style.opacity = lk > 0 ? 1 : 0;
-  $('logo').style.transform = `scale(${lk > 0 ? eEl(lk) * (1 + .02 * Math.sin(t * 3)) : 0}) rotate(${(1 - eOut(lk)) * -8}deg)`;
+  $('logo').style.transform = `scale(${lk > 0 ? eEl(lk) : 0}) rotate(${(1 - eOut(lk)) * -8}deg)`;
   const bk = (gt - 1.3) / .7; $('faixa').style.left = (-30 + 140 * cl(bk)) + '%';
 };
 window.DUR = DUR;

@@ -20,10 +20,12 @@ footer img{height:120px;margin-top:-10px}
 footer div{font:400 26px/1.35 Montserrat;color:#fff}
 </style>
 <svg class="bg" viewBox="0 0 1080 1350">
-  <defs><linearGradient id="vd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00802B"/><stop offset="1" stop-color="#0E3F22"/></linearGradient><linearGradient id="fd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B2E1C" stop-opacity="0"/><stop offset=".22" stop-color="#0B2E1C" stop-opacity=".55"/><stop offset=".42" stop-color="#0B2E1C"/><stop offset="1" stop-color="#072016"/></linearGradient></defs>
-  <rect width="1080" height="1350" fill="url(#vd)"/>
-  <image href="fundo-tecido-ia.png" x="0" y="-120" width="1080" height="1150" preserveAspectRatio="none"/>
-  <rect y="740" width="1080" height="610" fill="url(#fd)"/>
+  <defs><linearGradient id="vd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00802B"/><stop offset="1" stop-color="#0E3F22"/></linearGradient><linearGradient id="fd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B2E1C" stop-opacity="0"/><stop offset=".15" stop-color="#0B2E1C" stop-opacity=".08"/><stop offset=".3" stop-color="#0B2E1C" stop-opacity=".25"/><stop offset=".45" stop-color="#0B2E1C" stop-opacity=".5"/><stop offset=".6" stop-color="#0A2B1B" stop-opacity=".78"/><stop offset=".75" stop-color="#09271A" stop-opacity=".95"/><stop offset="1" stop-color="#072016"/></linearGradient></defs>
+  <linearGradient id="mg" x1="0" y1="0" x2="0" y2="1"><stop offset=".55" stop-color="#fff"/><stop offset=".72" stop-color="#fff" stop-opacity=".75"/><stop offset=".86" stop-color="#fff" stop-opacity=".3"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  <mask id="mk"><rect x="0" y="-120" width="1080" height="1150" fill="url(#mg)"/></mask>
+  <rect width="1080" height="1350" fill="#082418"/>
+  <image href="fundo-tecido-ia.png" x="0" y="-120" width="1080" height="1150" preserveAspectRatio="none" mask="url(#mk)"/>
+  <rect y="520" width="1080" height="830" fill="url(#fd)"/>
   <path d="M550 238 A476.5 476.5 0 0 1 875 1100" fill="none" stroke="#0b3a1a" stroke-opacity=".35" stroke-width="24" stroke-linecap="round" transform="translate(4,9)"/>
   <path d="M550 238 A476.5 476.5 0 0 1 875 1100" fill="none" stroke="#F4F6F5" stroke-width="22" stroke-linecap="round"/>
 </svg>

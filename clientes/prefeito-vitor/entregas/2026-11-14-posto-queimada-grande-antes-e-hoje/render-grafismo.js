@@ -1,8 +1,8 @@
 // Gera os quadros transparentes (30 fps) de grafismo.html em grafismo/0000.png...
-// Uso: node render-grafismo.js            (todos os quadros, 28,7 s)
+// Uso: node render-grafismo.js            (todos os quadros, 42,24 s)
 //      node render-grafismo.js 2 10 15    (só amostras nesses segundos, em amostra-<t>.png)
 const {chromium}=require('playwright');const path=require('path');const fs=require('fs');
-const TOTAL=28.7, am=process.argv.slice(2).map(Number);
+const TOTAL=42.24, am=process.argv.slice(2).map(Number);
 (async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:1080,height:1920}});
 await p.goto('file://'+path.resolve(__dirname,'grafismo.html'));await p.evaluate(()=>document.fonts.ready);
 const dir=path.join(__dirname,'grafismo');if(!am.length){fs.rmSync(dir,{recursive:true,force:true});fs.mkdirSync(dir)}

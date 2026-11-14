@@ -11,10 +11,6 @@ body{width:1080px;height:1920px;position:relative;overflow:hidden;font-family:Mo
 #jan{position:absolute;left:60px;top:390px;width:960px;height:960px;border-radius:44px;box-shadow:0 0 0 2400px var(--escuro)}
 #borda{position:absolute;left:46px;top:376px;width:988px;height:988px;border-radius:56px;border:14px solid #fff}
 .circ{position:absolute;border-radius:50%;border:34px solid var(--verde);opacity:.35}
-#logo{position:absolute;left:56px;top:70px;background:#fff;border-radius:22px;padding:8px 18px}
-#logo img{height:118px;display:block}
-#local{position:absolute;left:64px;top:84px;font:800 32px/1 Montserrat;color:var(--claro);letter-spacing:.04em}
-#local b{font-weight:900;color:#fff}
 .h{position:absolute;left:64px;right:64px;top:150px;height:210px;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;opacity:0}
 .h small{font:800 44px/1 Montserrat;color:var(--acento);letter-spacing:.02em}
 .h big{font:900 92px/0.98 Montserrat;letter-spacing:-.02em}
@@ -27,14 +23,10 @@ body{width:1080px;height:1920px;position:relative;overflow:hidden;font-family:Mo
 #linha .l{position:absolute;top:48px;font:900 40px/1.1 Montserrat;width:420px}
 #linha .l i{display:block;font-style:normal;font-weight:800;font-size:28px;color:var(--claro)}
 #cap{position:absolute;left:50px;right:50px;top:1420px;height:250px;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:6px 18px;font:900 76px/1 Montserrat}
-#cap span{padding:12px 18px 10px;border-radius:16px}
+#cap span{padding:12px 18px 10px;border-radius:16px;white-space:nowrap}
 #cap span.at{background:#fff;color:var(--escuro)}
-#obg{position:absolute;left:50px;right:50px;top:1400px;height:470px;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:20px 18px;opacity:0}
-#obg span{display:inline-block;font:900 38px/1 Montserrat;text-transform:none;color:#fff;padding:18px 28px 16px;border:5px solid var(--acento);border-radius:60px}
-#obg span b{display:block;font-weight:800;font-size:22px;letter-spacing:.08em;text-transform:uppercase;color:var(--acento);margin-bottom:6px}
 #flash{position:absolute;inset:0;background:#fff;opacity:0}
 #rodape{position:absolute;left:0;right:0;bottom:0;height:24px;background:var(--verde)}
-#arroba{position:absolute;right:64px;bottom:60px;font:800 32px Montserrat;color:var(--claro);letter-spacing:.02em;text-transform:none}
 </style></head><body>
 <div class="circ" style="width:520px;height:520px;left:-330px;top:1640px"></div>
 <div class="circ" style="width:380px;height:380px;right:-200px;top:-150px"></div>
@@ -43,7 +35,13 @@ body{width:1080px;height:1920px;position:relative;overflow:hidden;font-family:Mo
 <div class="h" id="h1"><small>Isso aqui era uma</small><big>escola<br>desativada</big></div>
 <div class="h" id="h2"><small>Satélite da Queimada Grande</small><big>Hoje é posto<br>de saúde</big></div>
 <div class="h" id="h3"><small>Mais uma vez,</small><big>Queimada<br>Grande</big></div>
-<div class="h" id="h4"><small>A quem ajudou nessa conquista</small><big>Muito<br>obrigado!</big></div>
+<div class="h" id="h4"><small>O prefeito agradece</small><big>Muito<br>obrigado!</big></div>
+<div class="h" id="n1"><small>Secretária</small><big>Dominique</big></div>
+<div class="h" id="n2"><small>Vereador</small><big>Vadão</big></div>
+<div class="h" id="n3"><small>Amigo</small><big>Júnior de<br>Tereza</big></div>
+<div class="h" id="n4"><small>Deputado</small><big>Matheus<br>Ferreira</big></div>
+<div class="h" id="n5"><small>Secretária</small><big>Roberta<br>Santana</big></div>
+<div class="h" id="n6"><small>Governador</small><big>Jerônimo</big></div>
 <div class="h" id="h5"><small>Para a Queimada Grande</small><big>Novos<br>ares</big></div>
 
 <div class="tag" id="t1">Antes<span>ago/2026</span></div>
@@ -56,35 +54,31 @@ body{width:1080px;height:1920px;position:relative;overflow:hidden;font-family:Mo
 
 <div id="cap"></div>
 
-<div id="obg">
-  <span><b>Secretária</b>Dominique</span><span><b>Vereador</b>Vadão</span><span><b>Amigo</b>Júnior de Tereza</span>
-  <span><b>Deputado</b>Matheus Ferreira</span><span><b>Secretária</b>Roberta Santana</span><span><b>Governador</b>Jerônimo</span>
-</div>
 <div id="flash"></div><div id="rodape"></div>
 <script>
-// Linha do tempo do vídeo final (s). Fala: trechos de legenda-fala.srt da Prefeitura, deslocados.
-const CENAS=[['h1',0,8.8],['h2',8.8,12.8],['h3',12.8,20.9],['h4',20.9,26.2],['h5',26.2,28.7]];
-const TAGS=[['t1',0.3,8.8],['t2',8.9,20.9]];
-const E1=12.8, E2=19.2-22.56; // início da fala no vídeo (E2 = deslocamento do trecho 22,56 s)
-const CAP=[[0,.62,'Mais investimentos'],[.62,1.14,'chegando no nosso'],[1.14,1.78,'município.'],[1.78,2.26,'Agora é a'],[2.26,2.74,'vez,'],
- [2.74,3.68,'mais uma vez,'],[3.68,4.42,'da comunidade da'],[4.42,5.16,'Queimada Grande,'],[5.16,5.68,'posto de saúde'],[5.68,6.3,'satélite.']].map(c=>[c[0]+E1,c[1]+E1,c[2]])
- .concat([[22.56,23.06,'E a Queimada'],[23.06,23.34,'Grande,'],[23.34,23.70,'mais uma vez,'],[23.70,24.3,'sempre contemplada.']].map(c=>[c[0]+E2,c[1]+E2,c[2]]));
+// Linha do tempo do vídeo final (s). A manchete troca quando o prefeito fala cada nome.
+const CENAS=[['h1',0,8.8],['h2',8.8,12.8],['h3',12.8,19.1],['h4',19.1,20.2],['n1',20.2,22.16],['n2',22.16,24.16],['n3',24.16,29.34],
+ ['h3',29.34,31.18],['n4',31.18,36.04],['n5',36.04,38.32],['n6',38.32,39.66],['h5',39.66,42.24]];
+const TAGS=[['t1',0.3,8.8],['t2',8.9,19.1]];
+// legenda: trechos de legenda-fala.srt da Prefeitura já deslocados para este vídeo [início, fim, texto, bloco]
+const CAP=[[12.8,13.42,"Mais investimentos",1],[13.42,13.94,"chegando no nosso",1],[13.94,14.42,"município.",1],[14.58,15.14,"Agora é a",1],[15.06,15.36,"vez,",1],[15.54,16.14,"mais uma vez,",1],[16.48,17.22,"da comunidade da",1],[17.22,17.66,"Queimada Grande,",1],[17.96,18.48,"posto de saúde",1],[18.48,19.1,"satélite.",1],
+[19.22,20.2,"Agradecer e parabenizar",2],[20.2,21.22,"a secretária Dominique",2],[21.22,21.84,"pela atitude,",2],[22.16,23.18,"ao vereador Vadão",2],[23.18,23.86,"pela indicação,",2],[24.16,24.78,"ao nosso amigo",2],[24.78,25.92,"Júnior de Tereza,",2],[26.04,27.18,"que doou vários",2],[27.18,28.22,"materiais para a",2],[28.22,29.34,"reforma e ampliação.",2],
+[29.4,29.9,"E a Queimada",3],[29.9,30.1,"Grande,",3],[30.18,30.52,"mais uma vez,",3],[30.54,31.1,"sempre contemplada.",3],[31.18,32.16,"Agradeço também ao",3],[32.16,33.44,"deputado Matheus Ferreira,",3],[33.64,34.12,"que vai doar",3],[34.12,35.02,"todos os equipamentos",3],[35.02,36.04,"desse posto satélite.",3],
+[36.1,37.0,"Agradeço a secretária",4],[37.0,38.24,"Roberta Santana,",4],[38.32,38.96,"ao nosso governador",4],[38.96,39.46,"Jerônimo,",4],[39.66,40.22,"por estar ajudando",4],[40.22,41.26,"Santanópolis a desenvolver",4],[41.26,42.12,"cada vez mais.",4]];
 const cl=x=>Math.max(0,Math.min(1,x)), eo=x=>1-Math.pow(1-cl(x),3), bk=x=>{x=cl(x);const c=1.7;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
 const $=id=>document.getElementById(id);
 function setT(t){
-  for(const [id,a,b] of CENAS){const e=$(id),k=bk((t-a)/.45),o=cl((b-t)/.25);e.style.opacity=t>=a&&t<b?Math.min(cl((t-a)/.2),o):0;
-    e.style.transform=`translateY(${(1-k)*60}px)`;[...e.children].forEach((c,i)=>{c.style.transform=`translateX(${(1-eo((t-a-i*.12)/.4))*-80}px)`})}
+  document.querySelectorAll('.h').forEach(e=>{const c=CENAS.find(c=>c[0]===e.id&&t>=c[1]&&t<c[2]);if(!c){e.style.opacity=0;return}
+    const [,a,b]=c,k=bk((t-a)/.45);e.style.opacity=Math.min(cl((t-a)/.15),cl((b-t)/.15));
+    e.style.transform=`translateY(${(1-k)*50}px)`;[...e.children].forEach((x,i)=>{x.style.transform=`translateX(${(1-eo((t-a-i*.1)/.35))*-80}px)`})});
   for(const [id,a,b] of TAGS){const e=$(id),k=bk((t-a)/.4);e.style.opacity=t>=a&&t<b?cl((t-a)/.15)*cl((b-t)/.2):0;e.style.transform=`scale(${.5+.5*k}) rotate(-3deg)`;e.style.transformOrigin='left center'}
   // linha do tempo antes -> hoje
   const L=$('linha'),p=eo((t-8.4)/1.0);L.style.opacity=t<12.8?cl((t-.6)/.4)*cl((12.8-t)/.3):0;L.querySelector('.ench').style.width=(4+96*p)+'%';
   L.querySelectorAll('.p')[1].style.background=p>.95?'#7CF07F':'#015927';L.querySelectorAll('.l')[1].style.opacity=.45+.55*p;L.querySelectorAll('.l')[0].style.opacity=1-.55*p;
-  // legenda da fala: trecho anterior + trecho atual em destaque
-  const i=CAP.findIndex(c=>t>=c[0]-.04&&t<c[1]+.3);const cap=$('cap');
-  if(i<0){cap.innerHTML=''}else{const prev=i>0&&i!=10/*1º trecho da 2ª fala*/&&CAP[i-1][1]>CAP[i][0]-.5?`<span>${CAP[i-1][2]}</span>`:'';
-    cap.innerHTML=prev+`<span class="at">${CAP[i][2]}</span>`;const s=cap.lastChild;const k=bk((t-CAP[i][0])/.18);s.style.transform=`scale(${.7+.3*k})`}
-  // agradecimentos
-  const O=$('obg');O.style.opacity=t>=21.1&&t<26.2?cl((t-21.1)/.2)*cl((26.2-t)/.25):0;
-  O.querySelectorAll('span').forEach((e,j)=>{const a=21.3+j*.3;e.style.opacity=cl((t-a)/.15);e.style.transform=`scale(${.4+.6*bk((t-a)/.35)})`});
+  // legenda da fala: trecho anterior (mesmo bloco) + trecho atual em destaque
+  const i=CAP.findIndex(c=>t>=c[0]-.04&&t<c[1]+(CAP[CAP.indexOf(c)+1]&&CAP[CAP.indexOf(c)+1][3]===c[3]?.3:0));const cap=$('cap');
+  if(i<0){cap.innerHTML=''}else{const prev=i>0&&CAP[i-1][3]===CAP[i][3]&&CAP[i-1][1]>CAP[i][0]-.5?`<span>${CAP[i-1][2]}</span>`:'';
+    cap.innerHTML=prev+`<span class="at">${CAP[i][2]}</span>`;[...cap.children].forEach(x=>{if(x.offsetWidth>960)x.style.fontSize=Math.floor(76*960/x.offsetWidth)+'px'});const s=cap.lastChild;const k=bk((t-CAP[i][0])/.18);s.style.transform=`scale(${.7+.3*k})`}
   // flash na virada antes -> hoje
   $('flash').style.opacity=Math.max(0,1-Math.abs(t-8.95)/.25)*.85;
 }

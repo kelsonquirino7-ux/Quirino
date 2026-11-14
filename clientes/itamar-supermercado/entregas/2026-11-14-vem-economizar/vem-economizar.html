@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<title>Itamar · Vem economizar</title>
+<link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<style>
+:root{--am:#FFD302;--vm:#FF291E;--mr:#280E01}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:var(--W);height:var(--H);overflow:hidden;background:var(--am)}
+#cena{position:relative;width:var(--W);height:var(--H);overflow:hidden;background:var(--am)}
+.raios{position:absolute;left:50%;top:50%;width:300vmax;height:300vmax;margin:-150vmax 0 0 -150vmax;
+  background:repeating-conic-gradient(from 0deg,rgba(255,41,30,.10) 0 7.5deg,rgba(255,41,30,0) 7.5deg 15deg)}
+.vinheta{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,rgba(255,255,255,.35) 0,rgba(255,211,2,0) 45%,rgba(255,41,30,.22) 100%)}
+.bola{position:absolute;border-radius:50%}
+#chao{position:absolute;border-radius:50%;background:radial-gradient(ellipse,rgba(40,14,1,.55) 0,rgba(40,14,1,.25) 45%,rgba(40,14,1,0) 72%)}
+#av{position:absolute;filter:drop-shadow(0 0 3px rgba(255,255,255,.95)) drop-shadow(16px 18px 0 rgba(40,14,1,.22)) drop-shadow(0 12px 22px rgba(40,14,1,.4))}
+#anel{position:absolute;border-radius:50%;border:10px solid var(--vm);opacity:0}
+.poeira{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--mr);opacity:0}
+#letter{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.linha{display:flex;font-family:"Baloo 2";font-weight:800;line-height:.82;letter-spacing:-.01em}
+.l{display:inline-block;color:var(--vm);-webkit-text-stroke:var(--st) var(--mr);paint-order:stroke fill;
+  text-shadow:0 var(--ex) 0 var(--mr),0 calc(var(--ex)*1.6) 30px rgba(40,14,1,.35)}
+.l1 .l{color:var(--mr);-webkit-text-stroke:0}
+.l1 .l{text-shadow:0 calc(var(--ex)*.6) 0 rgba(255,255,255,.9)}
+#flash{position:absolute;inset:0;background:var(--vm);clip-path:circle(0 at 50% 50%)}
+#flash2{position:absolute;inset:0;background:var(--am);clip-path:circle(0 at 50% 50%)}
+#logo{position:absolute;left:50%;top:50%;opacity:0}
+#logo img{width:100%;display:block;filter:drop-shadow(0 24px 30px rgba(40,14,1,.45))}
+#brilho{position:absolute;inset:0;overflow:hidden;
+  -webkit-mask:url(../../identidade/logo-itamar-3d-transparente.png) center/100% 100% no-repeat}
+#brilho i{position:absolute;top:-20%;height:140%;width:22%;background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.75),rgba(255,255,255,0));transform:skewX(-20deg)}
+#arroba{position:absolute;left:0;right:0;text-align:center;font-family:"Baloo 2";font-weight:800;color:var(--mr);opacity:0}
+</style></head>
+<body><div id="cena">
+  <div class="raios" id="raios"></div><div class="vinheta"></div>
+  <div id="bolas"></div>
+  <div id="chao"></div><div id="anel"></div><div id="poeiras"></div>
+  <img id="av" alt="">
+  <div id="letter">
+    <div class="linha l1" id="lin1"></div>
+    <div class="linha l2" id="lin2"></div>
+  </div>
+  <div id="flash"></div><div id="flash2"><div class="raios" id="raios2"></div><div class="vinheta"></div></div>
+  <div id="logo"><img src="../../identidade/logo-itamar-3d-transparente.png" alt="Itamar Supermercado"><div id="brilho"><i id="faixa"></i></div></div>
+  <div id="arroba">@itamarsupermercado</div>
+</div>
+<script src="avatar/pes.js"></script>
+<script>
+// Parâmetros: ?fmt=h (1920x1080, exportado em 4K) ou ?fmt=v (1080x1920)
+const P = new URLSearchParams(location.search), V = P.get('fmt') === 'v';
+const W = V ? 1080 : 1920, H = V ? 1920 : 1080;
+const D = document.documentElement.style; D.setProperty('--W', W + 'px'); D.setProperty('--H', H + 'px');
+const FPS_AV = 24;                     // quadros do avatar (Seedance)
+const T_QUEDA = 0.9, T_CLIP = 10.0;    // queda + clipe do avatar
+const T_LET = T_QUEDA + T_CLIP;        // 10,9 s: lettering
+const T_LOGO = T_LET + 2.2;            // 13,1 s: logo
+const DUR = 15.5;
+const $ = id => document.getElementById(id);
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const eOut = x => 1 - Math.pow(1 - cl(x), 3), eIn = x => Math.pow(cl(x), 3);
+const eBack = x => { x = cl(x); const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const eEl = x => { x = cl(x); return x === 0 || x === 1 ? x : Math.pow(2, -10 * x) * Math.sin((x * 10 - .75) * 2.0944) + 1; };
+
+// Avatar: quadros 1280x720 recortados (avatar/0001.png…); pés de cada quadro em avatar/pes.js
+let PES = [], NQ = 0;
+// área do avatar na tela (o clipe 16:9 preenche a largura na horizontal; na vertical, corta as laterais)
+const AW = V ? 2300 : 1920, AH = AW * 9 / 16;
+const AX = (W - AW) / 2, AY = H - AH;   // pés do avatar no rodapé da tela
+const av = $('av'); Object.assign(av.style, { width: AW + 'px', height: AH + 'px', left: AX + 'px', top: AY + 'px' });
+
+// bolinhas decorativas
+const bolas = [];
+for (let i = 0; i < 14; i++) {
+  const b = document.createElement('div'); b.className = 'bola';
+  const s = 30 + ((i * 53) % 110), cor = i % 3 === 2 ? 'rgba(40,14,1,.10)' : 'rgba(255,41,30,.16)';
+  Object.assign(b.style, { width: s + 'px', height: s + 'px', background: cor });
+  $('bolas').appendChild(b); bolas.push({ el: b, x: (i * 137) % 100, y: (i * 61) % 100, v: .6 + (i % 5) * .25, f: i * 1.3 });
+}
+const poeiras = [];
+for (let i = 0; i < 10; i++) { const p = document.createElement('div'); p.className = 'poeira'; $('poeiras').appendChild(p); poeiras.push(p); }
+
+// lettering
+const FS = V ? 190 : 230;
+D.setProperty('--st', (V ? 14 : 16) + 'px'); D.setProperty('--ex', (V ? 12 : 14) + 'px');
+const mkLin = (el, txt, fs) => [...txt].map(c => { const s = document.createElement('span'); s.className = 'l'; s.textContent = c === ' ' ? ' ' : c; s.style.fontSize = fs + 'px'; el.appendChild(s); return s; });
+const L1 = mkLin($('lin1'), 'VEM', V ? FS * 1.15 : FS * .8), L2 = mkLin($('lin2'), 'ECONOMIZAR', V ? FS * .84 : FS);
+if (V) $('letter').style.justifyContent = 'flex-start', $('letter').style.paddingTop = '330px';
+else $('letter').style.alignItems = 'flex-end', $('letter').style.paddingRight = '110px';
+
+const LW = V ? 900 : 1300;
+Object.assign($('logo').style, { width: LW + 'px', marginLeft: -LW / 2 + 'px', marginTop: -(LW * 711 / 1486) / 2 - (V ? 60 : 40) + 'px' });
+Object.assign($('arroba').style, { top: (H / 2 + LW * 711 / 1486 / 2 + (V ? 20 : 10)) + 'px', fontSize: (V ? 64 : 58) + 'px' });
+
+function pesEm(i) { const p = PES[cl(i, 0, NQ - 1)]; return p || null; }
+
+window.setT = async t => {
+  // fundo
+  $('raios').style.transform = `rotate(${t * 9}deg) scale(${1 + .03 * Math.sin(t * 1.3)})`;
+  $('raios2').style.transform = `rotate(${-t * 14}deg)`;
+  bolas.forEach(b => { const y = ((b.y - t * b.v * 4) % 100 + 100) % 100; b.el.style.left = (b.x + 3 * Math.sin(t * .8 + b.f)) + '%'; b.el.style.top = (y * 1.1 - 5) + '%'; });
+
+  // avatar
+  let idx = 0, dy = 0, sx = 1, sy = 1;
+  if (t < T_QUEDA) {
+    const q = t / T_QUEDA;
+    if (q < .62) dy = -(H * 1.1) * (1 - eIn(q / .62));              // cai
+    else { const k = (q - .62) / .38; dy = -60 * Math.sin(Math.PI * k) * (1 - k); sy = 1 - .12 * Math.sin(Math.PI * cl(k * 2.2)) * (1 - k); sx = 2 - sy; }
+  } else idx = Math.floor((t - T_QUEDA) * FPS_AV);
+  idx = Math.min(idx, NQ - 1);
+  // na hora do lettering: avatar recua para o lado (h) ou para baixo (v)
+  let ax = 0, ay = 0, as = 1, aop = 1;
+  if (t >= T_LET) { const k = eOut((t - T_LET) / .7); if (V) { ay = H * .14 * k; as = 1 - .12 * k; } else { ax = -W * .27 * k; as = 1 - .1 * k; } }
+  if (t >= T_LOGO) { const k = eIn((t - T_LOGO) / .4); aop = 1 - k; }
+  const src = `avatar/${String(idx + 1).padStart(4, '0')}.png`;
+  if (!av.src.endsWith(src)) { av.src = src; await av.decode().catch(() => {}); }
+  const pe = pesEm(idx);
+  const ox = pe ? AX + pe.x * AW : W / 2, oy = pe ? AY + pe.y * AH : AY + AH * .95;
+  av.style.transformOrigin = `${(ox - AX)}px ${(oy - AY)}px`;
+  av.style.transform = `translate(${ax}px,${ay + dy}px) scale(${as * sx},${as * sy})`;
+  av.style.opacity = aop;
+  // sombra no chão: segue os pés, encolhe quando está no alto
+  const alto = cl(-dy / (H * .8)), cw = pe ? pe.w * AW * 1.35 + 60 : 0;
+  Object.assign($('chao').style, { width: cw * as * (1 - .6 * alto) + 'px', height: cw * .16 * as * (1 - .6 * alto) + 'px',
+    left: (ox + ax) + 'px', top: (oy + ay) + 'px', transform: 'translate(-50%,-55%)', opacity: pe ? (1 - .7 * alto) * aop : 0 });
+  // impacto da queda
+  const ti = t - T_QUEDA * .62;
+  if (ti > 0 && ti < .7) {
+    const k = ti / .7;
+    Object.assign($('anel').style, { left: ox + 'px', top: oy + 'px', width: 200 + 900 * eOut(k) + 'px', height: (200 + 900 * eOut(k)) * .22 + 'px', transform: 'translate(-50%,-50%)', opacity: 1 - k });
+    poeiras.forEach((p, i) => { const a = Math.PI * (i / 9), r = 60 + 380 * eOut(k);
+      Object.assign(p.style, { left: ox + Math.cos(a) * r * (i % 2 ? 1 : -1) + 'px', top: oy - Math.sin(a) * r * .45 - 140 * k * (1 - k) * 4 + 'px', opacity: .5 * (1 - k), transform: `scale(${1 - .5 * k})` }); });
+  } else { $('anel').style.opacity = 0; poeiras.forEach(p => p.style.opacity = 0); }
+
+  // lettering (provisório até a referência do dono): letras quicando
+  const lt = t - T_LET;
+  [...L1, ...L2].forEach((s, i) => {
+    const k = (lt - .08 - i * .06) / .5;
+    const sai = t >= T_LOGO ? eIn((t - T_LOGO) / .35) : 0;
+    s.style.opacity = k <= 0 ? 0 : 1 - sai;
+    s.style.transform = `translateY(${(1 - eBack(k)) * -260 - sai * 120}px) scale(${.4 + .6 * eEl(k)}) rotate(${(1 - eOut(k)) * (i % 2 ? 14 : -14) + Math.sin(t * 6 + i) * 2 * cl(k)}deg)`;
+  });
+
+  // logo: dois círculos (vermelho, amarelo) e logo em elástico + brilho
+  const gt = t - T_LOGO, R = Math.hypot(W, H);
+  $('flash').style.clipPath = `circle(${gt > 0 ? R * eOut(gt / .45) : 0}px at 50% 50%)`;
+  $('flash2').style.clipPath = `circle(${gt > .15 ? R * eOut((gt - .15) / .45) : 0}px at 50% 50%)`;
+  const lk = (gt - .35) / .8;
+  $('logo').style.opacity = lk > 0 ? 1 : 0;
+  $('logo').style.transform = `scale(${lk > 0 ? eEl(lk) * (1 + .02 * Math.sin(t * 3)) : 0}) rotate(${(1 - eOut(lk)) * -8}deg)`;
+  const bk = (gt - 1.1) / .7; $('faixa').style.left = (-30 + 140 * cl(bk)) + '%';
+  $('arroba').style.opacity = cl((gt - 1.0) / .4); $('arroba').style.transform = `translateY(${(1 - eOut((gt - 1.0) / .4)) * 40}px)`;
+  if (gt > 0) { $('raios').style.zIndex = 0; }
+};
+window.DUR = DUR;
+window.pronto = (async () => {
+  PES = window.PES; NQ = PES.length;
+  await document.fonts.ready; await window.setT(0);
+})();
+</script>
+</body></html>

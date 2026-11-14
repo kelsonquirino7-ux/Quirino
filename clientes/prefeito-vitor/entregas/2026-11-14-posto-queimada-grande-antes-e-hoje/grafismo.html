@@ -1,0 +1,102 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- Grafismo do Reels "Antes e hoje · Posto da Queimada Grande" (Prefeito Vitor).
+     Moldura 1080x1920 com janela transparente (x60 y480, 960x960) onde entra o vídeo.
+     Tudo é guiado por setT(segundos); quadros: node render-grafismo.js -->
+<link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<style>
+:root{--verde:#0AA514;--escuro:#015927;--acento:#7CF07F;--claro:#DDF5E0}
+*{margin:0;box-sizing:border-box}
+html,body{background:transparent}
+body{width:1080px;height:1920px;position:relative;overflow:hidden;font-family:Montserrat;color:#fff;text-transform:uppercase}
+#jan{position:absolute;left:60px;top:480px;width:960px;height:960px;border-radius:44px;box-shadow:0 0 0 2400px var(--escuro)}
+#borda{position:absolute;left:46px;top:466px;width:988px;height:988px;border-radius:56px;border:14px solid #fff}
+.circ{position:absolute;border-radius:50%;border:34px solid var(--verde);opacity:.35}
+#logo{position:absolute;left:56px;top:70px;background:#fff;border-radius:22px;padding:8px 18px}
+#logo img{height:118px;display:block}
+#local{position:absolute;right:60px;top:104px;text-align:right;font:800 30px/1.25 Montserrat;color:var(--claro);letter-spacing:.04em}
+#local b{display:block;font-weight:900;font-size:40px;color:#fff}
+.h{position:absolute;left:64px;right:64px;top:250px;height:210px;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;opacity:0}
+.h small{font:800 44px/1 Montserrat;color:var(--acento);letter-spacing:.02em}
+.h big{font:900 92px/0.98 Montserrat;letter-spacing:-.02em}
+.tag{position:absolute;left:96px;top:516px;background:#fff;color:var(--escuro);font:900 46px/1 Montserrat;padding:14px 24px 12px;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,.35);opacity:0}
+.tag span{font-weight:800;font-size:28px;margin-left:12px;color:var(--escuro)}
+#linha{position:absolute;left:110px;right:110px;top:1540px;opacity:0}
+#linha .barra{height:12px;border-radius:6px;background:rgba(255,255,255,.25)}
+#linha .ench{position:absolute;left:0;top:0;height:12px;border-radius:6px;background:var(--acento)}
+#linha .p{position:absolute;top:-14px;width:40px;height:40px;border-radius:50%;background:var(--escuro);border:8px solid #fff}
+#linha .l{position:absolute;top:48px;font:900 40px/1.1 Montserrat;width:420px}
+#linha .l i{display:block;font-style:normal;font-weight:800;font-size:28px;color:var(--claro)}
+#cap{position:absolute;left:50px;right:50px;top:1500px;height:250px;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:6px 18px;font:900 76px/1 Montserrat}
+#cap span{padding:12px 18px 10px;border-radius:16px}
+#cap span.at{background:#fff;color:var(--escuro)}
+#obg{position:absolute;left:60px;right:60px;top:1010px;background:#fff;color:var(--escuro);border-radius:36px;padding:34px 40px 28px;opacity:0;box-shadow:0 18px 40px rgba(0,0,0,.4)}
+#obg h3{font:900 34px/1 Montserrat;letter-spacing:.06em;margin-bottom:18px;color:var(--escuro)}
+#obg li{list-style:none;font:900 40px/1.12 Montserrat;padding:9px 0 9px 34px;position:relative;border-top:3px solid #E3F2E5;text-transform:none}
+#obg li::before{content:"";position:absolute;left:0;top:22px;width:16px;height:16px;border-radius:50%;background:var(--verde)}
+#obg li i{font-style:normal;font-weight:600;font-size:28px;display:block;color:#2E6B44}
+#flash{position:absolute;inset:0;background:#fff;opacity:0}
+#rodape{position:absolute;left:0;right:0;bottom:0;height:24px;background:var(--verde)}
+#arroba{position:absolute;right:64px;bottom:60px;font:800 32px Montserrat;color:var(--claro);letter-spacing:.02em;text-transform:none}
+</style></head><body>
+<div class="circ" style="width:520px;height:520px;left:-300px;top:1560px"></div>
+<div class="circ" style="width:380px;height:380px;right:-200px;top:-150px"></div>
+<div id="jan"></div><div id="borda"></div>
+<div id="logo"><img src="../../identidade/logo-vitor-prefeito-do-povo.png" alt=""></div>
+<div id="local">Santanópolis<b>Queimada Grande</b></div>
+
+<div class="h" id="h1"><small>Isso aqui era uma</small><big>escola<br>desativada</big></div>
+<div class="h" id="h2"><small>Satélite da Queimada Grande</small><big>Hoje é posto<br>de saúde</big></div>
+<div class="h" id="h3"><small>Mais uma vez,</small><big>Queimada<br>Grande</big></div>
+<div class="h" id="h4"><small>A quem ajudou nessa conquista</small><big>Muito<br>obrigado!</big></div>
+<div class="h" id="h5"><small>Para a Queimada Grande</small><big>Novos<br>ares</big></div>
+
+<div class="tag" id="t1">Antes<span>ago/2026</span></div>
+<div class="tag" id="t2">Hoje<span>nov/2026</span></div>
+
+<div id="linha"><div class="barra"></div><div class="ench"></div>
+  <div class="p" style="left:-20px"></div><div class="p" style="right:-20px"></div>
+  <div class="l" style="left:-20px">Escola<i>desativada</i></div>
+  <div class="l" style="right:-20px;text-align:right">Posto<i>de saúde</i></div></div>
+
+<div id="cap"></div>
+
+<div id="obg"><h3>O prefeito agradece</h3><ul>
+  <li>Secretária Dominique<i>pela atitude</i></li>
+  <li>Vereador Vadão<i>pela indicação</i></li>
+  <li>Júnior de Tereza<i>doou materiais para a reforma e ampliação</i></li>
+  <li>Deputado Matheus Ferreira<i>vai doar os equipamentos do posto</i></li>
+  <li>Secretária Roberta Santana · Governador Jerônimo</li>
+</ul></div>
+<div id="arroba">@prefeitovitor</div>
+<div id="flash"></div><div id="rodape"></div>
+<script>
+// Linha do tempo do vídeo final (s). Fala: trechos de legenda-fala.srt da Prefeitura, deslocados.
+const CENAS=[['h1',0,8.8],['h2',8.8,12.8],['h3',12.8,20.9],['h4',20.9,26.2],['h5',26.2,28.7]];
+const TAGS=[['t1',0.3,8.8],['t2',8.9,20.9]];
+const E1=12.8, E2=19.2-22.56; // início da fala no vídeo (E2 = deslocamento do trecho 22,56 s)
+const CAP=[[0,.62,'Mais investimentos'],[.62,1.14,'chegando no nosso'],[1.14,1.78,'município.'],[1.78,2.26,'Agora é a'],[2.26,2.74,'vez,'],
+ [2.74,3.68,'mais uma vez,'],[3.68,4.42,'da comunidade da'],[4.42,5.16,'Queimada Grande,'],[5.16,5.68,'posto de saúde'],[5.68,6.3,'satélite.']].map(c=>[c[0]+E1,c[1]+E1,c[2]])
+ .concat([[22.56,23.06,'E a Queimada'],[23.06,23.34,'Grande,'],[23.34,23.70,'mais uma vez,'],[23.70,24.3,'sempre contemplada.']].map(c=>[c[0]+E2,c[1]+E2,c[2]]));
+const cl=x=>Math.max(0,Math.min(1,x)), eo=x=>1-Math.pow(1-cl(x),3), bk=x=>{x=cl(x);const c=1.7;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+const $=id=>document.getElementById(id);
+function setT(t){
+  for(const [id,a,b] of CENAS){const e=$(id),k=bk((t-a)/.45),o=cl((b-t)/.25);e.style.opacity=t>=a&&t<b?Math.min(cl((t-a)/.2),o):0;
+    e.style.transform=`translateY(${(1-k)*60}px)`;[...e.children].forEach((c,i)=>{c.style.transform=`translateX(${(1-eo((t-a-i*.12)/.4))*-80}px)`})}
+  for(const [id,a,b] of TAGS){const e=$(id),k=bk((t-a)/.4);e.style.opacity=t>=a&&t<b?cl((t-a)/.15)*cl((b-t)/.2):0;e.style.transform=`scale(${.5+.5*k}) rotate(-3deg)`;e.style.transformOrigin='left center'}
+  // linha do tempo antes -> hoje
+  const L=$('linha'),p=eo((t-8.4)/1.0);L.style.opacity=t<12.8?cl((t-.6)/.4)*cl((12.8-t)/.3):0;L.querySelector('.ench').style.width=(4+96*p)+'%';
+  L.querySelectorAll('.p')[1].style.background=p>.95?'#7CF07F':'#015927';L.querySelectorAll('.l')[1].style.opacity=.45+.55*p;L.querySelectorAll('.l')[0].style.opacity=1-.55*p;
+  // legenda da fala: trecho anterior + trecho atual em destaque
+  const i=CAP.findIndex(c=>t>=c[0]-.04&&t<c[1]+.3);const cap=$('cap');
+  if(i<0){cap.innerHTML=''}else{const prev=i>0&&i!=10/*1º trecho da 2ª fala*/&&CAP[i-1][1]>CAP[i][0]-.5?`<span>${CAP[i-1][2]}</span>`:'';
+    cap.innerHTML=prev+`<span class="at">${CAP[i][2]}</span>`;const s=cap.lastChild;const k=bk((t-CAP[i][0])/.18);s.style.transform=`scale(${.7+.3*k})`}
+  // agradecimentos
+  const O=$('obg');O.style.opacity=t>=21.1&&t<26.2?cl((t-21.1)/.2)*cl((26.2-t)/.25):0;O.style.transform=`translateY(${(1-eo((t-21.1)/.5))*120}px)`;
+  O.querySelectorAll('li').forEach((li,j)=>{const a=21.5+j*.35;li.style.opacity=cl((t-a)/.25);li.style.transform=`translateX(${(1-eo((t-a)/.4))*-50}px)`});
+  $('arroba').style.opacity=t>=26.2?cl((t-26.4)/.4):0;
+  // flash na virada antes -> hoje
+  $('flash').style.opacity=Math.max(0,1-Math.abs(t-8.95)/.25)*.85;
+}
+setT(0);
+</script>
+</body></html>

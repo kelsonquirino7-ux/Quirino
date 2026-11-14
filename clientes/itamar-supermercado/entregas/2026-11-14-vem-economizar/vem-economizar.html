@@ -3,14 +3,14 @@
 <title>Itamar · Vem economizar</title>
 <link rel="stylesheet" href="../../../../ferramentas/fontes.css">
 <style>
-:root{--am:#FFD302;--vm:#FF291E;--mr:#280E01;--eco:#FF7A12}
-/* --eco = vermelho do Itamar a 55% sobre o amarelo (tom laranja dos ecos do lettering) */
+:root{--am:#FFD302;--vm:#FF291E;--mr:#280E01;--eco:#FF291E}
+/* --eco = vermelho vivo do Itamar nos ecos do lettering; a linha do meio é marrom */
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:var(--W);height:var(--H);overflow:hidden;background:var(--am)}
 #cena{position:relative;width:var(--W);height:var(--H);overflow:hidden;background:var(--am)}
 /* fundo "mercado": prateleiras com produtos ao fundo, ícones de compras flutuando, piso */
 #mercado{position:absolute;inset:0;overflow:hidden}
-#bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%}
+#bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%;filter:blur(9px) saturate(1.05);transform:scale(1.06)}
 .luz{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(255,255,255,.45) 0,rgba(255,255,255,0) 55%)}
 .prat{position:absolute;left:0;height:var(--ph);will-change:transform}
 .prat .tabua{position:absolute;left:0;right:0;bottom:0;height:14px;border-radius:7px;background:rgba(40,14,1,.13)}

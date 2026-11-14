@@ -2,7 +2,7 @@
 
 Avatar cai na tela, dá tchau, sai correndo pela esquerda, volta empurrando um carrinho cheio de compras,
 para no centro e chama o público com a mão. Depois entram o lettering "VEM ECONOMIZAR" e a logo animada do Itamar.
-Sem áudio, 15,5 s, 30 fps.
+Sem áudio, 16 s, 30 fps.
 
 - `vem-economizar-tv65-4k.mp4` — TV 65" horizontal, 3840×2160.
 - `vem-economizar-tv32-vertical.mp4` — TV 32" em pé: arquivo 1920×1080 com a imagem girada (igual ao vídeo do açougue).
@@ -17,5 +17,7 @@ ffmpeg -i avatar-seedance-verde.mp4 -vf "chromakey=0x0BA640:0.13:0.06,despill=ty
 ```
 `avatar/pes.js` guarda a posição dos pés em cada quadro (usada para a sombra no chão).
 
-Lettering: estilo provisório (letras quicando) até o dono mandar a referência do link do YouTube.
+Lettering "tela inteira": a frase repetida em faixas que enchem a tela, com a(s) faixa(s) do meio em vermelho com contorno marrom
+e os ecos em vermelho claro. As faixas entram alternando os lados. A referência de estilo enviada pelo dono está em
+`referencia-lettering.jpg` (é só referência de movimento/composição: a fonte e as cores são as do Itamar).
 Obs.: o avatar é 720p ampliado para 4K, então fica um pouco mais macio que o fundo e a logo.

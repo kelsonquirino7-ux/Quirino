@@ -71,13 +71,11 @@ let semente = 7; const rnd = () => (semente = (semente * 16807) % 2147483647) / 
 const NBG = 240, bg = $('bg');
 
 // ---------- avatar ----------
-// quadros 1280x720 recortados (avatar/0001.png…); pés de cada quadro em avatar/pes.js
+// quadros 1280x760 recortados (avatar/0001.png…, gerados por recorte.py); pés de cada quadro em avatar/pes.js
 let PES = [], NQ = 0;
-const AW = V ? 2300 : 1920, AH = AW * 9 / 16;      // na vertical o clipe 16:9 é cortado nas laterais
+const AW = V ? 2400 : 1920, AH = AW * 760 / 1280;   // quadros 1280x760 (40 linhas extras em cima p/ o cabelo)      // na vertical o clipe 16:9 é cortado nas laterais
 const AX = (W - AW) / 2, AY = H - AH;              // pés do avatar no rodapé da tela
-// Na vertical, a borda de cima do clipe fica no meio da tela; quando ele chega perto com o carrinho o cabelo encosta
-// nessa borda. A câmera aproxima (zoom pelo rodapé) até a borda do clipe coincidir com o topo da tela.
-const ZOOM_V = H / AH, Z_INI = T_QUEDA + 6.2, Z_FIM = T_QUEDA + 7.5;
+// Na vertical a escala (2400 px de clipe) faz caber o tchau, a mão estendida e o carrinho inteiros.
 const av = $('av'); Object.assign(av.style, { width: AW + 'px', height: AH + 'px', left: AX + 'px', top: AY + 'px' });
 const poeiras = [];
 for (let i = 0; i < 10; i++) { const p = document.createElement('div'); p.className = 'poeira'; $('poeiras').appendChild(p); poeiras.push(p); }
@@ -164,8 +162,6 @@ window.setT = async t => {
   $('flash').style.opacity = 1 - cl((gt - .7) / .4);
   if (gt > .55) $('letter').style.clipPath = 'circle(0 at 50% 50%)';
   av.style.opacity = t >= T_LET + .45 ? 0 : 1;
-  if (V) { const z = 1 + (ZOOM_V - 1) * (t <= Z_INI ? 0 : t >= Z_FIM ? 1 : .5 - .5 * Math.cos(Math.PI * (t - Z_INI) / (Z_FIM - Z_INI)));
-    $('avw').style.transform = `translateX(${130 * (z - 1) / (ZOOM_V - 1)}px) scale(${z})`; }   // desloca à direita p/ a mão do gesto caber
   $('chao').style.opacity = t >= T_LET + .45 ? 0 : $('chao').style.opacity;
   const lk = (gt - .55) / .8;
   $('logo').style.opacity = lk > 0 ? 1 : 0;

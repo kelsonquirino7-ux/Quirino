@@ -8,6 +8,7 @@ import sys, subprocess, os
 import numpy as np, cv2
 src, out = sys.argv[1], sys.argv[2]; os.makedirs(out, exist_ok=True)
 W, H = 1280, 720
+PAD = 40   # linhas acrescentadas em cima (quadros saem 1280x760)
 K = lambda r: cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * r + 1, 2 * r + 1))
 p = subprocess.Popen(['ffmpeg', '-v', 'error', '-i', src, '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], stdout=subprocess.PIPE)
 n = 0
@@ -40,6 +41,22 @@ while True:
     cor_int = num / np.maximum(den, 1e-4)
     usa = (interior < 1)[..., None] & (den > .02)
     rgb = np.where(usa, cor_int, a)
+    # topo do cabelo: no fim ele chega perto e o cabelo sai pela borda de cima do clipe.
+    # O quadro ganha PAD linhas em cima e, se o cabelo toca a borda, uma cúpula é refeita espelhando a textura do topo.
+    rgb = np.vstack([np.zeros((PAD, W, 3), np.float32), rgb]); alfa = np.vstack([np.zeros((PAD, W), np.float32), alfa])
+    linha = np.where(alfa[PAD + 1] > .5)[0]
+    if len(linha) > 30:
+        x0, x1 = linha.min(), linha.max(); cx, w = (x0 + x1) / 2, x1 - x0
+        baixo = np.where(alfa[PAD + 20] > .5)[0]
+        wb = (baixo.max() - baixo.min()) if len(baixo) > 30 else w
+        # se o topo já está estreito (cabeça quase inteira no quadro), falta pouco cabelo: cúpula baixa
+        hc = int(min(PAD - 2, .17 * wb * min(1., w / wb) ** 4))
+        for yy in range(1, hc + 1):
+            hw = (w / 2) * np.sqrt(max(0., 1 - (yy / (hc + .5)) ** 2))
+            xa, xb = int(round(cx - hw)), int(round(cx + hw))
+            rgb[PAD - yy, xa:xb + 1] = rgb[PAD + yy - 1, xa:xb + 1]
+            alfa[PAD - yy, xa:xb + 1] = 1
+        cap = alfa[:PAD + 6].copy(); alfa[:PAD + 6] = cv2.GaussianBlur(cap, (0, 0), 1.0)
     rgba = np.dstack([rgb, alfa * 255]).clip(0, 255).astype(np.uint8)
     cv2.imwrite(f'{out}/{n:04d}.png', cv2.cvtColor(rgba, cv2.COLOR_RGBA2BGRA))
 print(n, 'quadros')

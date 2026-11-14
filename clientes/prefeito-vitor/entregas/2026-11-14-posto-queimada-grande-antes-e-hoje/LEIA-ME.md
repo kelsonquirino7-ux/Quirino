@@ -5,6 +5,7 @@ Proposta diferente da versão da Prefeitura, feita só com o que já existia (se
   sincronizada com as cenas (lábio sincronizado sempre que ele aparece; varanda/salas quando fala do posto e dos materiais).
   A manchete troca para o nome de cada pessoa no momento em que ele agradece; legenda palavra a palavra embaixo.
   Termina em "Novos ares" sobre a última frase e `vinheta-sem-arroba` (só o logo, pedido do dono). Sem quadro congelado.
+- Marca-d'água: logo do Vitor (85%) no canto superior direito da janela, o vídeo todo.
 - Fala usada (s da fala original): 0–6,3 · 6,4–16,64 · 22,5–35,4 (cortado "Então, Júnior de Tereza, muito obrigado…" por tempo).
 - Imagens: recorte y 330–1410 dos dois vídeos da Prefeitura de 13/11 (faixa sem logo/selos/lettering/legenda dela),
   com redução leve de ruído, nitidez, escala lanczos e exportação em CRF 16. Qualidade máxima exigiria o bruto 4K (Drive).

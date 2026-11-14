@@ -36,6 +36,7 @@ Conceito **A · Pixel** (`logo/fontes/A-*`). B e C estão em `logo/descartados/`
 3. Renderize: `node ferramentas/render.js caminho/arquivo.html` → gera o `.png` ao lado.
 4. Confira o PNG, faça commit e mande a imagem para o celular.
 Fontes locais (licença OFL) em `ferramentas/fontes/`, declaradas em `ferramentas/fontes.css`.
+Bandeira do Brasil realista (3D, sem créditos): `node ferramentas/bandeira.js saida.png '{"seed":3,"rotZ":0.2,"poste":1}'` → PNG transparente.
 
 ## Regras
 - Logo sempre em SVG vetorial como fonte; exportar PNG em 512, 1024 e 2048 px,

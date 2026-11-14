@@ -1,0 +1,26 @@
+<!doctype html><meta charset="utf-8"><meta name="tamanho" content="1080x1350"><link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<!-- Ref.: fundo verde com recorte da bandeira no topo, objeto à direita e texto à esquerda (Ortobom). -->
+<style>
+*{box-sizing:border-box;margin:0}
+body{width:1080px;height:1350px;overflow:hidden;position:relative;font-family:Montserrat,sans-serif;color:#fff;
+ background:linear-gradient(170deg,#00802B 0%,#006A24 50%,#004E1C 100%)}
+.fundo{position:absolute;left:-300px;top:-760px;width:2400px;opacity:.9;filter:blur(5px) saturate(.9);transform:rotate(-8deg);
+ -webkit-mask:linear-gradient(180deg,#000 40%,transparent 62%)}
+.arco{position:absolute;right:40px;top:150px;width:640px;height:900px;border:20px solid rgba(255,255,255,.92);border-color:rgba(255,255,255,.92) transparent transparent transparent;border-radius:50%;transform:rotate(38deg)}
+.flag{position:absolute;left:480px;top:330px;width:760px;filter:drop-shadow(0 34px 34px rgba(0,30,10,.55));-webkit-mask:linear-gradient(180deg,#000 83%,transparent 99%)}
+.data{position:absolute;left:84px;top:300px;font:800 26px/1.35 Montserrat;letter-spacing:.42em;color:#E6F4EA}
+.data span{color:#FFDF00}
+.estrela{position:absolute;left:84px;top:690px;width:46px;height:46px;background:#EB1C24;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+h1{position:absolute;left:84px;top:756px;font:600 70px/1.12 Montserrat;letter-spacing:-.01em;text-shadow:0 4px 18px rgba(0,40,15,.4)}
+h1 b{font-weight:900}
+footer{position:absolute;left:84px;right:84px;bottom:60px;display:flex;align-items:center;justify-content:space-between;padding-top:34px}
+footer img{height:130px}
+footer span{font:800 30px Montserrat;color:#E6F4EA}
+</style>
+<img class="fundo" src="bandeira.png" alt="">
+<div class="arco"></div>
+<img class="flag" src="bandeira-mastro.png" alt="">
+<div class="data">15 DE<br>NOVEMBRO<br><span>• BRASIL •</span></div>
+<div class="estrela"></div>
+<h1>Proclamação<br>da República<br>do <b>Brasil</b></h1>
+<footer><img src="../../identidade/logo-deni-de-vitor-branco.png" alt=""><span>@denidevitorofc</span></footer>

@@ -1,0 +1,37 @@
+<!doctype html><meta charset="utf-8"><meta name="tamanho" content="1080x1350"><link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<!-- Ref.: fundo amarelo, "REPÚBLICA" em eco, quadro central com a bandeira, balões de coração (estilo Designi). -->
+<style>
+*{box-sizing:border-box;margin:0}
+body{width:1080px;height:1350px;overflow:hidden;position:relative;font-family:"Baloo 2",sans-serif;color:#280E01;
+ background:radial-gradient(70% 55% at 50% 40%,#FFE45C 0%,#FFD302 55%,#F2B800 100%)}
+.eco{position:absolute;top:178px;left:0;right:0;text-align:center;font:800 186px/.86 "Baloo 2";letter-spacing:.02em}
+.eco div:nth-child(1){color:#FFF3A6}
+.eco div:nth-child(2){color:#FFEE80;opacity:.8}
+.eco div:nth-child(3){color:#FFE95A;opacity:.6}
+.eco div:nth-child(4){color:#FFE43A;opacity:.4}
+.quadro{position:absolute;left:290px;top:272px;width:500px;height:600px;border-radius:40px;overflow:hidden;
+ background:#009C3B;box-shadow:0 40px 60px rgba(120,70,0,.35),inset 0 0 0 6px rgba(255,255,255,.25)}
+.quadro img{position:absolute;left:-420px;top:-285px;width:1340px}
+.quadro::after{content:"";position:absolute;inset:0;border-radius:40px;background:linear-gradient(135deg,rgba(255,255,255,.35),transparent 35%,transparent 70%,rgba(0,0,0,.18))}
+.balao{position:absolute;width:190px;height:160px;border-radius:38px;background:linear-gradient(145deg,#FFE760,#F5BE00);
+ box-shadow:0 22px 30px rgba(120,70,0,.35),inset 0 4px 0 rgba(255,255,255,.6);display:grid;place-items:center}
+.balao::after{content:"";position:absolute;bottom:-26px;left:36px;border:16px solid transparent;border-top:24px solid #F5C200}
+.balao i{width:86px;height:80px;background:radial-gradient(circle at 35% 30%,#FF8A80,#FF291E 45%,#B81408);
+ clip-path:path('M43 78 C10 52 0 38 0 22 C0 9 10 0 22 0 C32 0 39 6 43 14 C47 6 54 0 64 0 C76 0 86 9 86 22 C86 38 76 52 43 78Z')}
+.b1{left:70px;top:520px;transform:rotate(-12deg) scale(1.1);filter:blur(1px)}
+.b2{right:70px;top:240px;transform:rotate(10deg) scale(.85);filter:blur(.5px)}
+.fita{position:absolute;width:520px;height:120px;filter:blur(10px);background:linear-gradient(90deg,#009C3B 0 34%,#FFDF00 34% 66%,#009C3B 66%)}
+.f1{left:-170px;bottom:120px;transform:rotate(58deg)}
+.f2{right:-170px;bottom:120px;transform:rotate(-58deg)}
+.titulo{position:absolute;top:908px;left:0;right:0;text-align:center}
+.proc{font:400 92px/1 "Great Vibes";color:#280E01}
+.rep{font:800 150px/.95 "Baloo 2";color:#280E01;letter-spacing:.01em;margin-top:4px}
+.data{font:600 38px "Baloo 2";letter-spacing:.2em;color:#280E01;margin-top:6px}
+.logo{position:absolute;left:50%;transform:translateX(-50%);top:24px;height:104px;filter:drop-shadow(0 6px 10px rgba(120,70,0,.3))}
+</style>
+<div class="eco"><div>REPÚBLICA</div><div>REPÚBLICA</div><div>REPÚBLICA</div><div>REPÚBLICA</div></div>
+<div class="fita f1"></div><div class="fita f2"></div>
+<div class="quadro"><img src="bandeira.png" alt=""></div>
+<div class="balao b1"><i></i></div><div class="balao b2"><i></i></div>
+<img class="logo" src="../../identidade/logo-itamar-3d-transparente.png" alt="">
+<div class="titulo"><div class="proc">Proclamação da</div><div class="rep">REPÚBLICA</div><div class="data">15 DE NOVEMBRO</div></div>

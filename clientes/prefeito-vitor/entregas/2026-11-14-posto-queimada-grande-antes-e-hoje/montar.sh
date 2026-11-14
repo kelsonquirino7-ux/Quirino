@@ -8,7 +8,7 @@ P=../../../prefeitura-santanopolis/entregas
 SF=$P/2026-11-13-antes-depois-posto-queimada-grande/antes-x-agora-posto-de-saude-queimada-grande.mp4
 CF=$P/2026-11-13-posto-queimada-grande-com-fala/posto-de-saude-queimada-grande-com-fala.mp4
 TR=$P/2026-11-13-antes-depois-posto-queimada-grande/trilha.mp3
-VIN=../../modelos/vinheta-9x16.png
+VIN=vinheta-sem-arroba.png
 N=posto-queimada-grande-antes-e-hoje.mp4
 # fonte(0=SF 1=CF)  início  duração   — todos em trechos sem grafismo da Prefeitura na faixa recortada
 SEG=(
@@ -31,7 +31,7 @@ for s in "${SEG[@]}"; do read src ss d <<<"$s"
 F="$F[s0][s1][s2][s3]concat=n=4:v=1:a=0,settb=1/30[an];[s4]settb=1/30[s4t];[an][s4t]xfade=transition=wiperight:duration=0.6:offset=8.8[ah];"
 F="$F[ah][s5][s6][s7][s8][s9][s10]concat=n=7:v=1:a=0,tpad=stop_mode=clone:stop_duration=2.5,trim=0:28.7[jan];"
 # fundo + janela + grafismo, depois vinheta (3 s) do Vitor
-F="$F color=c=0x015927:s=1080x1920:r=30:d=28.7[bg];[bg][jan]overlay=60:480[b1];[2:v]format=rgba[g];[b1][g]overlay=eof_action=pass,format=yuv420p[mv];"
+F="$F color=c=0x015927:s=1080x1920:r=30:d=28.7[bg];[bg][jan]overlay=60:390[b1];[2:v]format=rgba[g];[b1][g]overlay=eof_action=pass,format=yuv420p[mv];"
 F="$F[3:v]fps=30,format=yuv420p,fade=t=in:st=0:d=0.3[vin];[mv][vin]concat=n=2:v=1:a=0[v];"
 # áudio: trilha sai durante a fala (12,6–21,0 s) e volta; fala = áudio da versão com fala (já tem a trilha baixa por baixo)
 F="$F[4:a]volume='if(lt(t,12.4),1,if(lt(t,12.8),1-(t-12.4)/0.4,if(lt(t,20.9),0,if(lt(t,21.5),(t-20.9)/0.6,1))))':eval=frame,afade=t=out:st=29.7:d=2,atrim=0:31.7[m];"

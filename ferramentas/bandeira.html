@@ -3,11 +3,14 @@
 <body style="margin:0;background:transparent">
 <canvas id="gl"></canvas>
 <script>
+(async()=>{
 const P=Object.assign({w:1600,h:1400,amp:1,freq:1,phase:0,rotY:-0.35,rotX:0.12,rotZ:0,scale:1,poste:1,tx:0,ty:0,seed:1},JSON.parse(decodeURIComponent(location.hash.slice(1)||'{}')));
 
 // ---------- textura da bandeira (proporção oficial 20 x 14 módulos) ----------
-function texturaBandeira(){
+function texturaBandeira(img){
   const M=110,W=20*M,H=14*M,c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');
+  if(P.espelho)g.setTransform(-1,0,0,1,W,0);
+  if(img||P.cor){ if(img)g.drawImage(img,0,0,W,H);else{g.fillStyle=P.cor;g.fillRect(0,0,W,H)} g.setTransform(1,0,0,1,0,0);trama(g,W,H);return c;}
   g.fillStyle='#009C3B';g.fillRect(0,0,W,H);
   g.fillStyle='#FFDF00';g.beginPath();g.moveTo(1.7*M,H/2);g.lineTo(W/2,1.7*M);g.lineTo(W-1.7*M,H/2);g.lineTo(W/2,H-1.7*M);g.closePath();g.fill();
   const cx=10*M,cy=7*M,R=3.5*M;
@@ -31,22 +34,23 @@ function texturaBandeira(){
   const star=(x,y,r)=>{g.beginPath();for(let k=0;k<10;k++){const rr2=k%2?r*.4:r,t=-Math.PI/2+k*Math.PI/5;g.lineTo(x+rr2*Math.cos(t),y+rr2*Math.sin(t))}g.fill()};
   g.fillStyle='#fff';const sz=[0,.045,.065,.09,.12,.14];E.forEach(([x,y,s])=>star(cx+x*R,cy+y*R,sz[s]*M*1.6));
   g.restore();
-  // trama do tecido
-  const d=g.getImageData(0,0,W,H),p=d.data;for(let i=0;i<p.length;i+=4){const y=(i/4/W)|0,x=(i/4)%W;const n=((x%3)?0:-6)+((y%3)?0:-6)+(Math.random()*8-4);p[i]+=n;p[i+1]+=n;p[i+2]+=n}g.putImageData(d,0,0);
+  g.setTransform(1,0,0,1,0,0);trama(g,W,H);
+  if(P.semBainha)return c;
   // bainha na tralha
   g.fillStyle='rgba(255,255,255,.18)';g.fillRect(0,0,.35*M,H);g.fillStyle='rgba(0,0,0,.15)';g.fillRect(.35*M,0,.06*M,H);
   return c;
 }
 
+function trama(g,W,H){const d=g.getImageData(0,0,W,H),p=d.data;for(let i=0;i<p.length;i+=4){const y=(i/4/W)|0,x=(i/4)%W;const n=((x%3)?0:-6)+((y%3)?0:-6)+(Math.random()*8-4);p[i]+=n;p[i+1]+=n;p[i+2]+=n}g.putImageData(d,0,0)}
 // ---------- malha ondulada ----------
 let s=P.seed;const rnd=()=>(s=(s*16807)%2147483647)/2147483647;
 const ph=[rnd()*6,rnd()*6,rnd()*6,rnd()*6];
 function onda(u,v){ // u: 0 na tralha → 1 na ponta; v: 0 topo → 1 baixo
   const A=P.amp*(0.03+0.20*u**1.2), f=P.freq;
   let z=A*Math.sin(u*9*f-v*2.2+P.phase+ph[0])+A*.45*Math.sin(u*15*f+v*4.5+ph[1])+A*.35*Math.sin(u*5*f+v*7+ph[2])+0.012*P.amp*Math.sin(u*40+v*30+ph[2])*u;
-  let dy=0.07*P.amp*u**1.5*(1+0.35*Math.sin(u*6+ph[3])); // queda da ponta (gravidade)
+  let dy=0.07*(P.queda??1)*P.amp*u**1.5*(1+0.35*Math.sin(u*6+ph[3])); // queda da ponta (gravidade)
   let dx=-0.04*P.amp*u*(1-Math.cos(u*9*f+ph[0]))*0.5;     // encolhimento pelas dobras
-  return [u*2.0+dx, -(v*1.4)-dy*(0.4+v*0.6), z];
+  return [u*2.0+dx, -(v*1.4)-dy*(0.4+v*0.6)-(P.inclina||0)*u*u, z];
 }
 const NX=220,NY=154,pos=[],uvs=[],idx=[];
 for(let j=0;j<=NY;j++)for(let i=0;i<=NX;i++){const u=i/NX,v=j/NY;pos.push(...onda(u,v));uvs.push(u,v)}
@@ -75,7 +79,9 @@ function buf(data,name,size){const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BU
 buf(pos,'p',3);buf(nor,'n',3);buf(uvs,'uv',2);
 const ib=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ib);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint32Array(idx),gl.STATIC_DRAW);
 const tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);
-gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,texturaBandeira());
+window.IMG=null;
+let im=null;if(P.textura){im=new Image();im.src=P.textura;await im.decode();}
+gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,texturaBandeira(im));
 gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
 // matrizes (coluna principal)
 const mul=(a,b)=>{const r=new Array(16).fill(0);for(let i=0;i<4;i++)for(let j=0;j<4;j++)for(let k=0;k<4;k++)r[j*4+i]+=a[k*4+i]*b[j*4+k];return r};
@@ -93,4 +99,5 @@ gl.drawElements(gl.TRIANGLES,idx.length,gl.UNSIGNED_INT,0);
 const proj=v=>{const w=[0,0,0,0];const p4=[...v,1];for(let i=0;i<4;i++)for(let k=0;k<4;k++)w[i]+=M[k*4+i]*p4[k];const c=[0,0,0,0];for(let i=0;i<4;i++)for(let k=0;k<4;k++)c[i]+=Pj[k*4+i]*w[k];return [(c[0]/c[3]*.5+.5)*P.w,(1-(c[1]/c[3]*.5+.5))*P.h]};
 window.TRALHA=[proj([0,0.03,0]),proj([0,-1.4,0]),proj([0,-4.5,0])];
 window.PRONTO=true;
+})();
 </script>

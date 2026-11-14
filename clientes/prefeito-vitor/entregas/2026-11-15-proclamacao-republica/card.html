@@ -1,29 +1,44 @@
 <!doctype html><meta charset="utf-8"><meta name="tamanho" content="1080x1350"><link rel="stylesheet" href="../../../../ferramentas/fontes.css">
-<!-- Ref.: painel verde arredondado + "República" manuscrito + bandeira com mastro (Karina Cerâmica). -->
+<!-- Ref.: Karina Cerâmica — cidade em P&B ao fundo, painel verde arredondado, "Procla da / mação", "República" manuscrito,
+     citação com aspas e bandeira com mastro tremulando para a esquerda. -->
 <style>
 *{box-sizing:border-box;margin:0}
-body{width:1080px;height:1350px;overflow:hidden;position:relative;font-family:Montserrat,sans-serif;
- background:linear-gradient(180deg,#F4F6F4,#E3E8E4)}
-body::before{content:"";position:absolute;inset:0;opacity:.5;background:
- radial-gradient(60% 30% at 15% 100%,#cfd6d1,transparent),radial-gradient(50% 25% at 90% 0%,#d5dbd7,transparent)}
-.data{position:absolute;top:70px;left:0;right:0;text-align:center;font:800 30px Montserrat;letter-spacing:.5em;padding-left:.5em;color:#015927}
-.painel{position:absolute;left:96px;right:96px;top:150px;height:920px;border-radius:44px;
- background:linear-gradient(160deg,#0AA514 0%,#058A1E 45%,#015927 100%);box-shadow:0 30px 60px rgba(1,60,25,.28)}
-.t1{position:absolute;left:170px;top:220px;font:800 66px/1.08 Montserrat;color:#fff;letter-spacing:-.01em}
-.rep{position:absolute;left:62px;top:312px;font:400 214px/1.25 "Kaushan Script";color:#FFDF00;transform:rotate(-6deg);
- text-shadow:0 8px 18px rgba(0,50,15,.45);white-space:nowrap}
-.aspas{position:absolute;left:170px;top:720px;font:900 120px/1 Montserrat;color:#fff}
-.frase{position:absolute;left:170px;top:800px;width:290px;font:600 34px/1.25 Montserrat;color:#fff}
-.frase b{font-weight:900}
-.flag{position:absolute;left:400px;top:560px;width:900px;filter:drop-shadow(0 26px 30px rgba(0,40,15,.45))}
-footer{position:absolute;bottom:46px;left:110px;display:flex;align-items:center;gap:26px}
-footer img{height:150px}
+body{width:1080px;height:1350px;overflow:hidden;position:relative;font-family:Montserrat,sans-serif;background:#EEF0EF}
+#cidade{position:absolute;inset:0;filter:blur(1.2px)}
+.data{position:absolute;top:104px;left:0;right:0;text-align:center;font:800 25px Montserrat;letter-spacing:1.05em;padding-left:1.05em;color:#015927}
+.painel{position:absolute;left:103px;top:181px;width:874px;height:986px;border-radius:44px;background:linear-gradient(180deg,#047A22 0%,#0A9A1C 60%,#0AA514 100%)}
+.procla{position:absolute;left:310px;top:206px;font:600 66px/1 Montserrat;color:#fff;letter-spacing:-.01em}
+.da{position:absolute;left:536px;top:236px;font:600 34px/1 Montserrat;color:#fff}
+.macao{position:absolute;left:310px;top:268px;font:600 66px/1 Montserrat;color:#fff;letter-spacing:-.01em}
+.rep{position:absolute;left:-6px;top:328px;font:400 300px/1 Yellowtail;color:#FFD200;transform:rotate(-8deg);transform-origin:left center;white-space:nowrap}
+.flag{position:absolute;left:31px;top:-14px;width:1332px;filter:drop-shadow(0 22px 26px rgba(0,40,15,.35))}
+.aspas{position:absolute;left:162px;top:722px;font:900 150px/1 Montserrat;color:#fff}
+.frase{position:absolute;left:166px;top:812px;font:400 37px/1.2 Montserrat;color:#fff;letter-spacing:-.01em}
+.frase b{font-weight:800}
+footer{position:absolute;top:1236px;left:0;right:0;display:flex;justify-content:center}
+footer img{height:96px}
 </style>
+<canvas id="cidade" width="1080" height="1350"></canvas>
 <div class="data">15 DE NOVEMBRO</div>
 <div class="painel"></div>
-<div class="t1">Proclamação da</div>
+<div class="procla">Procla</div><div class="da">da</div><div class="macao">mação</div>
 <img class="flag" src="bandeira.png" alt="">
 <div class="rep">República</div>
 <div class="aspas">“</div>
-<div class="frase">Honrando a nossa história, <b>construindo o futuro.</b></div>
+<div class="frase">Honrando a<br>nossa história,<br><b>construindo o<br>futuro.</b></div>
 <footer><img src="../../identidade/logo-vitor-prefeito-do-povo.png" alt=""></footer>
+<script>
+// cidade genérica em tons de cinza (fundo desbotado, como a foto P&B da referência)
+const c=document.getElementById('cidade').getContext('2d');let s=7;const r=()=>(s=(s*16807)%2147483647)/2147483647;
+c.fillStyle='#F2F3F2';c.fillRect(0,0,1080,1350);
+function morro(pts,cor){c.fillStyle=cor;c.beginPath();c.moveTo(pts[0][0],1350);pts.forEach(p=>c.lineTo(...p));c.lineTo(pts[pts.length-1][0],1350);c.fill()}
+morro([[-20,520],[60,430],[120,470],[200,560],[260,640],[330,700],[420,760]],'#D9DCDA');
+morro([[700,700],[800,600],[880,520],[960,470],[1040,430],[1100,450]],'#D3D6D4');
+morro([[-20,900],[150,820],[320,860],[540,900],[760,860],[940,880],[1100,840]],'#CDD1CE');
+c.fillStyle='#E4E7E5';c.fillRect(0,930,1080,60);
+for(let x=-10;x<1090;){const w=24+r()*60,h=60+r()*260*(x<150||x>900?1.3:1),y=1350-h-r()*40-200*(r()<.15?0:0);
+  const g=170+r()*45|0;c.fillStyle=`rgb(${g},${g+2},${g+1})`;c.fillRect(x,1350-h-150,w,h+150);
+  c.fillStyle=`rgba(255,255,255,.35)`;for(let yy=1350-h-140;yy<1340;yy+=12)for(let xx=x+4;xx<x+w-6;xx+=9)if(r()<.7)c.fillRect(xx,yy,5,6);
+  x+=w+2;}
+c.fillStyle='rgba(242,243,242,.35)';c.fillRect(0,0,1080,1350);
+</script>

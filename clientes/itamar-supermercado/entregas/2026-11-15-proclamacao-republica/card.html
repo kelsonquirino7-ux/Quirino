@@ -1,37 +1,69 @@
 <!doctype html><meta charset="utf-8"><meta name="tamanho" content="1080x1350"><link rel="stylesheet" href="../../../../ferramentas/fontes.css">
-<!-- Ref.: fundo amarelo, "REPÚBLICA" em eco, quadro central com a bandeira, balões de coração (estilo Designi). -->
+<!-- Ref.: Designi — fundo amarelo com cena histórica desbotada, "REPÚBLICA" serifado em eco, quadro verde 3D com losango e esfera,
+     balões 3D com coração azul, fitas desfocadas nos cantos, "Proclamação da" manuscrito sobre "REPÚBLICA". -->
 <style>
 *{box-sizing:border-box;margin:0}
-body{width:1080px;height:1350px;overflow:hidden;position:relative;font-family:"Baloo 2",sans-serif;color:#280E01;
- background:radial-gradient(70% 55% at 50% 40%,#FFE45C 0%,#FFD302 55%,#F2B800 100%)}
-.eco{position:absolute;top:178px;left:0;right:0;text-align:center;font:800 186px/.86 "Baloo 2";letter-spacing:.02em}
-.eco div:nth-child(1){color:#FFF3A6}
-.eco div:nth-child(2){color:#FFEE80;opacity:.8}
-.eco div:nth-child(3){color:#FFE95A;opacity:.6}
-.eco div:nth-child(4){color:#FFE43A;opacity:.4}
-.quadro{position:absolute;left:290px;top:272px;width:500px;height:600px;border-radius:40px;overflow:hidden;
- background:#009C3B;box-shadow:0 40px 60px rgba(120,70,0,.35),inset 0 0 0 6px rgba(255,255,255,.25)}
-.quadro img{position:absolute;left:-420px;top:-285px;width:1340px}
-.quadro::after{content:"";position:absolute;inset:0;border-radius:40px;background:linear-gradient(135deg,rgba(255,255,255,.35),transparent 35%,transparent 70%,rgba(0,0,0,.18))}
-.balao{position:absolute;width:190px;height:160px;border-radius:38px;background:linear-gradient(145deg,#FFE760,#F5BE00);
- box-shadow:0 22px 30px rgba(120,70,0,.35),inset 0 4px 0 rgba(255,255,255,.6);display:grid;place-items:center}
-.balao::after{content:"";position:absolute;bottom:-26px;left:36px;border:16px solid transparent;border-top:24px solid #F5C200}
-.balao i{width:86px;height:80px;background:radial-gradient(circle at 35% 30%,#FF8A80,#FF291E 45%,#B81408);
- clip-path:path('M43 78 C10 52 0 38 0 22 C0 9 10 0 22 0 C32 0 39 6 43 14 C47 6 54 0 64 0 C76 0 86 9 86 22 C86 38 76 52 43 78Z')}
-.b1{left:70px;top:520px;transform:rotate(-12deg) scale(1.1);filter:blur(1px)}
-.b2{right:70px;top:240px;transform:rotate(10deg) scale(.85);filter:blur(.5px)}
-.fita{position:absolute;width:520px;height:120px;filter:blur(10px);background:linear-gradient(90deg,#009C3B 0 34%,#FFDF00 34% 66%,#009C3B 66%)}
-.f1{left:-170px;bottom:120px;transform:rotate(58deg)}
-.f2{right:-170px;bottom:120px;transform:rotate(-58deg)}
-.titulo{position:absolute;top:908px;left:0;right:0;text-align:center}
-.proc{font:400 92px/1 "Great Vibes";color:#280E01}
-.rep{font:800 150px/.95 "Baloo 2";color:#280E01;letter-spacing:.01em;margin-top:4px}
-.data{font:600 38px "Baloo 2";letter-spacing:.2em;color:#280E01;margin-top:6px}
-.logo{position:absolute;left:50%;transform:translateX(-50%);top:24px;height:104px;filter:drop-shadow(0 6px 10px rgba(120,70,0,.3))}
+body{width:1080px;height:1350px;overflow:hidden;position:relative;font-family:"Playfair Display",serif;
+ background:radial-gradient(90% 70% at 50% 45%,#FFC81A 0%,#FFBE0B 55%,#F7A800 100%)}
+#cena{position:absolute;left:0;top:0;filter:blur(3px) sepia(.4);opacity:.32;-webkit-mask:linear-gradient(180deg,#000 55%,transparent 100%)}
+.raios{position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.07) 0 26px,rgba(255,255,255,0) 26px 70px);
+ -webkit-mask:radial-gradient(70% 60% at 80% 80%,#000,transparent)}
+.eco{position:absolute;left:0;right:0;top:252px;text-align:center;font:400 112px/135px "Playfair Display";letter-spacing:-.005em}
+.eco div:nth-child(1){color:#FFF200}
+.eco div:nth-child(2){color:rgba(255,242,0,.78)}
+.eco div:nth-child(3){color:rgba(255,242,0,.5)}
+.eco div:nth-child(4){color:rgba(255,242,0,.28)}
+.quadro{position:absolute;left:390px;top:338px;width:300px;height:452px;border-radius:30px;overflow:hidden;
+ background:linear-gradient(160deg,#2DB84A 0%,#139A31 35%,#0C7E26 70%,#0A6B20 100%);
+ box-shadow:0 34px 46px rgba(140,70,0,.45),0 6px 0 #075A18,inset 0 2px 0 rgba(255,255,255,.55),inset 0 -6px 14px rgba(0,40,10,.45)}
+.quadro::after{content:"";position:absolute;inset:0;border-radius:30px;background:linear-gradient(115deg,rgba(255,255,255,.38) 0%,rgba(255,255,255,0) 32%,rgba(255,255,255,0) 72%,rgba(255,255,255,.12) 100%)}
+.losango{position:absolute;left:22px;top:30px;width:256px;height:112px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
+ background:linear-gradient(180deg,#FFE45A 0%,#FFC400 52%,#E09A00 100%)}
+.losango2{position:absolute;left:22px;top:36px;width:256px;height:112px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);background:#B87A00}
+.esfera{position:absolute;left:96px;top:24px;width:108px;height:108px;border-radius:50%;
+ background:radial-gradient(circle at 38% 30%,#9FD3FF 0%,#2E8BFF 22%,#0B4FD6 58%,#06308F 100%);box-shadow:0 10px 14px rgba(0,30,90,.45)}
+.esfera::after{content:"";position:absolute;left:26px;top:14px;width:40px;height:22px;border-radius:50%;background:rgba(255,255,255,.55);filter:blur(4px)}
+.ano{position:absolute;left:0;right:0;top:190px;text-align:center;color:#FFE45A;text-shadow:0 3px 0 #0A5A1A,0 8px 18px rgba(0,30,10,.5)}
+.ano small{display:block;font:600 22px/1 Montserrat;letter-spacing:.32em;padding-left:.32em;color:#E7F7EA;text-shadow:none}
+.ano b{display:block;font:700 108px/1 "Playfair Display";margin-top:16px}
+.ano i{display:block;font:400 26px/1.2 "Playfair Display";font-style:italic;color:#E7F7EA;margin-top:12px;text-shadow:none}
+.balao{position:absolute;border-radius:34px;background:linear-gradient(150deg,#FFE680 0%,#FFCB1F 45%,#F2A900 100%);
+ box-shadow:0 26px 36px rgba(140,70,0,.38),inset 0 4px 0 rgba(255,255,255,.65),inset 0 -8px 14px rgba(170,90,0,.35);display:grid;place-items:center}
+.balao::after{content:"";position:absolute;left:30px;bottom:-30px;width:46px;height:46px;background:#F4B000;clip-path:polygon(0 0,100% 0,10% 100%)}
+.balao i{width:110px;height:100px;background:radial-gradient(circle at 34% 28%,#9FD0FF 0%,#2F86FF 25%,#0B47D0 62%,#062E8A 100%);
+ clip-path:path('M55 98 C14 66 0 48 0 28 C0 12 13 0 29 0 C41 0 50 7 55 17 C60 7 69 0 81 0 C97 0 110 12 110 28 C110 48 96 66 55 98Z');filter:drop-shadow(0 6px 6px rgba(0,30,90,.4))}
+.b1{left:26px;top:560px;width:236px;height:190px;transform:rotate(-8deg);filter:blur(1.6px)}
+.b2{left:866px;top:328px;width:146px;height:118px;transform:rotate(6deg) ;filter:blur(1.2px)}
+.b2 i{transform:scale(.62)}
+.fita{position:absolute;width:300px;height:900px;filter:blur(14px);
+ background:linear-gradient(90deg,#F28A00 0 14%,#FFD400 14% 34%,#0E8F33 34% 58%,#FFD400 58% 74%,#0E8F33 74% 100%)}
+.f1{left:-60px;top:900px;transform:rotate(-28deg);border-radius:150px}
+.f2{right:-60px;top:900px;transform:rotate(28deg) scaleX(-1);border-radius:150px}
+.titulo{position:absolute;left:0;right:0;top:850px;text-align:center}
+.rep{font:400 112px/1 "Playfair Display";color:#fff;letter-spacing:-.005em;text-shadow:0 4px 16px rgba(150,70,0,.35)}
+.proc{position:absolute;left:0;right:0;top:4px;font:400 84px/1 "Great Vibes";color:#0B5B1E}
+.data{margin-top:30px;font:600 25px Montserrat;letter-spacing:.22em;padding-left:.22em;color:#2B3A12}
+.logo{position:absolute;left:50%;transform:translateX(-50%);top:1170px;height:132px;filter:drop-shadow(0 8px 12px rgba(140,70,0,.35))}
 </style>
+<canvas id="cena" width="1080" height="560"></canvas>
+<div class="raios"></div>
 <div class="eco"><div>REPÚBLICA</div><div>REPÚBLICA</div><div>REPÚBLICA</div><div>REPÚBLICA</div></div>
 <div class="fita f1"></div><div class="fita f2"></div>
-<div class="quadro"><img src="bandeira.png" alt=""></div>
+<div class="quadro">
+  <div class="losango2"></div><div class="losango"></div><div class="esfera"></div>
+  <div class="ano"><small>BRASIL</small><b>1889</b><i>Ordem e Progresso</i></div>
+</div>
 <div class="balao b1"><i></i></div><div class="balao b2"><i></i></div>
+<div class="titulo"><div class="rep">REPÚBLICA</div><div class="proc">Proclamação da</div><div class="data">15 de Novembro</div></div>
 <img class="logo" src="../../identidade/logo-itamar-3d-transparente.png" alt="">
-<div class="titulo"><div class="proc">Proclamação da</div><div class="rep">REPÚBLICA</div><div class="data">15 DE NOVEMBRO</div></div>
+<script>
+// prédio histórico genérico, em tom sépia desbotado (no lugar da foto antiga da referência)
+const c=document.getElementById('cena').getContext('2d');
+c.fillStyle='rgba(150,95,20,.55)';
+function predio(x,y,w,h,andares){c.fillStyle='rgba(170,110,25,.45)';c.fillRect(x,y,w,h);
+  c.fillStyle='rgba(120,70,10,.55)';c.fillRect(x-8,y-14,w+16,14);c.fillRect(x-4,y+h*0.48,w+8,8);
+  for(let a=0;a<andares;a++){const yy=y+24+a*(h/andares);for(let xx=x+18;xx<x+w-30;xx+=46){
+    c.fillStyle='rgba(110,60,5,.55)';c.beginPath();c.moveTo(xx,yy+50);c.lineTo(xx,yy+14);c.arc(xx+13,yy+14,13,Math.PI,0);c.lineTo(xx+26,yy+50);c.fill();}}}
+predio(-20,60,560,300,3);predio(560,30,560,330,3);
+c.fillStyle='rgba(120,70,10,.35)';for(let i=0;i<220;i++){const x=Math.random()*1080,y=380+Math.random()*90;c.fillRect(x,y,4+Math.random()*4,18+Math.random()*22)}
+</script>

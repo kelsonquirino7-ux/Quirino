@@ -1,0 +1,43 @@
+<!doctype html><meta charset="utf-8"><meta name="tamanho" content="1080x1920"><link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<!-- Story 9:16 — aviso de funcionamento no feriado de 15/11. Referência: layout "Oferta do dia" enviado pelo dono.
+     Fonte Montserrat (OFL), parecida com a da referência. Vermelho do painel escurecido para o texto passar contraste AA. -->
+<style>
+:root{--amarelo:#FFD302;--vermelho:#FF291E;--vermelho-escuro:#B8120A;--marrom:#280E01}
+*{box-sizing:border-box;margin:0}
+body{width:1080px;height:1920px;position:relative;overflow:hidden;font-family:"Montserrat",sans-serif;color:#fff;
+ background:var(--amarelo);
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14'%3E%3Cpath d='M0 10 L7 4 L14 10 L21 4 L28 10' fill='none' stroke='%23F2C200' stroke-width='2'/%3E%3C/svg%3E")}
+.tab{position:absolute;left:50%;top:0;transform:translateX(-50%);width:440px;height:240px;background:#fff;border-radius:0 0 56px 56px;display:grid;place-items:center;box-shadow:0 10px 0 rgba(40,14,1,.10)}
+.tab img{width:370px}
+.painel{position:absolute;left:80px;right:80px;top:300px;bottom:160px;
+ background:radial-gradient(circle at 50% 35%,#C4140B,var(--vermelho-escuro) 65%);
+ border-radius:300px 0 300px 0;box-shadow:0 14px 0 rgba(40,14,1,.14);
+ display:flex;flex-direction:column;align-items:center;justify-content:center;gap:96px;padding:40px 60px}
+.selo{display:flex;align-items:center;gap:26px;background:var(--amarelo);color:var(--marrom);white-space:nowrap;
+ border-radius:28px;padding:22px 40px;box-shadow:0 8px 0 #D9A900}
+.cal{width:104px;height:104px;border:7px solid var(--marrom);border-radius:18px;position:relative;display:grid;place-items:center;font:900 46px/1 "Montserrat";padding-top:22px}
+.cal:before{content:"";position:absolute;left:0;right:0;top:0;height:24px;background:var(--marrom)}
+.cal:after{content:"";position:absolute;left:20px;right:20px;top:-18px;height:24px;border-left:8px solid var(--marrom);border-right:8px solid var(--marrom)}
+.selo small{display:block;font:600 28px/1 "Montserrat";letter-spacing:.12em;margin-bottom:10px}
+.selo b{display:block;font:900 46px/1 "Montserrat"}
+h1{text-align:center;font:800 128px/1 "Montserrat";letter-spacing:-.02em}
+h1 span{display:block;color:var(--amarelo);font-size:106px;margin-top:18px}
+.hora{width:760px;background:#fff;color:var(--marrom);border-radius:40px;padding:34px 40px 38px;text-align:center;box-shadow:0 12px 0 rgba(40,14,1,.22)}
+.hora small{display:block;font:800 30px/1 "Montserrat";color:#C4140B;letter-spacing:.14em}
+.hora .h{display:flex;align-items:center;justify-content:center;gap:24px;font:900 112px/1 "Montserrat";margin-top:22px;letter-spacing:-.02em}
+.hora .h i{font-style:normal;font-size:46px;font-weight:600;letter-spacing:0}
+.relogio{width:92px;height:92px;border:9px solid #C4140B;border-radius:50%;position:relative;flex:none}
+.relogio:before,.relogio:after{content:"";position:absolute;left:50%;bottom:50%;width:9px;margin-left:-4.5px;background:#C4140B;border-radius:5px;transform-origin:50% 100%}
+.relogio:before{height:28px}.relogio:after{height:24px;transform:rotate(90deg)}
+.sub{text-align:center;font:600 40px/1.4 "Montserrat"}
+.sub b{color:var(--amarelo);font-weight:800}
+.rod{position:absolute;left:0;right:0;bottom:56px;text-align:center;font:800 46px "Montserrat";color:var(--vermelho-escuro)}
+</style>
+<div class="tab"><img src="../../identidade/logo-itamar-3d-transparente.png" alt="Itamar Supermercado"></div>
+<div class="painel">
+  <div class="selo"><div class="cal">15</div><div><small>FERIADO DE</small><b>15 DE NOVEMBRO</b></div></div>
+  <h1>Estamos<br>abertos!<span>no feriado</span></h1>
+  <div class="hora"><small>FUNCIONAMENTO NORMAL</small><div class="h"><div class="relogio"></div>07h <i>às</i> 12h</div></div>
+  <p class="sub">Aproveite a manhã para garantir<br><b>as compras do feriado.</b><br>Esperamos você!</p>
+</div>
+<div class="rod">@itamarsupermercado</div>

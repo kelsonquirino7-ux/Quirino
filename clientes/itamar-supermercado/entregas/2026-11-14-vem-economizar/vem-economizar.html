@@ -3,40 +3,49 @@
 <title>Itamar · Vem economizar</title>
 <link rel="stylesheet" href="../../../../ferramentas/fontes.css">
 <style>
-:root{--am:#FFD302;--vm:#FF291E;--mr:#280E01}
+:root{--am:#FFD302;--vm:#FF291E;--mr:#280E01;--eco:#FF7A12}
+/* --eco = vermelho do Itamar a 55% sobre o amarelo (tom laranja dos ecos do lettering) */
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:var(--W);height:var(--H);overflow:hidden;background:var(--am)}
 #cena{position:relative;width:var(--W);height:var(--H);overflow:hidden;background:var(--am)}
-.raios{position:absolute;left:50%;top:50%;width:300vmax;height:300vmax;margin:-150vmax 0 0 -150vmax;
-  background:repeating-conic-gradient(from 0deg,rgba(255,41,30,.10) 0 7.5deg,rgba(255,41,30,0) 7.5deg 15deg)}
-.vinheta{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,rgba(255,255,255,.35) 0,rgba(255,211,2,0) 45%,rgba(255,41,30,.22) 100%)}
-.bola{position:absolute;border-radius:50%}
+/* fundo "mercado": prateleiras com produtos ao fundo, ícones de compras flutuando, piso */
+#mercado{position:absolute;inset:0;overflow:hidden}
+#bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%}
+.luz{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(255,255,255,.45) 0,rgba(255,255,255,0) 55%)}
+.prat{position:absolute;left:0;height:var(--ph);will-change:transform}
+.prat .tabua{position:absolute;left:0;right:0;bottom:0;height:14px;border-radius:7px;background:rgba(40,14,1,.13)}
+.prod{position:absolute;bottom:14px;border-radius:10px 10px 4px 4px}
+.prod.garrafa{border-radius:40% 40% 8px 8px / 30% 30% 8px 8px}
+.prod.lata{border-radius:12px}
+.piso{position:absolute;left:0;right:0;bottom:0;height:24%;
+  background:linear-gradient(to bottom,rgba(255,41,30,0),rgba(255,41,30,.16)),
+  repeating-linear-gradient(90deg,rgba(40,14,1,.06) 0 3px,transparent 3px 160px)}
+.icone{position:absolute;will-change:transform}
+.icone svg{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
+.vinheta{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(255,211,2,0) 55%,rgba(255,41,30,.20) 100%)}
 #chao{position:absolute;border-radius:50%;background:radial-gradient(ellipse,rgba(40,14,1,.55) 0,rgba(40,14,1,.25) 45%,rgba(40,14,1,0) 72%)}
-#av{position:absolute;filter:drop-shadow(0 0 3px rgba(255,255,255,.95)) drop-shadow(16px 18px 0 rgba(40,14,1,.22)) drop-shadow(0 12px 22px rgba(40,14,1,.4))}
+#av{position:absolute;filter:drop-shadow(16px 18px 0 rgba(40,14,1,.18)) drop-shadow(0 14px 22px rgba(40,14,1,.38))}
 #anel{position:absolute;border-radius:50%;border:10px solid var(--vm);opacity:0}
 .poeira{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--mr);opacity:0}
-.eco{position:absolute;left:0;right:0;text-align:center;white-space:nowrap;font-family:"Baloo 2";font-weight:800;letter-spacing:-.01em;
-  color:rgba(255,41,30,.30);will-change:transform}
-.eco.forte{color:var(--vm);-webkit-text-stroke:var(--st) var(--mr);paint-order:stroke fill;
-  text-shadow:0 var(--ex) 0 var(--mr),0 calc(var(--ex)*2) 34px rgba(40,14,1,.35);z-index:2}
+/* lettering fiel à referência: fundo liso, frase repetida em 3, a do meio escura, ecos claros, sem contorno */
+#letter{position:absolute;inset:0;background:var(--am);clip-path:circle(0 at 50% 50%);isolation:isolate}
+.eco{position:absolute;left:0;right:0;text-align:center;white-space:nowrap;font-family:"Titan One";font-weight:400;
+  letter-spacing:0;line-height:1;color:var(--eco);will-change:transform}
+.eco.forte{color:var(--mr);z-index:2}
 #flash{position:absolute;inset:0;background:var(--vm);clip-path:circle(0 at 50% 50%)}
-#flash2{position:absolute;inset:0;background:var(--am);clip-path:circle(0 at 50% 50%)}
 #logo{position:absolute;left:50%;top:50%;opacity:0}
 #logo img{width:100%;display:block;filter:drop-shadow(0 24px 30px rgba(40,14,1,.45))}
 #brilho{position:absolute;inset:0;overflow:hidden;
   -webkit-mask:url(../../identidade/logo-itamar-3d-transparente.png) center/100% 100% no-repeat}
 #brilho i{position:absolute;top:-20%;height:140%;width:22%;background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.75),rgba(255,255,255,0));transform:skewX(-20deg)}
-#arroba{position:absolute;left:0;right:0;text-align:center;font-family:"Baloo 2";font-weight:800;color:var(--mr);opacity:0}
 </style></head>
 <body><div id="cena">
-  <div class="raios" id="raios"></div><div class="vinheta"></div>
-  <div id="bolas"></div>
+  <div id="mercado"><img id="bg" alt=""><div class="vinheta"></div></div>
   <div id="chao"></div><div id="anel"></div><div id="poeiras"></div>
   <img id="av" alt="">
   <div id="letter"></div>
-  <div id="flash"></div><div id="flash2"><div class="raios" id="raios2"></div><div class="vinheta"></div></div>
+  <div id="flash"></div>
   <div id="logo"><img src="../../identidade/logo-itamar-3d-transparente.png" alt="Itamar Supermercado"><div id="brilho"><i id="faixa"></i></div></div>
-  <div id="arroba">@itamarsupermercado</div>
 </div>
 <script src="avatar/pes.js"></script>
 <script>
@@ -52,57 +61,50 @@ const DUR = 16;
 const $ = id => document.getElementById(id);
 const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const eOut = x => 1 - Math.pow(1 - cl(x), 3), eIn = x => Math.pow(cl(x), 3);
-const eBack = x => { x = cl(x); const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const eBack = x => { x = cl(x); const c = 1.7; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
 const eEl = x => { x = cl(x); return x === 0 || x === 1 ? x : Math.pow(2, -10 * x) * Math.sin((x * 10 - .75) * 2.0944) + 1; };
+let semente = 7; const rnd = () => (semente = (semente * 16807) % 2147483647) / 2147483647;
 
-// Avatar: quadros 1280x720 recortados (avatar/0001.png…); pés de cada quadro em avatar/pes.js
+// ---------- fundo de mercado ----------
+// o fundo é o vídeo do corredor gerado no Magnific (fundo/0001.jpg…), tocado mais devagar para cobrir os 16 s
+const NBG = 240, bg = $('bg');
+
+// ---------- avatar ----------
+// quadros 1280x720 recortados (avatar/0001.png…); pés de cada quadro em avatar/pes.js
 let PES = [], NQ = 0;
-// área do avatar na tela (o clipe 16:9 preenche a largura na horizontal; na vertical, corta as laterais)
-const AW = V ? 2300 : 1920, AH = AW * 9 / 16;
-const AX = (W - AW) / 2, AY = H - AH;   // pés do avatar no rodapé da tela
+const AW = V ? 2300 : 1920, AH = AW * 9 / 16;      // na vertical o clipe 16:9 é cortado nas laterais
+const AX = (W - AW) / 2, AY = H - AH;              // pés do avatar no rodapé da tela
 const av = $('av'); Object.assign(av.style, { width: AW + 'px', height: AH + 'px', left: AX + 'px', top: AY + 'px' });
-
-// bolinhas decorativas
-const bolas = [];
-for (let i = 0; i < 14; i++) {
-  const b = document.createElement('div'); b.className = 'bola';
-  const s = 30 + ((i * 53) % 110), cor = i % 3 === 2 ? 'rgba(40,14,1,.10)' : 'rgba(255,41,30,.16)';
-  Object.assign(b.style, { width: s + 'px', height: s + 'px', background: cor });
-  $('bolas').appendChild(b); bolas.push({ el: b, x: (i * 137) % 100, y: (i * 61) % 100, v: .6 + (i % 5) * .25, f: i * 1.3 });
-}
 const poeiras = [];
 for (let i = 0; i < 10; i++) { const p = document.createElement('div'); p.className = 'poeira'; $('poeiras').appendChild(p); poeiras.push(p); }
 
-// lettering "tela inteira": a frase repetida em faixas que enchem a tela; faixa(s) do meio forte(s), ecos claros
-D.setProperty('--st', (V ? 10 : 12) + 'px'); D.setProperty('--ex', (V ? 9 : 11) + 'px');
-let ROWS = [];
+// ---------- lettering (referência enviada pelo dono) ----------
+// a frase repetida em linhas coladas que enchem a tela inteira; a do meio em marrom, as outras em laranja
+let ROWS = [], PASSO = 0;
 function montaLettering() {
-  const box = $('letter'); Object.assign(box.style, { position: 'absolute', inset: 0, overflow: 'hidden', isolation: 'isolate' });
-  const mede = txt => { const e = document.createElement('div'); e.className = 'eco'; e.style.fontSize = '100px'; e.style.display = 'inline-block'; e.style.position = 'absolute'; e.style.left = e.style.right = 'auto';
-    e.textContent = txt; box.appendChild(e); const w = e.getBoundingClientRect().width; e.remove(); return w; };
-  const textos = V ? ['VEM', 'ECONOMIZAR'] : ['VEM ECONOMIZAR'];
-  const fs = W * .9 / Math.max(...textos.map(mede)) * 100;   // a linha mais longa ocupa 90% da largura
-  let N = Math.round(H / (fs * .78));
-  if (V) { while ((N / 2) % 2 !== 1) N++; } else if (N % 2 === 0) N++;
-  const passo = H / N, meio = V ? [N / 2 - 1, N / 2] : [(N - 1) / 2];
+  const box = $('letter'), txt = 'VEM ECONOMIZAR';
+  const m = document.createElement('div'); m.className = 'eco'; m.textContent = txt;
+  Object.assign(m.style, { fontSize: '100px', display: 'inline-block', left: 'auto', right: 'auto' }); box.appendChild(m);
+  const larg = m.getBoundingClientRect().width; m.remove();
+  const fs = W * .94 / larg * 100; PASSO = fs * .84;
+  let N = Math.ceil(H / PASSO) + 2; if (N % 2 === 0) N++;
+  const meio = (N - 1) / 2;
   for (let i = 0; i < N; i++) {
-    const e = document.createElement('div'); e.className = 'eco' + (meio.includes(i) ? ' forte' : '');
-    e.textContent = textos[i % textos.length]; e.style.fontSize = fs + 'px'; e.style.lineHeight = passo + 'px';
-    e.style.top = i * passo + passo * .06 + 'px'; e.style.height = passo + 'px';
-    box.appendChild(e); ROWS.push({ el: e, i, d: Math.min(...meio.map(m => Math.abs(i - m))), lado: i % 2 ? 1 : -1, forte: meio.includes(i) });
+    const o = i - meio, e = document.createElement('div'); e.className = 'eco' + (o === 0 ? ' forte' : ''); e.textContent = txt;
+    Object.assign(e.style, { fontSize: fs + 'px', top: H / 2 - fs * .52 + 'px', zIndex: 100 - Math.abs(o) });
+    box.appendChild(e); ROWS.push({ el: e, o });
   }
 }
+
 const LW = V ? 900 : 1300;
-Object.assign($('logo').style, { width: LW + 'px', marginLeft: -LW / 2 + 'px', marginTop: -(LW * 711 / 1486) / 2 - (V ? 60 : 40) + 'px' });
-Object.assign($('arroba').style, { top: (H / 2 + LW * 711 / 1486 / 2 + (V ? 20 : 10)) + 'px', fontSize: (V ? 64 : 58) + 'px' });
+Object.assign($('logo').style, { width: LW + 'px', marginLeft: -LW / 2 + 'px', marginTop: -(LW * 711 / 1486) / 2 + 'px' });
 
 function pesEm(i) { const p = PES[cl(i, 0, NQ - 1)]; return p || null; }
 
 window.setT = async t => {
-  // fundo
-  $('raios').style.transform = `rotate(${t * 9}deg) scale(${1 + .03 * Math.sin(t * 1.3)})`;
-  $('raios2').style.transform = `rotate(${-t * 14}deg)`;
-  bolas.forEach(b => { const y = ((b.y - t * b.v * 4) % 100 + 100) % 100; b.el.style.left = (b.x + 3 * Math.sin(t * .8 + b.f)) + '%'; b.el.style.top = (y * 1.1 - 5) + '%'; });
+  // fundo de mercado
+  const bsrc = `fundo/${String(Math.min(NBG, 1 + Math.floor(t * 24 * 10 / DUR))).padStart(4, '0')}.jpg`;
+  if (!bg.src.endsWith(bsrc)) { bg.src = bsrc; await bg.decode().catch(() => {}); }
 
   // avatar
   let idx = 0, dy = 0, sx = 1, sy = 1;
@@ -112,20 +114,16 @@ window.setT = async t => {
     else { const k = (q - .62) / .38; dy = -60 * Math.sin(Math.PI * k) * (1 - k); sy = 1 - .12 * Math.sin(Math.PI * cl(k * 2.2)) * (1 - k); sx = 2 - sy; }
   } else idx = Math.floor((t - T_QUEDA) * FPS_AV);
   idx = Math.min(idx, NQ - 1);
-  // na hora do lettering: avatar encolhe e some atrás das faixas
-  let ax = 0, ay = 0, as = 1, aop = 1;
-  if (t >= T_LET) { const k = eIn((t - T_LET) / .45); as = 1 - .25 * k; aop = 1 - k; }
   const src = `avatar/${String(idx + 1).padStart(4, '0')}.png`;
   if (!av.src.endsWith(src)) { av.src = src; await av.decode().catch(() => {}); }
   const pe = pesEm(idx);
   const ox = pe ? AX + pe.x * AW : W / 2, oy = pe ? AY + pe.y * AH : AY + AH * .95;
   av.style.transformOrigin = `${(ox - AX)}px ${(oy - AY)}px`;
-  av.style.transform = `translate(${ax}px,${ay + dy}px) scale(${as * sx},${as * sy})`;
-  av.style.opacity = aop;
+  av.style.transform = `translateY(${dy}px) scale(${sx},${sy})`;
   // sombra no chão: segue os pés, encolhe quando está no alto
   const alto = cl(-dy / (H * .8)), cw = pe ? pe.w * AW * 1.35 + 60 : 0;
-  Object.assign($('chao').style, { width: cw * as * (1 - .6 * alto) + 'px', height: cw * .16 * as * (1 - .6 * alto) + 'px',
-    left: (ox + ax) + 'px', top: (oy + ay) + 'px', transform: 'translate(-50%,-55%)', opacity: pe ? (1 - .7 * alto) * aop : 0 });
+  Object.assign($('chao').style, { width: cw * (1 - .6 * alto) + 'px', height: cw * .16 * (1 - .6 * alto) + 'px',
+    left: ox + 'px', top: oy + 'px', transform: 'translate(-50%,-55%)', opacity: pe ? (1 - .7 * alto) : 0 });
   // impacto da queda
   const ti = t - T_QUEDA * .62;
   if (ti > 0 && ti < .7) {
@@ -135,29 +133,38 @@ window.setT = async t => {
       Object.assign(p.style, { left: ox + Math.cos(a) * r * (i % 2 ? 1 : -1) + 'px', top: oy - Math.sin(a) * r * .45 - 140 * k * (1 - k) * 4 + 'px', opacity: .5 * (1 - k), transform: `scale(${1 - .5 * k})` }); });
   } else { $('anel').style.opacity = 0; poeiras.forEach(p => p.style.opacity = 0); }
 
-  // lettering: faixas entram alternando os lados (meio primeiro), ecos balançam, faixa forte pulsa; saem ao contrário
-  const lt = t - T_LET;
+  // lettering: fundo liso abre em círculo; a frase do meio entra com impacto;
+  // os ecos saem de trás dela (um sobe, outro desce) e ficam encostados; no fim voltam para trás dela
+  const lt = t - T_LET, R = Math.hypot(W, H);
+  const fecha = t >= T_LOGO ? eIn((t - T_LOGO) / .35) : 0;
+  $('letter').style.clipPath = `circle(${lt > 0 ? R * eOut(lt / .45) : 0}px at 50% 50%)`;
   ROWS.forEach(r => {
-    const k = (lt - r.d * .06) / .55;
-    const sai = t >= T_LOGO ? eIn((t - T_LOGO - r.d * .03) / .4) : 0;
-    let x = r.lado * W * 1.15 * (1 - eOut(k)) - r.lado * W * 1.15 * sai;
-    let sc = 1;
-    if (r.forte) { const p = (lt - .75) / .5; sc = p > 0 && p < 1 ? 1 + .1 * Math.sin(Math.PI * p) : 1; }
-    else x += cl(lt - .6) > 0 ? r.lado * 26 * Math.sin((lt - .6) * 3.2) * cl((lt - .6) * 2) : 0;
-    r.el.style.opacity = k <= 0 ? 0 : 1;
-    r.el.style.transform = `translateX(${x}px) scale(${sc}) scaleY(${1 + .18 * Math.max(0, 1 - eOut(k * 1.3)) * (k > 0 ? 1 : 0)})`;
+    const d = Math.abs(r.o);
+    if (r.o === 0) {
+      const k = (lt - .2) / .4;
+      r.el.style.opacity = k > 0 ? 1 : 0;
+      r.el.style.transform = `scale(${(.3 + .7 * eBack(k)) * (1 - .12 * fecha)}) scaleY(${1 + .15 * Math.sin(Math.PI * cl(k))})`;
+    } else {
+      // cada eco sai de trás do anterior, em cascata para cima e para baixo, até encher a tela
+      const k = (lt - .5 - d * .07) / .45;
+      const volta = t >= T_LOGO ? eIn((t - T_LOGO - (6 - Math.min(d, 6)) * .02) / .3) : 0;
+      const pos = Math.sign(r.o) * PASSO * (d - 1 + eBack(k)) * (1 - volta);
+      r.el.style.opacity = k > 0 ? 1 : 0;
+      r.el.style.transform = `translateY(${pos}px) translateX(${(d % 2 ? 1 : -1) * 14 * Math.sin((lt - 1.3) * 3) * cl(lt - 1.2)}px)`;
+    }
   });
 
-  // logo: dois círculos (vermelho, amarelo) e logo em elástico + brilho
-  const gt = t - T_LOGO, R = Math.hypot(W, H);
-  $('flash').style.clipPath = `circle(${gt > 0 ? R * eOut(gt / .45) : 0}px at 50% 50%)`;
-  $('flash2').style.clipPath = `circle(${gt > .15 ? R * eOut((gt - .15) / .45) : 0}px at 50% 50%)`;
-  const lk = (gt - .35) / .8;
+  // logo: círculo vermelho cobre, some revelando o mercado de novo; logo entra em elástico + brilho
+  const gt = t - T_LOGO;
+  $('flash').style.clipPath = `circle(${gt > .2 ? R * eOut((gt - .2) / .4) : 0}px at 50% 50%)`;
+  $('flash').style.opacity = 1 - cl((gt - .7) / .4);
+  if (gt > .55) $('letter').style.clipPath = 'circle(0 at 50% 50%)';
+  av.style.opacity = t >= T_LET + .45 ? 0 : 1;
+  $('chao').style.opacity = t >= T_LET + .45 ? 0 : $('chao').style.opacity;
+  const lk = (gt - .55) / .8;
   $('logo').style.opacity = lk > 0 ? 1 : 0;
   $('logo').style.transform = `scale(${lk > 0 ? eEl(lk) * (1 + .02 * Math.sin(t * 3)) : 0}) rotate(${(1 - eOut(lk)) * -8}deg)`;
-  const bk = (gt - 1.1) / .7; $('faixa').style.left = (-30 + 140 * cl(bk)) + '%';
-  $('arroba').style.opacity = cl((gt - 1.0) / .4); $('arroba').style.transform = `translateY(${(1 - eOut((gt - 1.0) / .4)) * 40}px)`;
-  if (gt > 0) { $('raios').style.zIndex = 0; }
+  const bk = (gt - 1.3) / .7; $('faixa').style.left = (-30 + 140 * cl(bk)) + '%';
 };
 window.DUR = DUR;
 window.pronto = (async () => {

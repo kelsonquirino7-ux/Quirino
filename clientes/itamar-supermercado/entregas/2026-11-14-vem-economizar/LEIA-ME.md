@@ -2,7 +2,7 @@
 
 Avatar cai na tela, dá tchau, sai correndo pela esquerda, volta empurrando um carrinho cheio de compras,
 para no centro e chama o público com a mão. Depois entram o lettering "VEM ECONOMIZAR" e a logo animada do Itamar.
-Sem áudio, 16 s, 30 fps.
+Sem áudio, 16 s, 60 fps (x264 CRF 14, tune animation).
 
 - `vem-economizar-tv65-4k.mp4` — TV 65" horizontal, 3840×2160.
 - `vem-economizar-tv32-vertical.mp4` — TV 32" em pé: arquivo 1920×1080 com a imagem girada (igual ao vídeo do açougue).
@@ -11,7 +11,9 @@ Sem áudio, 16 s, 30 fps.
 - `avatar-seedance-verde.mp4` — animação do avatar gerada no Magnific (Seedance 2.5, 720p, 10 s, 4.400 créditos), fundo verde.
   Uma tentativa anterior no Kling 2.5 (650 créditos) foi descartada porque deformava o logo da camisa.
 
-Recriar os quadros recortados (não vão para o git): `python3 recorte.py avatar-seedance-verde.mp4 avatar`.
+Recriar os quadros recortados (não vão para o git): `python3 recorte.py avatar-seedance-verde.mp4 avatar` e depois
+`python3 nitidez.py avatar` (amplia 2x com Lanczos e aplica nitidez; quadros finais 2560x1520).
+O avatar fica nos 24 q/s originais: a interpolação para 60 q/s criava rastros fantasmas nos movimentos rápidos.
 Requer `pip install opencv-python-headless`. O recorte é próprio (não o chromakey do ffmpeg): não apaga o brócolis
 e a salsa, que são verdes como o fundo; recolhe e suaviza a borda e pinta a faixa de borda com a cor do interior do avatar,
 então não fica contorno verde/cinza; tapa furinhos internos e tira a sombra verde do chão.
@@ -22,7 +24,9 @@ a mão estendida e o carrinho. Se refizer os quadros, `avatar/pes.js` já está 
 
 Fundo: corredor de supermercado gerado no Magnific (imagem `fundo-mercado.png`, 2×65 créditos, a 2ª trocando o hortifrúti
 por gôndolas) e animado no Kling 2.5 (`fundo-mercado.mp4`, 650 créditos, câmera avançando no corredor), desfocado na composição. Quadros em `fundo/`:
-`ffmpeg -i fundo-mercado.mp4 -q:v 2 fundo/%04d.jpg`.
+com quadros intermediários a 96 q/s (movimento lento de câmera, sem defeitos), para ficar fluido tocado a 10/16 da velocidade:
+`ffmpeg -i fundo-mercado.mp4 -vf "minterpolate=fps=96:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1" -crf 10 fundo96.mp4`
+e `ffmpeg -i fundo96.mp4 -q:v 2 fundo/%04d.jpg`.
 
 Lettering "tela inteira" fiel à referência do dono (`referencia-lettering.jpg`): "VEM ECONOMIZAR" repetido em linhas coladas
 que enchem a tela, a do meio em marrom e as outras em vermelho vivo do Itamar, fonte Titan One (SIL OFL).

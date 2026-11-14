@@ -6,7 +6,7 @@ const { execFileSync } = require('child_process');
 const fs = require('fs'), path = require('path'), os = require('os');
 const AQUI = __dirname, FMT = process.argv[2] === 'v' ? 'v' : 'h';
 const URL = 'file://' + path.join(AQUI, 'vem-economizar.html') + '?fmt=' + FMT;
-const FPS = 30, PARALELO = 4;
+const FPS = 60, PARALELO = 4;
 const VP = FMT === 'v' ? { width: 1080, height: 1920 } : { width: 1920, height: 1080 }, ESC = FMT === 'v' ? 1 : 2;
 (async () => {
   const b = await chromium.launch({ args: ['--allow-file-access-from-files'] });
@@ -22,14 +22,14 @@ const VP = FMT === 'v' ? { width: 1080, height: 1920 } : { width: 1920, height: 
     const p = await nova();
     for (let n = w; n < TOTAL; n += PARALELO) {
       await p.evaluate(t => window.setT(t), n / FPS);
-      await p.screenshot({ path: path.join(tmp, String(n).padStart(5, '0') + '.jpg'), type: 'jpeg', quality: 95 });
+      await p.screenshot({ path: path.join(tmp, String(n).padStart(5, '0') + '.jpg'), type: 'jpeg', quality: 98 });
     }
   }));
   await b.close();
   const saida = path.join(AQUI, FMT === 'v' ? 'vem-economizar-tv32-vertical.mp4' : 'vem-economizar-tv65-4k.mp4');
   const vf = FMT === 'v' ? ['-vf', 'transpose=2'] : [];
   execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-framerate', String(FPS), '-i', path.join(tmp, '%05d.jpg'), ...vf,
-    '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', saida]);
+    '-c:v', 'libx264', '-preset', 'slow', '-crf', '14', '-tune', 'animation', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', saida]);
   fs.rmSync(tmp, { recursive: true, force: true });
   console.log('Pronto:', saida, TOTAL, 'quadros');
 })();

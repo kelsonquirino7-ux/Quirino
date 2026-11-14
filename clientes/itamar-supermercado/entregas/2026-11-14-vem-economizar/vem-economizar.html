@@ -68,10 +68,10 @@ let semente = 7; const rnd = () => (semente = (semente * 16807) % 2147483647) / 
 
 // ---------- fundo de mercado ----------
 // o fundo é o vídeo do corredor gerado no Magnific (fundo/0001.jpg…), tocado mais devagar para cobrir os 16 s
-const NBG = 240, bg = $('bg');
+const NBG = 957, BG_FPS = 96, bg = $('bg');   // fundo com quadros intermediários (96 q/s), tocado a 10/16 da velocidade
 
 // ---------- avatar ----------
-// quadros 1280x760 recortados (avatar/0001.png…, gerados por recorte.py); pés de cada quadro em avatar/pes.js
+// quadros recortados (avatar/0001.png…, recorte.py 1280x760 + nitidez.py → 2560x1520); pés de cada quadro em avatar/pes.js
 let PES = [], NQ = 0;
 const AW = V ? 2400 : 1920, AH = AW * 760 / 1280;   // quadros 1280x760 (40 linhas extras em cima p/ o cabelo)      // na vertical o clipe 16:9 é cortado nas laterais
 const AX = (W - AW) / 2, AY = H - AH;              // pés do avatar no rodapé da tela
@@ -105,7 +105,7 @@ function pesEm(i) { const p = PES[cl(i, 0, NQ - 1)]; return p || null; }
 
 window.setT = async t => {
   // fundo de mercado
-  const bsrc = `fundo/${String(Math.min(NBG, 1 + Math.floor(t * 24 * 10 / DUR))).padStart(4, '0')}.jpg`;
+  const bsrc = `fundo/${String(Math.min(NBG, 1 + Math.floor(t * BG_FPS * 10 / DUR))).padStart(4, '0')}.jpg`;
   if (!bg.src.endsWith(bsrc)) { bg.src = bsrc; await bg.decode().catch(() => {}); }
 
   // avatar

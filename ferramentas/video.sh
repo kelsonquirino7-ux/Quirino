@@ -11,14 +11,15 @@
 #     -v  duração da vinheta final em segundos (padrão 3; 0 = sem vinheta)
 #     -a  legenda animada estilo Reels (usa o .srt do -l; palavra da vez em caixa na cor do cliente)
 #     -d  arquivo de textos de destaque, uma linha por texto:  0:03-0:06 OBRA ENTREGUE
+#     -k  cor HEX do contorno da legenda (ex.: -k "#015927"; padrão preto)
 #     -z  zoom de impacto nos segundos indicados, separados por vírgula (ex.: -z 2.5,8,14)
 set -euo pipefail
 RAIZ="$(cd "$(dirname "$0")/.." && pwd)"
-FMT=9x16; LEG=""; MARCA=0; CRED=0; VDUR=3; ANIM=0; DEST=""; ZOOM=""
-while getopts "c:i:o:f:l:mqv:ad:z:" o; do case $o in
-  a) ANIM=1;; d) DEST=$OPTARG;; z) ZOOM=$OPTARG;;
+FMT=9x16; LEG=""; MARCA=0; CRED=0; VDUR=3; ANIM=0; DEST=""; ZOOM=""; CONT=""
+while getopts "c:i:o:f:l:mqv:ad:z:k:" o; do case $o in
+  a) ANIM=1;; k) CONT=$OPTARG;; d) DEST=$OPTARG;; z) ZOOM=$OPTARG;;
   c) CLI=$OPTARG;; i) IN=$OPTARG;; o) OUT=$OPTARG;; f) FMT=$OPTARG;; l) LEG=$OPTARG;;
-  m) MARCA=1;; q) CRED=1;; v) VDUR=$OPTARG;; *) sed -n '2,15p' "$0"; exit 1;; esac; done
+  m) MARCA=1;; q) CRED=1;; v) VDUR=$OPTARG;; *) sed -n '2,16p' "$0"; exit 1;; esac; done
 : "${CLI:?falta -c cliente}" "${IN:?falta -i entrada}" "${OUT:?falta -o saida}"
 D="$RAIZ/clientes/$CLI"; [ -d "$D" ] || { echo "Cliente não encontrado: $D"; exit 1; }
 if [ "$FMT" = 9x16 ]; then W=1080; H=1920; else W=1920; H=1080; fi
@@ -26,7 +27,7 @@ VIN="$D/modelos/vinheta-$FMT.png"
 [ -f "$VIN" ] || node "$RAIZ/ferramentas/render.js" "$D/modelos/vinheta-$FMT.html" >/dev/null
 
 LOGO=$(ls "$D"/identidade/*branco*.png 2>/dev/null | head -1 || true)
-[ -n "$LOGO" ] || LOGO=$(ls "$D"/identidade/*transparente*.png "$D"/identidade/*.png 2>/dev/null | head -1)
+[ -n "$LOGO" ] || LOGO=$(ls "$D"/identidade/*transparente*.png "$D"/identidade/*.png 2>/dev/null | head -1 || true)
 CREDITO="$RAIZ/aplicacoes/video/credito-producao.png"
 
 TEM_AUDIO=$(ffprobe -v error -select_streams a -show_entries stream=index -of csv=p=0 "$IN" | head -1)
@@ -44,12 +45,12 @@ if [ $ANIM = 1 ] || [ -n "$DEST" ]; then
   python3 -c "import fontTools" 2>/dev/null || pip install -q fonttools 2>/dev/null
   ASS="${OUT%.*}-efeitos.ass"; mkdir -p "$(dirname "$OUT")"
   python3 "$RAIZ/ferramentas/efeitos.py" -c "$CLI" -f "$FMT" -o "$ASS" \
-    $([ $ANIM = 1 ] && [ -n "$LEG" ] && echo "-l $LEG") $([ -n "$DEST" ] && echo "-d $DEST") >/dev/null
+    $([ $ANIM = 1 ] && [ -n "$LEG" ] && echo "-l $LEG") $([ -n "$DEST" ] && echo "-d $DEST") ${CONT:+-k "$CONT"} >/dev/null
   F+="[$ATUAL]ass='$(realpath "$ASS")':fontsdir='$RAIZ/ferramentas/fontes/ttf'[va];"; ATUAL=va
   [ $ANIM = 1 ] && LEG=""   # já está no .ass
 fi
 if [ -n "$LEG" ]; then
-  ESTILO="FontName=Inter,Bold=1,FontSize=$([ $FMT = 9x16 ] && echo 13 || echo 18),PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=1,Outline=2,Shadow=0,MarginV=$([ $FMT = 9x16 ] && echo 70 || echo 40)"
+  ESTILO="FontName=Inter,Bold=1,FontSize=$([ $FMT = 9x16 ] && echo 13 || echo 18),PrimaryColour=&H00FFFFFF,OutlineColour=$(if [ -n "$CONT" ]; then h=${CONT#\#}; echo "&H00${h:4:2}${h:2:2}${h:0:2}"; else echo "&H00000000"; fi),BorderStyle=1,Outline=$([ -n "$CONT" ] && echo 3 || echo 2),Shadow=0,MarginV=$([ $FMT = 9x16 ] && echo 70 || echo 40)"
   F+="[$ATUAL]subtitles='$(realpath "$LEG")':force_style='$ESTILO'[v1];"; ATUAL=v1
 fi
 if [ $MARCA = 1 ] && [ -n "$LOGO" ]; then

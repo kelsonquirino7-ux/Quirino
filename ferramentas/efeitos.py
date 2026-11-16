@@ -8,7 +8,7 @@
     Arquivo de texto, uma por linha:  0:03-0:06 OBRA ENTREGUE
     (aceita segundos, M:SS ou M:SS.d; linhas com # são ignoradas)
 
-Uso: python3 ferramentas/efeitos.py -c <cliente> -f 9x16|16x9 [-l legenda.srt] [-d destaques.txt] -o saida.ass
+Uso: python3 ferramentas/efeitos.py -c <cliente> -f 9x16|16x9 [-l legenda.srt] [-d destaques.txt] [-k "#015927"] -o saida.ass
 As cores e a fonte vêm de clientes/<cliente>/video.json.
 """
 import argparse, json, re, sys
@@ -147,6 +147,7 @@ def main():
     ap.add_argument("-f", default="9x16")
     ap.add_argument("-l")
     ap.add_argument("-d")
+    ap.add_argument("-k", help="cor HEX do contorno da legenda (padrão preto)")
     ap.add_argument("-o", required=True)
     a = ap.parse_args()
     cfg = json.loads((RAIZ / "clientes" / a.c / "video.json").read_text(encoding="utf-8"))
@@ -157,6 +158,8 @@ def main():
     medir = Medidor(FONTES / cfg["arquivo_fonte"], S)
     fonte = cfg["fonte"]
     caixa, tcaixa = cor_ass(cfg["caixa"]), cor_ass(cfg["texto_caixa"])
+    contorno = cor_ass(a.k) if a.k else "&H00000000"
+    esp_cont = 0.13 if a.k else 0.09   # contorno colorido um pouco mais grosso para aparecer
     ev = []
     if a.l:
         ev += legenda_animada(ler_srt(a.l), cfg, W, H, vertical, medir, S)
@@ -171,7 +174,7 @@ ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Legenda,{fonte},{S},&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,{S * 0.09:.0f},{S * 0.05:.0f},5,60,60,0,1
+Style: Legenda,{fonte},{S},&H00FFFFFF,&H00FFFFFF,{contorno},&H80000000,0,0,0,0,100,100,0,0,1,{S * esp_cont:.0f},{S * 0.05:.0f},5,60,60,0,1
 Style: Caixa,{fonte},{S},{caixa},{caixa},{caixa},{caixa},0,0,0,0,100,100,0,0,1,0,0,5,0,0,0,1
 Style: Destaque,{fonte},{SD},{tcaixa},{tcaixa},{caixa},&H60000000,0,0,0,0,100,100,0,0,3,{SD * 0.28:.0f},0,5,90,90,0,1
 

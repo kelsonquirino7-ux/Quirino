@@ -11,15 +11,16 @@
 #     -v  duração da vinheta final em segundos (padrão 3; 0 = sem vinheta)
 #     -a  legenda animada estilo Reels (usa o .srt do -l; palavra da vez em caixa na cor do cliente)
 #     -d  arquivo de textos de destaque, uma linha por texto:  0:03-0:06 OBRA ENTREGUE
+#     -b  legenda animada na parte inferior (padrão: um pouco abaixo do centro)
 #     -k  cor HEX do contorno da legenda (ex.: -k "#015927"; padrão preto)
 #     -z  zoom de impacto nos segundos indicados, separados por vírgula (ex.: -z 2.5,8,14)
 set -euo pipefail
 RAIZ="$(cd "$(dirname "$0")/.." && pwd)"
-FMT=9x16; LEG=""; MARCA=0; CRED=0; VDUR=3; ANIM=0; DEST=""; ZOOM=""; CONT=""
-while getopts "c:i:o:f:l:mqv:ad:z:k:" o; do case $o in
-  a) ANIM=1;; k) CONT=$OPTARG;; d) DEST=$OPTARG;; z) ZOOM=$OPTARG;;
+FMT=9x16; LEG=""; MARCA=0; CRED=0; VDUR=3; ANIM=0; DEST=""; ZOOM=""; CONT=""; BAIXO=0
+while getopts "c:i:o:f:l:mqv:ad:z:k:b" o; do case $o in
+  a) ANIM=1;; k) CONT=$OPTARG;; b) BAIXO=1;; d) DEST=$OPTARG;; z) ZOOM=$OPTARG;;
   c) CLI=$OPTARG;; i) IN=$OPTARG;; o) OUT=$OPTARG;; f) FMT=$OPTARG;; l) LEG=$OPTARG;;
-  m) MARCA=1;; q) CRED=1;; v) VDUR=$OPTARG;; *) sed -n '2,16p' "$0"; exit 1;; esac; done
+  m) MARCA=1;; q) CRED=1;; v) VDUR=$OPTARG;; *) sed -n '2,17p' "$0"; exit 1;; esac; done
 : "${CLI:?falta -c cliente}" "${IN:?falta -i entrada}" "${OUT:?falta -o saida}"
 D="$RAIZ/clientes/$CLI"; [ -d "$D" ] || { echo "Cliente não encontrado: $D"; exit 1; }
 if [ "$FMT" = 9x16 ]; then W=1080; H=1920; else W=1920; H=1080; fi
@@ -45,7 +46,7 @@ if [ $ANIM = 1 ] || [ -n "$DEST" ]; then
   python3 -c "import fontTools" 2>/dev/null || pip install -q fonttools 2>/dev/null
   ASS="${OUT%.*}-efeitos.ass"; mkdir -p "$(dirname "$OUT")"
   python3 "$RAIZ/ferramentas/efeitos.py" -c "$CLI" -f "$FMT" -o "$ASS" \
-    $([ $ANIM = 1 ] && [ -n "$LEG" ] && echo "-l $LEG") $([ -n "$DEST" ] && echo "-d $DEST") ${CONT:+-k "$CONT"} >/dev/null
+    $([ $ANIM = 1 ] && [ -n "$LEG" ] && echo "-l $LEG") $([ -n "$DEST" ] && echo "-d $DEST") ${CONT:+-k "$CONT"} $([ $BAIXO = 1 ] && echo -b) >/dev/null
   F+="[$ATUAL]ass='$(realpath "$ASS")':fontsdir='$RAIZ/ferramentas/fontes/ttf'[va];"; ATUAL=va
   [ $ANIM = 1 ] && LEG=""   # já está no .ass
 fi

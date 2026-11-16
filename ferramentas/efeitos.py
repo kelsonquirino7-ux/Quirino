@@ -8,7 +8,7 @@
     Arquivo de texto, uma por linha:  0:03-0:06 OBRA ENTREGUE
     (aceita segundos, M:SS ou M:SS.d; linhas com # são ignoradas)
 
-Uso: python3 ferramentas/efeitos.py -c <cliente> -f 9x16|16x9 [-l legenda.srt] [-d destaques.txt] [-k "#015927"] -o saida.ass
+Uso: python3 ferramentas/efeitos.py -c <cliente> -f 9x16|16x9 [-l legenda.srt] [-d destaques.txt] [-k "#015927"] [-b] -o saida.ass
 As cores e a fonte vêm de clientes/<cliente>/video.json.
 """
 import argparse, json, re, sys
@@ -78,11 +78,11 @@ def caixa_arredondada(w, h, r):
             f"l 0 {r:.0f} b 0 {k:.0f} {k:.0f} 0 {r:.0f} 0")
 
 
-def legenda_animada(cues, cfg, W, H, vertical, medir, S):
+def legenda_animada(cues, cfg, W, H, vertical, medir, S, baixo=False):
     caixa, tcaixa = cor_ass(cfg["caixa"]), cor_ass(cfg["texto_caixa"])
     maxw = W * (0.80 if vertical else 0.70)
     maxp = 3 if vertical else 5
-    cy = H * (0.68 if vertical else 0.84)
+    cy = H * ((0.80 if baixo else 0.68) if vertical else (0.88 if baixo else 0.84))
     esp = medir(" ") * 2  # espaço duplo ("\h ") para respirar entre as palavras
     ev = []
     for ini, fim, texto in cues:
@@ -148,6 +148,7 @@ def main():
     ap.add_argument("-l")
     ap.add_argument("-d")
     ap.add_argument("-k", help="cor HEX do contorno da legenda (padrão preto)")
+    ap.add_argument("-b", action="store_true", help="legenda na parte inferior (acima da barra do Reels)")
     ap.add_argument("-o", required=True)
     a = ap.parse_args()
     cfg = json.loads((RAIZ / "clientes" / a.c / "video.json").read_text(encoding="utf-8"))
@@ -162,7 +163,7 @@ def main():
     esp_cont = 0.13 if a.k else 0.09   # contorno colorido um pouco mais grosso para aparecer
     ev = []
     if a.l:
-        ev += legenda_animada(ler_srt(a.l), cfg, W, H, vertical, medir, S)
+        ev += legenda_animada(ler_srt(a.l), cfg, W, H, vertical, medir, S, a.b)
     if a.d:
         ev += destaques(a.d, W, H, vertical)
     cab = f"""[Script Info]

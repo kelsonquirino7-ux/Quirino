@@ -36,26 +36,38 @@ Dialogue: 1,0:00:02.46,0:00:02.62,Caixa,,0,0,0,,{\an5\pos(729,1650)\bord0\shad0\
 Dialogue: 2,0:00:02.46,0:00:02.62,Legenda,,0,0,0,,{\an5\pos(540,1650)}O\h MOSQUITO\h {\1c&H00FFFFFF\3a&HFF&\4a&HFF&}DA{\1c&HFFFFFF&\3a&H00&\4a&H80&}
 Dialogue: 1,0:00:02.62,0:00:02.95,Caixa,,0,0,0,,{\an5\pos(540,1650)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 234 0 b 243 0 250 7 250 16 l 250 67 b 250 76 243 84 234 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
 Dialogue: 2,0:00:02.62,0:00:02.95,Legenda,,0,0,0,,{\an5\pos(540,1650)\fscx88\fscy88\t(0,90,\fscx100\fscy100)}{\1c&H00FFFFFF\3a&HFF&\4a&HFF&}DENGUE{\1c&HFFFFFF&\3a&H00&\4a&H80&}
-Dialogue: 1,0:00:18.18,0:00:18.63,Caixa,,0,0,0,,{\an5\pos(387,1650)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 197 0 b 206 0 213 7 213 16 l 213 67 b 213 76 206 84 197 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
-Dialogue: 2,0:00:18.18,0:00:18.63,Legenda,,0,0,0,,{\an5\pos(540,1650)\fscx88\fscy88\t(0,90,\fscx100\fscy100)}{\1c&H00FFFFFF\3a&HFF&\4a&HFF&}TODOS{\1c&HFFFFFF&\3a&H00&\4a&H80&}\h CONTRA\h A
-Dialogue: 1,0:00:18.63,0:00:19.15,Caixa,,0,0,0,,{\an5\pos(613,1650)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 234 0 b 243 0 250 7 250 16 l 250 67 b 250 76 243 84 234 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
-Dialogue: 2,0:00:18.63,0:00:19.15,Legenda,,0,0,0,,{\an5\pos(540,1650)}TODOS\h {\1c&H00FFFFFF\3a&HFF&\4a&HFF&}CONTRA{\1c&HFFFFFF&\3a&H00&\4a&H80&}\h A
-Dialogue: 1,0:00:19.15,0:00:19.34,Caixa,,0,0,0,,{\an5\pos(766,1650)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 50 0 b 59 0 67 7 67 16 l 67 67 b 67 76 59 84 50 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
-Dialogue: 2,0:00:19.15,0:00:19.34,Legenda,,0,0,0,,{\an5\pos(540,1650)}TODOS\h CONTRA\h {\1c&H00FFFFFF\3a&HFF&\4a&HFF&}A{\1c&HFFFFFF&\3a&H00&\4a&H80&}
-Dialogue: 1,0:00:19.34,0:00:19.93,Caixa,,0,0,0,,{\an5\pos(540,1650)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 251 0 b 260 0 268 7 268 16 l 268 67 b 268 76 260 84 251 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
-Dialogue: 2,0:00:19.34,0:00:19.93,Legenda,,0,0,0,,{\an5\pos(540,1650)\fscx88\fscy88\t(0,90,\fscx100\fscy100)}{\1c&H00FFFFFF\3a&HFF&\4a&HFF&}DENGUE!{\1c&HFFFFFF&\3a&H00&\4a&H80&}
-Dialogue: 4,0:00:04.12,0:00:05.96,Titulo,,0,0,0,,{\an7\bord0\shad0\1c&HFFFFFF&\fscy0\pos(62,1395)\t(0,260,\fscy100)\t(1637,1837,\fscy0)\p1}m 0 0 l 10 0 l 10 262 l 0 262{\p0}
-Dialogue: 5,0:00:04.12,0:00:05.96,Chapeu,,0,0,0,,{\an7\move(76,1395,96,1395,80,380)\fad(220,180)}AGENTES DE ENDEMIAS
-Dialogue: 5,0:00:04.12,0:00:05.96,Titulo,,0,0,0,,{\an7\move(96,1469,96,1439,120,420)\fad(260,180)\blur0.6}VISTORIA EM\NCAIXAS-D'ÁGUA
-Dialogue: 4,0:00:06.20,0:00:08.04,Titulo,,0,0,0,,{\an7\bord0\shad0\1c&HFFFFFF&\fscy0\pos(62,1395)\t(0,260,\fscy100)\t(1638,1838,\fscy0)\p1}m 0 0 l 10 0 l 10 262 l 0 262{\p0}
-Dialogue: 5,0:00:06.20,0:00:08.04,Chapeu,,0,0,0,,{\an7\move(76,1395,96,1395,80,380)\fad(220,180)}AGENTES DE ENDEMIAS
-Dialogue: 5,0:00:06.20,0:00:08.04,Titulo,,0,0,0,,{\an7\move(96,1469,96,1439,120,420)\fad(260,180)\blur0.6}TRATAMENTO\NDE FOCOS
-Dialogue: 4,0:00:08.28,0:00:10.63,Titulo,,0,0,0,,{\an7\bord0\shad0\1c&HFFFFFF&\fscy0\pos(62,1395)\t(0,260,\fscy100)\t(2157,2357,\fscy0)\p1}m 0 0 l 10 0 l 10 262 l 0 262{\p0}
-Dialogue: 5,0:00:08.28,0:00:10.63,Chapeu,,0,0,0,,{\an7\move(76,1395,96,1395,80,380)\fad(220,180)}AGENTES DE ENDEMIAS
-Dialogue: 5,0:00:08.28,0:00:10.63,Titulo,,0,0,0,,{\an7\move(96,1469,96,1439,120,420)\fad(260,180)\blur0.6}VISTORIA\NEM PNEUS
-Dialogue: 4,0:00:10.87,0:00:12.71,Titulo,,0,0,0,,{\an7\bord0\shad0\1c&HFFFFFF&\fscy0\pos(62,1395)\t(0,260,\fscy100)\t(1638,1838,\fscy0)\p1}m 0 0 l 10 0 l 10 262 l 0 262{\p0}
-Dialogue: 5,0:00:10.87,0:00:12.71,Chapeu,,0,0,0,,{\an7\move(76,1395,96,1395,80,380)\fad(220,180)}AGENTES DE ENDEMIAS
-Dialogue: 5,0:00:10.87,0:00:12.71,Titulo,,0,0,0,,{\an7\move(96,1469,96,1439,120,420)\fad(260,180)\blur0.6}VISTORIA\NEM QUINTAIS
-Dialogue: 4,0:00:12.95,0:00:15.31,Titulo,,0,0,0,,{\an7\bord0\shad0\1c&HFFFFFF&\fscy0\pos(62,1395)\t(0,260,\fscy100)\t(2157,2357,\fscy0)\p1}m 0 0 l 10 0 l 10 262 l 0 262{\p0}
-Dialogue: 5,0:00:12.95,0:00:15.31,Chapeu,,0,0,0,,{\an7\move(76,1395,96,1395,80,380)\fad(220,180)}AGENTES DE ENDEMIAS
-Dialogue: 5,0:00:12.95,0:00:15.31,Titulo,,0,0,0,,{\an7\move(96,1469,96,1439,120,420)\fad(260,180)\blur0.6}FERROS-VELHOS\NE SUCATAS
+Dialogue: 1,0:00:53.60,0:00:54.05,Caixa,,0,0,0,,{\an5\pos(387,1650)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 197 0 b 206 0 213 7 213 16 l 213 67 b 213 76 206 84 197 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:53.60,0:00:54.05,Legenda,,0,0,0,,{\an5\pos(540,1650)\fscx88\fscy88\t(0,90,\fscx100\fscy100)}{\1c&H00FFFFFF\3a&HFF&\4a&HFF&}TODOS{\1c&HFFFFFF&\3a&H00&\4a&H80&}\h CONTRA\h A
+Dialogue: 1,0:00:54.05,0:00:54.57,Caixa,,0,0,0,,{\an5\pos(613,1650)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 234 0 b 243 0 250 7 250 16 l 250 67 b 250 76 243 84 234 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:54.05,0:00:54.57,Legenda,,0,0,0,,{\an5\pos(540,1650)}TODOS\h {\1c&H00FFFFFF\3a&HFF&\4a&HFF&}CONTRA{\1c&HFFFFFF&\3a&H00&\4a&H80&}\h A
+Dialogue: 1,0:00:54.57,0:00:54.77,Caixa,,0,0,0,,{\an5\pos(766,1650)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 50 0 b 59 0 67 7 67 16 l 67 67 b 67 76 59 84 50 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:54.57,0:00:54.77,Legenda,,0,0,0,,{\an5\pos(540,1650)}TODOS\h CONTRA\h {\1c&H00FFFFFF\3a&HFF&\4a&HFF&}A{\1c&HFFFFFF&\3a&H00&\4a&H80&}
+Dialogue: 1,0:00:54.77,0:00:55.35,Caixa,,0,0,0,,{\an5\pos(540,1650)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 251 0 b 260 0 268 7 268 16 l 268 67 b 268 76 260 84 251 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:54.77,0:00:55.35,Legenda,,0,0,0,,{\an5\pos(540,1650)\fscx88\fscy88\t(0,90,\fscx100\fscy100)}{\1c&H00FFFFFF\3a&HFF&\4a&HFF&}DENGUE!{\1c&HFFFFFF&\3a&H00&\4a&H80&}
+Dialogue: 4,0:00:04.12,0:00:08.04,Titulo,,0,0,0,,{\an7\bord0\shad0\1c&HFFFFFF&\fscy0\pos(62,1395)\t(0,260,\fscy100)\t(3715,3915,\fscy0)\p1}m 0 0 l 10 0 l 10 262 l 0 262{\p0}
+Dialogue: 5,0:00:04.12,0:00:08.04,Chapeu,,0,0,0,,{\an7\move(76,1395,96,1395,80,380)\fad(220,180)}AGENTES DE ENDEMIAS
+Dialogue: 5,0:00:04.12,0:00:08.04,Titulo,,0,0,0,,{\an7\move(96,1469,96,1439,120,420)\fad(260,180)\blur0.6}VISITA ÀS\NRESIDÊNCIAS
+Dialogue: 4,0:00:08.28,0:00:10.11,Titulo,,0,0,0,,{\an7\bord0\shad0\1c&HFFFFFF&\fscy0\pos(62,1395)\t(0,260,\fscy100)\t(1637,1837,\fscy0)\p1}m 0 0 l 10 0 l 10 262 l 0 262{\p0}
+Dialogue: 5,0:00:08.28,0:00:10.11,Chapeu,,0,0,0,,{\an7\move(76,1395,96,1395,80,380)\fad(220,180)}AGENTES DE ENDEMIAS
+Dialogue: 5,0:00:08.28,0:00:10.11,Titulo,,0,0,0,,{\an7\move(96,1469,96,1439,120,420)\fad(260,180)\blur0.6}TRATAMENTO DE\NRESERVATÓRIOS
+Dialogue: 4,0:00:10.35,0:00:14.27,Titulo,,0,0,0,,{\an7\bord0\shad0\1c&HFFFFFF&\fscy0\pos(62,1395)\t(0,260,\fscy100)\t(3715,3915,\fscy0)\p1}m 0 0 l 10 0 l 10 262 l 0 262{\p0}
+Dialogue: 5,0:00:10.35,0:00:14.27,Chapeu,,0,0,0,,{\an7\move(76,1395,96,1395,80,380)\fad(220,180)}AGENTES DE ENDEMIAS
+Dialogue: 5,0:00:10.35,0:00:14.27,Titulo,,0,0,0,,{\an7\move(96,1469,96,1439,120,420)\fad(260,180)\blur0.6}VISTORIA EM\NCAIXAS-D'ÁGUA
+Dialogue: 4,0:00:14.51,0:00:18.42,Titulo,,0,0,0,,{\an7\bord0\shad0\1c&HFFFFFF&\fscy0\pos(62,1395)\t(0,260,\fscy100)\t(3715,3915,\fscy0)\p1}m 0 0 l 10 0 l 10 262 l 0 262{\p0}
+Dialogue: 5,0:00:14.51,0:00:18.42,Chapeu,,0,0,0,,{\an7\move(76,1395,96,1395,80,380)\fad(220,180)}AGENTES DE ENDEMIAS
+Dialogue: 5,0:00:14.51,0:00:18.42,Titulo,,0,0,0,,{\an7\move(96,1469,96,1439,120,420)\fad(260,180)\blur0.6}ELIMINAÇÃO\NDE CRIADOUROS
+Dialogue: 4,0:00:18.66,0:00:20.50,Titulo,,0,0,0,,{\an7\bord0\shad0\1c&HFFFFFF&\fscy0\pos(62,1395)\t(0,260,\fscy100)\t(1637,1837,\fscy0)\p1}m 0 0 l 10 0 l 10 262 l 0 262{\p0}
+Dialogue: 5,0:00:18.66,0:00:20.50,Chapeu,,0,0,0,,{\an7\move(76,1395,96,1395,80,380)\fad(220,180)}AGENTES DE ENDEMIAS
+Dialogue: 5,0:00:18.66,0:00:20.50,Titulo,,0,0,0,,{\an7\move(96,1469,96,1439,120,420)\fad(260,180)\blur0.6}TRATAMENTO\NDE FOCOS
+Dialogue: 4,0:00:24.90,0:00:30.89,Titulo,,0,0,0,,{\an7\bord0\shad0\1c&HFFFFFF&\fscy0\pos(62,1395)\t(0,260,\fscy100)\t(5792,5992,\fscy0)\p1}m 0 0 l 10 0 l 10 262 l 0 262{\p0}
+Dialogue: 5,0:00:24.90,0:00:30.89,Chapeu,,0,0,0,,{\an7\move(76,1395,96,1395,80,380)\fad(220,180)}AGENTES DE ENDEMIAS
+Dialogue: 5,0:00:24.90,0:00:30.89,Titulo,,0,0,0,,{\an7\move(96,1469,96,1439,120,420)\fad(260,180)\blur0.6}ORIENTAÇÃO\NAOS MORADORES
+Dialogue: 4,0:00:31.13,0:00:35.04,Titulo,,0,0,0,,{\an7\bord0\shad0\1c&HFFFFFF&\fscy0\pos(62,1395)\t(0,260,\fscy100)\t(3715,3915,\fscy0)\p1}m 0 0 l 10 0 l 10 262 l 0 262{\p0}
+Dialogue: 5,0:00:31.13,0:00:35.04,Chapeu,,0,0,0,,{\an7\move(76,1395,96,1395,80,380)\fad(220,180)}AGENTES DE ENDEMIAS
+Dialogue: 5,0:00:31.13,0:00:35.04,Titulo,,0,0,0,,{\an7\move(96,1469,96,1439,120,420)\fad(260,180)\blur0.6}VISTORIA\NEM PNEUS
+Dialogue: 4,0:00:39.55,0:00:43.46,Titulo,,0,0,0,,{\an7\bord0\shad0\1c&HFFFFFF&\fscy0\pos(62,1395)\t(0,260,\fscy100)\t(3715,3915,\fscy0)\p1}m 0 0 l 10 0 l 10 262 l 0 262{\p0}
+Dialogue: 5,0:00:39.55,0:00:43.46,Chapeu,,0,0,0,,{\an7\move(76,1395,96,1395,80,380)\fad(220,180)}AGENTES DE ENDEMIAS
+Dialogue: 5,0:00:39.55,0:00:43.46,Titulo,,0,0,0,,{\an7\move(96,1469,96,1439,120,420)\fad(260,180)\blur0.6}VISTORIA\NEM QUINTAIS
+Dialogue: 4,0:00:43.70,0:00:47.62,Titulo,,0,0,0,,{\an7\bord0\shad0\1c&HFFFFFF&\fscy0\pos(62,1395)\t(0,260,\fscy100)\t(3715,3915,\fscy0)\p1}m 0 0 l 10 0 l 10 262 l 0 262{\p0}
+Dialogue: 5,0:00:43.70,0:00:47.62,Chapeu,,0,0,0,,{\an7\move(76,1395,96,1395,80,380)\fad(220,180)}AGENTES DE ENDEMIAS
+Dialogue: 5,0:00:43.70,0:00:47.62,Titulo,,0,0,0,,{\an7\move(96,1469,96,1439,120,420)\fad(260,180)\blur0.6}FERROS-VELHOS\NE SUCATAS

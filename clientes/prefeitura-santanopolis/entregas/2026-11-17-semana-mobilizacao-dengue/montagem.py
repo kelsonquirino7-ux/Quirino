@@ -5,7 +5,9 @@ Fonte editável da edição: lista de cenas, cortes no ritmo da trilha, transiç
 tratamento de cor, faixas institucionais, legenda e vinheta.
 
 Uso: python3 montagem.py <pasta-com-os-brutos IMG_55xx.MOV> <trilha.mp3>
-Brutos: pasta do Drive "AGENTES DE ENDEMIAS". Trilha: Magnific (Lyria 3 Pro).
+Brutos: pasta do Drive "AGENTES DE ENDEMIAS" + IMG_5522/5528/5529 (links avulsos). Trilha: Magnific (Lyria 3 Pro).
+Duração fechada em 60 s. A trilha é emendada uma vez (fim do 1º bloco → trecho calmo da introdução)
+e segue contínua até a batida final, que cai junto com a vinheta.
 """
 import subprocess, sys, json
 from pathlib import Path
@@ -15,8 +17,10 @@ RAIZ = AQUI.parents[3]
 BRUTOS = Path(sys.argv[1]); TRILHA = Path(sys.argv[2])
 TMP = AQUI / "_tmp"; TMP.mkdir(exist_ok=True)
 
-BEAT = 0.5195            # 115,5 BPM (medido na trilha)
+BEAT = 0.519375          # 115,5 BPM (medido na trilha)
 TRILHA_INI = 21.32       # ponto da trilha no início do vídeo: o "drop" (25,32 s) cai no 1º corte
+TRILHA_EMENDA = 6.5125   # depois do 1º bloco (32 batidas) a trilha volta a este ponto calmo da introdução
+DURACAO = 60.0
 TD = 0.24                # duração das transições
 W, H = 1080, 1920
 
@@ -24,20 +28,36 @@ W, H = 1080, 1920
 # enquadramento: None = vertical; ("x", a, b) = recorte 9:16 de vídeo horizontal, centro indo de a até b (0–1)
 FALA = ("IMG_5546", 1.55, 4.0)          # corta a 1ª tentativa (0–1,5 s) em que ela repete a fala
 CENAS = [
-    # etiqueta: "LINHA 1|LINHA 2"; "+" = continua a etiqueta da cena anterior
-    ("IMG_5535", 4.3, 4, None,            "zoomin",     "VISTORIA EM|CAIXAS-D'ÁGUA"),
-    ("IMG_5538", 1.4, 2, None,            "smoothleft", "TRATAMENTO|DE FOCOS"),
-    ("IMG_5538", 4.5, 2, None,            "smoothup",   "+"),
-    ("IMG_5539", 1.7, 3, None,            "smoothleft", "VISTORIA|EM PNEUS"),
-    ("IMG_5541", 0.3, 2, ("x", .64, .68), "slideup",    "+"),
-    ("IMG_5542", 3.6, 4, ("x", .25, .58), "smoothleft", "VISTORIA|EM QUINTAIS"),
-    ("IMG_5543", 4.4, 3, None,            "smoothup",   "FERROS-VELHOS|E SUCATAS"),
-    ("IMG_5543", 9.3, 2, None,            "smoothleft", "+"),
-    ("IMG_5535", 8.0, 2, None,            "slideup",    None),
-    ("IMG_5539", 0.0, 3, None,            "smoothright", None),
+    # duração: inteiro = batidas; decimal = segundos. etiqueta: "LINHA 1|LINHA 2"; "+" = continua a anterior
+    # — bloco 1 (drop, 32 batidas)
+    ("IMG_5528", 0.3, 4, None,            "zoomin",      "VISITA ÀS|RESIDÊNCIAS"),
+    ("IMG_5528", 4.8, 4, None,            "smoothleft",  "+"),
+    ("IMG_5529", 0.5, 4, None,            "smoothup",    "TRATAMENTO DE|RESERVATÓRIOS"),
+    ("IMG_5535", 0.4, 4, None,            "slideup",     "VISTORIA EM|CAIXAS-D'ÁGUA"),
+    ("IMG_5535", 4.3, 4, None,            "smoothleft",  "+"),
+    ("IMG_5522", 0.4, 4, None,            "smoothup",    "ELIMINAÇÃO|DE CRIADOUROS"),
+    ("IMG_5522", 3.6, 4, None,            "smoothleft",  "+"),
+    ("IMG_5538", 0.5, 4, None,            "slideup",     "TRATAMENTO|DE FOCOS"),
+    # — bloco 2 (introdução calma, 20 batidas): planos mais longos
+    ("IMG_5529", 5.6, 8, None,            "fade",        None),
+    ("IMG_5528", 11.2, 4, None,           "fade",        "ORIENTAÇÃO|AOS MORADORES"),
+    ("IMG_5528", 13.6, 8, None,           "fade",        "+"),
+    # — bloco 3 (1º drop 12 batidas + respiro antes do drop final)
+    ("IMG_5539", 2.0, 4, None,            "zoomin",      "VISTORIA|EM PNEUS"),
+    ("IMG_5541", 0.5, 4, ("x", .64, .68), "smoothleft",  "+"),
+    ("IMG_5538", 4.0, 4, None,            "smoothup",    None),
+    ("IMG_5535", 7.6, 8.42 - 12 * 0.519375, None, "fade", None),
+    # — bloco 4 (drop final, 27 batidas + grito nas 5 últimas)
+    ("IMG_5542", 0.4, 4, ("x", .60, .70), "zoomin",      "VISTORIA|EM QUINTAIS"),
+    ("IMG_5542", 3.6, 4, ("x", .25, .58), "smoothleft",  "+"),
+    ("IMG_5543", 0.5, 4, None,            "smoothup",    "FERROS-VELHOS|E SUCATAS"),
+    ("IMG_5543", 4.4, 4, None,            "smoothleft",  "+"),
+    ("IMG_5539", 0.3, 2, None,            "slideup",     None),
+    ("IMG_5542", 8.6, 4, ("x", .80, .76), "smoothright", None),
+    ("IMG_5543", 8.6, 3, None,            "smoothleft",  None),
+    ("IMG_5522", 6.6, 2, None,            "smoothup",    None),
 ]
 GRITO = ("IMG_5546", 5.75, 2.6, "zoomin")  # grupo: "Todos contra a dengue!" (rotação da câmera mantida)
-VINHETA = 3.0
 
 COR = ("eq=contrast=1.08:brightness=0.012:saturation=1.22:gamma=0.97,"
        "colorbalance=rs=0.02:bs=-0.015:rh=0.025:bh=-0.02,unsharp=5:5:0.55:5:5:0,vignette=PI/6")
@@ -64,8 +84,9 @@ def cena(nome, ini, dur, enq, saida, zoom=0.07):
 # 1) linha do tempo
 tempos = [0.0, FALA[2]]
 for c in CENAS:
-    tempos.append(tempos[-1] + c[2] * BEAT)
+    tempos.append(tempos[-1] + (c[2] * BEAT if isinstance(c[2], int) else c[2]))
 fim_grito = tempos[-1] + GRITO[2]
+VINHETA = DURACAO - (fim_grito - 0.35)   # a vinheta completa os 60 s
 print("cortes:", [round(t, 2) for t in tempos], "fim:", round(fim_grito, 2))
 
 pecas = [(FALA[0], FALA[1], FALA[2], None, None)]
@@ -141,17 +162,18 @@ total = fim_grito - 0.35 + VINHETA
 src = str(BRUTOS / "IMG_5546.MOV")
 ent += ["-ss", str(FALA[1]), "-t", str(FALA[2]), "-i", src,
         "-ss", str(GRITO[1]), "-t", str(GRITO[2]), "-i", src,
-        "-ss", str(TRILHA_INI), "-i", str(TRILHA)]
+        "-ss", str(TRILHA_INI), "-t", f"{tempos[9] + 0.03:.3f}", "-i", str(TRILHA),  # bloco 1 (+ cruzamento)
+        "-ss", str(TRILHA_EMENDA), "-i", str(TRILHA)]
 voz = "highpass=f=90,afftdn=nf=-25,acompressor=threshold=-22dB:ratio=3:attack=5:release=120:makeup=4,aresample=48000,aformat=channel_layouts=stereo"
 fc.append(f"[{n+2}:a:0]{voz},volume=1.6,afade=t=in:d=0.04,afade=t=out:st={FALA[2]-0.15}:d=0.15[v1]")
 fc.append(f"[{n+3}:a:0]{voz},volume=0.9,afade=t=in:d=0.08,afade=t=out:st={GRITO[2]-0.3}:d=0.3,adelay={int(tempos[-1]*1000)}|{int(tempos[-1]*1000)}[v2]")
 gv = f"if(lt(t,{FALA[2]-0.25}),0.16,if(lt(t,{tempos[-1]}),0.7,if(lt(t,{fim_grito-0.2}),0.28,0.85)))"
-fc.append(f"[{n+4}:a]aresample=48000,aformat=channel_layouts=stereo,volume='{gv}':eval=frame,"
+fc.append(f"[{n+4}:a][{n+5}:a]acrossfade=d=0.03:c1=tri:c2=tri,aresample=48000,aformat=channel_layouts=stereo,apad,volume='{gv}':eval=frame,"
           f"atrim=0:{total:.3f},afade=t=out:st={total-0.8:.3f}:d=0.8[mu]")
 fc.append("[mu][v1][v2]amix=inputs=3:normalize=0:duration=first,volume=0.78,alimiter=limit=0.95[aout]")
 
 saida = AQUI / "semana-mobilizacao-contra-a-dengue.mp4"
 run(["ffmpeg", "-v", "error", "-y", *ent, "-filter_complex", ";".join(fc), "-map", "[vout]", "-map", "[aout]",
-     "-t", f"{total:.3f}", "-c:v", "libx264", "-preset", "medium", "-crf", "19", "-c:a", "aac", "-b:a", "192k",
+     "-t", f"{total:.3f}", "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-maxrate", "10M", "-bufsize", "20M", "-c:a", "aac", "-b:a", "192k",
      "-movflags", "+faststart", str(saida)])
 print("Pronto:", saida, round(total, 2), "s")

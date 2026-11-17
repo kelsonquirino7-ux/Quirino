@@ -129,7 +129,12 @@ n = len(arqs)
 ent += ["-loop", "1", "-i", str(AQUI / "faixas.png"), "-loop", "1", "-t", str(VINHETA), "-i", str(AQUI / "vinheta.png")]
 fc.append(f"[{atual}][{n}:v]overlay=0:0:shortest=1,ass='{ass}':fontsdir='{fontes}',format=yuv420p,settb=1/30[vm]")
 fc.append(f"[{n+1}:v]scale={W}:{H},setsar=1,fps=30,format=yuv420p,settb=1/30[vin]")
-fc.append(f"[vm][vin]xfade=transition=fadeblack:duration=0.35:offset={fim_grito - 0.35:.3f}[vout]")
+fc.append(f"[vm][vin]xfade=transition=fadeblack:duration=0.35:offset={fim_grito - 0.35:.3f}[vb]")
+# linha-cronômetro: a faixa azul avança sobre a branca e cobre tudo no último quadro
+T = fim_grito - 0.35 + VINHETA
+fc.append(f"color=c=0x002F67:s={W}x16:r=30:d={T:.3f}[pb]")
+fc.append(f"[vb]drawbox=x=0:y={H-16}:w={W}:h=16:color=white:t=fill[vw]")
+fc.append(f"[vw][pb]overlay=x='-w+w*min(1,t/({T:.3f}-1/30))':y={H-16}:eval=frame[vout]")
 
 # 4) áudio: fala limpa + grito, trilha com "ducking" sob a fala
 total = fim_grito - 0.35 + VINHETA

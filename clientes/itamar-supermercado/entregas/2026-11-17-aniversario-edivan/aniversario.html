@@ -19,19 +19,20 @@ canvas{position:absolute;inset:0}
 :root{--fonte:"Luckiest Guy"}
 .linha{display:flex;align-items:flex-end;position:relative;z-index:2;white-space:nowrap}
 .linha span{display:inline-block;padding-top:.12em;will-change:transform}
-.br span{color:#fff;-webkit-text-stroke:14px #280E01;paint-order:stroke fill;text-shadow:0 8px 0 #280E01,0 13px 0 #280E01}
-.am span{color:#FFD302;-webkit-text-stroke:14px #280E01;paint-order:stroke fill;text-shadow:0 8px 0 #280E01,0 13px 0 #280E01}
-.gr span{-webkit-text-stroke:20px #280E01;paint-order:stroke fill;
-  text-shadow:0 7px 0 #280E01,0 13px 0 #280E01,0 19px 0 #280E01,11px 26px 0 #FF291E}
-.gr span.la{color:#FFD302}.gr span.lb{color:#fff}.gr span.lc{color:#FF291E;text-shadow:0 7px 0 #280E01,0 13px 0 #280E01,0 19px 0 #280E01,11px 26px 0 #FFD302}
+.br span{color:#fff;-webkit-text-stroke:14px #FF291E;paint-order:stroke fill;text-shadow:0 7px 0 #FF291E,0 12px 0 #FFD302,0 17px 0 #FFD302}
+.am span{color:#FF291E;-webkit-text-stroke:14px #fff;paint-order:stroke fill;text-shadow:0 7px 0 #fff,0 12px 0 #FFD302,0 17px 0 #FFD302}
+.gr span{-webkit-text-stroke:20px #FF291E;paint-order:stroke fill;text-shadow:0 7px 0 #FF291E,0 13px 0 #FF291E,0 19px 0 #FFD302,0 25px 0 #FFD302}
+.gr span.la{color:#fff}.gr span.lb{color:#FFD302}
+.gr span.lc{color:#FF291E;-webkit-text-stroke-color:#fff;text-shadow:0 7px 0 #fff,0 13px 0 #fff,0 19px 0 #FFD302,0 25px 0 #FFD302}
 .burst{position:absolute;left:50%;width:1060px;height:520px;margin-left:-530px;background:#FF291E;z-index:1;
   clip-path:polygon(50% 0,58% 14%,72% 3%,74% 20%,92% 14%,86% 32%,100% 38%,88% 52%,100% 64%,84% 70%,92% 88%,74% 82%,70% 100%,58% 86%,50% 100%,42% 86%,30% 100%,26% 82%,8% 88%,16% 70%,0 64%,12% 52%,0 38%,14% 32%,8% 14%,26% 20%,28% 3%,42% 14%)}
-.burst.esc{background:#280E01;transform-origin:50% 50%}
+.burst.esc{background:#FFD302;transform-origin:50% 50%}
 #abertura{position:absolute;inset:0;display:none;background:#280E01;z-index:10}
 #abertura img{position:absolute;inset:0;width:1080px;height:1920px}
 #alerta{top:250px}
 #feliz{top:1120px}
-.fita{position:relative;z-index:2;background:#FF291E;border:10px solid #280E01;border-radius:26px;padding:22px 34px 8px;box-shadow:0 12px 0 #280E01}
+.fita{position:relative;z-index:2;background:#FF291E;border:10px solid #fff;border-radius:26px;padding:22px 34px 8px;box-shadow:0 12px 0 #FF291E}
+.fita .linha span{color:#fff;-webkit-text-stroke:0;text-shadow:0 4px 0 #FFD302}
 #cartao{position:absolute;inset:0;background:#FFD302;display:none;overflow:hidden}
 #cartao .raios{position:absolute;left:50%;top:46%;width:3000px;height:3000px;margin:-1500px;
   background:repeating-conic-gradient(#FFD302 0 7.5deg,#FFE04D 7.5deg 15deg)}
@@ -80,7 +81,7 @@ canvas{position:absolute;inset:0}
   <canvas id="confete" width="1080" height="1920"></canvas>
   <div id="abertura"><img id="ab" alt="">
     <div class="txt" id="alerta">
-      <div class="linha br" id="a1" data-t="🚨 ALERTA DE 🚨" data-s="104"></div>
+      <div class="linha br" id="a1" data-t="ALERTA DE" data-s="104"></div>
       <div class="linha gr" id="a2" data-t="ANIVERSARIANTE!" data-s="118" style="transform:rotate(-3deg)"></div>
     </div>
   </div>
@@ -89,11 +90,11 @@ canvas{position:absolute;inset:0}
 <script>
 const FPS_ORIG = 30, NQ = 154;           // quadros extraídos do bruto (30 fps)
 const FREEZE = 4.9, CARTAO = 6.6, FIM = 9.8;
-const FACE = { x: 507, y: 482 };          // centro dos olhos no quadro congelado (4,9 s)
+const FACE = { x: 480, y: 466 };          // centro dos olhos no quadro congelado (4,9 s)
 // topo da cabeça [t, x, y] — marcado à mão quadro a quadro
 const CABECA = [[0,192,226],[.25,195,190],[.5,318,196],[.75,382,222],[1,462,210],[1.25,500,228],[1.5,445,210],[1.75,462,214],
   [2,520,240],[2.25,596,258],[2.5,540,222],[2.75,540,234],[3,540,260],[3.25,540,260],[3.5,462,242],[3.75,500,280],
-  [4,560,268],[4.25,580,280],[4.5,545,325],[4.63,540,330],[4.77,513,318],[4.9,505,300]];
+  [4,560,268],[4.25,580,280],[4.5,545,325],[4.63,540,330],[4.77,513,318],[4.9,500,318]];
 const $ = id => document.getElementById(id);
 const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const ease = x => 1 - Math.pow(1 - cl(x), 3);
@@ -116,7 +117,7 @@ function tremida(t) {
 function zoomPulso(t) { let z = 1; for (const t0 of [FE]) { const u = t - t0; if (u >= 0 && u < .9) z += .16 * Math.exp(-u * 5) * (u < .08 ? u / .08 : 1); } return z; }
 // partículas determinísticas
 let sd = 11; const rnd = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
-const CORES = ['#FFD302', '#FF291E', '#FFFFFF', '#280E01', '#FF291E', '#FFD302', '#FFFFFF'];
+const CORES = ['#FFD302', '#FF291E', '#FFFFFF', '#FF291E', '#FF291E', '#FFD302', '#FFFFFF'];
 const mk = n => [...Array(n)].map(() => ({ a: rnd() * 6.283, v: 900 + rnd() * 1500, w: 14 + rnd() * 18, h: 8 + rnd() * 10,
   r: rnd() * 6.28, vr: (rnd() - .5) * 14, f: 1 + rnd() * 2, c: CORES[Math.floor(rnd() * CORES.length)], x: rnd() * 1080, d: rnd() }));
 const RAJ = [{ t: FE, x: 540, y: 1400, p: mk(160) }, { t: FREEZE, x: 540, y: 760, p: mk(120) }, { t: CARTAO + .15, x: 540, y: 1960, p: mk(170) }];
@@ -147,7 +148,8 @@ window.setT0 = async t => {
   if (t >= FREEZE - .25) { const k = ease((t - FREEZE + .25) / .5); z = 1 + .75 * k; cx = 540 + (FACE.x - 540) * k; cy = 900 + (FACE.y + 20 - 900) * k; }
   const sh = tremida(t); z *= 1.06;
   // mantém (cx,cy) no centro da tela depois do zoom
-  const tx = 540 - cx * z + sh.dx, ty = 900 - cy * z + sh.dy;
+  const M = 30, tx = cl(540 - cx * z + sh.dx, 1080 - 1080 * z - M * (z > 1.01), -M * (z > 1.01) + 0),
+    ty = cl(900 - cy * z + sh.dy, 1920 - 1920 * z - M * (z > 1.01), -M * (z > 1.01));
   $('cena').style.transform = `translate(${tx}px,${ty}px) scale(${z}) rotate(${sh.r}deg)`;
   const T = (x, y) => ({ x: tx + x * z, y: ty + y * z });
   // ---- coroa (entra caindo em 0,35 s)
@@ -157,7 +159,7 @@ window.setT0 = async t => {
   // ---- óculos descem e encaixam no freeze
   const ko = cl((t - (FREEZE - .3)) / .3);
   $('oculos').style.opacity = ko > 0 ? 1 : 0;
-  $('oculos').style.transform = `translate(${FACE.x - 150}px,${FACE.y - 55 - (1 - ease(ko)) * 700}px) rotate(${-4 + (1 - ko) * 25}deg)`;
+  $('oculos').style.transform = `translate(${FACE.x - 150}px,${FACE.y - 55 - (1 - ease(ko)) * 700}px) rotate(${(1 - ko) * 25}deg) scale(.72)`;
   $('sirene').style.opacity = 0;
   // ---- FELIZ ANIVERSÁRIO, EDIVAN! (lettering)
   $('feliz').style.display = t < CARTAO ? 'flex' : 'none';

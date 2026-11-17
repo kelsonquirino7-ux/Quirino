@@ -145,7 +145,7 @@ fc.append(f"[{n+4}:a]aresample=48000,aformat=channel_layouts=stereo,volume='{gv}
           f"atrim=0:{total:.3f},afade=t=out:st={total-0.8:.3f}:d=0.8[mu]")
 fc.append("[mu][v1][v2]amix=inputs=3:normalize=0:duration=first,volume=0.78,alimiter=limit=0.95[aout]")
 
-saida = AQUI / "video.mp4"
+saida = AQUI / "semana-mobilizacao-contra-a-dengue.mp4"
 run(["ffmpeg", "-v", "error", "-y", *ent, "-filter_complex", ";".join(fc), "-map", "[vout]", "-map", "[aout]",
      "-t", f"{total:.3f}", "-c:v", "libx264", "-preset", "medium", "-crf", "19", "-c:a", "aac", "-b:a", "192k",
      "-movflags", "+faststart", str(saida)])

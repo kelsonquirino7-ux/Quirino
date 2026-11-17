@@ -1,0 +1,36 @@
+<!doctype html><meta charset="utf-8"><meta name="tamanho" content="2160x960">
+<link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<!-- Prévia: 4 opções de fonte com o mesmo tratamento de lettering (camadas, contorno, 3D, arco). -->
+<style>
+*{margin:0;box-sizing:border-box}body{width:2160px;height:960px;display:flex;background:#280E01}
+.p{width:540px;height:960px;position:relative;overflow:hidden}
+.p>.in{position:absolute;left:0;top:0;width:1080px;height:1920px;transform:scale(.5);transform-origin:0 0;
+  background:url(quadros/0080.jpg) center/1080px 1920px no-repeat;background-color:#280E01}
+.rot{position:absolute;left:0;right:0;bottom:0;text-align:center;font:800 64px "Baloo 2";color:#FFD302;background:#280E01;padding:30px 0 10px}
+.lt{position:absolute;left:0;right:0;top:1120px;display:flex;flex-direction:column;align-items:center}
+.burst{position:absolute;left:50%;top:170px;width:1060px;height:520px;margin-left:-530px;
+  background:#FF291E;clip-path:polygon(50% 0,58% 14%,72% 3%,74% 20%,92% 14%,86% 32%,100% 38%,88% 52%,100% 64%,84% 70%,92% 88%,74% 82%,70% 100%,58% 86%,50% 100%,42% 86%,30% 100%,26% 82%,8% 88%,16% 70%,0 64%,12% 52%,0 38%,14% 32%,8% 14%,26% 20%,28% 3%,42% 14%);
+  filter:drop-shadow(0 0 0 #280E01)}
+.arco{display:flex;align-items:flex-end;height:150px;position:relative;z-index:2}
+.arco span{display:inline-block;color:#FFD302;-webkit-text-stroke:14px #280E01;paint-order:stroke fill;
+  text-shadow:0 8px 0 #280E01,0 12px 0 #280E01}
+.ani{position:relative;z-index:2;margin-top:-4px;color:#fff;-webkit-text-stroke:14px #280E01;paint-order:stroke fill;
+  text-shadow:0 8px 0 #280E01,0 12px 0 #280E01;transform:rotate(-4deg)}
+.nome{position:relative;z-index:2;display:flex;margin-top:4px;transform:rotate(-4deg)}
+.nome span{display:inline-block;-webkit-text-stroke:20px #280E01;paint-order:stroke fill;
+  background:linear-gradient(#FFF27A 0%,#FFD302 45%,#FFB800 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 6px 0 #280E01) drop-shadow(0 6px 0 #280E01) drop-shadow(0 6px 0 #280E01) drop-shadow(10px 10px 0 #FF291E)}
+.nome span:nth-child(even){background:linear-gradient(#fff 0%,#fff 40%,#FFE9D6 100%);-webkit-background-clip:text;background-clip:text}
+.brilho{position:absolute;z-index:3;width:70px;height:70px;background:#fff;clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)}
+</style>
+<script>
+const F=[['Luckiest Guy',1,'1 · Luckiest Guy'],['Titan One',.92,'2 · Titan One'],['Bungee',.78,'3 · Bungee'],['Shrikhand',.86,'4 · Shrikhand']];
+for(const [f,k,n] of F){
+  const arc=[...'FELIZ'].map((c,i)=>`<span style="font-size:${110*k}px;transform:translateY(${[18,4,0,4,18][i]}px) rotate(${[-14,-7,0,7,14][i]}deg)">${c}</span>`).join('');
+  const nome=[...'EDIVAN!'].map((c,i)=>`<span style="font-size:${250*k}px;transform:translateY(${[0,-14,6,-10,4,-12,0][i]}px) rotate(${[-6,4,-3,5,-4,6,8][i]}deg)">${c}</span>`).join('');
+  document.write(`<div class="p"><div class="in"><div class="lt" style="font-family:'${f}'"><div class="burst"></div>
+   <div class="arco">${arc}</div><div class="ani" style="font-size:${108*k}px">ANIVERSÁRIO</div><div class="nome">${nome}</div>
+   <div class="brilho" style="left:110px;top:330px"></div><div class="brilho" style="right:120px;top:640px;transform:scale(.7)"></div></div>
+   <div class="rot">${n}</div></div></div>`);
+}
+</script>

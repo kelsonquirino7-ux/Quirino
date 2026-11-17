@@ -1,96 +1,179 @@
 <!doctype html><meta charset="utf-8"><meta name="tamanho" content="1080x1920">
 <link rel="stylesheet" href="../../../../ferramentas/fontes.css">
-<!-- Camada animada (fundo transparente) do story de aniversário do Edivan.
-     window.setT(segundos) posiciona a animação; render-video.js grava quadro a quadro e junta com o vídeo.
-     Textos: editar o HTML abaixo. Tempos: constantes VID (fim do vídeo) e FIM (fim do story). -->
+<!-- Story de aniversário do Edivan — estilo Reels (coroa que acompanha a cabeça, óculos no sorriso,
+     freeze, tremida, zoom de impacto, textos piscando, cartão final).
+     Os quadros do vídeo vêm de quadros/NNNN.jpg (gerados por render-video.js a partir de bruto.mp4).
+     window.setT(segundos) monta o quadro. Textos: editar o HTML. Posição da coroa: lista CABECA. -->
 <style>
 *{margin:0;box-sizing:border-box}
-html,body{width:1080px;height:1920px;background:transparent;overflow:hidden;font-family:"Baloo 2",sans-serif}
-#confete{position:absolute;inset:0}
-.titulo{position:absolute;left:0;right:0;top:1230px;display:flex;flex-direction:column;align-items:center}
-.selo{background:#FF291E;color:#280E01;font-weight:800;font-size:58px;line-height:1;padding:22px 40px 14px;border-radius:999px;
-  box-shadow:0 8px 0 #280E01}
-.nome{margin-top:-6px;background:#FFD302;color:#280E01;font-weight:800;font-size:150px;line-height:1;padding:26px 56px 6px;
-  border-radius:40px;box-shadow:0 12px 0 #280E01;letter-spacing:.01em}
-.sub{margin-top:30px;background:#280E01;color:#FFD302;font-weight:600;font-size:40px;padding:12px 32px 6px;border-radius:16px}
-#cartao{position:absolute;inset:0;background:#FFD302;overflow:hidden}
-#cartao .faixa{position:absolute;left:0;right:0;top:0;height:24px;background:#FF291E}
-#cartao .faixa.b{top:auto;bottom:0}
-.c-top{position:absolute;left:60px;right:60px;top:280px;text-align:center;color:#280E01}
-.c-top .k{display:inline-block;background:#FF291E;color:#280E01;font-weight:800;font-size:54px;padding:16px 38px 8px;border-radius:999px}
-.c-top h1{font-weight:800;font-size:132px;line-height:.95;margin-top:28px}
-.c-top h1 span{display:inline-block;background:#FF291E;color:#280E01;padding:18px 40px 0;border-radius:32px;margin-top:14px;box-shadow:0 10px 0 #280E01}
-.c-top p{font-weight:600;font-size:46px;line-height:1.2;margin-top:28px}
-.espaco{position:absolute;left:150px;right:150px;top:1010px;height:300px;border:6px dashed rgba(40,14,1,.35);border-radius:40px;
-  display:flex;align-items:center;justify-content:center;text-align:center;color:rgba(40,14,1,.55);font-weight:600;font-size:34px;line-height:1.2}
-.seta{position:absolute;left:0;right:0;top:880px;text-align:center;font-size:110px;line-height:1}
-.c-logo{position:absolute;left:0;right:0;top:1350px;display:flex;flex-direction:column;align-items:center}
-.c-logo img{width:420px}
-.c-logo div{font-weight:800;font-size:44px;color:#280E01;margin-top:-4px}
+html,body{width:1080px;height:1920px;background:#280E01;overflow:hidden;font-family:"Baloo 2",sans-serif}
+#tudo,#cena{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:0 0}
+#v{position:absolute;inset:0;width:1080px;height:1920px}
+.obj{position:absolute;left:0;top:0;transform-origin:50% 100%}
+#oculos{transform-origin:50% 50%}
+canvas{position:absolute;inset:0}
+#flash{position:absolute;inset:0;background:#fff;opacity:0}
+#sirene{position:absolute;inset:0;opacity:0}
 .emoji{font-family:"Noto Color Emoji",sans-serif}
+.txt{position:absolute;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:14px}
+.box{font-weight:800;line-height:1;border-radius:28px;padding:22px 40px 10px;box-shadow:0 10px 0 #280E01;white-space:nowrap}
+.am{background:#FFD302;color:#280E01}.vm{background:#FF291E;color:#280E01}
+#alerta{top:1330px}#alerta .box{font-size:92px;text-align:center;white-space:normal;padding:26px 44px 12px}
+#feliz{top:1290px}
+#feliz .l1{font-size:80px}#feliz .l2{font-size:168px;padding:28px 56px 12px;border-radius:40px}
+#cartao{position:absolute;inset:0;background:#FFD302;display:none;overflow:hidden}
+#cartao .raios{position:absolute;left:50%;top:46%;width:3000px;height:3000px;margin:-1500px;
+  background:repeating-conic-gradient(#FFD302 0 7.5deg,#FFE04D 7.5deg 15deg)}
+#cartao .faixa{position:absolute;left:0;right:0;height:28px;background:#FF291E}
+.c{position:absolute;left:0;right:0;display:flex;flex-direction:column;align-items:center;text-align:center}
+#c-logo{top:330px}#c-logo img{width:820px}
+#c-msg{top:1000px;gap:22px}
+#c-msg .a{font-size:70px;line-height:1.05;color:#280E01;font-weight:800}
+#c-msg .b{font-size:60px}
 </style>
-<canvas id="confete" width="1080" height="1920"></canvas>
-<div class="titulo" id="titulo">
-  <div class="selo" id="selo">FELIZ ANIVERSÁRIO <span class="emoji">🎉</span></div>
-  <div class="nome" id="nome">EDIVAN</div>
-  <div class="sub" id="sub">da família Itamar Supermercado</div>
-</div>
-<div id="cartao">
-  <div class="faixa"></div><div class="faixa b"></div>
-  <div class="c-top">
-    <div class="k" id="k">HOJE É DIA DE FESTA <span class="emoji">🎂</span></div>
-    <h1 id="h1">PARABÉNS,<br><span>EDIVAN!</span></h1>
-    <p id="p">Muita saúde, alegria e conquistas!<br>Deixe seu recado pra ele aqui embaixo</p>
+<div id="tudo">
+  <div id="cena">
+    <img id="v" alt="">
+    <svg id="coroa" class="obj" width="220" height="150" viewBox="0 0 220 150">
+      <path d="M14 132 L6 34 L58 78 L110 8 L162 78 L214 34 L206 132 Z" fill="#FFD302" stroke="#280E01" stroke-width="9" stroke-linejoin="round"/>
+      <rect x="14" y="110" width="192" height="26" rx="6" fill="#FF291E" stroke="#280E01" stroke-width="8"/>
+      <circle cx="110" cy="8" r="13" fill="#FF291E" stroke="#280E01" stroke-width="7"/>
+      <circle cx="6" cy="34" r="11" fill="#FF291E" stroke="#280E01" stroke-width="7"/>
+      <circle cx="214" cy="34" r="11" fill="#FF291E" stroke="#280E01" stroke-width="7"/>
+      <circle cx="110" cy="84" r="14" fill="#FF291E" stroke="#280E01" stroke-width="6"/>
+    </svg>
+    <svg id="oculos" class="obj" width="300" height="110" viewBox="0 0 300 110">
+      <path d="M8 20 H292 V40 H272 V60 H252 V80 H192 V60 H172 V40 H128 V60 H108 V80 H48 V60 H28 V40 H8 Z" fill="#280E01"/>
+      <rect x="48" y="40" width="20" height="20" fill="#fff" opacity=".85"/><rect x="68" y="60" width="20" height="20" fill="#fff" opacity=".5"/>
+      <rect x="192" y="40" width="20" height="20" fill="#fff" opacity=".85"/><rect x="212" y="60" width="20" height="20" fill="#fff" opacity=".5"/>
+      <rect x="8" y="20" width="284" height="8" fill="#FF291E"/>
+    </svg>
   </div>
-  <div class="seta emoji" id="seta">👇</div>
-  <div class="espaco" id="espaco">espaço da figurinha<br>(adicionar no Instagram)</div>
-  <div class="c-logo" id="logo"><img src="../../identidade/logo-itamar-3d-transparente.png" alt=""><div>@itamarsupermercado</div></div>
+  <div id="sirene"></div>
+  <canvas id="brilho" width="1080" height="1920"></canvas>
+  <div class="txt" id="alerta"><div class="box vm" id="al">ALERTA DE<br>ANIVERSARIANTE! <span class="emoji">🚨</span></div></div>
+  <div class="txt" id="feliz">
+    <div class="box vm l1" id="f1">FELIZ ANIVERSÁRIO <span class="emoji">🎉</span></div>
+    <div class="box am l2" id="f2">EDIVAN!</div>
+  </div>
+  <div id="cartao">
+    <div class="raios" id="raios"></div>
+    <div class="faixa" style="top:0"></div><div class="faixa" style="bottom:0"></div>
+    <div class="c" id="c-logo"><img src="../../identidade/logo-itamar-3d-transparente.png" alt=""></div>
+    <div class="c" id="c-msg">
+      <div class="a" id="m1">Muita saúde, alegria<br>e conquistas!</div>
+      <div class="box vm b" id="m2">Família Itamar Supermercado</div>
+    </div>
+  </div>
+  <canvas id="confete" width="1080" height="1920"></canvas>
+  <div id="flash"></div>
 </div>
 <script>
-const VID = 5.14, FIM = 10.14;              // fim do vídeo e fim do story (cartão final = 5 s)
-const MOSTRAR_GUIA = new URLSearchParams(location.search).has('guia'); // moldura tracejada só na prévia
+const FPS_ORIG = 30, NQ = 154;           // quadros extraídos do bruto (30 fps)
+const FREEZE = 4.9, CARTAO = 6.6, FIM = 9.8;
+const FACE = { x: 507, y: 482 };          // centro dos olhos no quadro congelado (4,9 s)
+// topo da cabeça [t, x, y] — marcado à mão quadro a quadro
+const CABECA = [[0,192,226],[.25,195,190],[.5,318,196],[.75,382,222],[1,462,210],[1.25,500,228],[1.5,445,210],[1.75,462,214],
+  [2,520,240],[2.25,596,258],[2.5,540,222],[2.75,540,234],[3,540,260],[3.25,540,260],[3.5,462,242],[3.75,500,280],
+  [4,560,268],[4.25,580,280],[4.5,545,325],[4.63,540,330],[4.77,513,318],[4.9,505,300]];
 const $ = id => document.getElementById(id);
 const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const ease = x => 1 - Math.pow(1 - cl(x), 3);
-const pop = x => { x = cl(x); const c = 1.70158 * 1.5; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
-// confete determinístico (mesma posição para o mesmo t)
-let s = 7; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
-const CORES = ['#FFD302', '#FF291E', '#FFFFFF', '#280E01', '#FF291E', '#FFD302'];
-const P = [...Array(140)].map(() => ({ x: rnd() * 1080, v: 260 + rnd() * 380, d: rnd() * 3, w: 14 + rnd() * 16, h: 8 + rnd() * 10,
-  r: rnd() * 6.28, vr: (rnd() - .5) * 8, a: 30 + rnd() * 50, f: .8 + rnd() * 1.6, c: CORES[Math.floor(rnd() * CORES.length)], ini: rnd() }));
-const ctx = $('confete').getContext('2d');
+const pop = x => { x = cl(x); const c = 2.6; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+function cabeca(t) {
+  t = Math.min(t, FREEZE); let i = 0; while (i < CABECA.length - 2 && CABECA[i + 1][0] < t) i++;
+  const [t0, x0, y0] = CABECA[i], [t1, x1, y1] = CABECA[i + 1], k = cl((t - t0) / (t1 - t0)), s = k * k * (3 - 2 * k);
+  return { x: x0 + (x1 - x0) * s, y: y0 + (y1 - y0) * s, vx: (x1 - x0) / (t1 - t0) };
+}
+// tremida: soma de "pancadas" que decaem
+const PANCADAS = [[0, 14], [.55, 10], [1.3, 34], [FREEZE, 30], [CARTAO, 26]];
+function tremida(t) {
+  let dx = 0, dy = 0, r = 0;
+  for (const [t0, a] of PANCADAS) { const u = t - t0; if (u < 0 || u > .6) continue; const d = a * Math.exp(-u * 7);
+    dx += d * Math.sin(u * 83); dy += d * Math.cos(u * 71); r += d * .04 * Math.sin(u * 59); }
+  return { dx, dy, r };
+}
+// zoom de impacto (pulso) + zoom no rosto durante o freeze
+function zoomPulso(t) { let z = 1; for (const t0 of [1.3]) { const u = t - t0; if (u >= 0 && u < .9) z += .16 * Math.exp(-u * 5) * (u < .08 ? u / .08 : 1); } return z; }
+// partículas determinísticas
+let sd = 11; const rnd = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
+const CORES = ['#FFD302', '#FF291E', '#FFFFFF', '#280E01', '#FF291E', '#FFD302', '#FFFFFF'];
+const mk = n => [...Array(n)].map(() => ({ a: rnd() * 6.283, v: 900 + rnd() * 1500, w: 14 + rnd() * 18, h: 8 + rnd() * 10,
+  r: rnd() * 6.28, vr: (rnd() - .5) * 14, f: 1 + rnd() * 2, c: CORES[Math.floor(rnd() * CORES.length)], x: rnd() * 1080, d: rnd() }));
+const RAJ = [{ t: 1.3, x: 540, y: 1400, p: mk(160) }, { t: FREEZE, x: 540, y: 760, p: mk(120) }, { t: CARTAO + .15, x: 540, y: 1960, p: mk(170) }];
+const CHUVA = mk(90);
+const cf = $('confete').getContext('2d'), br = $('brilho').getContext('2d');
+function papel(c, p, x, y, tt, i) { c.save(); c.translate(x, y); c.rotate(p.r + tt * p.vr); c.scale(1, Math.cos(tt * p.f * 4 + i));
+  c.fillStyle = p.c; c.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); c.restore(); }
 function confete(t) {
-  ctx.clearRect(0, 0, 1080, 1920);
-  P.forEach((p, i) => {
-    // duas rajadas: início do vídeo e início do cartão final
-    const t0 = t < VID ? 0.15 : VID + 0.2, tt = t - t0 - p.d * 0.5;
-    if (tt < 0) return;
-    const y = -40 + tt * p.v + (t < VID ? -p.ini * 300 : -p.ini * 300);
-    if (y > 1960) return;
-    const x = p.x + Math.sin(tt * p.f + i) * p.a;
-    ctx.save(); ctx.translate(x, y); ctx.rotate(p.r + tt * p.vr); ctx.scale(1, Math.cos(tt * p.f * 3 + i));
-    ctx.fillStyle = p.c; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.restore();
-  });
+  cf.clearRect(0, 0, 1080, 1920);
+  for (const R of RAJ) { const u = t - R.t; if (u < 0 || u > 3.2) continue;
+    R.p.forEach((p, i) => { const sp = p.v * Math.exp(-u * 2.2), dist = p.v * (1 - Math.exp(-u * 2.2)) / 2.2;
+      const ang = R.y > 1900 ? -Math.PI / 2 + (p.a - 3.14) * .35 : p.a;
+      papel(cf, p, R.x + Math.cos(ang) * dist + Math.sin(u * p.f * 3 + i) * 20, R.y + Math.sin(ang) * dist + 260 * u * u, u, i); }); }
+  if (t > 1.3) CHUVA.forEach((p, i) => { const u = t - 1.3 - p.d * 2; if (u < 0) return; const y = -40 + ((u * (220 + p.v * .12)) % 2000);
+    papel(cf, p, p.x + Math.sin(u * p.f + i) * 40, y, u, i); });
 }
-function entra(el, t, ini, dur = .45, de = 60) {
-  const k = cl((t - ini) / dur); el.style.opacity = k > 0 ? 1 : 0;
-  el.style.transform = `translateY(${(1 - ease(k)) * de}px) scale(${.6 + .4 * pop(k)})`;
-}
-window.setT = t => {
+function estrela(c, x, y, s, rot, cor) { c.save(); c.translate(x, y); c.rotate(rot); c.beginPath();
+  for (let k = 0; k < 8; k++) { const r = k % 2 ? s * .28 : s; c.lineTo(Math.cos(k * Math.PI / 4) * r, Math.sin(k * Math.PI / 4) * r); }
+  c.closePath(); c.fillStyle = cor; c.fill(); c.restore(); }
+function vqx(T, x, y) { return T(x, y); }
+window.setT = async t => {
+  // ---- vídeo / freeze
+  const n = t < FREEZE ? Math.min(NQ, 1 + Math.floor(t * FPS_ORIG)) : 147;
+  const src = 'quadros/' + String(n).padStart(4, '0') + '.jpg';
+  if (!$('v').src.endsWith(src)) { $('v').src = src; await $('v').decode(); }
+  // câmera da cena
+  let z = zoomPulso(t), cx = 540, cy = 900;
+  if (t >= FREEZE - .25) { const k = ease((t - FREEZE + .25) / .5); z = 1 + .75 * k; cx = 540 + (FACE.x - 540) * k; cy = 900 + (FACE.y + 20 - 900) * k; }
+  const sh = tremida(t); z *= 1.06;
+  // mantém (cx,cy) no centro da tela depois do zoom
+  const tx = 540 - cx * z + sh.dx, ty = 900 - cy * z + sh.dy;
+  $('cena').style.transform = `translate(${tx}px,${ty}px) scale(${z}) rotate(${sh.r}deg)`;
+  const T = (x, y) => ({ x: tx + x * z, y: ty + y * z });
+  // ---- coroa (entra caindo em 0,35 s)
+  const h = cabeca(t), kc = cl((t - .35) / .35), tilt = cl(h.vx / 40, -12, 12) + 6 * Math.sin(t * 9);
+  $('coroa').style.opacity = kc > 0 ? 1 : 0;
+  $('coroa').style.transform = `translate(${h.x - 110}px,${h.y - 105 - (1 - ease(kc)) * 500}px) rotate(${tilt}deg) scale(${.95 + .1 * Math.abs(Math.sin(t * 6))})`;
+  // ---- óculos descem e encaixam no freeze
+  const ko = cl((t - (FREEZE - .3)) / .3);
+  $('oculos').style.opacity = ko > 0 ? 1 : 0;
+  $('oculos').style.transform = `translate(${FACE.x - 150}px,${FACE.y - 55 - (1 - ease(ko)) * 700}px) rotate(${-4 + (1 - ko) * 25}deg)`;
+  // ---- sirene e alerta (0–1,3 s)
+  const sir = t < 1.3 ? Math.floor(t * 8) % 2 : -1;
+  $('sirene').style.opacity = t < 1.3 ? .28 : 0;
+  $('sirene').style.background = `linear-gradient(${sir ? 90 : 270}deg, #FF291E 0%, transparent 30%, transparent 70%, #FFD302 100%)`;
+  const ka = cl(t / .25); $('alerta').style.display = t < 1.3 ? 'flex' : 'none';
+  $('al').style.transform = `scale(${pop(ka) * (1 + .05 * (Math.floor(t * 8) % 2))}) rotate(${(Math.floor(t * 8) % 2 ? -3 : 3)}deg)`;
+  $('al').className = 'box ' + (Math.floor(t * 8) % 2 ? 'am' : 'vm');
+  // ---- FELIZ ANIVERSÁRIO, EDIVAN! (1,3 s até o cartão)
+  $('feliz').style.display = t >= 1.3 && t < CARTAO ? 'flex' : 'none';
+  const k1 = cl((t - 1.3) / .3), k2 = cl((t - 1.5) / .35);
+  const pisca = Math.floor(t * 4) % 2;
+  $('f1').style.transform = `scale(${pop(k1)}) rotate(-3deg)`; $('f1').style.opacity = k1 > 0 ? 1 : 0;
+  $('f2').style.transform = `scale(${pop(k2) * (1 + .05 * Math.sin((t - 1.5) * 9))}) rotate(${2 * Math.sin(t * 5)}deg)`; $('f2').style.opacity = k2 > 0 ? 1 : 0;
+  $('f2').className = 'box l2 ' + (t > 2 && pisca ? 'vm' : 'am');
+  if (t >= FREEZE) $('feliz').style.top = (1290 + 120 * ease((t - FREEZE) / .4)) + 'px'; else $('feliz').style.top = '1290px';
+  // ---- brilhos em volta da coroa / rosto
+  br.clearRect(0, 0, 1080, 1920);
+  if (t > .7 && t < CARTAO) for (let i = 0; i < 7; i++) {
+    const ph = t * 2.2 + i * .9, life = ph % 1, ang = i * .9 + Math.floor(ph) * 2.1;
+    const base = t >= FREEZE ? T(FACE.x, FACE.y - 60) : T(h.x, h.y - 60), rad = (t >= FREEZE ? 330 : 170) * z * .6 + 60 * life;
+    estrela(br, base.x + Math.cos(ang) * rad, base.y + Math.sin(ang) * rad * .8, 34 * Math.sin(life * Math.PI) * (t >= FREEZE ? 1.6 : 1), t * 2 + i, i % 2 ? '#FFD302' : '#FFFFFF');
+  }
+  // ---- flashes
+  let fl = 0; for (const t0 of [1.3, FREEZE]) { const u = t - t0; if (u >= 0 && u < .3) fl = Math.max(fl, .85 * (1 - u / .3)); }
+  $('flash').style.opacity = fl;
+  // ---- cartão final
+  const c = t - CARTAO; $('cartao').style.display = c >= 0 ? 'block' : 'none';
+  if (c >= 0) {
+    const kk = ease(c / .35); $('cartao').style.clipPath = `circle(${kk * 1200}px at 540px 960px)`;
+    $('raios').style.transform = `rotate(${c * 25}deg)`;
+    const kl = cl((c - .2) / .4); $('c-logo').style.transform = `scale(${pop(kl) * (1 + .03 * Math.sin(c * 6))}) rotate(${(1 - kl) * -20}deg)`; $('c-logo').style.opacity = kl > 0 ? 1 : 0;
+    const m1 = cl((c - .6) / .35); $('m1').style.transform = `translateY(${(1 - ease(m1)) * 80}px) scale(${pop(m1)})`; $('m1').style.opacity = m1 > 0 ? 1 : 0;
+    const m2 = cl((c - .9) / .35); $('m2').style.transform = `scale(${pop(m2) * (1 + .04 * Math.sin(c * 7))}) rotate(-2deg)`; $('m2').style.opacity = m2 > 0 ? 1 : 0;
+  }
   confete(t);
-  // vídeo: título entra e pulsa de leve
-  const tit = $('titulo'); tit.style.display = t < VID + .6 ? 'flex' : 'none';
-  entra($('selo'), t, .25); entra($('nome'), t, .45, .5, 80); entra($('sub'), t, .8);
-  if (t > 1) $('nome').style.transform = `scale(${1 + .035 * Math.sin((t - 1) * 5)})`;
-  // cartão final sobe por cima do último quadro
-  const k = ease((t - VID) / .55); $('cartao').style.transform = `translateY(${(1 - k) * 1920}px)`;
-  $('cartao').style.display = t >= VID ? 'block' : 'none';
-  const c = t - VID;
-  entra($('k'), c, .45); entra($('h1'), c, .65, .5, 80); entra($('p'), c, .95);
-  entra($('logo'), c, 1.2);
-  const ks = cl((c - 1.5) / .3); $('seta').style.opacity = ks;
-  $('seta').style.transform = `translateY(${Math.abs(Math.sin(c * 5)) * 26}px)`;
-  $('espaco').style.opacity = MOSTRAR_GUIA ? 1 : 0;
 };
-window.pronto = document.fonts.ready.then(() => new Promise(r => { const i = document.querySelector('img'); i.complete ? r() : i.onload = r; }));
+window.pronto = document.fonts.ready.then(() => document.querySelector('#c-logo img').decode());
 </script>

@@ -12,15 +12,26 @@ html,body{width:1080px;height:1920px;background:#280E01;overflow:hidden;font-fam
 .obj{position:absolute;left:0;top:0;transform-origin:50% 100%}
 #oculos{transform-origin:50% 50%}
 canvas{position:absolute;inset:0}
-#flash{position:absolute;inset:0;background:#fff;opacity:0}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:11}
 #sirene{position:absolute;inset:0;opacity:0}
 .emoji{font-family:"Noto Color Emoji",sans-serif}
-.txt{position:absolute;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:14px}
-.box{font-weight:800;line-height:1;border-radius:28px;padding:22px 40px 10px;box-shadow:0 10px 0 #280E01;white-space:nowrap}
-.am{background:#FFD302;color:#280E01}.vm{background:#FF291E;color:#280E01}
-#alerta{top:1330px}#alerta .box{font-size:92px;text-align:center;white-space:normal;padding:26px 44px 12px}
-#feliz{top:1290px}
-#feliz .l1{font-size:80px}#feliz .l2{font-size:168px;padding:28px 56px 12px;border-radius:40px}
+.txt{position:absolute;left:0;right:0;display:flex;flex-direction:column;align-items:center;font-family:var(--fonte);line-height:1}
+:root{--fonte:"Luckiest Guy"}
+.linha{display:flex;align-items:flex-end;position:relative;z-index:2;white-space:nowrap}
+.linha span{display:inline-block;padding-top:.12em;will-change:transform}
+.br span{color:#fff;-webkit-text-stroke:14px #280E01;paint-order:stroke fill;text-shadow:0 8px 0 #280E01,0 13px 0 #280E01}
+.am span{color:#FFD302;-webkit-text-stroke:14px #280E01;paint-order:stroke fill;text-shadow:0 8px 0 #280E01,0 13px 0 #280E01}
+.gr span{-webkit-text-stroke:20px #280E01;paint-order:stroke fill;
+  text-shadow:0 7px 0 #280E01,0 13px 0 #280E01,0 19px 0 #280E01,11px 26px 0 #FF291E}
+.gr span.la{color:#FFD302}.gr span.lb{color:#fff}.gr span.lc{color:#FF291E;text-shadow:0 7px 0 #280E01,0 13px 0 #280E01,0 19px 0 #280E01,11px 26px 0 #FFD302}
+.burst{position:absolute;left:50%;width:1060px;height:520px;margin-left:-530px;background:#FF291E;z-index:1;
+  clip-path:polygon(50% 0,58% 14%,72% 3%,74% 20%,92% 14%,86% 32%,100% 38%,88% 52%,100% 64%,84% 70%,92% 88%,74% 82%,70% 100%,58% 86%,50% 100%,42% 86%,30% 100%,26% 82%,8% 88%,16% 70%,0 64%,12% 52%,0 38%,14% 32%,8% 14%,26% 20%,28% 3%,42% 14%)}
+.burst.esc{background:#280E01;transform-origin:50% 50%}
+#abertura{position:absolute;inset:0;display:none;background:#280E01;z-index:10}
+#abertura img{position:absolute;inset:0;width:1080px;height:1920px}
+#alerta{top:250px}
+#feliz{top:1120px}
+.fita{position:relative;z-index:2;background:#FF291E;border:10px solid #280E01;border-radius:26px;padding:22px 34px 8px;box-shadow:0 12px 0 #280E01}
 #cartao{position:absolute;inset:0;background:#FFD302;display:none;overflow:hidden}
 #cartao .raios{position:absolute;left:50%;top:46%;width:3000px;height:3000px;margin:-1500px;
   background:repeating-conic-gradient(#FFD302 0 7.5deg,#FFE04D 7.5deg 15deg)}
@@ -28,8 +39,7 @@ canvas{position:absolute;inset:0}
 .c{position:absolute;left:0;right:0;display:flex;flex-direction:column;align-items:center;text-align:center}
 #c-logo{top:330px}#c-logo img{width:820px}
 #c-msg{top:1000px;gap:22px}
-#c-msg .a{font-size:70px;line-height:1.05;color:#280E01;font-weight:800}
-#c-msg .b{font-size:60px}
+#c-msg{gap:36px}
 </style>
 <div id="tudo">
   <div id="cena">
@@ -51,21 +61,29 @@ canvas{position:absolute;inset:0}
   </div>
   <div id="sirene"></div>
   <canvas id="brilho" width="1080" height="1920"></canvas>
-  <div class="txt" id="alerta"><div class="box vm" id="al">ALERTA DE<br>ANIVERSARIANTE! <span class="emoji">🚨</span></div></div>
-  <div class="txt" id="feliz">
-    <div class="box vm l1" id="f1">FELIZ ANIVERSÁRIO <span class="emoji">🎉</span></div>
-    <div class="box am l2" id="f2">EDIVAN!</div>
+  <div class="txt" id="feliz"><div class="burst esc" id="fb2" style="top:66px"></div><div class="burst" id="fb" style="top:50px"></div>
+    <div class="linha am" id="f1" data-t="FELIZ" data-s="112" data-arco="1"></div>
+    <div class="linha br" id="f2" data-t="ANIVERSÁRIO" data-s="106" style="transform:rotate(-4deg)"></div>
+    <div class="linha gr" id="f3" data-t="EDIVAN!" data-s="250" style="transform:rotate(-4deg)"></div>
   </div>
   <div id="cartao">
     <div class="raios" id="raios"></div>
     <div class="faixa" style="top:0"></div><div class="faixa" style="bottom:0"></div>
     <div class="c" id="c-logo"><img src="../../identidade/logo-itamar-3d-transparente.png" alt=""></div>
-    <div class="c" id="c-msg">
-      <div class="a" id="m1">Muita saúde, alegria<br>e conquistas!</div>
-      <div class="box vm b" id="m2">Família Itamar Supermercado</div>
+    <div class="txt" id="c-msg" style="top:1010px">
+      <div class="linha br" id="m1" data-t="MUITA SAÚDE," data-s="100"></div>
+      <div class="linha br" id="m1b" data-t="ALEGRIA E" data-s="100"></div>
+      <div class="linha gr" id="m1c" data-t="CONQUISTAS!" data-s="150" style="transform:rotate(-3deg)"></div>
+      <div class="fita" id="m2"><div class="linha am" id="m2t" data-t="FAMÍLIA ITAMAR SUPERMERCADO" data-s="58"></div></div>
     </div>
   </div>
   <canvas id="confete" width="1080" height="1920"></canvas>
+  <div id="abertura"><img id="ab" alt="">
+    <div class="txt" id="alerta">
+      <div class="linha br" id="a1" data-t="🚨 ALERTA DE 🚨" data-s="104"></div>
+      <div class="linha gr" id="a2" data-t="ANIVERSARIANTE!" data-s="118" style="transform:rotate(-3deg)"></div>
+    </div>
+  </div>
   <div id="flash"></div>
 </div>
 <script>
@@ -86,7 +104,8 @@ function cabeca(t) {
   return { x: x0 + (x1 - x0) * s, y: y0 + (y1 - y0) * s, vx: (x1 - x0) / (t1 - t0) };
 }
 // tremida: soma de "pancadas" que decaem
-const PANCADAS = [[0, 14], [.55, 10], [1.3, 34], [FREEZE, 30], [CARTAO, 26]];
+const FE = .3;
+const PANCADAS = [[0, 40], [FE, 20], [FREEZE, 30], [CARTAO, 26]];
 function tremida(t) {
   let dx = 0, dy = 0, r = 0;
   for (const [t0, a] of PANCADAS) { const u = t - t0; if (u < 0 || u > .6) continue; const d = a * Math.exp(-u * 7);
@@ -94,13 +113,13 @@ function tremida(t) {
   return { dx, dy, r };
 }
 // zoom de impacto (pulso) + zoom no rosto durante o freeze
-function zoomPulso(t) { let z = 1; for (const t0 of [1.3]) { const u = t - t0; if (u >= 0 && u < .9) z += .16 * Math.exp(-u * 5) * (u < .08 ? u / .08 : 1); } return z; }
+function zoomPulso(t) { let z = 1; for (const t0 of [FE]) { const u = t - t0; if (u >= 0 && u < .9) z += .16 * Math.exp(-u * 5) * (u < .08 ? u / .08 : 1); } return z; }
 // partículas determinísticas
 let sd = 11; const rnd = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
 const CORES = ['#FFD302', '#FF291E', '#FFFFFF', '#280E01', '#FF291E', '#FFD302', '#FFFFFF'];
 const mk = n => [...Array(n)].map(() => ({ a: rnd() * 6.283, v: 900 + rnd() * 1500, w: 14 + rnd() * 18, h: 8 + rnd() * 10,
   r: rnd() * 6.28, vr: (rnd() - .5) * 14, f: 1 + rnd() * 2, c: CORES[Math.floor(rnd() * CORES.length)], x: rnd() * 1080, d: rnd() }));
-const RAJ = [{ t: 1.3, x: 540, y: 1400, p: mk(160) }, { t: FREEZE, x: 540, y: 760, p: mk(120) }, { t: CARTAO + .15, x: 540, y: 1960, p: mk(170) }];
+const RAJ = [{ t: FE, x: 540, y: 1400, p: mk(160) }, { t: FREEZE, x: 540, y: 760, p: mk(120) }, { t: CARTAO + .15, x: 540, y: 1960, p: mk(170) }];
 const CHUVA = mk(90);
 const cf = $('confete').getContext('2d'), br = $('brilho').getContext('2d');
 function papel(c, p, x, y, tt, i) { c.save(); c.translate(x, y); c.rotate(p.r + tt * p.vr); c.scale(1, Math.cos(tt * p.f * 4 + i));
@@ -111,14 +130,14 @@ function confete(t) {
     R.p.forEach((p, i) => { const sp = p.v * Math.exp(-u * 2.2), dist = p.v * (1 - Math.exp(-u * 2.2)) / 2.2;
       const ang = R.y > 1900 ? -Math.PI / 2 + (p.a - 3.14) * .35 : p.a;
       papel(cf, p, R.x + Math.cos(ang) * dist + Math.sin(u * p.f * 3 + i) * 20, R.y + Math.sin(ang) * dist + 260 * u * u, u, i); }); }
-  if (t > 1.3) CHUVA.forEach((p, i) => { const u = t - 1.3 - p.d * 2; if (u < 0) return; const y = -40 + ((u * (220 + p.v * .12)) % 2000);
+  if (t > FE) CHUVA.forEach((p, i) => { const u = t - FE - p.d * 2; if (u < 0) return; const y = -40 + ((u * (220 + p.v * .12)) % 2000);
     papel(cf, p, p.x + Math.sin(u * p.f + i) * 40, y, u, i); });
 }
 function estrela(c, x, y, s, rot, cor) { c.save(); c.translate(x, y); c.rotate(rot); c.beginPath();
   for (let k = 0; k < 8; k++) { const r = k % 2 ? s * .28 : s; c.lineTo(Math.cos(k * Math.PI / 4) * r, Math.sin(k * Math.PI / 4) * r); }
   c.closePath(); c.fillStyle = cor; c.fill(); c.restore(); }
 function vqx(T, x, y) { return T(x, y); }
-window.setT = async t => {
+window.setT0 = async t => {
   // ---- vídeo / freeze
   const n = t < FREEZE ? Math.min(NQ, 1 + Math.floor(t * FPS_ORIG)) : 147;
   const src = 'quadros/' + String(n).padStart(4, '0') + '.jpg';
@@ -139,21 +158,15 @@ window.setT = async t => {
   const ko = cl((t - (FREEZE - .3)) / .3);
   $('oculos').style.opacity = ko > 0 ? 1 : 0;
   $('oculos').style.transform = `translate(${FACE.x - 150}px,${FACE.y - 55 - (1 - ease(ko)) * 700}px) rotate(${-4 + (1 - ko) * 25}deg)`;
-  // ---- sirene e alerta (0–1,3 s)
-  const sir = t < 1.3 ? Math.floor(t * 8) % 2 : -1;
-  $('sirene').style.opacity = t < 1.3 ? .28 : 0;
-  $('sirene').style.background = `linear-gradient(${sir ? 90 : 270}deg, #FF291E 0%, transparent 30%, transparent 70%, #FFD302 100%)`;
-  const ka = cl(t / .25); $('alerta').style.display = t < 1.3 ? 'flex' : 'none';
-  $('al').style.transform = `scale(${pop(ka) * (1 + .05 * (Math.floor(t * 8) % 2))}) rotate(${(Math.floor(t * 8) % 2 ? -3 : 3)}deg)`;
-  $('al').className = 'box ' + (Math.floor(t * 8) % 2 ? 'am' : 'vm');
-  // ---- FELIZ ANIVERSÁRIO, EDIVAN! (1,3 s até o cartão)
-  $('feliz').style.display = t >= 1.3 && t < CARTAO ? 'flex' : 'none';
-  const k1 = cl((t - 1.3) / .3), k2 = cl((t - 1.5) / .35);
-  const pisca = Math.floor(t * 4) % 2;
-  $('f1').style.transform = `scale(${pop(k1)}) rotate(-3deg)`; $('f1').style.opacity = k1 > 0 ? 1 : 0;
-  $('f2').style.transform = `scale(${pop(k2) * (1 + .05 * Math.sin((t - 1.5) * 9))}) rotate(${2 * Math.sin(t * 5)}deg)`; $('f2').style.opacity = k2 > 0 ? 1 : 0;
-  $('f2').className = 'box l2 ' + (t > 2 && pisca ? 'vm' : 'am');
-  if (t >= FREEZE) $('feliz').style.top = (1290 + 120 * ease((t - FREEZE) / .4)) + 'px'; else $('feliz').style.top = '1290px';
+  $('sirene').style.opacity = 0;
+  // ---- FELIZ ANIVERSÁRIO, EDIVAN! (lettering)
+  $('feliz').style.display = t < CARTAO ? 'flex' : 'none';
+  $('feliz').style.top = (1120 + (t >= FREEZE ? 150 * ease((t - FREEZE) / .4) : 0)) + 'px';
+  const kb = cl((t - FE) / .3);
+  $('fb').style.transform = `scale(${pop(kb) * (1 + .04 * Math.sin(t * 8))}) rotate(${Math.sin(t * 2) * 3}deg)`;
+  $('fb2').style.transform = $('fb').style.transform;
+  anima('f1', t, FE + .05, .05); anima('f2', t, FE + .3, .035); anima('f3', t, FE + .6, .07, 1.4);
+  pisca('f3', t, FE + 1.5, ['la', 'lb']);
   // ---- brilhos em volta da coroa / rosto
   br.clearRect(0, 0, 1080, 1920);
   if (t > .7 && t < CARTAO) for (let i = 0; i < 7; i++) {
@@ -162,7 +175,7 @@ window.setT = async t => {
     estrela(br, base.x + Math.cos(ang) * rad, base.y + Math.sin(ang) * rad * .8, 34 * Math.sin(life * Math.PI) * (t >= FREEZE ? 1.6 : 1), t * 2 + i, i % 2 ? '#FFD302' : '#FFFFFF');
   }
   // ---- flashes
-  let fl = 0; for (const t0 of [1.3, FREEZE]) { const u = t - t0; if (u >= 0 && u < .3) fl = Math.max(fl, .85 * (1 - u / .3)); }
+  let fl = 0; for (const t0 of [0, FREEZE]) { const u = t - t0; if (u >= 0 && u < .3) fl = Math.max(fl, .85 * (1 - u / .3)); }
   $('flash').style.opacity = fl;
   // ---- cartão final
   const c = t - CARTAO; $('cartao').style.display = c >= 0 ? 'block' : 'none';
@@ -170,10 +183,48 @@ window.setT = async t => {
     const kk = ease(c / .35); $('cartao').style.clipPath = `circle(${kk * 1200}px at 540px 960px)`;
     $('raios').style.transform = `rotate(${c * 25}deg)`;
     const kl = cl((c - .2) / .4); $('c-logo').style.transform = `scale(${pop(kl) * (1 + .03 * Math.sin(c * 6))}) rotate(${(1 - kl) * -20}deg)`; $('c-logo').style.opacity = kl > 0 ? 1 : 0;
-    const m1 = cl((c - .6) / .35); $('m1').style.transform = `translateY(${(1 - ease(m1)) * 80}px) scale(${pop(m1)})`; $('m1').style.opacity = m1 > 0 ? 1 : 0;
-    const m2 = cl((c - .9) / .35); $('m2').style.transform = `scale(${pop(m2) * (1 + .04 * Math.sin(c * 7))}) rotate(-2deg)`; $('m2').style.opacity = m2 > 0 ? 1 : 0;
+    anima('m1', c, .55, .03); anima('m1b', c, .8, .03); anima('m1c', c, 1.05, .05, 1.2); pisca('m1c', c, 1.8);
+    const m2 = cl((c - 1.5) / .35); $('m2').style.transform = `scale(${pop(m2) * (1 + .03 * Math.sin(c * 7))}) rotate(-2deg)`; $('m2').style.opacity = m2 > 0 ? 1 : 0;
+    anima('m2t', c, 1.5, 0, .3);
   }
   confete(t);
+};
+// ---- lettering: cada letra vira um <span> (arco opcional, alternância de cores)
+document.querySelectorAll('.linha[data-t]').forEach(el => {
+  const txt = [...el.dataset.t.replace(/🚨/g, '\u0001')], n = txt.length, arco = el.dataset.arco;
+  el.innerHTML = txt.map((ch, i) => {
+    const m = (i - (n - 1) / 2) / ((n - 1) / 2 || 1);
+    const rot = arco ? m * 14 : [-5, 4, -3, 5, -4, 6, -2, 3][i % 8] * (el.classList.contains('gr') ? 1 : .5);
+    const dy = arco ? m * m * 18 : [0, -12, 5, -9, 4, -11, 2, -6][i % 8] * (el.classList.contains('gr') ? 1 : .4);
+    const cls = ['la', 'lb'][i % 2];
+    const c = ch === '\u0001' ? '<i class="emoji" style="font-style:normal">🚨</i>' : ch === ' ' ? '&nbsp;' : ch;
+    return `<span class="${cls}" data-r="${rot}" data-y="${dy}" style="font-size:${el.dataset.s}px">${c}</span>`;
+  }).join('');
+});
+function anima(id, t, ini, passo, ondaK = 1) {
+  [...$(id).children].forEach((sp, i) => {
+    const k = cl((t - ini - i * passo) / .28), onda = Math.sin(t * 6 - i * .7) * 7 * ondaK * cl((t - ini - i * passo - .3) / .3);
+    sp.style.opacity = k > 0 ? 1 : 0;
+    sp.style.transform = `translateY(${+sp.dataset.y + onda + (1 - ease(k)) * -120}px) rotate(${+sp.dataset.r + (1 - k) * 30}deg) scale(${pop(k)})`;
+  });
+}
+function pisca(id, t, ini, cores = ['la', 'lb', 'lc']) { // troca amarelo/branco/vermelho em ritmo depois de ini
+  if (t < ini) return; const f = Math.floor((t - ini) * 4);
+  [...$(id).children].forEach((sp, i) => sp.className = cores[(i + f) % cores.length]);
+}
+const AB = 5.04;                      // abertura gerada no Magnific (5,04 s a 24 fps)
+window.setT = async T => {
+  $('abertura').style.display = T < AB ? 'block' : 'none';
+  if (T < AB) {
+    const src = 'quadros-abertura/' + String(Math.min(121, 1 + Math.floor(T * 24))).padStart(4, '0') + '.jpg';
+    if (!$('ab').src.endsWith(src)) { $('ab').src = src; await $('ab').decode(); }
+    $('alerta').style.transform = `translate(${Math.sin(T * 40) * 6 * Math.exp(-((T - .5) ** 2) * 8)}px,0) scale(${1 + .05 * Math.max(0, Math.sin((T - 2.4) * 3)) * (T > 2.4 && T < 3.4)})`;
+    anima('a1', T, .35, .04, .6); anima('a2', T, .75, .05);
+    pisca('a2', T, 1.6);
+    $('flash').style.opacity = T > AB - .25 ? (T - AB + .25) / .25 * .9 : 0;
+    return;
+  }
+  return setT0(T - AB);
 };
 window.pronto = document.fonts.ready.then(() => document.querySelector('#c-logo img').decode());
 </script>

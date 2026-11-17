@@ -24,14 +24,15 @@ W, H = 1080, 1920
 # enquadramento: None = vertical; ("x", a, b) = recorte 9:16 de vídeo horizontal, centro indo de a até b (0–1)
 FALA = ("IMG_5546", 1.55, 4.0)          # corta a 1ª tentativa (0–1,5 s) em que ela repete a fala
 CENAS = [
-    ("IMG_5535", 4.3, 4, None,            "zoomin",     "VISTORIA EM CAIXAS-D'ÁGUA"),
-    ("IMG_5538", 1.4, 2, None,            "smoothleft", "TRATAMENTO DE FOCOS"),
-    ("IMG_5538", 4.5, 2, None,            "smoothup",   None),
-    ("IMG_5539", 1.7, 3, None,            "smoothleft", "VISTORIA EM PNEUS"),
-    ("IMG_5541", 0.3, 2, ("x", .64, .68), "slideup",    None),
-    ("IMG_5542", 3.6, 4, ("x", .25, .58), "smoothleft", "VISTORIA EM QUINTAIS"),
-    ("IMG_5543", 4.4, 3, None,            "smoothup",   "FERROS-VELHOS E SUCATAS"),
-    ("IMG_5543", 9.3, 2, None,            "smoothleft", None),
+    # etiqueta: "LINHA 1|LINHA 2"; "+" = continua a etiqueta da cena anterior
+    ("IMG_5535", 4.3, 4, None,            "zoomin",     "VISTORIA EM|CAIXAS-D'ÁGUA"),
+    ("IMG_5538", 1.4, 2, None,            "smoothleft", "TRATAMENTO|DE FOCOS"),
+    ("IMG_5538", 4.5, 2, None,            "smoothup",   "+"),
+    ("IMG_5539", 1.7, 3, None,            "smoothleft", "VISTORIA|EM PNEUS"),
+    ("IMG_5541", 0.3, 2, ("x", .64, .68), "slideup",    "+"),
+    ("IMG_5542", 3.6, 4, ("x", .25, .58), "smoothleft", "VISTORIA|EM QUINTAIS"),
+    ("IMG_5543", 4.4, 3, None,            "smoothup",   "FERROS-VELHOS|E SUCATAS"),
+    ("IMG_5543", 9.3, 2, None,            "smoothleft", "+"),
     ("IMG_5535", 8.0, 2, None,            "slideup",    None),
     ("IMG_5539", 0.0, 3, None,            "smoothright", None),
 ]
@@ -99,14 +100,29 @@ srt.write_text(
 ass = AQUI / "efeitos.ass"
 run(["python3", str(RAIZ / "ferramentas/efeitos.py"), "-c", "prefeitura-santanopolis", "-f", "9x16",
      "-l", str(srt), "-o", str(ass)])
-txt = ass.read_text(encoding="utf-8").replace(",1306)", ",1500)")  # legenda baixa, acima do rodapé
-txt = txt.replace("[Events]", "Style: Tag,Exo 2 ExtraBold,54,&H00FFFFFF,&H00FFFFFF,&H00672F00,&H00000000,0,0,0,0,100,100,2,0,3,16,0,5,0,0,0,1\n\n[Events]")
+txt = ass.read_text(encoding="utf-8").replace(",1306)", ",1650)")  # legenda embaixo, acima da linha branca
+# lettering das cenas: barra branca + chapéu "AGENTES DE ENDEMIAS" + título em 2 linhas, alinhado à esquerda
+txt = txt.replace("[Events]",
+    "Style: Chapeu,Inter SemiBold,30,&H00FFFFFF,&H00FFFFFF,&H00000000,&H90000000,0,0,0,0,100,100,6,0,1,0,2,7,0,0,0,1\n"
+    "Style: Titulo,Exo 2 ExtraBold,84,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,100,1,0,1,0,3,7,0,0,0,1\n\n[Events]")
+def ts(s): return f"0:00:{s:05.2f}"
+blocos = []
 for i, c in enumerate(CENAS):
-    if c[5]:
-        a, z = tempos[i + 1] + 0.15, tempos[i + 2] - 0.1
-        def ts(s): return f"0:00:{s:05.2f}"
-        txt += (f"Dialogue: 4,{ts(a)},{ts(z)},Tag,,0,0,0,,{{\\an5\\move(-300,330,540,330,0,220)"
-                f"\\fad(0,150)}}{c[5]}\n")
+    if c[5] == "+":
+        blocos[-1][2] = tempos[i + 2]
+    elif c[5]:
+        blocos.append([c[5], tempos[i + 1], tempos[i + 2]])
+X, Y = 96, 1395
+for rot, a, z in blocos:
+    a, z = a + 0.12, z - 0.12
+    l1, l2 = rot.split("|")
+    out = int((z - a) * 1000) - 200
+    txt += (f"Dialogue: 4,{ts(a)},{ts(z)},Titulo,,0,0,0,,{{\\an7\\bord0\\shad0\\1c&HFFFFFF&\\fscy0"
+            f"\\pos({X - 34},{Y})\\t(0,260,\\fscy100)\\t({out},{out + 200},\\fscy0)\\p1}}m 0 0 l 10 0 l 10 262 l 0 262{{\\p0}}\n")
+    txt += (f"Dialogue: 5,{ts(a)},{ts(z)},Chapeu,,0,0,0,,{{\\an7\\move({X - 20},{Y},{X},{Y},80,380)"
+            f"\\fad(220,180)}}AGENTES DE ENDEMIAS\n")
+    txt += (f"Dialogue: 5,{ts(a)},{ts(z)},Titulo,,0,0,0,,{{\\an7\\move({X},{Y + 74},{X},{Y + 44},120,420)"
+            f"\\fad(260,180)\\blur0.6}}{l1}\\N{l2}\n")
 ass.write_text(txt, encoding="utf-8")
 fontes = RAIZ / "ferramentas/fontes/ttf"
 n = len(arqs)

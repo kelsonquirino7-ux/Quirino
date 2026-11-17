@@ -20,9 +20,8 @@ if (!fs.existsSync(QA)) { fs.mkdirSync(QA); ff(['-i', path.join(AQUI, 'abertura-
     for (let n = w; n < TOTAL; n += PARALELO) { await p.evaluate(t => window.setT(t), n / FPS);
       await p.screenshot({ path: path.join(tmp, String(n).padStart(4, '0') + '.jpg'), type: 'jpeg', quality: 95 }); } }));
   await b.close();
-  ff(['-framerate', String(FPS), '-i', path.join(tmp, '%04d.jpg'), '-i', path.join(AQUI, 'bruto.mp4'),
-    '-filter_complex', `[1:a]aresample=48000,afade=t=out:st=4.8:d=0.34,adelay=${AB*1000}|${AB*1000},apad,atrim=duration=${FIM}[a]`,
-    '-map', '0:v', '-map', '[a]', '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-pix_fmt', 'yuv420p',
-    '-c:a', 'aac', '-b:a', '160k', '-movflags', '+faststart', path.join(AQUI, 'aniversario-edivan-story.mp4')]);
+  // sem áudio (pedido do dono: música é colocada pelo Instagram)
+  ff(['-framerate', String(FPS), '-i', path.join(tmp, '%04d.jpg'), '-an', '-c:v', 'libx264', '-preset', 'slow', '-crf', '18',
+    '-pix_fmt', 'yuv420p', '-movflags', '+faststart', path.join(AQUI, 'aniversario-edivan-story.mp4')]);
   fs.rmSync(tmp, { recursive: true }); console.log('Pronto:', TOTAL, 'quadros');
 })();

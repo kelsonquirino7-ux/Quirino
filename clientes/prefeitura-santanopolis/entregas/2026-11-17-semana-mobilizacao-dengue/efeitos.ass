@@ -1,0 +1,50 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Legenda,Exo 2 ExtraBold,82,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,7,4,5,60,60,0,1
+Style: Caixa,Exo 2 ExtraBold,82,&H008F4F1D,&H008F4F1D,&H008F4F1D,&H008F4F1D,0,0,0,0,100,100,0,0,1,0,0,5,0,0,0,1
+Style: Destaque,Exo 2 ExtraBold,104,&H00FFFFFF,&H00FFFFFF,&H008F4F1D,&H60000000,0,0,0,0,100,100,0,0,3,29,0,5,90,90,0,1
+
+Style: Tag,Exo 2 ExtraBold,54,&H00FFFFFF,&H00FFFFFF,&H00672F00,&H00000000,0,0,0,0,100,100,2,0,3,16,0,5,0,0,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 1,0:00:00.05,0:00:00.42,Caixa,,0,0,0,,{\an5\pos(360,1500)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 272 0 b 281 0 288 7 288 16 l 288 67 b 288 76 281 84 272 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:00.05,0:00:00.42,Legenda,,0,0,0,,{\an5\pos(540,1500)\fscx88\fscy88\t(0,90,\fscx100\fscy100)}{\1c&H00FFFFFF\3a&HFF&\4a&HFF&}ESTAMOS{\1c&HFFFFFF&\3a&H00&\4a&H80&}\h NA\h SEMANA
+Dialogue: 1,0:00:00.42,0:00:00.58,Caixa,,0,0,0,,{\an5\pos(553,1500)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 91 0 b 100 0 108 7 108 16 l 108 67 b 108 76 100 84 91 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:00.42,0:00:00.58,Legenda,,0,0,0,,{\an5\pos(540,1500)}ESTAMOS\h {\1c&H00FFFFFF\3a&HFF&\4a&HFF&}NA{\1c&HFFFFFF&\3a&H00&\4a&H80&}\h SEMANA
+Dialogue: 1,0:00:00.58,0:00:00.91,Caixa,,0,0,0,,{\an5\pos(732,1500)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 247 0 b 256 0 263 7 263 16 l 263 67 b 263 76 256 84 247 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:00.58,0:00:00.91,Legenda,,0,0,0,,{\an5\pos(540,1500)}ESTAMOS\h NA\h {\1c&H00FFFFFF\3a&HFF&\4a&HFF&}SEMANA{\1c&HFFFFFF&\3a&H00&\4a&H80&}
+Dialogue: 1,0:00:00.91,0:00:01.07,Caixa,,0,0,0,,{\an5\pos(220,1500)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 85 0 b 94 0 101 7 101 16 l 101 67 b 101 76 94 84 85 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:00.91,0:00:01.07,Legenda,,0,0,0,,{\an5\pos(540,1500)\fscx88\fscy88\t(0,90,\fscx100\fscy100)}{\1c&H00FFFFFF\3a&HFF&\4a&HFF&}DE{\1c&HFFFFFF&\3a&H00&\4a&H80&}\h MOBILIZAÇÃO\h CONTRA
+Dialogue: 1,0:00:01.07,0:00:01.60,Caixa,,0,0,0,,{\an5\pos(465,1500)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 385 0 b 394 0 401 7 401 16 l 401 67 b 401 76 394 84 385 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:01.07,0:00:01.60,Legenda,,0,0,0,,{\an5\pos(540,1500)}DE\h {\1c&H00FFFFFF\3a&HFF&\4a&HFF&}MOBILIZAÇÃO{\1c&HFFFFFF&\3a&H00&\4a&H80&}\h CONTRA
+Dialogue: 1,0:00:01.60,0:00:01.93,Caixa,,0,0,0,,{\an5\pos(785,1500)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 234 0 b 243 0 250 7 250 16 l 250 67 b 250 76 243 84 234 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:01.60,0:00:01.93,Legenda,,0,0,0,,{\an5\pos(540,1500)}DE\h MOBILIZAÇÃO\h {\1c&H00FFFFFF\3a&HFF&\4a&HFF&}CONTRA{\1c&HFFFFFF&\3a&H00&\4a&H80&}
+Dialogue: 1,0:00:01.93,0:00:02.05,Caixa,,0,0,0,,{\an5\pos(332,1500)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 52 0 b 61 0 68 7 68 16 l 68 67 b 68 76 61 84 52 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:01.93,0:00:02.05,Legenda,,0,0,0,,{\an5\pos(540,1500)\fscx88\fscy88\t(0,90,\fscx100\fscy100)}{\1c&H00FFFFFF\3a&HFF&\4a&HFF&}O{\1c&HFFFFFF&\3a&H00&\4a&H80&}\h MOSQUITO\h DA
+Dialogue: 1,0:00:02.05,0:00:02.46,Caixa,,0,0,0,,{\an5\pos(522,1500)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 305 0 b 314 0 322 7 322 16 l 322 67 b 322 76 314 84 305 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:02.05,0:00:02.46,Legenda,,0,0,0,,{\an5\pos(540,1500)}O\h {\1c&H00FFFFFF\3a&HFF&\4a&HFF&}MOSQUITO{\1c&HFFFFFF&\3a&H00&\4a&H80&}\h DA
+Dialogue: 1,0:00:02.46,0:00:02.62,Caixa,,0,0,0,,{\an5\pos(729,1500)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 89 0 b 98 0 105 7 105 16 l 105 67 b 105 76 98 84 89 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:02.46,0:00:02.62,Legenda,,0,0,0,,{\an5\pos(540,1500)}O\h MOSQUITO\h {\1c&H00FFFFFF\3a&HFF&\4a&HFF&}DA{\1c&HFFFFFF&\3a&H00&\4a&H80&}
+Dialogue: 1,0:00:02.62,0:00:02.95,Caixa,,0,0,0,,{\an5\pos(540,1500)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 234 0 b 243 0 250 7 250 16 l 250 67 b 250 76 243 84 234 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:02.62,0:00:02.95,Legenda,,0,0,0,,{\an5\pos(540,1500)\fscx88\fscy88\t(0,90,\fscx100\fscy100)}{\1c&H00FFFFFF\3a&HFF&\4a&HFF&}DENGUE{\1c&HFFFFFF&\3a&H00&\4a&H80&}
+Dialogue: 1,0:00:18.18,0:00:18.63,Caixa,,0,0,0,,{\an5\pos(387,1500)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 197 0 b 206 0 213 7 213 16 l 213 67 b 213 76 206 84 197 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:18.18,0:00:18.63,Legenda,,0,0,0,,{\an5\pos(540,1500)\fscx88\fscy88\t(0,90,\fscx100\fscy100)}{\1c&H00FFFFFF\3a&HFF&\4a&HFF&}TODOS{\1c&HFFFFFF&\3a&H00&\4a&H80&}\h CONTRA\h A
+Dialogue: 1,0:00:18.63,0:00:19.15,Caixa,,0,0,0,,{\an5\pos(613,1500)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 234 0 b 243 0 250 7 250 16 l 250 67 b 250 76 243 84 234 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:18.63,0:00:19.15,Legenda,,0,0,0,,{\an5\pos(540,1500)}TODOS\h {\1c&H00FFFFFF\3a&HFF&\4a&HFF&}CONTRA{\1c&HFFFFFF&\3a&H00&\4a&H80&}\h A
+Dialogue: 1,0:00:19.15,0:00:19.34,Caixa,,0,0,0,,{\an5\pos(766,1500)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 50 0 b 59 0 67 7 67 16 l 67 67 b 67 76 59 84 50 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:19.15,0:00:19.34,Legenda,,0,0,0,,{\an5\pos(540,1500)}TODOS\h CONTRA\h {\1c&H00FFFFFF\3a&HFF&\4a&HFF&}A{\1c&HFFFFFF&\3a&H00&\4a&H80&}
+Dialogue: 1,0:00:19.34,0:00:19.93,Caixa,,0,0,0,,{\an5\pos(540,1500)\bord0\shad0\1c&H008F4F1D\fscx80\fscy80\t(0,80,\fscx100\fscy100)\p1}m 16 0 l 251 0 b 260 0 268 7 268 16 l 268 67 b 268 76 260 84 251 84 l 16 84 b 7 84 0 76 0 67 l 0 16 b 0 7 7 0 16 0
+Dialogue: 2,0:00:19.34,0:00:19.93,Legenda,,0,0,0,,{\an5\pos(540,1500)\fscx88\fscy88\t(0,90,\fscx100\fscy100)}{\1c&H00FFFFFF\3a&HFF&\4a&HFF&}DENGUE!{\1c&HFFFFFF&\3a&H00&\4a&H80&}
+Dialogue: 4,0:00:04.15,0:00:05.98,Tag,,0,0,0,,{\an5\move(-300,330,540,330,0,220)\fad(0,150)}VISTORIA EM CAIXAS-D'ÁGUA
+Dialogue: 4,0:00:06.23,0:00:07.02,Tag,,0,0,0,,{\an5\move(-300,330,540,330,0,220)\fad(0,150)}TRATAMENTO DE FOCOS
+Dialogue: 4,0:00:08.31,0:00:09.61,Tag,,0,0,0,,{\an5\move(-300,330,540,330,0,220)\fad(0,150)}VISTORIA EM PNEUS
+Dialogue: 4,0:00:10.90,0:00:12.73,Tag,,0,0,0,,{\an5\move(-300,330,540,330,0,220)\fad(0,150)}VISTORIA EM QUINTAIS
+Dialogue: 4,0:00:12.98,0:00:14.29,Tag,,0,0,0,,{\an5\move(-300,330,540,330,0,220)\fad(0,150)}FERROS-VELHOS E SUCATAS

@@ -28,57 +28,53 @@ W, H = 1080, 1920
 # enquadramento: None = vertical; ("x", a, b) = recorte 9:16 de vídeo horizontal, centro indo de a até b (0–1)
 FALA = ("IMG_5546", 1.55, 4.0)          # corta a 1ª tentativa (0–1,5 s) em que ela repete a fala
 CENAS = [
-    # duração: inteiro = batidas; decimal = segundos. etiqueta: "LINHA 1|LINHA 2"; "+" = continua a anterior
+    # Cada vídeo do Drive aparece UMA vez, inteiro (enquadramento original, sem zoom nem recorte).
+    # duração: inteiro = batidas; decimal = segundos. enquadramento "H" = vídeo horizontal inteiro sobre fundo desfocado.
+    # etiqueta: "LINHA 1|LINHA 2"; "+" = continua a anterior
     # — bloco 1 (drop, 32 batidas)
-    ("IMG_5528", 0.3, 4, None,            "zoomin",      "VISITA ÀS|RESIDÊNCIAS"),
-    ("IMG_5528", 4.8, 4, None,            "smoothleft",  "+"),
-    ("IMG_5529", 0.5, 4, None,            "smoothup",    "TRATAMENTO DE|RESERVATÓRIOS"),
-    ("IMG_5535", 0.4, 4, None,            "slideup",     "VISTORIA EM|CAIXAS-D'ÁGUA"),
-    ("IMG_5535", 4.3, 4, None,            "smoothleft",  "+"),
-    ("IMG_5522", 0.4, 4, None,            "smoothup",    "ELIMINAÇÃO|DE CRIADOUROS"),
-    ("IMG_5522", 3.6, 4, None,            "smoothleft",  "+"),
-    ("IMG_5538", 0.5, 4, None,            "slideup",     "TRATAMENTO|DE FOCOS"),
-    # — bloco 2 (introdução calma, 20 batidas): planos mais longos
-    ("IMG_5529", 5.6, 8, None,            "fade",        None),
-    ("IMG_5528", 11.2, 4, None,           "fade",        "ORIENTAÇÃO|AOS MORADORES"),
-    ("IMG_5528", 13.6, 8, None,           "fade",        "+"),
-    # — bloco 3 (1º drop 12 batidas + respiro antes do drop final)
-    ("IMG_5539", 2.0, 4, None,            "zoomin",      "VISTORIA|EM PNEUS"),
-    ("IMG_5541", 0.5, 4, ("x", .64, .68), "smoothleft",  "+"),
-    ("IMG_5538", 4.0, 4, None,            "smoothup",    None),
-    ("IMG_5535", 7.6, 8.42 - 12 * 0.519375, None, "fade", None),
+    ("IMG_5514", 0.3, 8, None, "zoomin",     "EQUIPES|NAS RUAS"),
+    ("IMG_5527", 0.3, 8, None, "smoothleft", "MUTIRÃO|DE LIMPEZA"),
+    ("IMG_5516", 0.3, 8, None, "smoothup",   "+"),
+    ("IMG_5517", 0.3, 8, None, "smoothleft", "ELIMINAÇÃO|DE CRIADOUROS"),
+    # — bloco 2 (introdução calma, 20 batidas)
+    ("IMG_5528", 0.3, 12, None, "fade",      "VISITA ÀS|RESIDÊNCIAS"),
+    ("IMG_5529", 5.6, 8, None,  "fade",      "TRATAMENTO DE|RESERVATÓRIOS"),
+    # — bloco 3 (1º drop 12 batidas + respiro)
+    ("IMG_5534", 0.5, 8, "H",   "zoomin",    "+"),
+    ("IMG_5522", 0.4, 4, None,  "smoothup",  "RECOLHIMENTO|DE GARRAFAS"),
+    ("IMG_5535", 4.3, 8.42 - 12 * 0.519375, None, "fade", "VISTORIA EM|CAIXAS-D'ÁGUA"),
     # — bloco 4 (drop final, 27 batidas + grito nas 5 últimas)
-    ("IMG_5542", 0.4, 4, ("x", .60, .70), "zoomin",      "VISTORIA|EM QUINTAIS"),
-    ("IMG_5542", 3.6, 4, ("x", .25, .58), "smoothleft",  "+"),
-    ("IMG_5543", 0.5, 4, None,            "smoothup",    "FERROS-VELHOS|E SUCATAS"),
-    ("IMG_5543", 4.4, 4, None,            "smoothleft",  "+"),
-    ("IMG_5539", 0.3, 2, None,            "slideup",     None),
-    ("IMG_5542", 8.6, 4, ("x", .80, .76), "smoothright", None),
-    ("IMG_5543", 8.6, 3, None,            "smoothleft",  None),
-    ("IMG_5522", 6.6, 2, None,            "smoothup",    None),
+    ("IMG_5538", 0.5, 6, None,  "zoomin",     "TRATAMENTO|DE FOCOS"),
+    ("IMG_5539", 1.7, 6, None,  "smoothleft", "VISTORIA|EM PNEUS"),
+    ("IMG_5541", 0.3, 4, "H",   "smoothup",   "+"),
+    ("IMG_5542", 3.6, 6, "H",   "smoothleft", "VISTORIA|EM QUINTAIS"),
+    ("IMG_5543", 4.4, 5, None,  "smoothup",   "FERROS-VELHOS|E SUCATAS"),
 ]
 GRITO = ("IMG_5546", 5.75, 2.6, "zoomin")  # grupo: "Todos contra a dengue!" (rotação da câmera mantida)
 
 COR = ("eq=contrast=1.08:brightness=0.012:saturation=1.22:gamma=0.97,"
-       "colorbalance=rs=0.02:bs=-0.015:rh=0.025:bh=-0.02,unsharp=5:5:0.55:5:5:0,vignette=PI/6")
+       "colorbalance=rs=0.02:bs=-0.015:rh=0.025:bh=-0.02,unsharp=5:5:0.55:5:5:0")
+COR_SEM_VINHETA = COR
+COR = COR + ",vignette=PI/7"
 
 
 def run(cmd):
     subprocess.run(cmd, check=True)
 
 
-def cena(nome, ini, dur, enq, saida, zoom=0.07):
+def cena(nome, ini, dur, enq, saida):
+    """Enquadramento original: vertical ocupa a tela inteira; horizontal entra inteiro no centro,
+    com o próprio vídeo ampliado e desfocado atrás (nada é cortado)."""
     src = BRUTOS / f"{nome}.MOV"
-    f = []
-    if enq:
-        _, a, b = enq
-        cw = 1215  # 2160*9/16
-        f.append(f"crop={cw}:2160:x='(({a})+(({b})-({a}))*t/{dur})*iw-{cw}/2':y=0")
-    f.append("scale=2160:3840:flags=lanczos")
-    f.append(f"scale=w='trunc(2160*(1+{zoom}*t/{dur})/2)*2':h=-2:eval=frame:flags=bicubic,crop=2160:3840")
-    f.append(f"scale={W}:{H}:flags=lanczos,setsar=1,fps=30,{COR},format=yuv420p")
+    if enq == "H":
+        vf = (f"split[a][b];[a]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},"
+              f"gblur=sigma=45,eq=brightness=-0.10:saturation=0.9[bg];"
+              f"[b]scale={W}:-2:flags=lanczos,{COR_SEM_VINHETA}[fg];[bg][fg]overlay=0:(H-h)/2,"
+              f"setsar=1,fps=30,format=yuv420p")
+    else:
+        vf = f"scale={W}:{H}:flags=lanczos,setsar=1,fps=30,{COR},format=yuv420p"
     run(["ffmpeg", "-v", "error", "-y", "-ss", str(ini), "-t", f"{dur:.3f}", "-i", str(src),
-         "-an", "-vf", ",".join(f), "-c:v", "libx264", "-crf", "14", "-preset", "fast", str(saida)])
+         "-an", "-filter_complex", vf, "-c:v", "libx264", "-crf", "14", "-preset", "fast", str(saida)])
 
 
 # 1) linha do tempo
@@ -97,7 +93,7 @@ pecas.append((GRITO[0], GRITO[1], GRITO[2] + TD, None, GRITO[3]))
 arqs = []
 for i, (nome, ini, dur, enq, _) in enumerate(pecas):
     out = TMP / f"c{i:02d}.mp4"
-    if not out.exists(): cena(nome, ini - (TD if i else 0), dur, enq, out, zoom=0.05 if i in (0, len(pecas) - 1) else 0.08)
+    if not out.exists(): cena(nome, ini - (TD if i else 0), dur, enq, out)
     arqs.append(out)
 
 # 2) transições (xfade) — cada transição termina exatamente na batida do corte
@@ -162,7 +158,7 @@ total = fim_grito - 0.35 + VINHETA
 src = str(BRUTOS / "IMG_5546.MOV")
 ent += ["-ss", str(FALA[1]), "-t", str(FALA[2]), "-i", src,
         "-ss", str(GRITO[1]), "-t", str(GRITO[2]), "-i", src,
-        "-ss", str(TRILHA_INI), "-t", f"{tempos[9] + 0.03:.3f}", "-i", str(TRILHA),  # bloco 1 (+ cruzamento)
+        "-ss", str(TRILHA_INI), "-t", f"{FALA[2] + 32 * BEAT + 0.03:.3f}", "-i", str(TRILHA),  # bloco 1 (+ cruzamento)
         "-ss", str(TRILHA_EMENDA), "-i", str(TRILHA)]
 voz = "highpass=f=90,afftdn=nf=-25,acompressor=threshold=-22dB:ratio=3:attack=5:release=120:makeup=4,aresample=48000,aformat=channel_layouts=stereo"
 fc.append(f"[{n+2}:a:0]{voz},volume=1.6,afade=t=in:d=0.04,afade=t=out:st={FALA[2]-0.15}:d=0.15[v1]")

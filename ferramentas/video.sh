@@ -75,5 +75,5 @@ if [ "$VDUR" != 0 ]; then
 else F+="[$ATUAL]null[vout];[a0]anull[aout]"; fi
 mkdir -p "$(dirname "$OUT")"
 ffmpeg -hide_banner -loglevel error -y "${ENTR[@]}" -filter_complex "$F" -map "[vout]" -map "[aout]" \
-  -c:v libx264 -preset medium -crf 22 -maxrate 5M -bufsize 10M -c:a aac -b:a 160k -movflags +faststart "$OUT"
+  -c:v libx264 -preset medium -crf 22 -maxrate 3500k -bufsize 7M -c:a aac -b:a 160k -movflags +faststart "$OUT"
 echo "Pronto: $OUT ($(ffprobe -v error -show_entries format=duration -of csv=p=0 "$OUT" | cut -d. -f1)s, ${W}x${H})"

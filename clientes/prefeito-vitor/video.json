@@ -1,5 +1,8 @@
 {
-  "fonte": "Montserrat Thin Black", "arquivo_fonte": "montserrat-latin-900-normal.ttf",
-  "caixa": "#015927", "texto_caixa": "#FFFFFF",
-  "obs": "Verde escuro do brief (branco sobre #0AA514 não passa AA)."
+  "fonte": "Montserrat Thin Black",
+  "arquivo_fonte": "montserrat-latin-900-normal.ttf",
+  "caixa": "#015927",
+  "texto_caixa": "#FFFFFF",
+  "obs": "Verde escuro do brief (branco sobre #0AA514 não passa AA). Borda da letra em verde escuro #015927 (pedido do dono).",
+  "borda": "#015927"
 }

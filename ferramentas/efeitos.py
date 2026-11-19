@@ -157,6 +157,8 @@ def main():
     medir = Medidor(FONTES / cfg["arquivo_fonte"], S)
     fonte = cfg["fonte"]
     caixa, tcaixa = cor_ass(cfg["caixa"]), cor_ass(cfg["texto_caixa"])
+    borda = cor_ass(cfg.get("borda", "#000000"))   # contorno da letra da legenda
+    bw = S * (0.12 if "borda" in cfg else 0.09)
     ev = []
     if a.l:
         ev += legenda_animada(ler_srt(a.l), cfg, W, H, vertical, medir, S)
@@ -171,7 +173,7 @@ ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Legenda,{fonte},{S},&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,{S * 0.09:.0f},{S * 0.05:.0f},5,60,60,0,1
+Style: Legenda,{fonte},{S},&H00FFFFFF,&H00FFFFFF,{borda},&H80000000,0,0,0,0,100,100,0,0,1,{bw:.0f},{S * 0.05:.0f},5,60,60,0,1
 Style: Caixa,{fonte},{S},{caixa},{caixa},{caixa},{caixa},0,0,0,0,100,100,0,0,1,0,0,5,0,0,0,1
 Style: Destaque,{fonte},{SD},{tcaixa},{tcaixa},{caixa},&H60000000,0,0,0,0,100,100,0,0,3,{SD * 0.28:.0f},0,5,90,90,0,1
 

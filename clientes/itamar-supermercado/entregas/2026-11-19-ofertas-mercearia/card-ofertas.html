@@ -4,8 +4,8 @@
 :root{--amarelo:#FFD302;--vermelho:#FF291E;--marrom:#280E01}
 *{box-sizing:border-box;margin:0}
 body{width:1080px;height:1350px;background:var(--amarelo);font-family:"Baloo 2",sans-serif;color:var(--marrom);display:flex;flex-direction:column;padding:0 40px 26px;gap:12px;background-image:radial-gradient(ellipse at 66% 13%,#FFF6B8 0,#FFE45C 170px,transparent 360px)}
-.top{position:relative;height:330px;flex:none;margin:0 -40px}
-.top>img{position:absolute;left:36px;top:96px;height:150px;filter:drop-shadow(0 8px 14px rgba(40,14,1,.25));z-index:3}
+.top{position:relative;height:290px;flex:none;margin:0 -40px}
+.top>img{position:absolute;left:36px;top:70px;height:150px;filter:drop-shadow(0 8px 14px rgba(40,14,1,.25));z-index:3}
 .top svg.t{position:absolute;overflow:visible}
 .grid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(4,1fr);gap:14px}
 .p{background:#fff;border-radius:22px;padding:10px 12px 10px;display:flex;flex-direction:column;box-shadow:0 6px 0 rgba(40,14,1,.12);position:relative;min-height:0}
@@ -16,36 +16,36 @@ body{width:1080px;height:1350px;background:var(--amarelo);font-family:"Baloo 2",
 .rod{text-align:center;font:600 22px/1.25 "Baloo 2"}
 .arroba{font:800 30px "Baloo 2";color:var(--vermelho)}
 </style>
-<div class="top"><svg width="0" height="0" style="position:absolute"><defs>
-<linearGradient id="ouro" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF4A0"/><stop offset=".35" stop-color="#FFD302"/><stop offset=".7" stop-color="#F2B800"/><stop offset="1" stop-color="#C98F00"/></linearGradient>
-<linearGradient id="verm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF6B4A"/><stop offset=".45" stop-color="#FF291E"/><stop offset="1" stop-color="#B81200"/></linearGradient>
-<radialGradient id="ilho" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#FFFBD0"/><stop offset=".5" stop-color="#FFD302"/><stop offset="1" stop-color="#A87800"/></radialGradient>
-<radialGradient id="furo" cx=".5" cy=".3" r=".7"><stop offset="0" stop-color="#C98F00"/><stop offset="1" stop-color="#FFE45C"/></radialGradient>
-<clipPath id="face"><path d="M130 24 H270 L372 118 V398 Q372 428 342 428 H58 Q28 428 28 398 V118 Z" transform="translate(200 226) scale(.86) translate(-200 -226)"/></clipPath>
-<filter id="sombra" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#280E01" flood-opacity=".38"/></filter>
-<symbol id="tag" viewBox="0 0 400 460" overflow="visible">
- <g filter="url(#sombra)">
-  <path d="M130 24 H270 L372 118 V398 Q372 428 342 428 H58 Q28 428 28 398 V118 Z" transform="translate(0 14)" fill="#7A0800" stroke="#7A0800" stroke-width="20" stroke-linejoin="round"/>
-  <path d="M130 24 H270 L372 118 V398 Q372 428 342 428 H58 Q28 428 28 398 V118 Z" transform="translate(0 8)" fill="#A87800" stroke="#A87800" stroke-width="20" stroke-linejoin="round"/>
-  <path d="M130 24 H270 L372 118 V398 Q372 428 342 428 H58 Q28 428 28 398 V118 Z" fill="url(#ouro)" stroke="url(#ouro)" stroke-width="20" stroke-linejoin="round"/>
- </g>
- <path d="M130 24 H270 L372 118 V398 Q372 428 342 428 H58 Q28 428 28 398 V118 Z" fill="none" stroke="#FFFBD0" stroke-width="3" opacity=".8" transform="translate(0 -3)" stroke-linejoin="round"/>
- <path d="M130 24 H270 L372 118 V398 Q372 428 342 428 H58 Q28 428 28 398 V118 Z" transform="translate(200 226) scale(.86) translate(-200 -226)" fill="url(#verm)" stroke="#8E0A00" stroke-width="6" stroke-linejoin="round"/>
- <g clip-path="url(#face)">
-  <path d="M0 0 H400 V200 Q200 250 0 190 Z" fill="#fff" opacity=".16"/>
-  <path d="M130 24 H270 L372 118 V398 Q372 428 342 428 H58 Q28 428 28 398 V118 Z" transform="translate(200 226) scale(.86) translate(-200 -226) translate(0 6)" fill="none" stroke="#5E0600" stroke-width="10" opacity=".35"/>
- </g>
- <circle cx="200" cy="104" r="26" fill="url(#ilho)" stroke="#8C6400" stroke-width="2"/>
- <circle cx="200" cy="104" r="13" fill="url(#furo)" stroke="#8C6400" stroke-width="2"/>
- <path d="M193 104 Q180 -60 150 -400" fill="none" stroke="#B98600" stroke-width="7" stroke-linecap="round"/>
- <path d="M207 104 Q222 -60 255 -400" fill="none" stroke="#E8B800" stroke-width="7" stroke-linecap="round"/>
- <g font-family="Baloo 2" font-weight="800" text-anchor="middle" stroke-linejoin="round" paint-order="stroke">
-  <g fill="#5E0600" transform="translate(0 6)" stroke="#5E0600" stroke-width="12">
-   <text x="200" y="190" font-size="76">Aqui</text><text x="200" y="254" font-size="76">tem</text><text x="200" y="316" font-size="76">preço</text><text x="200" y="388" font-size="76">baixo</text></g>
-  <g stroke="#7A0800" stroke-width="10">
-   <text x="200" y="388" font-size="76" fill="#FFD302">baixo</text><text x="200" y="316" font-size="76" fill="#fff">preço</text><text x="200" y="254" font-size="76" fill="#FFD302">tem</text><text x="200" y="190" font-size="76" fill="#fff">Aqui</text></g>
- </g>
-</symbol></defs></svg><svg class="t" viewBox="0 0 400 460" width="170" style="left:345px;top:40px;transform:rotate(-14deg);transform-origin:50% 0;filter:blur(1.6px)"><use href="#tag"/></svg><svg class="t" viewBox="0 0 400 460" width="170" style="left:875px;top:26px;transform:rotate(12deg);transform-origin:50% 0;filter:blur(1.6px)"><use href="#tag"/></svg><img src="../../identidade/logo-itamar-3d-transparente.png" alt=""><svg class="t" viewBox="0 0 400 460" width="280" style="left:525px;top:16px;transform:rotate(-4deg);transform-origin:50% 0;"><use href="#tag"/></svg></div>
+<div class="top"><img src="../../identidade/logo-itamar-3d-transparente.png" alt=""><svg class="t" viewBox="0 0 720 320" width="670" style="left:372px;top:4px">
+<defs>
+<linearGradient id="fV" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF5A3C"/><stop offset=".55" stop-color="#FF291E"/><stop offset="1" stop-color="#D01800"/></linearGradient>
+<linearGradient id="fA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF08A"/><stop offset=".5" stop-color="#FFD302"/><stop offset="1" stop-color="#F2B800"/></linearGradient>
+<linearGradient id="ouroT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF4A0"/><stop offset=".5" stop-color="#FFD302"/><stop offset="1" stop-color="#F0A800"/></linearGradient>
+<linearGradient id="vermT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF4A30"/><stop offset="1" stop-color="#E01A00"/></linearGradient>
+<pattern id="pontos" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="4.5" cy="4.5" r="1.6" fill="#280E01" opacity=".10"/></pattern>
+<filter id="bl" x="-10%" y="-10%" width="120%" height="140%"><feGaussianBlur stdDeviation="8"/></filter>
+<filter id="bl2"><feGaussianBlur stdDeviation="1.2"/></filter>
+</defs>
+<g transform="translate(668 96) rotate(14)" font-family="Baloo 2" font-weight="800" font-size="120" text-anchor="middle" stroke-linejoin="round" paint-order="stroke" filter="url(#bl2)"><text y="8" fill="#7A0800" stroke="#7A0800" stroke-width="14">$</text><text fill="url(#ouroT)" stroke="#C41500" stroke-width="9">$</text></g><g transform="translate(612 60) rotate(-6)" font-family="Baloo 2" font-weight="800" font-size="84" text-anchor="middle" stroke-linejoin="round" paint-order="stroke" filter="url(#bl2)"><text y="8" fill="#7A0800" stroke="#7A0800" stroke-width="14">$</text><text fill="url(#ouroT)" stroke="#C41500" stroke-width="9">$</text></g><g transform="translate(48 250) rotate(-16)" font-family="Baloo 2" font-weight="800" font-size="120" text-anchor="middle" stroke-linejoin="round" paint-order="stroke" filter="url(#bl2)"><text y="8" fill="#7A0800" stroke="#7A0800" stroke-width="14">$</text><text fill="url(#ouroT)" stroke="#C41500" stroke-width="9">$</text></g><g transform="translate(92 200) rotate(10)" font-family="Baloo 2" font-weight="800" font-size="80" text-anchor="middle" stroke-linejoin="round" paint-order="stroke" filter="url(#bl2)"><text y="8" fill="#7A0800" stroke="#7A0800" stroke-width="14">$</text><text fill="url(#ouroT)" stroke="#C41500" stroke-width="9">$</text></g>
+<g transform="skewX(-8)">
+ <path d="M110 150 Q110 134 126 134 H650 Q666 134 666 150 V246 Q666 262 650 262 H220 L160 300 L172 262 H126 Q110 262 110 246 Z" transform="translate(0 16)" fill="#280E01" opacity=".25" filter="url(#bl)"/>
+ <path d="M110 150 Q110 134 126 134 H650 Q666 134 666 150 V246 Q666 262 650 262 H220 L160 300 L172 262 H126 Q110 262 110 246 Z" transform="translate(0 12)" fill="#C98F00" stroke="#C98F00" stroke-width="8" stroke-linejoin="round"/>
+ <path d="M110 150 Q110 134 126 134 H650 Q666 134 666 150 V246 Q666 262 650 262 H220 L160 300 L172 262 H126 Q110 262 110 246 Z" transform="translate(0 6)" fill="#C98F00" stroke="#C98F00" stroke-width="8" stroke-linejoin="round"/>
+ <path d="M110 150 Q110 134 126 134 H650 Q666 134 666 150 V246 Q666 262 650 262 H220 L160 300 L172 262 H126 Q110 262 110 246 Z" fill="url(#fA)" stroke="#E01A00" stroke-width="8" stroke-linejoin="round"/>
+ <clipPath id="c2"><path d="M110 150 Q110 134 126 134 H650 Q666 134 666 150 V246 Q666 262 650 262 H220 L160 300 L172 262 H126 Q110 262 110 246 Z"/></clipPath>
+ <g clip-path="url(#c2)"><rect x="0" y="0" width="700" height="320" fill="url(#pontos)"/><path d="M0 0 H700 V190 Q350 212 0 180 Z" fill="#fff" opacity=".18"/></g>
+</g>
+<g transform="skewX(-8)">
+ <path d="M40 30 Q40 14 56 14 H560 Q576 14 576 30 V112 Q576 128 560 128 H520 L540 162 L480 128 H56 Q40 128 40 112 Z" transform="translate(0 16)" fill="#280E01" opacity=".25" filter="url(#bl)"/>
+ <path d="M40 30 Q40 14 56 14 H560 Q576 14 576 30 V112 Q576 128 560 128 H520 L540 162 L480 128 H56 Q40 128 40 112 Z" transform="translate(0 12)" fill="#8E0A00" stroke="#8E0A00" stroke-width="8" stroke-linejoin="round"/>
+ <path d="M40 30 Q40 14 56 14 H560 Q576 14 576 30 V112 Q576 128 560 128 H520 L540 162 L480 128 H56 Q40 128 40 112 Z" transform="translate(0 6)" fill="#8E0A00" stroke="#8E0A00" stroke-width="8" stroke-linejoin="round"/>
+ <path d="M40 30 Q40 14 56 14 H560 Q576 14 576 30 V112 Q576 128 560 128 H520 L540 162 L480 128 H56 Q40 128 40 112 Z" fill="url(#fV)" stroke="#FFD302" stroke-width="8" stroke-linejoin="round"/>
+ <clipPath id="c1"><path d="M40 30 Q40 14 56 14 H560 Q576 14 576 30 V112 Q576 128 560 128 H520 L540 162 L480 128 H56 Q40 128 40 112 Z"/></clipPath>
+ <g clip-path="url(#c1)"><rect x="0" y="0" width="700" height="320" fill="url(#pontos)"/><path d="M0 0 H700 V70 Q350 92 0 60 Z" fill="#fff" opacity=".18"/></g>
+</g>
+<g transform="skewX(-8)" font-family="Baloo 2" font-weight="800" font-size="86" text-anchor="middle" stroke-linejoin="round" paint-order="stroke" letter-spacing="2"><text x="318" y="109" fill="#7A0800" stroke="#7A0800" stroke-width="12">AQUI TEM</text><text x="318" y="102" fill="url(#ouroT)" stroke="#7A0800" stroke-width="8">AQUI TEM</text></g>
+<g transform="skewX(-8)" font-family="Baloo 2" font-weight="800" font-size="94" text-anchor="middle" stroke-linejoin="round" paint-order="stroke" letter-spacing="2"><text x="410" y="237" fill="#7A0800" stroke="#7A0800" stroke-width="12">ECONOMIA</text><text x="410" y="230" fill="url(#vermT)" stroke="#fff" stroke-width="8">ECONOMIA</text></g>
+</svg></div>
 <div class="grid">
   <div class="p"><div class="foto" style="background-image:url(../../fotos/produtos/mercearia/leite-em-po-bom-gosto-200g.png)"></div><div class="nome">Leite em pó Bom Gosto&nbsp;200&nbsp;g</div><div class="preco"><small>R$</small>6,79</div></div>
   <div class="p"><div class="foto" style="background-image:url(../../fotos/produtos/mercearia/cafe-uniao-tradicional-500g.png)"></div><div class="nome">Café a vácuo União</div><div class="preco"><small>R$</small>10,89</div></div>

@@ -7,6 +7,6 @@
 - Fontes usadas nos modelos: Baloo 2 800/600 (arredondada, combina com o logo)
 - Arquivos de marca em `identidade/`: `logo-itamar-3d.jpg` (original 3D), `logo-itamar-3d-transparente.png`. Falta versão vetorial/plana para usos pequenos.
 - Formatos: card de ofertas 1080×1350, vídeo de ofertas 9:16
-- Modelos prontos em `modelos/`: `card-ofertas.html` (amarelo, mercearia), `card-acougue.html` (vermelho, 6 itens, selo 3D "Semana das Carnes")
+- Modelos prontos em `modelos/`: `card-ofertas.html` (amarelo, mercearia), `card-acougue.html` (vermelho, 6 itens, açougue), `card-eletro.html` (marrom/vermelho, 6 itens, eletro)
 - Assinatura Quirino permitida? (sim/não, onde):
 - Observações:

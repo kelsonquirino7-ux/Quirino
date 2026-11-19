@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<title>Itamar · Consciência Negra · encerramento</title>
+<link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<style>
+  /* Cena 4 (19–30 s do filme): 11 s, 1080x1920. Animação controlada por window.setT(t). */
+  :root { --ouro:#D9A93E; --ouro-claro:#F3D27A; --preto:#070504; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1080px; height:1920px; background:var(--preto); overflow:hidden; }
+  #palco { position:relative; width:1080px; height:1920px; overflow:hidden;
+    background: radial-gradient(ellipse 80% 55% at 50% 46%, #1d1309 0%, #0b0806 55%, #040302 100%); }
+  /* padrão geométrico discreto (losangos e linhas, inspiração em tecelagem africana) */
+  #padrao { position:absolute; inset:-60px; opacity:0; }
+  .faixa { position:absolute; left:-60px; right:-60px; height:150px; }
+  #faixaTop { top:70px; } #faixaBot { bottom:70px; }
+  #feixe { position:absolute; top:-30%; left:-60%; width:60%; height:160%; transform:rotate(18deg);
+    background: linear-gradient(90deg, rgba(243,210,122,0) 0%, rgba(243,210,122,.10) 35%, rgba(255,232,170,.32) 50%, rgba(243,210,122,.10) 65%, rgba(243,210,122,0) 100%);
+    filter: blur(18px); mix-blend-mode: screen; }
+  #brilho { position:absolute; left:50%; top:44%; width:1200px; height:900px; transform:translate(-50%,-50%);
+    background: radial-gradient(ellipse at center, rgba(217,169,62,.38) 0%, rgba(217,169,62,.10) 38%, rgba(0,0,0,0) 68%); opacity:0; }
+  #logo { position:absolute; left:50%; top:44%; width:860px; transform:translate(-50%,-50%); opacity:0;
+    filter: drop-shadow(0 18px 40px rgba(0,0,0,.7)); }
+  #linha { position:absolute; left:50%; top:1240px; height:3px; width:0; transform:translateX(-50%);
+    background: linear-gradient(90deg, rgba(217,169,62,0), var(--ouro-claro), rgba(217,169,62,0)); }
+  .txt { position:absolute; left:0; right:0; text-align:center; opacity:0; }
+  #data { top:1290px; font:600 34px/1 "Montserrat"; letter-spacing:.38em; color:var(--ouro); }
+  #dia  { top:1350px; font:800 64px/1.1 "Montserrat"; color:var(--ouro-claro); letter-spacing:.02em; }
+  #frase { top:1520px; font:600 40px/1.4 "Montserrat"; color:#EFE6D2; padding:0 110px; }
+  .pt { position:absolute; width:6px; height:6px; border-radius:50%; background:var(--ouro-claro); box-shadow:0 0 12px 3px rgba(243,210,122,.6); }
+</style></head>
+<body><div id="palco">
+  <svg id="padrao" width="1200" height="2040" viewBox="0 0 1200 2040">
+    <defs>
+      <pattern id="los" width="120" height="120" patternUnits="userSpaceOnUse">
+        <path d="M60 6 L114 60 L60 114 L6 60 Z" fill="none" stroke="#D9A93E" stroke-width="1.4" opacity=".55"/>
+        <path d="M60 34 L86 60 L60 86 L34 60 Z" fill="none" stroke="#D9A93E" stroke-width="1" opacity=".35"/>
+        <circle cx="60" cy="60" r="3" fill="#D9A93E" opacity=".5"/>
+      </pattern>
+      <radialGradient id="mask-g" cx="50%" cy="46%" r="60%">
+        <stop offset="0" stop-color="#000"/><stop offset=".45" stop-color="#000"/><stop offset="1" stop-color="#fff"/>
+      </radialGradient>
+      <mask id="m"><rect width="1200" height="2040" fill="url(#mask-g)"/></mask>
+    </defs>
+    <rect width="1200" height="2040" fill="url(#los)" mask="url(#m)"/>
+  </svg>
+  <svg class="faixa" id="faixaTop" viewBox="0 0 1200 150" preserveAspectRatio="none"></svg>
+  <svg class="faixa" id="faixaBot" viewBox="0 0 1200 150" preserveAspectRatio="none"></svg>
+  <div id="brilho"></div>
+  <img id="logo" src="../../identidade/logo-itamar-3d-transparente.png" alt="Itamar Supermercado">
+  <div id="linha"></div>
+  <div class="txt" id="data">20 DE NOVEMBRO</div>
+  <div class="txt" id="dia">Dia da Consciência Negra</div>
+  <div class="txt" id="frase">Respeitar nossas raízes<br>é valorizar nossa história.</div>
+  <div id="feixe"></div>
+</div>
+<script>
+  // faixas tipo tecelagem (triângulos dourados finos)
+  for (const id of ['faixaTop','faixaBot']) {
+    const s = document.getElementById(id); let h = '';
+    h += '<line x1="0" y1="20" x2="1200" y2="20" stroke="#D9A93E" stroke-width="2" opacity=".6"/>';
+    h += '<line x1="0" y1="130" x2="1200" y2="130" stroke="#D9A93E" stroke-width="2" opacity=".6"/>';
+    for (let x = 0; x < 1200; x += 60) {
+      h += `<path d="M${x} 115 L${x+30} 35 L${x+60} 115" fill="none" stroke="#D9A93E" stroke-width="1.6" opacity=".5"/>`;
+      h += `<circle cx="${x+30}" cy="95" r="3" fill="#D9A93E" opacity=".55"/>`;
+    }
+    s.innerHTML = h;
+  }
+  // partículas determinísticas
+  const palco = document.getElementById('palco'), pts = [];
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < 46; i++) {
+    const d = document.createElement('div'); d.className = 'pt'; palco.appendChild(d);
+    pts.push({ d, x: rnd()*1080, y: 300 + rnd()*1400, v: 18 + rnd()*40, f: rnd()*6.28, s: .5 + rnd()*1.1 });
+  }
+  const $ = id => document.getElementById(id);
+  const cl = (v) => Math.max(0, Math.min(1, v));
+  const ease = v => { v = cl(v); return v<.5 ? 4*v*v*v : 1 - Math.pow(-2*v+2,3)/2; };
+  const r = (t,a,b) => ease((t-a)/(b-a));
+  window.setT = (t) => {
+    const fadeIn = r(t, 0, 1.4), fadeOut = 1 - r(t, 10.2, 11);
+    palco.style.opacity = Math.min(fadeIn, fadeOut);
+    $('padrao').style.opacity = .55 * r(t, .3, 2.5);
+    $('padrao').style.transform = `translateY(${-t*4}px) scale(${1.04 - t*.003})`;
+    for (const id of ['faixaTop','faixaBot']) { $(id).style.opacity = .8 * r(t, .8, 2.6); }
+    $('faixaTop').style.transform = `translateX(${-30 + t*3}px)`;
+    $('faixaBot').style.transform = `translateX(${30 - t*3}px)`;
+    // feixe de luz atravessa a tela (1,0–3,4 s) e de novo sobre o logo (7,0–8,8 s)
+    const p1 = r(t, 1.0, 3.4), p2 = r(t, 7.0, 8.8);
+    const p = t < 5 ? p1 : p2, on = t < 5 ? (p1 > 0 && p1 < 1) : (p2 > 0 && p2 < 1);
+    $('feixe').style.left = (-60 + p * 200) + '%';
+    $('feixe').style.opacity = on ? Math.sin(p * Math.PI) : 0;
+    // logo
+    const l = r(t, 2.0, 3.8);
+    $('logo').style.opacity = l;
+    $('logo').style.transform = `translate(-50%,-50%) scale(${.9 + .08*l + t*.002})`;
+    $('brilho').style.opacity = l * (.85 + .15*Math.sin(t*1.6));
+    $('linha').style.width = (720 * r(t, 3.6, 4.8)) + 'px';
+    $('data').style.opacity = r(t, 4.0, 5.0);  $('data').style.transform = `translateY(${16*(1-r(t,4.0,5.0))}px)`;
+    $('dia').style.opacity = r(t, 4.4, 5.4);   $('dia').style.transform = `translateY(${16*(1-r(t,4.4,5.4))}px)`;
+    $('frase').style.opacity = r(t, 6.6, 7.8); $('frase').style.transform = `translateY(${16*(1-r(t,6.6,7.8))}px)`;
+    for (const q of pts) {
+      const y = q.y - t*q.v, x = q.x + Math.sin(t*.6 + q.f)*14;
+      q.d.style.transform = `translate(${x}px,${y}px) scale(${q.s})`;
+      q.d.style.opacity = r(t, .5, 2.5) * (.35 + .35*Math.sin(t*1.3 + q.f*2));
+    }
+  };
+  window.pronto = Promise.all([document.fonts.ready, new Promise(ok => { const i = $('logo'); i.complete ? ok() : i.onload = ok; })]).then(() => setT(0));
+</script>
+</body></html>

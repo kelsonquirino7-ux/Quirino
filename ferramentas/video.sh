@@ -26,7 +26,7 @@ VIN="$D/modelos/vinheta-$FMT.png"
 [ -f "$VIN" ] || node "$RAIZ/ferramentas/render.js" "$D/modelos/vinheta-$FMT.html" >/dev/null
 
 LOGO=$(ls "$D"/identidade/*branco*.png 2>/dev/null | head -1 || true)
-[ -n "$LOGO" ] || LOGO=$(ls "$D"/identidade/*transparente*.png "$D"/identidade/*.png 2>/dev/null | head -1)
+[ -n "$LOGO" ] || LOGO=$(ls "$D"/identidade/*transparente*.png "$D"/identidade/*.png 2>/dev/null | head -1 || true)
 CREDITO="$RAIZ/aplicacoes/video/credito-producao.png"
 
 TEM_AUDIO=$(ffprobe -v error -select_streams a -show_entries stream=index -of csv=p=0 "$IN" | head -1)

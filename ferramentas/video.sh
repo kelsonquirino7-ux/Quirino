@@ -13,14 +13,16 @@
 #     -d  arquivo de textos de destaque, uma linha por texto:  0:03-0:06 OBRA ENTREGUE
 #     -z  zoom de impacto nos segundos indicados, separados por vírgula (ex.: -z 2.5,8,14)
 #     -b  faixa colorida fina (24 px) no rodapé durante todo o vídeo, ex.: -b 0AA514
+#     -L  esq: logo do -m como marca-d'água pequena e translúcida no canto superior esquerdo
 #     -V  imagem de vinheta própria (padrão: clientes/<cliente>/modelos/vinheta-<formato>.png)
 set -euo pipefail
 RAIZ="$(cd "$(dirname "$0")/.." && pwd)"
-FMT=9x16; LEG=""; MARCA=0; CRED=0; VDUR=3; ANIM=0; DEST=""; ZOOM=""; FAIXA=""; VIN=""
-while getopts "c:i:o:f:l:mqv:ad:z:b:V:" o; do case $o in
+FMT=9x16; LEG=""; MARCA=0; CRED=0; VDUR=3; ANIM=0; DEST=""; ZOOM=""; FAIXA=""; VIN=""; LADO=dir
+while getopts "c:i:o:f:l:mqv:ad:z:b:V:L:" o; do case $o in
+  L) LADO=$OPTARG;;
   a) ANIM=1;; b) FAIXA=${OPTARG#\#};; V) VIN=$(realpath "$OPTARG");; d) DEST=$OPTARG;; z) ZOOM=$OPTARG;;
   c) CLI=$OPTARG;; i) IN=$OPTARG;; o) OUT=$OPTARG;; f) FMT=$OPTARG;; l) LEG=$OPTARG;;
-  m) MARCA=1;; q) CRED=1;; v) VDUR=$OPTARG;; *) sed -n '2,17p' "$0"; exit 1;; esac; done
+  m) MARCA=1;; q) CRED=1;; v) VDUR=$OPTARG;; *) sed -n '2,18p' "$0"; exit 1;; esac; done
 : "${CLI:?falta -c cliente}" "${IN:?falta -i entrada}" "${OUT:?falta -o saida}"
 D="$RAIZ/clientes/$CLI"; [ -d "$D" ] || { echo "Cliente não encontrado: $D"; exit 1; }
 if [ "$FMT" = 9x16 ]; then W=1080; H=1920; else W=1920; H=1080; fi
@@ -58,8 +60,9 @@ if [ -n "$FAIXA" ]; then
   F+="[$ATUAL]drawbox=x=0:y=ih-24:w=iw:h=24:color=0x$FAIXA:t=fill[vb];"; ATUAL=vb
 fi
 if [ $MARCA = 1 ] && [ -n "$LOGO" ]; then
-  ENTR+=(-i "$LOGO"); LW=$((W/4))
-  F+="[$N:v]scale=$LW:-1,format=rgba,colorchannelmixer=aa=0.9[lg];[$ATUAL][lg]overlay=W-w-48:60[v2];"; ATUAL=v2; N=$((N+1))
+  ENTR+=(-i "$LOGO")
+  if [ "$LADO" = esq ]; then LW=$((W/5)); LA=0.75; LX=48; else LW=$((W/4)); LA=0.9; LX=W-w-48; fi
+  F+="[$N:v]scale=$LW:-1,format=rgba,colorchannelmixer=aa=$LA[lg];[$ATUAL][lg]overlay=$LX:60[v2];"; ATUAL=v2; N=$((N+1))
 fi
 if [ $CRED = 1 ]; then
   ENTR+=(-i "$CREDITO"); CW=$((W/4))

@@ -12,18 +12,20 @@
 #     -a  legenda animada estilo Reels (usa o .srt do -l; palavra da vez em caixa na cor do cliente)
 #     -d  arquivo de textos de destaque, uma linha por texto:  0:03-0:06 OBRA ENTREGUE
 #     -z  zoom de impacto nos segundos indicados, separados por vírgula (ex.: -z 2.5,8,14)
+#     -b  faixa colorida fina (24 px) no rodapé durante todo o vídeo, ex.: -b 0AA514
+#     -V  imagem de vinheta própria (padrão: clientes/<cliente>/modelos/vinheta-<formato>.png)
 set -euo pipefail
 RAIZ="$(cd "$(dirname "$0")/.." && pwd)"
-FMT=9x16; LEG=""; MARCA=0; CRED=0; VDUR=3; ANIM=0; DEST=""; ZOOM=""
-while getopts "c:i:o:f:l:mqv:ad:z:" o; do case $o in
-  a) ANIM=1;; d) DEST=$OPTARG;; z) ZOOM=$OPTARG;;
+FMT=9x16; LEG=""; MARCA=0; CRED=0; VDUR=3; ANIM=0; DEST=""; ZOOM=""; FAIXA=""; VIN=""
+while getopts "c:i:o:f:l:mqv:ad:z:b:V:" o; do case $o in
+  a) ANIM=1;; b) FAIXA=${OPTARG#\#};; V) VIN=$(realpath "$OPTARG");; d) DEST=$OPTARG;; z) ZOOM=$OPTARG;;
   c) CLI=$OPTARG;; i) IN=$OPTARG;; o) OUT=$OPTARG;; f) FMT=$OPTARG;; l) LEG=$OPTARG;;
-  m) MARCA=1;; q) CRED=1;; v) VDUR=$OPTARG;; *) sed -n '2,15p' "$0"; exit 1;; esac; done
+  m) MARCA=1;; q) CRED=1;; v) VDUR=$OPTARG;; *) sed -n '2,17p' "$0"; exit 1;; esac; done
 : "${CLI:?falta -c cliente}" "${IN:?falta -i entrada}" "${OUT:?falta -o saida}"
 D="$RAIZ/clientes/$CLI"; [ -d "$D" ] || { echo "Cliente não encontrado: $D"; exit 1; }
 if [ "$FMT" = 9x16 ]; then W=1080; H=1920; else W=1920; H=1080; fi
-VIN="$D/modelos/vinheta-$FMT.png"
-[ -f "$VIN" ] || node "$RAIZ/ferramentas/render.js" "$D/modelos/vinheta-$FMT.html" >/dev/null
+[ -n "$VIN" ] || { VIN="$D/modelos/vinheta-$FMT.png"
+[ -f "$VIN" ] || node "$RAIZ/ferramentas/render.js" "$D/modelos/vinheta-$FMT.html" >/dev/null; }
 
 LOGO=$(ls "$D"/identidade/*branco*.png 2>/dev/null | head -1 || true)
 [ -n "$LOGO" ] || LOGO=$(ls "$D"/identidade/*transparente*.png "$D"/identidade/*.png 2>/dev/null | head -1 || true)
@@ -52,6 +54,9 @@ if [ -n "$LEG" ]; then
   ESTILO="FontName=Inter,Bold=1,FontSize=$([ $FMT = 9x16 ] && echo 13 || echo 18),PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=1,Outline=2,Shadow=0,MarginV=$([ $FMT = 9x16 ] && echo 70 || echo 40)"
   F+="[$ATUAL]subtitles='$(realpath "$LEG")':force_style='$ESTILO'[v1];"; ATUAL=v1
 fi
+if [ -n "$FAIXA" ]; then
+  F+="[$ATUAL]drawbox=x=0:y=ih-24:w=iw:h=24:color=0x$FAIXA:t=fill[vb];"; ATUAL=vb
+fi
 if [ $MARCA = 1 ] && [ -n "$LOGO" ]; then
   ENTR+=(-i "$LOGO"); LW=$((W/4))
   F+="[$N:v]scale=$LW:-1,format=rgba,colorchannelmixer=aa=0.9[lg];[$ATUAL][lg]overlay=W-w-48:60[v2];"; ATUAL=v2; N=$((N+1))
@@ -70,5 +75,5 @@ if [ "$VDUR" != 0 ]; then
 else F+="[$ATUAL]null[vout];[a0]anull[aout]"; fi
 mkdir -p "$(dirname "$OUT")"
 ffmpeg -hide_banner -loglevel error -y "${ENTR[@]}" -filter_complex "$F" -map "[vout]" -map "[aout]" \
-  -c:v libx264 -preset medium -crf 20 -c:a aac -b:a 160k -movflags +faststart "$OUT"
+  -c:v libx264 -preset medium -crf 22 -maxrate 5M -bufsize 10M -c:a aac -b:a 160k -movflags +faststart "$OUT"
 echo "Pronto: $OUT ($(ffprobe -v error -show_entries format=duration -of csv=p=0 "$OUT" | cut -d. -f1)s, ${W}x${H})"

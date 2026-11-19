@@ -13,11 +13,11 @@
 #     -d  arquivo de textos de destaque, uma linha por texto:  0:03-0:06 OBRA ENTREGUE
 #     -z  zoom de impacto nos segundos indicados, separados por vírgula (ex.: -z 2.5,8,14)
 #     -b  faixa colorida fina (24 px) no rodapé durante todo o vídeo, ex.: -b 0AA514
-#     -L  esq: logo do -m como marca-d'água pequena e translúcida no canto superior esquerdo
+#     -L  esq|dir: logo do -m como marca-d'água pequena e translúcida no canto superior escolhido
 #     -V  imagem de vinheta própria (padrão: clientes/<cliente>/modelos/vinheta-<formato>.png)
 set -euo pipefail
 RAIZ="$(cd "$(dirname "$0")/.." && pwd)"
-FMT=9x16; LEG=""; MARCA=0; CRED=0; VDUR=3; ANIM=0; DEST=""; ZOOM=""; FAIXA=""; VIN=""; LADO=dir
+FMT=9x16; LEG=""; MARCA=0; CRED=0; VDUR=3; ANIM=0; DEST=""; ZOOM=""; FAIXA=""; VIN=""; LADO=""
 while getopts "c:i:o:f:l:mqv:ad:z:b:V:L:" o; do case $o in
   L) LADO=$OPTARG;;
   a) ANIM=1;; b) FAIXA=${OPTARG#\#};; V) VIN=$(realpath "$OPTARG");; d) DEST=$OPTARG;; z) ZOOM=$OPTARG;;
@@ -61,7 +61,9 @@ if [ -n "$FAIXA" ]; then
 fi
 if [ $MARCA = 1 ] && [ -n "$LOGO" ]; then
   ENTR+=(-i "$LOGO")
-  if [ "$LADO" = esq ]; then LW=$((W/5)); LA=0.75; LX=48; else LW=$((W/4)); LA=0.9; LX=W-w-48; fi
+  LW=$((W/4)); LA=0.9; LX=W-w-48                       # padrão: logo no canto direito
+  [ -n "$LADO" ] && { LW=$((W/5)); LA=0.75; }           # -L: marca-d'água menor e translúcida
+  [ "$LADO" = esq ] && LX=48
   F+="[$N:v]scale=$LW:-1,format=rgba,colorchannelmixer=aa=$LA[lg];[$ATUAL][lg]overlay=$LX:60[v2];"; ATUAL=v2; N=$((N+1))
 fi
 if [ $CRED = 1 ]; then

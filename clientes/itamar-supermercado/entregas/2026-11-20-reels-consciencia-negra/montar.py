@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Reels Itamar · Consciência Negra — versão 5 (imagem só do vídeo de melhor qualidade: bruto-v1.mp4).
-- Capoeira sem a logo Itamar: magnific/capoeira-sem-logo-local.mp4 (gerado por magnific/remover_logo_capoeira.py).
+- Capoeira: tomadas do 1º vídeo sem logo/luzes + a tomada do pátio do 2º vídeo, com a cor levada à do 1º.
 - Final com luzes girando em volta da logo: magnific/luzes-final.mp4 (Kling 2.5 no Magnific, a partir do
   último quadro do vídeo); o texto da legenda é recolado do quadro original para continuar nítido.
 - Remove ícones do Reels (coração, 5118, comentário) por inpainting; barra do topo e @ saem com zoom leve.
@@ -14,14 +14,15 @@ SRC, W, H, FPS = "bruto-v1.mp4", 720, 1280, 24
 def total(arq):
     return int(subprocess.run(["ffprobe", "-v", "error", "-count_frames", "-select_streams", "v", "-show_entries",
                                "stream=nb_read_frames", "-of", "csv=p=0", arq], capture_output=True, text=True).stdout)
-CAP = "magnific/capoeira-sem-logo-local.mp4"
+V2 = "bruto.mp4"   # 2º vídeo do Gemini: só a tomada da capoeira no pátio
 LUZES = "magnific/luzes-final.mp4"
 MCI = "minterpolate=fps=24:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1:scd=none"
 LUZ = "eq=brightness=0.02:contrast=1.05:saturation=1.06"
 # (arquivo, quadro inicial, quadro final, câmera lenta, filtro, fusão com a cena anterior em s)
 CENAS = [(SRC,   0,   110, 1.0, "",  0),     # senhora — "Uma história de força, coragem e resistência..."
-         (SRC,   300, 333, 1.0, LUZ, 0.5),   # capoeira — "Uma cultura que atravessa gerações..."
-         (CAP,   0,   86,  1.0, LUZ, 0.3),   # capoeira (logo removida), mesma legenda
+         (SRC,   156, 178, 1.0, LUZ, 0.5),   # capoeira (antes da logo e das luzes) — "Uma cultura..."
+         (SRC,   300, 356, 1.0, LUZ, 0.25),  # capoeira, mesma legenda
+         (V2,    60,  101, 1.0, LUZ, 0.3),   # capoeira no pátio (2º vídeo), cor ajustada às cenas do 1º
          (SRC,   364, 431, 2.0, "",  0.6),   # família — "Uma história que merece ser reconhecida..."
          (SRC,   431, 451, 1.0, "",  0),     # logo se aproximando (velocidade original)
          (SRC,   451, 479, 3.0, "",  0),     # logo pousada, brilho em câmera lenta
@@ -49,6 +50,42 @@ txt = ((hsv[..., 2] > 170) & (hsv[..., 1] < 60)).astype(np.uint8) * 255
 txt[:1000] = 0; txt[1140:] = 0
 txt_a = cv2.GaussianBlur(cv2.dilate(txt, np.ones((5, 5), np.uint8)), (0, 0), 1.2)[..., None] / 255.0
 
+# cor: leva a tomada do 2º vídeo à coloração da capoeira do 1º (casamento de histograma por canal Lab,
+# com uma única tabela para a cena toda: sem cintilação)
+def lab_px(arq, q0, q1, extra=""):
+    p = subprocess.run(["ffmpeg", "-v", "error", "-i", arq, "-vf",
+                        f"trim=start_frame={q0}:end_frame={q1},scale=180:320" + ("," + extra if extra else ""),
+                        "-f", "rawvideo", "-pix_fmt", "bgr24", "-"], capture_output=True, check=True)
+    fr = np.frombuffer(p.stdout, np.uint8).reshape(-1, 320, 180, 3)
+    return np.concatenate([cv2.cvtColor(f, cv2.COLOR_BGR2LAB).reshape(-1, 3) for f in fr])
+alvo, orig = lab_px(SRC, 300, 356, LUZ), lab_px(V2, 60, 101)
+LUTS = []
+for c in range(3):
+    ho = np.cumsum(np.bincount(orig[:, c], minlength=256)).astype(np.float64); ho /= ho[-1]
+    ha = np.cumsum(np.bincount(alvo[:, c], minlength=256)).astype(np.float64); ha /= ha[-1]
+    lut = np.interp(ho, ha, np.arange(256))
+    LUTS.append(cv2.GaussianBlur(lut.reshape(1, -1), (1, 9), 0).ravel().clip(0, 255).astype(np.uint8))
+
+def dourado(fr, da, db, lift, glow):
+    """Tom dourado de fim de tarde + leve névoa (mesma receita em todas as cenas filmadas)."""
+    lab = cv2.cvtColor(fr, cv2.COLOR_BGR2LAB).astype(np.float32)
+    lab[..., 1] += da; lab[..., 2] += db
+    lab[..., 0] = lift + lab[..., 0] * (1 - lift / 255)
+    x = cv2.cvtColor(lab.clip(0, 255).astype(np.uint8), cv2.COLOR_LAB2BGR).astype(np.float32)
+    if glow:
+        x = 255 - (255 - x) * (1 - glow * cv2.GaussianBlur(x, (0, 0), 25) / 255)
+    return x.clip(0, 255).astype(np.uint8)
+
+def ajusta_cor(fr):
+    """Tomada do 2º vídeo: casa histograma com a capoeira do 1º e completa o tom dourado/névoa dele."""
+    lab = cv2.cvtColor(fr, cv2.COLOR_BGR2LAB)
+    lab = cv2.merge([cv2.LUT(lab[..., c], LUTS[c]) for c in range(3)])
+    return dourado(cv2.cvtColor(lab, cv2.COLOR_LAB2BGR), 5, 14, 16, 0.35)
+
+# acabamento comum a todas as cenas filmadas (senhora, capoeira, família), para ficarem iguais;
+# a logo do final não recebe, para manter as cores da marca
+ACABAMENTO = (2, 5, 6, 0.12)
+
 for i, (arq, q0, q1, f, extra, _) in enumerate(CENAS):
     n = round((q1 - q0) * f)
     vf = f"trim=start_frame={q0}:end_frame={q1},setpts=(PTS-STARTPTS)*{f}"
@@ -57,7 +94,7 @@ for i, (arq, q0, q1, f, extra, _) in enumerate(CENAS):
         q1e = min(q1 + 1, total(arq))
         n = min(n, round((q1e - q0 - 1) * f) + 1)
         vf = f"trim=start_frame={q0}:end_frame={q1e},setpts=(PTS-STARTPTS)*{f},{MCI},setpts=N/24/TB,trim=end_frame={n}"
-    if extra:
+    if extra and arq != V2:
         vf += "," + extra
     leitor = subprocess.Popen(["ffmpeg", "-v", "error", "-i", arq, "-vf", vf, "-f", "rawvideo",
                                "-pix_fmt", "bgr24", "-"], stdout=subprocess.PIPE)
@@ -71,6 +108,10 @@ for i, (arq, q0, q1, f, extra, _) in enumerate(CENAS):
         if len(b) < W * H * 3: break
         fr = np.frombuffer(b, np.uint8).reshape(H, W, 3).copy()
         fr[Y0:Y1, X0:X1] = cv2.inpaint(fr[Y0:Y1, X0:X1], mask, 6, cv2.INPAINT_TELEA)
+        if arq == V2:
+            fr = ajusta_cor(fr)
+        if arq == V2 or (arq == SRC and q1 <= 431):
+            fr = dourado(fr, *ACABAMENTO)
         if arq == LUZES:
             fr = (fr * (1 - txt_a) + fim * txt_a).astype(np.uint8)
         escritor.stdin.write(fr.tobytes()); ultimo_q = fr

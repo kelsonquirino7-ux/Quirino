@@ -1,5 +1,5 @@
 <!doctype html><meta charset="utf-8"><meta name="tamanho" content="1080x1920"><link rel="stylesheet" href="../../../../ferramentas/fontes.css">
-<!-- Story 20 de novembro · Dia da Consciência Negra · Deni de Vitor (1080x1920). Arte original em SVG/CSS. -->
+<!-- Story 20 de novembro · Dia da Consciência Negra · Deni de Vitor (1080x1920). Punho 3D gerado no Magnific (punho-3d.png); grafismos em SVG. -->
 <style>
 :root{--fundo:#E4D2AE;--preto:#141414;--verde:#00802B;--amarelo:#F2B705;--vermelho:#EB1C24;--ouro:#C99A2E}
 *{box-sizing:border-box;margin:0}
@@ -12,11 +12,11 @@ h2{position:absolute;top:580px;right:150px;font:900 86px/1 Montserrat;letter-spa
 .faixa{position:absolute;height:170px;overflow:hidden;box-shadow:0 10px 24px rgba(60,40,10,.18)}
 .faixa svg{display:block;height:100%}
 .f1{top:780px;left:220px;width:700px}.f2{top:980px;left:110px;width:420px}.f3{top:1180px;left:220px;width:700px}
-.punho{position:absolute;left:280px;top:690px;width:520px;filter:drop-shadow(0 30px 30px rgba(40,25,5,.35))}
-.sombra{position:absolute;left:350px;top:1545px;width:380px;height:46px;border-radius:50%;background:radial-gradient(closest-side,rgba(50,30,5,.45),transparent)}
+.punho{position:absolute;left:50%;transform:translateX(-50%);top:690px;height:880px;filter:drop-shadow(0 30px 30px rgba(40,25,5,.35))}
+.sombra{position:absolute;left:380px;top:1540px;width:320px;height:46px;border-radius:50%;background:radial-gradient(closest-side,rgba(50,30,5,.45),transparent)}
 .frase{position:absolute;left:100px;top:1370px;width:310px;font:600 36px/1.38 Montserrat;color:#2B241B}
-.assina{position:absolute;bottom:170px;left:50%;transform:translateX(-50%);border:3px solid #2B241B;border-radius:80px;padding:18px 54px;background:rgba(255,255,255,.35)}
-.assina img{height:96px;display:block}
+.assina{position:absolute;bottom:150px;left:50%;transform:translateX(-50%)}
+.assina img{height:150px;display:block}
 </style>
 <div class="data"><b>20</b><span>nov</span></div>
 <div class="dia">dia da</div>
@@ -26,38 +26,7 @@ h2{position:absolute;top:580px;right:150px;font:900 86px/1 Montserrat;letter-spa
 <div class="faixa f2" data-n="4" data-s="5"></div>
 <div class="faixa f3" data-n="7" data-s="9"></div>
 <div class="sombra"></div>
-<svg class="punho" viewBox="0 0 600 1000">
- <defs>
-  <linearGradient id="pele" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a3a3a"/><stop offset=".45" stop-color="#1c1c1c"/><stop offset="1" stop-color="#070707"/></linearGradient>
-  <linearGradient id="braco" x1="0" x2="1"><stop offset="0" stop-color="#101010"/><stop offset=".35" stop-color="#2e2e2e"/><stop offset=".7" stop-color="#151515"/><stop offset="1" stop-color="#050505"/></linearGradient>
-  <linearGradient id="ouro" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6D77A"/><stop offset=".5" stop-color="#C99A2E"/><stop offset="1" stop-color="#8A6414"/></linearGradient>
-  <radialGradient id="brilho" cx=".35" cy=".3" r=".6"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
- </defs>
- <g stroke="url(#ouro)" stroke-width="9" stroke-linejoin="round" stroke-linecap="round">
-  <!-- antebraço -->
-  <path d="M170 560 L430 560 L420 945 Q300 975 180 945 Z" fill="url(#braco)"/>
-  <path d="M180 945 Q300 975 420 945 L422 900 Q300 930 178 900 Z" fill="url(#braco)"/>
-  <path d="M176 700 L300 760 L424 690 M300 760 L300 900 M178 820 L300 760 M424 820 L340 900" fill="none" stroke-width="7"/>
-  <path d="M168 600 Q300 625 432 600" fill="none" stroke-width="7"/>
-  <!-- dorso da mão -->
-  <path d="M112 300 Q96 470 170 590 L430 590 Q512 480 506 300 Z" fill="url(#pele)"/>
-  <path d="M150 520 L300 560 L460 500 M300 560 L300 590" fill="none" stroke-width="7"/>
-  <!-- dedos (falange de cima) -->
-  <rect x="122" y="150" width="104" height="120" rx="48" fill="url(#pele)"/>
-  <rect x="220" y="120" width="100" height="130" rx="48" fill="url(#pele)"/>
-  <rect x="314" y="128" width="100" height="125" rx="48" fill="url(#pele)"/>
-  <rect x="406" y="168" width="96" height="112" rx="46" fill="url(#pele)"/>
-  <!-- dedos (falange de baixo) -->
-  <rect x="118" y="240" width="108" height="118" rx="40" fill="url(#pele)"/>
-  <rect x="220" y="225" width="100" height="125" rx="40" fill="url(#pele)"/>
-  <rect x="314" y="230" width="100" height="122" rx="40" fill="url(#pele)"/>
-  <rect x="406" y="255" width="98" height="110" rx="40" fill="url(#pele)"/>
-  <!-- polegar -->
-  <path d="M96 330 Q70 440 170 470 L370 452 Q420 444 414 398 Q406 356 360 360 L215 372 Q170 300 96 330 Z" fill="url(#pele)"/>
-  <path d="M250 372 Q262 410 250 460" fill="none" stroke-width="7"/>
- </g>
- <path d="M112 140 L520 140 L520 600 L112 600 Z" fill="url(#brilho)"/>
-</svg>
+<img class="punho" src="punho-3d.png" alt="">
 <p class="frase">Memória, respeito e igualdade se constroem todos os dias.</p>
 <div class="assina"><img src="../../identidade/logo-deni-de-vitor-transparente.png" alt="Deni de Vitor"></div>
 <script>

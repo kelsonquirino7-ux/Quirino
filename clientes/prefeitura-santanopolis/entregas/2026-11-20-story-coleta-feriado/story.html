@@ -1,35 +1,62 @@
 <!doctype html><meta charset="utf-8"><meta name="tamanho" content="1080x1920"><link rel="stylesheet" href="../../../../ferramentas/fontes.css">
-<!-- Story 1080x1920 · Comunicado coleta de lixo no feriado de 20/11. Margens de segurança do story (topo/base ~220px) respeitadas. -->
+<!-- Story 1080x1920 · Comunicado: sem coleta de lixo no feriado de 20/11, retorno 23/11.
+     Layout do card "Nota de esclarecimento" (entrega 2026-11-13) adaptado para story.
+     Cores só da Prefeitura. Sem nome/foto de autoridade (CF art. 37 §1º). -->
 <style>
 :root{--azul:#002F67;--azul2:#1D4F8F;--tinta:#E7EEF8;--txt:#13223D}
 *{box-sizing:border-box;margin:0}
-body{width:1080px;height:1920px;background:#fff;font-family:Inter,sans-serif;color:var(--txt);display:flex;flex-direction:column}
-header{padding:230px 80px 48px;border-bottom:12px solid var(--azul)}
-header img{height:130px}
-main{flex:1;padding:64px 80px 0;display:flex;flex-direction:column;gap:40px}
-.tag{align-self:flex-start;background:var(--azul);color:#fff;font:800 32px/1 "Exo 2";letter-spacing:.12em;padding:18px 28px;border-radius:8px}
-h1{font:800 104px/1.02 "Exo 2";color:var(--azul);letter-spacing:-.01em}
-p{font-size:38px;line-height:1.42}
-p strong{color:var(--azul)}
-.datas{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:8px}
-.d{border-radius:18px;padding:34px 36px;display:flex;flex-direction:column;gap:10px}
-.d.sem{background:var(--azul);color:#fff}
-.d.volta{background:var(--tinta);color:var(--azul)}
-.d b{font:700 26px "Exo 2";letter-spacing:.12em;text-transform:uppercase}
-.d .n{font:800 92px/1 "Exo 2"}
-.d .s{font:600 32px Inter}
-.obs{font-size:32px;color:#3A4A66;border-left:8px solid var(--azul2);padding-left:28px}
-footer{background:var(--azul);color:#fff;padding:44px 80px 230px;text-align:center;font:600 34px "Exo 2";letter-spacing:.04em;margin-top:56px}
+body{width:1080px;height:1920px;position:relative;overflow:hidden;font-family:Inter,sans-serif;color:var(--txt);
+  background:radial-gradient(120% 90% at 30% 20%,#0B4388 0%,#002F67 48%,#001C40 100%)}
+.fantasma{position:absolute;left:-40px;font:800 250px/0.8 "Exo 2";letter-spacing:-.03em;white-space:nowrap;color:#fff;opacity:.055}
+.f1{top:20px}.f2{bottom:60px;opacity:.07}
+.canto{position:absolute;right:-60px;top:-60px;width:230px;height:520px;background:linear-gradient(160deg,#3B76C4,#1D4F8F);
+  clip-path:polygon(0 0,100% 0,100% 100%,35% 78%,0 60%);filter:drop-shadow(-14px 18px 26px rgba(0,10,30,.55))}
+.bloco{position:absolute;left:-70px;bottom:300px;width:230px;height:420px;border-radius:0 46px 0 0;
+  background:linear-gradient(200deg,#2A62AE,#143F78);filter:drop-shadow(10px 18px 28px rgba(0,10,30,.5))}
+.aba{position:absolute;left:170px;right:170px;top:262px;bottom:262px;border-radius:44px;
+  background:linear-gradient(180deg,#5C92D6 0%,#2F68B3 9%,#1D4F8F 91%,#143C72 100%);
+  box-shadow:0 30px 50px rgba(0,8,25,.55),inset 0 3px 0 rgba(255,255,255,.35)}
+.base{position:absolute;left:84px;right:84px;top:322px;bottom:302px;border-radius:52px;background:#B9C8DE;
+  box-shadow:0 44px 70px rgba(0,8,25,.6),0 14px 22px rgba(0,8,25,.4)}
+.painel{position:absolute;left:84px;right:84px;top:310px;bottom:320px;border-radius:52px;padding:0 66px 48px;
+  background:linear-gradient(170deg,#FFFFFF 0%,#F6F9FD 55%,#E7EEF8 100%);
+  box-shadow:inset 0 4px 0 #fff,inset 0 -3px 8px rgba(0,47,103,.10);display:flex;flex-direction:column;align-items:center}
+.titulo{margin-top:-40px;display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 12px 14px rgba(0,20,50,.35))}
+.titulo b{font:800 92px/1 "Exo 2";letter-spacing:-.01em;color:#fff;background:linear-gradient(180deg,#0A3F82,#002F67);
+  padding:18px 40px 24px;border-radius:12px;box-shadow:inset 0 2px 0 rgba(255,255,255,.25)}
+.titulo span{margin-top:-8px;font:700 42px/1 "Exo 2";color:#fff;background:var(--azul2);padding:12px 28px 14px;border-radius:8px;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.2)}
+.texto{flex:1;display:flex;flex-direction:column;justify-content:center;gap:30px}
+.texto p{font-size:35px;line-height:1.4}
+.texto strong{font-weight:600;color:var(--azul)}
+.datas{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.d{border-radius:20px;padding:26px 30px;display:flex;flex-direction:column;gap:8px}
+.d.sem{background:linear-gradient(180deg,#0A3F82,#002F67);color:#fff;box-shadow:0 10px 18px rgba(0,30,70,.3),inset 0 2px 0 rgba(255,255,255,.25)}
+.d.volta{background:#fff;color:var(--azul);border:3px solid #CBD8EA}
+.d b{font:700 24px "Exo 2";letter-spacing:.12em;text-transform:uppercase}
+.d .n{font:800 84px/1 "Exo 2"}
+.d .s{font:600 30px Inter}
+.rodape{width:100%;display:flex;justify-content:center;padding-top:30px;border-top:2px solid #CBD8EA}
+.rodape img{height:100px}
+.barras{position:absolute;left:50%;transform:translateX(-50%);bottom:230px;display:flex;filter:drop-shadow(0 6px 8px rgba(0,8,25,.5))}
+.barras i{width:86px;height:12px}
+.barras i:nth-child(1){background:#fff}.barras i:nth-child(2){background:#8FB4E6}.barras i:nth-child(3){background:#4F8FDD}.barras i:nth-child(4){background:#1D4F8F}
 </style>
-<header><img src="../../identidade/logo-prefeitura-azul-transparente.png" alt=""></header>
-<main>
-  <span class="tag">COMUNICADO</span>
-  <h1>Coleta de lixo no feriado</h1>
-  <p>Em razão do feriado de <strong>20 de novembro</strong>, Dia da Consciência Negra, <strong>não haverá coleta de lixo</strong> no município. O serviço será retomado normalmente na <strong>segunda-feira, 23 de novembro</strong>.</p>
-  <div class="datas">
-    <div class="d sem"><b>Sem coleta</b><span class="n">20/11</span><span class="s">Sexta-feira</span></div>
-    <div class="d volta"><b>Retorno</b><span class="n">23/11</span><span class="s">Segunda-feira</span></div>
+<div class="fantasma f1">comunicado</div>
+<div class="fantasma f2">comunicado</div>
+<div class="canto"></div><div class="bloco"></div>
+<div class="aba"></div><div class="base"></div>
+<section class="painel">
+  <div class="titulo"><b>Comunicado</b><span>coleta de lixo</span></div>
+  <div class="texto" lang="pt-BR">
+    <p>A <strong>Prefeitura Municipal de Santanópolis</strong> informa que, em razão do feriado do <strong>Dia da Consciência Negra</strong>, nesta sexta-feira, <strong>20 de novembro</strong>, não haverá coleta de lixo no município.</p>
+    <p>O serviço será retomado normalmente na <strong>segunda-feira, 23 de novembro</strong>.</p>
+    <div class="datas">
+      <div class="d sem"><b>Sem coleta</b><span class="n">20/11</span><span class="s">Sexta-feira</span></div>
+      <div class="d volta"><b>Retorno</b><span class="n">23/11</span><span class="s">Segunda-feira</span></div>
+    </div>
+    <p>Pedimos a colaboração da população para não deixar o lixo nas ruas até o retorno da coleta.</p>
   </div>
-  <p class="obs">Pedimos a colaboração da população para não deixar o lixo nas ruas até o retorno da coleta.</p>
-</main>
-<footer>@pmssantanopolis</footer>
+  <div class="rodape"><img src="../../identidade/logo-prefeitura-azul-transparente.png" alt=""></div>
+</section>
+<div class="barras"><i></i><i></i><i></i><i></i></div>

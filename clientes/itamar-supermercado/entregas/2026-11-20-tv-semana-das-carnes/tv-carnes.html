@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<title>Itamar · TV Semana das carnes</title>
+<link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<!--
+  Vídeo de encarte para TV 65" deitada (1920x1080). Textos e preços = arte "Semana das carnes" enviada pelo dono em 20/11/2026.
+  Para trocar preço/produto: edite a lista PRODUTOS e rode  node render-video.js
+  Selo OFERTAS DO AÇOUGUE 3D: identidade/selos/selo-ofertas-do-acougue-3d.png (recortado da própria arte).
+-->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#3A0A02;font-family:"Baloo 2",sans-serif;color:#280E01}
+.fundo{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 42%,#FF5A2A 0%,#F0301A 30%,#C8160C 65%,#8E0A04 100%);overflow:hidden}
+.raios{position:absolute;left:50%;top:45%;width:3200px;height:3200px;margin:-1600px;border-radius:50%;
+  background:repeating-conic-gradient(from 0deg,rgba(255,200,120,.16) 0 6deg,rgba(255,200,120,0) 6deg 15deg)}
+/* título OFERTAS DE ELETRO */
+.tit{position:absolute;text-align:center;line-height:.9;font-weight:800}
+.tit span{display:block;color:#fff;font-size:60px;letter-spacing:3px;text-shadow:0 5px 0 #7A0A00}
+.tit b{display:block;color:#FFD302;font-size:150px;letter-spacing:4px;text-shadow:0 8px 0 #9C0B00,0 14px 20px rgba(0,0,0,.4)}
+/* selo SUPER OFERTAS (desenho próprio) */
+.selo{position:absolute;width:560px;height:535px}
+.selo img{width:560px;display:block;filter:drop-shadow(0 14px 22px rgba(0,0,0,.5))}
+.selo .anel{position:absolute;left:70px;top:0;width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,#2A2A2A 0 54%,#C9A23B 54.5% 60%,#7A5A10 60.5% 62%,#E0201A 62.5% 86%,#8E0A00 86.5% 100%);
+  box-shadow:0 14px 30px rgba(0,0,0,.5),inset 0 -10px 0 rgba(0,0,0,.25)}
+.selo .grade{position:absolute;left:70px;top:0;width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,0,0,.65) 2.2px,transparent 2.6px) 0 0/11px 11px;
+  -webkit-mask:radial-gradient(circle,#000 0 53%,transparent 53.5%);mask:radial-gradient(circle,#000 0 53%,transparent 53.5%)}
+.selo .parafuso{position:absolute;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff,#9a9a9a)}
+.selo .sup{position:absolute;left:0;top:110px;width:560px;text-align:center;font-family:"Lilita One",sans-serif;font-size:150px;line-height:1;
+  background:linear-gradient(#FFF1A8 0%,#E8C04A 45%,#B8861A 55%,#F2D36A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 6px 0 #6B4A08) drop-shadow(0 10px 10px rgba(0,0,0,.5))}
+.selo .fita{position:absolute;left:10px;top:250px;width:540px;height:96px;transform:rotate(-4deg);border-radius:10px;
+  background:linear-gradient(#FF3A2A,#C8130A);box-shadow:0 8px 0 #7A0A00,0 14px 18px rgba(0,0,0,.4);
+  display:flex;align-items:center;justify-content:center;font-family:"Lilita One",sans-serif;font-size:84px;color:#fff;line-height:1;text-shadow:0 5px 0 #7A0A00}
+.selo .fita:before,.selo .fita:after{content:"";position:absolute;top:30px;width:30px;height:36px;border-radius:8px;background:#B8130A;box-shadow:inset 0 -6px 0 #7A0A00}
+.selo .fita:before{left:-22px}.selo .fita:after{right:-22px}
+/* cena: produto da vez (cartão branco como na arte) */
+#cena{position:absolute;inset:0}
+#cena .logo{position:absolute;left:40px;top:22px;width:330px}
+#cena .tit{left:390px;top:46px;text-align:left}
+#cena .tit span{font-size:46px}#cena .tit b{font-size:112px}
+#cena .selo{right:30px;top:12px;transform:scale(.5);transform-origin:right top}
+#card{position:absolute;left:110px;top:300px;width:1700px;height:640px;border-radius:52px;background:#fff;box-shadow:0 18px 0 #E0201A,0 34px 50px rgba(0,0,0,.45);overflow:hidden}
+#card .brilho{position:absolute;left:0;top:0;width:820px;height:100%;background:radial-gradient(circle at 50% 55%,#FFF3E6 0%,#fff 65%)}
+#foto{position:absolute;left:50px;top:30px;width:740px;height:580px;display:flex;align-items:center;justify-content:center}
+#foto img{max-width:100%;max-height:100%;filter:drop-shadow(0 22px 18px rgba(40,14,1,.35))}
+#info{position:absolute;left:850px;top:0;width:810px;height:640px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#nome{font-size:84px;font-weight:800;line-height:1.02}
+#pill{position:relative;display:inline-flex;align-items:flex-start;margin-top:36px;padding:22px 56px 6px 46px;border-radius:70px;background:#C8130A;color:#fff;font-weight:800;line-height:1;box-shadow:0 16px 0 #7A0A00,0 26px 34px rgba(40,14,1,.3);overflow:hidden}
+#pill .rs{font-size:72px;margin-top:78px;margin-right:14px}
+#pill .v{font-size:205px;letter-spacing:-5px}
+#pill .luz{position:absolute;top:-20%;width:120px;height:140%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.45),rgba(255,255,255,0));transform:skewX(-20deg)}
+#pontos{position:absolute;left:0;width:1920px;top:966px;display:flex;justify-content:center;gap:18px}
+#pontos i{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.25)}
+/* rodapé */
+.rod{position:absolute;left:0;bottom:0;width:1920px;height:86px;background:#1A0500;display:flex;align-items:center;justify-content:space-between;padding:6px 56px 0;color:#fff;font-size:36px;font-weight:600}
+.rod b{color:#FFD302;font-weight:800;font-size:42px}
+/* abertura */
+#abre{position:absolute;inset:0}
+#abre .logo{position:absolute;left:150px;top:150px;width:760px}
+#abre .tit{left:150px;top:560px;width:760px}
+#abre .selo{left:1060px;top:120px;width:640px;height:612px;transform-origin:50% 50%}
+#abre .selo img{width:640px}
+/* selo Quirino discreto (cores oficiais) */
+#intro{position:absolute;right:40px;bottom:112px;z-index:10;width:250px;height:92px;border-radius:18px;background:#0B1033;box-shadow:0 8px 20px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;overflow:hidden}
+#qlogo{width:220px;height:auto}
+#intro .ql,#intro .qp{transform-box:fill-box;transform-origin:50% 100%}
+/* grade final: 3 x 2 cartões horizontais como na arte */
+#grade{position:absolute;inset:0}
+#grade .logo{position:absolute;left:40px;top:14px;width:300px}
+#grade .tit{left:360px;top:34px;text-align:left}
+#grade .tit span{font-size:40px}#grade .tit b{font-size:96px}
+#grade .selo{right:30px;top:12px;transform:scale(.4);transform-origin:right top}
+#g{position:absolute;left:40px;top:222px;width:1840px;display:grid;grid-template-columns:repeat(3,1fr);gap:30px 26px}
+.c{height:345px;border-radius:30px;background:#fff;box-shadow:0 10px 0 #E0201A;display:flex;align-items:center;padding:0 18px}
+.c .f{width:48%;height:320px;display:flex;align-items:center;justify-content:center}
+.c .f img{max-width:100%;max-height:310px;filter:drop-shadow(0 10px 8px rgba(40,14,1,.3))}
+.c .t{width:52%;padding-left:8px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.c .n{font-size:31px;font-weight:800;line-height:1.05;margin-bottom:16px}
+.c .p{background:#C8130A;color:#fff;font-weight:800;border-radius:40px;padding:6px 22px 0;line-height:1;font-size:60px;box-shadow:0 7px 0 #7A0A00;white-space:nowrap}
+.c .p small{font-size:28px;margin-right:6px}
+.c .p .u{font-size:26px;margin:0 0 0 4px}
+#pill .u{font-size:64px;margin-top:118px;margin-left:8px}
+</style>
+<body>
+<div class="fundo"><div class="raios" id="raios"></div></div>
+
+<div id="cena">
+  <img class="logo" src="../../identidade/logo-itamar-3d-transparente.png" alt="Itamar Supermercado">
+  <div class="tit"><span>SEMANA DAS</span><b>CARNES</b></div>
+  <div class="selo"><img src="../../identidade/selos/selo-ofertas-do-acougue-3d.png" alt="Ofertas do açougue"></div>
+  <div id="card"><div class="brilho"></div><div id="foto"><img id="img" alt=""></div>
+    <div id="info"><div id="nome"></div><div id="pill"><span class="rs">R$</span><span class="v"></span><span class="u"></span><span class="luz"></span></div></div></div>
+  <div id="pontos"></div>
+</div>
+
+<div id="grade">
+  <img class="logo" src="../../identidade/logo-itamar-3d-transparente.png" alt="">
+  <div class="tit"><span>SEMANA DAS</span><b>CARNES</b></div>
+  <div class="selo"><img src="../../identidade/selos/selo-ofertas-do-acougue-3d.png" alt="Ofertas do açougue"></div>
+  <div id="g"></div>
+</div>
+
+<div id="abre">
+  <img class="logo" src="../../identidade/logo-itamar-3d-transparente.png" alt="">
+  <div class="tit"><span>SEMANA DAS</span><b>CARNES</b></div>
+  <div class="selo"><img src="../../identidade/selos/selo-ofertas-do-acougue-3d.png" alt="Ofertas do açougue"></div>
+</div>
+
+<div id="intro"><svg id="qlogo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 705 267" width="705" height="267" overflow="visible"><g transform="translate(30.80 186.40)"><path class="ql" d="M113.60 40L88.40 40L88.40-11.40L84.80-11.40Q82.80-8 79-4.70Q75.20-1.40 69.10 0.70Q63 2.80 54 2.80L54 2.80Q42 2.80 31.80-3.10Q21.60-9 15.40-20.40Q9.20-31.80 9.20-48L9.20-48L9.20-51.20Q9.20-67.40 15.40-78.80Q21.60-90.20 31.90-96.10Q42.20-102 54-102L54-102Q67.60-102 74.70-97.50Q81.80-93 85.20-87.20L85.20-87.20L88.80-87.20L88.80-99.20L113.60-99.20L113.60 40ZM61.60-19.20L61.60-19.20Q73.40-19.20 81.10-26.70Q88.80-34.20 88.80-48.60L88.80-48.60L88.80-50.60Q88.80-65 81-72.50Q73.20-80 61.60-80L61.60-80Q50-80 42.20-72.50Q34.40-65 34.40-50.60L34.40-50.60L34.40-48.60Q34.40-34.20 42.20-26.70Q50-19.20 61.60-19.20Z" fill="#FFFFFF"/><path class="ql" d="M171.40 1.60L171.40 1.60Q159.80 1.60 151.10-3.70Q142.40-9 137.60-18.40Q132.80-27.80 132.80-40L132.80-40L132.80-99.20L158-99.20L158-42Q158-30.80 163.50-25.20Q169-19.60 179.20-19.60L179.20-19.60Q190.80-19.60 197.20-27.30Q203.60-35 203.60-48.80L203.60-48.80L203.60-99.20L228.80-99.20L228.80 0L204 0L204-13L200.40-13Q198-8 191.40-3.20Q184.80 1.60 171.40 1.60Z" fill="#FFFFFF"/><path class="ql" d="M274 0L248.80 0L248.80-99.20L274-99.20L274 0Z" fill="#FFFFFF"/><rect class="qp" x="248.80" y="-146.40" width="25.20" height="25.20" fill="#00E58F"/><path class="ql" d="M319.20 0L294 0L294-99.20L318.80-99.20L318.80-88L322.40-88Q324.60-94 329.70-96.80Q334.80-99.60 341.60-99.60L341.60-99.60L353.60-99.60L353.60-77.20L341.20-77.20Q331.60-77.20 325.40-72.10Q319.20-67 319.20-56.40L319.20-56.40L319.20 0Z" fill="#FFFFFF"/><path class="ql" d="M390.40 0L365.20 0L365.20-99.20L390.40-99.20L390.40 0Z" fill="#FFFFFF"/><rect class="qp" x="365.20" y="-146.40" width="25.20" height="25.20" fill="#00E58F"/><path class="ql" d="M435.60 0L410.40 0L410.40-99.20L435.20-99.20L435.20-86.20L438.80-86.20Q441.20-91.40 447.80-96.10Q454.40-100.80 467.80-100.80L467.80-100.80Q479.40-100.80 488.10-95.50Q496.80-90.20 501.60-80.90Q506.40-71.60 506.40-59.20L506.40-59.20L506.40 0L481.20 0L481.20-57.20Q481.20-68.40 475.70-74Q470.20-79.60 460-79.60L460-79.60Q448.40-79.60 442-71.90Q435.60-64.20 435.60-50.40L435.60-50.40L435.60 0Z" fill="#FFFFFF"/><path class="ql" d="M572.80 2.80L572.80 2.80Q558 2.80 546.20-3.20Q534.40-9.20 527.60-20.60Q520.80-32 520.80-48L520.80-48L520.80-51.20Q520.80-67.20 527.60-78.60Q534.40-90 546.20-96Q558-102 572.80-102L572.80-102Q587.60-102 599.40-96Q611.20-90 618-78.60Q624.80-67.20 624.80-51.20L624.80-51.20L624.80-48Q624.80-32 618-20.60Q611.20-9.20 599.40-3.20Q587.60 2.80 572.80 2.80ZM572.80-19.60L572.80-19.60Q584.40-19.60 592-27.10Q599.60-34.60 599.60-48.60L599.60-48.60L599.60-50.60Q599.60-64.60 592.10-72.10Q584.60-79.60 572.80-79.60L572.80-79.60Q561.20-79.60 553.60-72.10Q546-64.60 546-50.60L546-50.60L546-48.60Q546-34.60 553.60-27.10Q561.20-19.60 572.80-19.60Z" fill="#FFFFFF"/></g></svg></div>
+
+<div class="rod"><span>Ofertas válidas enquanto durarem os estoques. Imagens ilustrativas.</span><b>@itamarsupermercado</b></div>
+
+<script>
+const F = '../../fotos/produtos/acougue/';
+// [nome exatamente como na arte, preço, foto] — na ordem da arte
+const PRODUTOS = [
+  ['Cruz machado com osso','29,90','cruz-machado-com-osso','/kg'],
+  ['Bisteca suína resfriada','16,99','bisteca-suina','/kg'],
+  ['Fígado bovino','17,90','figado-bovino','/kg'],
+  ['Charque traseiro','39,90','charque-traseiro','/kg'],
+  ['Frango Gujão congelado','9,90','frango-gujao-congelado','/kg'],
+  ['Ovos brancos extra 30 un.','15,90','ovos-brancos-extra-30un',''],
+];
+const ABRE = 4, D = 5, N = PRODUTOS.length, GRADE = ABRE + N*D, DUR = GRADE + 9;
+const $ = s => document.querySelector(s);
+const cl = (x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const suave = x => { x=cl(x); return x*x*(3-2*x); };
+const fora = x => { x=cl(x); const c=1.70158*1.3; return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2); };
+const quique = x => { x=cl(x); const n=7.5625,d=2.75; if(x<1/d) return n*x*x; if(x<2/d) return n*(x-=1.5/d)*x+.75; if(x<2.5/d) return n*(x-=2.25/d)*x+.9375; return n*(x-=2.625/d)*x+.984375; };
+const fotos = PRODUTOS.map(p => F+p[2]+'.png');
+const nb = n => n.replace(/ (\d+) (kg|g|ml|L)$/,' $1 $2').replace('Roku TV','Roku TV');
+const cards = PRODUTOS.map(([n,p,f,u]) => { const c=document.createElement('div'); c.className='c';
+  c.innerHTML=`<div class="f"><img src="${F+f}.png" alt=""></div><div class="t"><div class="n">${nb(n)}</div><div class="p"><small>R$</small>${p}${u?`<small class="u">${u}</small>`:''}</div></div>`; $('#g').appendChild(c); return c; });
+const pontos = PRODUTOS.map(()=>{ const i=document.createElement('i'); $('#pontos').appendChild(i); return i; });
+const ql = [...document.querySelectorAll('#intro .ql')], qp = [...document.querySelectorAll('#intro .qp')];
+let atual = -1;
+const giraSelo = (s, t, esc) => { s.style.transform = `scale(${esc*(1+.02*Math.sin(t*3))}) rotate(${2*Math.sin(t*1.3)}deg)`; };
+window.setT = t => {
+  t = ((t % DUR) + DUR) % DUR;
+  $('#raios').style.transform = `rotate(${t*6}deg)`;
+  const ab = $('#abre'), ce = $('#cena'), gr = $('#grade');
+  ab.style.display = t < ABRE ? 'block' : 'none';
+  ce.style.display = t >= ABRE - .35 && t < GRADE ? 'block' : 'none';
+  gr.style.display = t >= GRADE ? 'block' : 'none';
+  // selo Quirino discreto, só na abertura
+  const Q0 = .4, Q1 = 3.6, it = $('#intro');
+  it.style.display = t < Q1 ? 'flex' : 'none';
+  if (t < Q1) {
+    it.style.transform = `translateY(${30*(1-suave((t-Q0)/.3))}px)`;
+    ql.forEach((l,k) => { const a = (t-Q0-.15-k*.06)/.4; l.style.opacity = cl(a/.3); l.style.transform = `translateY(${90*(1-fora(a))}px) scaleY(${.6+.4*fora(a)})`; });
+    qp.forEach((p,k) => { const a = (t-Q0-.7-k*.12)/.5; p.style.opacity = cl(a*6); p.style.transform = `translateY(${-150*(1-quique(a))}px)`; p.style.filter = `drop-shadow(0 0 ${10*Math.max(0,Math.sin(Math.PI*cl((t-Q0-1.2-k*.12)/.6)))}px #00E58F)`; });
+    it.style.opacity = cl((t-Q0)/.2) * (1-suave((t-(Q1-.4))/.4));
+  }
+  if (t < ABRE) {
+    ab.style.opacity = 1 - suave((t-(ABRE-.35))/.35);
+    ab.querySelector('.logo').style.transform = `scale(${fora(t/.7)*(1+.015*Math.sin(t*4))})`;
+    const ti = ab.querySelector('.tit');
+    ti.style.opacity = cl((t-.5)/.15);
+    ti.querySelector('span').style.transform = `translateX(${-200*(1-suave((t-.5)/.35))}px)`;
+    ti.querySelector('b').style.transform = `scale(${fora((t-.7)/.45)})`;
+    const s = ab.querySelector('.selo');
+    s.style.opacity = cl((t-1)/.12);
+    s.style.transform = `scale(${fora((t-1)/.55)*(1+.02*Math.sin(t*3))}) rotate(${-200*(1-suave((t-1)/.55))}deg)`;
+  }
+  if (t >= ABRE - .35 && t < GRADE) {
+    const tt = Math.max(0, t-ABRE), i = Math.min(N-1, Math.floor(tt/D)), u = tt - i*D;
+    if (i !== atual) { atual = i; const [n,p,f,u] = PRODUTOS[i]; $('#pill .u').textContent = u || '';
+      $('#img').src = fotos[i]; $('#nome').textContent = nb(n); $('#pill .v').textContent = p;
+      $('#nome').style.fontSize = n.length > 30 ? '70px' : '84px';
+      pontos.forEach((o,k)=>o.style.background = k===i ? '#FFD302' : k<i ? 'rgba(255,255,255,.6)' : 'rgba(255,255,255,.25)'); }
+    const sai = suave((u-(D-.32))/.32);
+    const ent = t < ABRE ? 0 : u;
+    $('#card').style.transform = `translateY(${700*(1-fora(ent/.5))}px)`;
+    $('#card').style.opacity = 1 - sai;
+    $('#foto').style.transform = `translateX(${-500*(1-fora((ent-.15)/.45)) - 500*sai}px) scale(${1+.025*Math.sin(u*2.4)}) rotate(${1.2*Math.sin(u*1.7)}deg)`;
+    $('#nome').style.transform = `translateY(${50*(1-suave((ent-.3)/.35))}px)`;
+    $('#nome').style.opacity = cl((ent-.3)/.2) * (1-sai);
+    const pulso = 1 + .03*Math.max(0,Math.sin((u-1.3)*4.2))*(u>1.3&&u<4.8);
+    $('#pill').style.transform = `scale(${fora((ent-.55)/.4)*pulso*(1-sai)})`;
+    $('#pill .luz').style.left = (-200 + 1200*cl((u-1.2)/.8))+'px';
+    ce.style.opacity = t < ABRE ? suave((t-(ABRE-.35))/.35) : 1;
+    giraSelo(ce.querySelector('.selo'), t, .5);
+  }
+  if (t >= GRADE) {
+    const g = t - GRADE;
+    giraSelo(gr.querySelector('.selo'), t, .4);
+    cards.forEach((c,k) => { const a = g - .15 - k*.15;
+      c.style.opacity = cl(a/.12) * (1 - suave((g-8.6)/.4));
+      c.style.transform = `translateY(${60*(1-suave(a/.4))}px) scale(${fora(a/.4)})`;
+      const w = Math.max(0, Math.sin((g-2.2)*2.2 - k*.6));
+      c.querySelector('.p').style.transform = `scale(${1+.07*w*w*(g>2.2)})`;
+    });
+  }
+};
+window.pronto = Promise.all([document.fonts.ready, ...[...document.images].map(i=>i.decode().catch(()=>{})), ...fotos.map(s=>{const i=new Image(); i.src=s; return i.decode().catch(()=>{});})]).then(()=>setT(0));
+window.DUR = DUR;
+setT(new URLSearchParams(location.search).get('t')*1 || 0);
+</script>
+</body>
+</html>

@@ -53,12 +53,12 @@ def sombra(img, pos, cor=(5,20,60), raio=12, vezes=3):
 
 # logo do jogo: pequena, canto superior esquerdo da faixa de cima (como na arte original)
 lj = 260; jogo = jogo.resize((lj, round(jogo.height*lj/jogo.width)), Image.LANCZOS)
-pj = (50, 250)
+pj = (30, 30)
 sombra(jogo, pj, (0,0,0), 14, 2); st.alpha_composite(jogo, pj)
 # logo da Prefeitura: pequena, canto inferior direito da faixa de baixo (como na arte original)
 lp = 400; pref = Image.open(logo_pref).convert("LA").convert("RGBA")
 pref = pref.resize((lp, round(pref.height*lp/pref.width)), Image.LANCZOS)
-pp = (W-50-lp, 1660-pref.height)
+pp = (W-30-lp, H-30-pref.height)
 sombra(pref, pp); st.alpha_composite(pref, pp)
 
 d = ImageDraw.Draw(st)

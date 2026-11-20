@@ -4,4 +4,4 @@
 - Roteiro: abertura com logo + "AQUI TEM ECONOMIA" e assinatura "quirino" (4 s) → 12 produtos, 4,2 s cada → grade com os 12 (9,6 s).
 - Textos e preços: copiados da arte enviada pelo dono (`fotos/referencias/encarte-aqui-tem-economia-2026-11-20.png`). Sem data de validade.
 - Fotos: enviadas pelo dono, recortadas sem custo (`fotos/produtos/mercearia/`). O dono aprovou usar Mucilon 600 g, Itália 2 kg
-  e Julieta 2 kg, mesmo com o texto da arte dizendo 180 g / 400 g.
+  e Julieta 2 kg (foto). Texto do Julieta trocado para "310 g" a pedido do dono. Itália recortado de novo pelas cores da embalagem.

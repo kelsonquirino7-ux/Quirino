@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<title>Itamar · TV Aqui tem economia</title>
+<link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<!--
+  Vídeo de encarte para TV 65" deitada (1920x1080). Textos e preços = arte enviada pelo dono em 20/11/2026.
+  Para trocar preço/produto: edite a lista PRODUTOS e rode  node render-video.js
+  A animação é função do tempo: window.setT(segundos) desenha o quadro daquele instante.
+-->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#FFD302;font-family:"Baloo 2",sans-serif;color:#280E01}
+.fundo{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,#FFF27A 0%,#FFE233 30%,#FFD302 60%,#F5B800 100%);overflow:hidden}
+.raios{position:absolute;left:50%;top:50%;width:3200px;height:3200px;margin:-1600px;border-radius:50%;
+  background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.28) 0 6deg,rgba(255,255,255,0) 6deg 15deg)}
+/* selo AQUI TEM ECONOMIA (balões vermelhos, letras amarelas/brancas contornadas) */
+.selo{position:absolute;width:780px;height:300px}
+.selo .b1,.selo .b2{position:absolute;border-radius:22px;background:linear-gradient(#FF4A32,#E01A0F);border:7px solid #FFE233;box-shadow:0 12px 0 #8E0A00,0 18px 24px rgba(40,14,1,.35);display:flex;align-items:center;justify-content:center;font-family:"Lilita One",sans-serif;font-style:italic;paint-order:stroke fill;line-height:1}
+.selo .b1{left:30px;top:0;width:560px;height:130px;transform:rotate(-3deg);font-size:104px;color:#FFD302;-webkit-text-stroke:10px #8E0A00}
+.selo .b2{left:120px;top:126px;width:640px;height:150px;transform:rotate(-3deg);font-size:120px;color:#fff;-webkit-text-stroke:11px #C8130A}
+.selo .b1:after{content:"";position:absolute;right:70px;bottom:-34px;border:18px solid transparent;border-top:22px solid #FFE233;border-bottom:0}
+.moeda{position:absolute;font-family:"Lilita One",sans-serif;color:#FFD302;-webkit-text-stroke:8px #C8130A;paint-order:stroke fill;filter:drop-shadow(0 8px 0 #8E0A00)}
+/* cena: produto da vez */
+#cena{position:absolute;inset:0}
+#cena .logo{position:absolute;left:46px;top:26px;width:400px}
+#cena .selo{right:30px;top:20px;transform:scale(.62);transform-origin:right top}
+#card{position:absolute;left:110px;top:250px;width:760px;height:700px;border-radius:56px;background:#fff;box-shadow:0 18px 0 #E0A800,0 30px 50px rgba(40,14,1,.25);overflow:hidden}
+#card .brilho{position:absolute;inset:0;background:radial-gradient(circle at 50% 55%,#FFF8D6 0%,#fff 62%)}
+#foto{position:absolute;inset:40px;display:flex;align-items:center;justify-content:center}
+#foto img{max-width:100%;max-height:100%;filter:drop-shadow(0 22px 18px rgba(40,14,1,.35))}
+#info{position:absolute;left:940px;top:300px;width:900px}
+#nome{font-size:84px;font-weight:800;line-height:1.02;min-height:172px;display:flex;align-items:flex-end;text-shadow:0 4px 0 rgba(255,255,255,.5)}
+#pill{position:relative;display:inline-flex;align-items:flex-start;margin-top:40px;padding:22px 64px 6px 52px;border-radius:70px;background:#C8130A;color:#fff;font-weight:800;line-height:1;box-shadow:0 16px 0 #7A0A00,0 26px 34px rgba(40,14,1,.3);overflow:hidden;transform-origin:20% 50%}
+#pill .rs{font-size:84px;margin-top:92px;margin-right:16px}
+#pill .v{font-size:250px;letter-spacing:-5px}
+#pill .luz{position:absolute;top:-20%;width:120px;height:140%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.45),rgba(255,255,255,0));transform:skewX(-20deg)}
+#pontos{position:absolute;left:950px;top:930px;display:flex;gap:16px}
+#pontos i{width:22px;height:22px;border-radius:50%;background:rgba(40,14,1,.22)}
+/* rodapé */
+.rod{position:absolute;left:0;bottom:0;width:1920px;height:86px;background:#280E01;display:flex;align-items:center;justify-content:space-between;padding:6px 56px 0;color:#fff;font-size:36px;font-weight:600}
+.rod b{color:#FFD302;font-weight:800;font-size:42px}
+/* abertura */
+#abre{position:absolute;inset:0}
+#abre .logo{position:absolute;left:50%;top:150px;width:900px;margin-left:-450px}
+#abre .selo{left:50%;top:560px;margin-left:-390px}
+#assina{position:absolute;right:60px;bottom:120px;width:230px;height:88px;overflow:hidden}
+#assina img{width:230px;display:block}
+/* grade final */
+#grade{position:absolute;inset:0}
+#grade .logo{position:absolute;left:40px;top:10px;width:330px}
+#grade .selo{right:20px;top:10px;transform:scale(.5);transform-origin:right top}
+#g{position:absolute;left:40px;top:180px;width:1840px;display:grid;grid-template-columns:repeat(6,1fr);gap:22px 20px}
+.c{height:392px;border-radius:30px;background:#fff;box-shadow:0 10px 0 #E0A800;display:flex;flex-direction:column;align-items:center;padding:16px 12px 0}
+.c .f{height:200px;width:100%;display:flex;align-items:center;justify-content:center}
+.c .f img{max-width:92%;max-height:196px;filter:drop-shadow(0 10px 8px rgba(40,14,1,.3))}
+.c .n{height:96px;width:100%;justify-content:center;display:flex;align-items:center;text-align:center;font-size:31px;font-weight:800;line-height:1.05}
+.c .p{background:#C8130A;color:#fff;font-weight:800;border-radius:40px;padding:6px 26px 0;line-height:1;font-size:62px;box-shadow:0 7px 0 #7A0A00}
+.c .p small{font-size:30px;margin-right:6px}
+</style>
+<body>
+<div class="fundo"><div class="raios" id="raios"></div></div>
+<div class="moeda" id="m1" style="font-size:150px;left:1790px;top:40px">$</div>
+<div class="moeda" id="m2" style="font-size:110px;left:60px;top:860px">$</div>
+<div class="moeda" id="m3" style="font-size:90px;left:1790px;top:830px">$</div>
+
+<div id="cena">
+  <img class="logo" src="../../identidade/logo-itamar-3d-transparente.png" alt="Itamar Supermercado">
+  <div class="selo"><div class="b1">AQUI TEM</div><div class="b2">ECONOMIA</div></div>
+  <div id="card"><div class="brilho"></div><div id="foto"><img id="img" alt=""></div></div>
+  <div id="info"><div id="nome"></div><div id="pill"><span class="rs">R$</span><span class="v"></span><span class="luz"></span></div></div>
+  <div id="pontos"></div>
+</div>
+
+<div id="grade">
+  <img class="logo" src="../../identidade/logo-itamar-3d-transparente.png" alt="">
+  <div class="selo"><div class="b1">AQUI TEM</div><div class="b2">ECONOMIA</div></div>
+  <div id="g"></div>
+</div>
+
+<div id="abre">
+  <img class="logo" src="../../identidade/logo-itamar-3d-transparente.png" alt="">
+  <div class="selo"><div class="b1">AQUI TEM</div><div class="b2">ECONOMIA</div></div>
+  <div id="assina"><img src="../../../../logo/fontes/A-pixel-preto.svg" alt="quirino"></div>
+</div>
+
+<div class="rod"><span>Ofertas válidas enquanto durarem os estoques. Imagens ilustrativas.</span><b>@itamarsupermercado</b></div>
+
+<script>
+const F = '../../fotos/produtos/mercearia/';
+// [nome exatamente como na arte, preço, foto]
+const PRODUTOS = [
+  ['Leite em pó Bom Gosto 200 g','6,79','leite-em-po-bom-gosto-200g'],
+  ['Café a vácuo União','10,89','cafe-uniao-tradicional-500g'],
+  ['Biscoito Itália coco 400 g','4,90','biscoito-italia-coco-2kg'],
+  ['Macarrão espaguete Lili','2,19','macarrao-espaguete-lili-400g'],
+  ['Açúcar cristal Agrovale','3,49','acucar-cristal-agrovale-1kg'],
+  ['Bebida láctea Mocoquinha 200 ml','1,19','bebida-lactea-mocoquinha-chocolate-200ml'],
+  ['Molho de tomate Julieta','0,99','molho-tomate-julieta-tradicional-2kg'],
+  ['Bombom Garoto','10,99','bombom-garoto-garotices-250g'],
+  ['Leite condensado Marajoara','5,89','leite-condensado-marajoara-395g'],
+  ['Leite líquido Damare integral','6,49','leite-damare-integral-1l'],
+  ['Mucilon sabores 180 g','4,49','mucilon-5-cereais-600g'],
+  ['Água sanitária Clorito 1 L','1,79','agua-sanitaria-clorito-1l'],
+];
+const ABRE = 4, D = 4.2, N = PRODUTOS.length, GRADE = ABRE + N*D, DUR = GRADE + 9.6;
+const $ = s => document.querySelector(s);
+const cl = (x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const suave = x => { x=cl(x); return x*x*(3-2*x); };
+const fora = x => { x=cl(x); const c=1.70158*1.3; return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2); };
+const fotos = PRODUTOS.map(p => F+p[2]+'.png');
+const nb = n => n.replace(/ (\d+) (g|ml|L)$/,' $1\u00A0$2');
+// grade final
+const cards = PRODUTOS.map(([n,p,f]) => { const c=document.createElement('div'); c.className='c';
+  c.innerHTML=`<div class="f"><img src="${F+f}.png" alt=""></div><div class="n">${nb(n)}</div><div class="p"><small>R$</small>${p}</div>`; $('#g').appendChild(c); return c; });
+const pontos = PRODUTOS.map(()=>{ const i=document.createElement('i'); $('#pontos').appendChild(i); return i; });
+let atual = -1;
+window.setT = t => {
+  t = ((t % DUR) + DUR) % DUR;
+  $('#raios').style.transform = `rotate(${t*6}deg)`;
+  [['#m1',0],['#m2',1.7],['#m3',3.1]].forEach(([s,f]) => $(s).style.transform = `translateY(${14*Math.sin(t*1.6+f)}px) rotate(${8*Math.sin(t*1.1+f)}deg)`);
+  // abertura
+  const ab = $('#abre'), ce = $('#cena'), gr = $('#grade');
+  ab.style.display = t < ABRE ? 'block' : 'none';
+  ['#m1','#m2','#m3'].forEach(s => $(s).style.display = t >= GRADE || (s==='#m3' && t < ABRE) ? 'none' : 'block');
+  ce.style.display = t >= ABRE - .35 && t < GRADE ? 'block' : 'none';
+  gr.style.display = t >= GRADE ? 'block' : 'none';
+  if (t < ABRE) {
+    const sai = 1 - suave((t-(ABRE-.35))/.35);
+    ab.style.opacity = sai;
+    ab.querySelector('.logo').style.transform = `scale(${fora(t/.7)*(1+.015*Math.sin(t*4))})`;
+    const s = ab.querySelector('.selo');
+    s.style.opacity = cl((t-.8)/.12);
+    s.style.transform = `scale(${fora((t-.8)/.5)}) rotate(${-10*(1-suave((t-.8)/.5))}deg)`;
+    s.querySelector('.b2').style.transform = `rotate(-3deg) translateX(${120*(1-suave((t-1.1)/.35))}px)`;
+    // assinatura quirino: revela da esquerda para a direita
+    const q = suave((t-.6)/.9);
+    $('#assina').style.width = (230*q)+'px';
+    $('#assina').style.opacity = cl((t-.6)/.2);
+  }
+  // produto da vez
+  if (t >= ABRE - .35 && t < GRADE) {
+    const tt = Math.max(0, t-ABRE), i = Math.min(N-1, Math.floor(tt/D)), u = tt - i*D;
+    if (i !== atual) { atual = i; const [n,p] = PRODUTOS[i];
+      $('#img').src = fotos[i]; $('#nome').textContent = nb(n); $('#pill .v').textContent = p;
+      pontos.forEach((o,k)=>o.style.background = k===i ? '#C8130A' : k<i ? 'rgba(40,14,1,.55)' : 'rgba(40,14,1,.22)'); }
+    const sai = i < N-1 ? suave((u-(D-.32))/.32) : suave((u-(D-.32))/.32);
+    const ent = t < ABRE ? 0 : u;
+    $('#card').style.transform = `translateX(${-900*(1-fora(ent/.5)) - 900*sai}px) rotate(${-4*(1-suave(ent/.5))}deg)`;
+    $('#foto').style.transform = `scale(${(.6+.4*fora((ent-.15)/.45))*(1+.025*Math.sin(u*2.4))}) rotate(${1.5*Math.sin(u*1.7)}deg)`;
+    $('#nome').style.transform = `translateX(${120*(1-suave((ent-.2)/.35))+300*sai}px)`;
+    $('#nome').style.opacity = cl((ent-.2)/.2) * (1-sai);
+    const pulso = 1 + .03*Math.max(0,Math.sin((u-1.2)*4.2))*(u>1.2&&u<3.6);
+    $('#pill').style.transform = `scale(${fora((ent-.45)/.4)*pulso*(1-sai)})`;
+    $('#pill .luz').style.left = (-200 + 1100*cl((u-1.1)/.8))+'px';
+    const top = ce.querySelectorAll('.logo,.selo');
+    const ini = t < ABRE ? suave((t-(ABRE-.35))/.35) : 1;
+    ce.style.opacity = ini;
+    top[1].style.transform = `scale(${.62*(1+.02*Math.sin(t*3))})`;
+  }
+  // grade com os 12
+  if (t >= GRADE) {
+    const g = t - GRADE;
+    gr.querySelector('.selo').style.transform = `scale(${.5*(1+.02*Math.sin(t*3))})`;
+    cards.forEach((c,k) => { const a = g - .15 - k*.12;
+      c.style.opacity = cl(a/.12) * (1 - suave((g-9.2)/.4));
+      c.style.transform = `translateY(${60*(1-suave(a/.4))}px) scale(${fora(a/.4)})`;
+      // preços pulsam em onda
+      const w = Math.max(0, Math.sin((g-2.4)*2.2 - k*.45));
+      c.querySelector('.p').style.transform = `scale(${1+.07*w*w*(g>2.4)})`;
+    });
+  }
+};
+// nome longo na grade: diminui a letra até caber em 2 linhas
+const cabe = () => cards.forEach(c => { const n=c.querySelector('.n'); let f=31; n.style.height='auto'; n.style.fontSize=f+'px'; while (n.offsetHeight > 72 && f > 22) n.style.fontSize=(--f)+'px'; n.style.height=''; });
+const gr0 = $('#grade');
+window.pronto = document.fonts.ready.then(()=>{ gr0.style.display='block'; cabe(); setT(0); }).then(()=>Promise.all([document.fonts.ready, ...[...document.images].map(i=>i.decode().catch(()=>{})), ...fotos.map(s=>{const i=new Image(); i.src=s; return i.decode().catch(()=>{});})]));
+window.DUR = DUR;
+setT(new URLSearchParams(location.search).get('t')*1 || 0);
+</script>
+</body>
+</html>

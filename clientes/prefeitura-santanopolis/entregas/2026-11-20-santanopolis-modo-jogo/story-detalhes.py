@@ -11,7 +11,7 @@ def zoom(box):
     c = c.filter(ImageFilter.UnsharpMask(2, 90, 2)); return ImageEnhance.Color(c).enhance(1.08)
 r = W/bh; w1 = 380; h1 = round(w1/r)
 topo = zoom((560, 330, 560+w1, 330+h1))     # centro: cobertura azul e ruas
-base = zoom((470, 540, 470+w1, 540+h1))     # avenida, posto e canteiro arborizado
+base = zoom((284, 8, 284+w1, 8+h1))         # pôr do sol no horizonte
 st = Image.new("RGB", (W, H)); st.paste(topo, (0, 0)); st.paste(base, (0, y+fg.height)); st.paste(fg, (0, y))
 d = ImageDraw.Draw(st)
 for yy in (y, y+fg.height): d.rectangle([0, yy-4, W, yy+3], fill=(255,255,255))

@@ -6,3 +6,8 @@
 - Fotos: enviadas pelo dono, recortadas sem custo (`fotos/produtos/eletro/`).
 - Selo 3D: `identidade/selos/selo-super-ofertas-3d.png`, recortado do PNG de banco de imagens (Designi) enviado pelo dono.
   Tem marca-d'água fraca do banco; trocar pelo arquivo licenciado sem marca quando o dono baixar.
+
+## Versão em pé (TV 32" vertical)
+- `tv-eletro-vertical.mp4` — 1080x1920, para TV/player que já toca vídeo em pé.
+- `tv-eletro-vertical-girado.mp4` — 1920x1080 girado 90° (anti-horário, igual ao vídeo antigo do açougue), para TV montada em pé que só toca vídeo deitado.
+- Mesmo HTML, layout em pé com `?v`. Gerar: `node render-vertical.js`.

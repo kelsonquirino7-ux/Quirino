@@ -1,0 +1,43 @@
+<!doctype html><meta charset="utf-8"><meta name="tamanho" content="1080x1920"><link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<!-- Story 20/11 · Dia da Consciência Negra · Prefeitura de Santanópolis (1080x1920).
+     Foto original gerada no Magnific (foto-mulheres-turbante.jpg). Moldura de grafismos em SVG. Sem @ e sem autoridades (CF art. 37 §1º). -->
+<style>
+:root{--laranja:#F26A1B;--creme:#F7EBCB;--escuro:#120C08}
+*{box-sizing:border-box;margin:0}
+body{width:1080px;height:1920px;position:relative;overflow:hidden;background:#C9461A}
+#moldura{position:absolute;inset:0}
+.quadro{position:absolute;inset:54px;background:var(--escuro) url(foto-mulheres-turbante.jpg) center top/cover;box-shadow:0 0 0 6px var(--escuro),0 0 40px rgba(0,0,0,.6);overflow:hidden}
+.quadro::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,12,8,.55) 0%,rgba(18,12,8,0) 22%,rgba(18,12,8,0) 50%,rgba(18,12,8,.85) 64%,var(--escuro) 74%)}
+.data{position:absolute;z-index:2;top:230px;right:120px;text-align:center;font:800 118px/.86 "Exo 2";color:var(--creme);letter-spacing:-.02em;text-shadow:0 4px 18px rgba(0,0,0,.6)}
+.data span{display:block;font-size:84px;letter-spacing:.02em}
+.titulo{position:absolute;z-index:2;left:0;right:0;top:1110px;text-align:center}
+.dia{font:700 92px/1 "Dancing Script";color:var(--laranja);margin:0 0 -26px -470px}
+h1{font:800 150px/1 "Exo 2";color:var(--creme);letter-spacing:-.03em;text-transform:uppercase}
+.negra{font:700 210px/1 "Dancing Script";color:var(--laranja);margin:-70px 0 0 140px;text-shadow:0 6px 20px rgba(0,0,0,.5)}
+.frase{position:absolute;z-index:2;left:120px;right:120px;top:1490px;text-align:center;font:400 38px/1.4 Inter;color:#EDE3CF}
+.frase b{font-weight:600;color:#fff}
+.logo{position:absolute;z-index:2;left:50%;transform:translateX(-50%);bottom:150px;height:96px}
+</style>
+<svg id="moldura"></svg>
+<div class="quadro"></div>
+<div class="data">20<span>NOV</span></div>
+<div class="titulo"><p class="dia">Dia da</p><h1>Consciência</h1><p class="negra">Negra</p></div>
+<p class="frase">Valorizar a <b>cultura afro-brasileira</b> é reconhecer <b>as raízes do nosso povo</b>.</p>
+<img class="logo" src="../../identidade/logo-prefeitura-branco.png" alt="Prefeitura de Santanópolis">
+<script>
+const C={l:'#F26A1B',a:'#F2B705',v:'#0E7A4B',r:'#D7261E',c:'#F7EBCB',p:'#141414'};
+const M=[
+ (a,b,c)=>`<rect width="100" height="100" fill="${a}"/>`+[0,25,50].map(y=>`<path d="M0 ${y+20} L50 ${y+45} L100 ${y+20} L100 ${y+35} L50 ${y+60} L0 ${y+35}Z" fill="${b}"/>`).join(''),
+ (a,b,c)=>`<rect width="100" height="100" fill="${a}"/><path d="M50 8 L92 50 L50 92 L8 50Z" fill="${b}"/><path d="M50 30 L70 50 L50 70 L30 50Z" fill="${c}"/>`,
+ (a,b,c)=>`<rect width="100" height="100" fill="${a}"/><circle cx="50" cy="50" r="40" fill="${b}"/><circle cx="50" cy="50" r="26" fill="${c}"/><circle cx="50" cy="50" r="11" fill="${a}"/>`,
+ (a,b,c)=>`<rect width="100" height="100" fill="${a}"/><path d="M0 100 L25 55 L50 100Z M50 100 L75 55 L100 100Z" fill="${b}"/><path d="M0 0 L25 45 L50 0Z M50 0 L75 45 L100 0Z" fill="${c}"/>`,
+ (a,b,c)=>`<rect width="100" height="100" fill="${a}"/><rect y="12" width="100" height="14" fill="${b}"/><rect y="74" width="100" height="14" fill="${b}"/><rect x="14" y="38" width="16" height="24" fill="${c}"/><rect x="42" y="38" width="16" height="24" fill="${c}"/><rect x="70" y="38" width="16" height="24" fill="${c}"/>`,
+ (a,b,c)=>`<rect width="100" height="100" fill="${a}"/><path d="M0 50 L20 30 L40 50 L60 30 L80 50 L100 30 L100 46 L80 66 L60 46 L40 66 L20 46 L0 66Z" fill="${b}"/><rect y="80" width="100" height="10" fill="${c}"/><rect y="10" width="100" height="10" fill="${c}"/>`,
+ (a,b,c)=>`<rect width="100" height="100" fill="${a}"/><rect width="50" height="50" fill="${b}"/><rect x="50" y="50" width="50" height="50" fill="${b}"/><path d="M25 10 L40 25 L25 40 L10 25Z M75 60 L90 75 L75 90 L60 75Z" fill="${c}"/>`,
+];
+const P=[['l','a','v'],['r','c','p'],['a','r','v'],['v','a','r'],['c','l','v'],['r','a','p'],['l','c','r'],['v','c','l'],['a','v','r'],['p','l','a'],['c','r','v']];
+let g='';const T=90;
+for(let i=0;i<12;i++)for(let j=0;j<22;j++){const k=(i*3+j*5)%M.length,p=P[(i*2+j*7)%P.length];
+ g+=`<g transform="translate(${i*T} ${j*T}) scale(${T/100})">${M[k](C[p[0]],C[p[1]],C[p[2]])}</g>`;}
+const s=document.getElementById('moldura');s.setAttribute('viewBox','0 0 1080 1920');s.setAttribute('width',1080);s.setAttribute('height',1920);s.innerHTML=g;
+</script>

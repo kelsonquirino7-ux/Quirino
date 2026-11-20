@@ -1,0 +1,82 @@
+<!doctype html><meta charset="utf-8"><meta name="tamanho" content="1080x1920"><link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<!-- Story 20 de novembro · Dia da Consciência Negra · Deni de Vitor (1080x1920). Arte original em SVG/CSS. -->
+<style>
+:root{--fundo:#E4D2AE;--preto:#141414;--verde:#00802B;--amarelo:#F2B705;--vermelho:#EB1C24;--ouro:#C99A2E}
+*{box-sizing:border-box;margin:0}
+body{width:1080px;height:1920px;background:radial-gradient(120% 80% at 50% 45%,#EBDDBE 0%,var(--fundo) 55%,#D8C39A 100%);font-family:Montserrat,sans-serif;color:var(--preto);position:relative;overflow:hidden}
+.data{position:absolute;top:250px;left:0;right:0;text-align:center;line-height:.9}
+.data b{display:block;font:600 52px Montserrat}.data span{display:block;font:900 52px Montserrat;letter-spacing:-.01em}
+.dia{position:absolute;top:400px;left:0;right:0;text-align:center;font:600 44px Montserrat;letter-spacing:.42em;color:#3A3329;padding-left:.42em}
+h1{position:absolute;top:448px;left:0;right:0;text-align:center;font:900 132px/1 Montserrat;letter-spacing:-.035em;text-transform:lowercase}
+h2{position:absolute;top:580px;right:150px;font:900 86px/1 Montserrat;letter-spacing:-.03em}
+.faixa{position:absolute;height:170px;overflow:hidden;box-shadow:0 10px 24px rgba(60,40,10,.18)}
+.faixa svg{display:block;height:100%}
+.f1{top:780px;left:220px;width:700px}.f2{top:980px;left:110px;width:420px}.f3{top:1180px;left:220px;width:700px}
+.punho{position:absolute;left:280px;top:690px;width:520px;filter:drop-shadow(0 30px 30px rgba(40,25,5,.35))}
+.sombra{position:absolute;left:350px;top:1545px;width:380px;height:46px;border-radius:50%;background:radial-gradient(closest-side,rgba(50,30,5,.45),transparent)}
+.frase{position:absolute;left:100px;top:1370px;width:310px;font:600 36px/1.38 Montserrat;color:#2B241B}
+.assina{position:absolute;bottom:170px;left:50%;transform:translateX(-50%);border:3px solid #2B241B;border-radius:80px;padding:18px 54px;background:rgba(255,255,255,.35)}
+.assina img{height:96px;display:block}
+</style>
+<div class="data"><b>20</b><span>nov</span></div>
+<div class="dia">dia da</div>
+<h1>consciência</h1>
+<h2>negra</h2>
+<div class="faixa f1" data-n="7" data-s="1"></div>
+<div class="faixa f2" data-n="4" data-s="5"></div>
+<div class="faixa f3" data-n="7" data-s="9"></div>
+<div class="sombra"></div>
+<svg class="punho" viewBox="0 0 600 1000">
+ <defs>
+  <linearGradient id="pele" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a3a3a"/><stop offset=".45" stop-color="#1c1c1c"/><stop offset="1" stop-color="#070707"/></linearGradient>
+  <linearGradient id="braco" x1="0" x2="1"><stop offset="0" stop-color="#101010"/><stop offset=".35" stop-color="#2e2e2e"/><stop offset=".7" stop-color="#151515"/><stop offset="1" stop-color="#050505"/></linearGradient>
+  <linearGradient id="ouro" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6D77A"/><stop offset=".5" stop-color="#C99A2E"/><stop offset="1" stop-color="#8A6414"/></linearGradient>
+  <radialGradient id="brilho" cx=".35" cy=".3" r=".6"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+ </defs>
+ <g stroke="url(#ouro)" stroke-width="9" stroke-linejoin="round" stroke-linecap="round">
+  <!-- antebraço -->
+  <path d="M170 560 L430 560 L420 945 Q300 975 180 945 Z" fill="url(#braco)"/>
+  <path d="M180 945 Q300 975 420 945 L422 900 Q300 930 178 900 Z" fill="url(#braco)"/>
+  <path d="M176 700 L300 760 L424 690 M300 760 L300 900 M178 820 L300 760 M424 820 L340 900" fill="none" stroke-width="7"/>
+  <path d="M168 600 Q300 625 432 600" fill="none" stroke-width="7"/>
+  <!-- dorso da mão -->
+  <path d="M112 300 Q96 470 170 590 L430 590 Q512 480 506 300 Z" fill="url(#pele)"/>
+  <path d="M150 520 L300 560 L460 500 M300 560 L300 590" fill="none" stroke-width="7"/>
+  <!-- dedos (falange de cima) -->
+  <rect x="122" y="150" width="104" height="120" rx="48" fill="url(#pele)"/>
+  <rect x="220" y="120" width="100" height="130" rx="48" fill="url(#pele)"/>
+  <rect x="314" y="128" width="100" height="125" rx="48" fill="url(#pele)"/>
+  <rect x="406" y="168" width="96" height="112" rx="46" fill="url(#pele)"/>
+  <!-- dedos (falange de baixo) -->
+  <rect x="118" y="240" width="108" height="118" rx="40" fill="url(#pele)"/>
+  <rect x="220" y="225" width="100" height="125" rx="40" fill="url(#pele)"/>
+  <rect x="314" y="230" width="100" height="122" rx="40" fill="url(#pele)"/>
+  <rect x="406" y="255" width="98" height="110" rx="40" fill="url(#pele)"/>
+  <!-- polegar -->
+  <path d="M96 330 Q70 440 170 470 L370 452 Q420 444 414 398 Q406 356 360 360 L215 372 Q170 300 96 330 Z" fill="url(#pele)"/>
+  <path d="M250 372 Q262 410 250 460" fill="none" stroke-width="7"/>
+ </g>
+ <path d="M112 140 L520 140 L520 600 L112 600 Z" fill="url(#brilho)"/>
+</svg>
+<p class="frase">Memória, respeito e igualdade se constroem todos os dias.</p>
+<div class="assina"><img src="../../identidade/logo-deni-de-vitor-transparente.png" alt="Deni de Vitor"></div>
+<script>
+const C={v:'#00802B',a:'#F2B705',r:'#EB1C24',p:'#141414'};
+const M=[
+ (c1,c2,c3)=>`<rect width="100" height="100" fill="${c1}"/>`+[0,25,50].map(y=>`<path d="M0 ${y+20} L50 ${y+45} L100 ${y+20} L100 ${y+35} L50 ${y+60} L0 ${y+35}Z" fill="${c2}"/>`).join(''),
+ (c1,c2,c3)=>`<rect width="100" height="100" fill="${c1}"/><path d="M50 8 L92 50 L50 92 L8 50Z" fill="${c2}"/><path d="M50 30 L70 50 L50 70 L30 50Z" fill="${c3}"/>`,
+ (c1,c2,c3)=>`<rect width="100" height="100" fill="${c1}"/>`+[0,1,2,3,4].map(i=>`<path d="M${i*20-10} 0 L${i*20+10} 0 L${i*20-30} 100 L${i*20-50} 100Z" transform="translate(40 0)" fill="${c2}"/>`).join(''),
+ (c1,c2,c3)=>`<rect width="100" height="100" fill="${c1}"/><circle cx="50" cy="50" r="40" fill="${c2}"/><circle cx="50" cy="50" r="26" fill="${c3}"/><circle cx="50" cy="50" r="11" fill="${c1}"/>`,
+ (c1,c2,c3)=>`<rect width="100" height="100" fill="${c1}"/><path d="M0 100 L25 55 L50 100Z M50 100 L75 55 L100 100Z" fill="${c2}"/><path d="M0 0 L25 45 L50 0Z M50 0 L75 45 L100 0Z" fill="${c3}"/>`,
+ (c1,c2,c3)=>`<rect width="100" height="100" fill="${c1}"/><rect y="12" width="100" height="14" fill="${c2}"/><rect y="74" width="100" height="14" fill="${c2}"/><rect x="14" y="38" width="16" height="24" fill="${c3}"/><rect x="42" y="38" width="16" height="24" fill="${c3}"/><rect x="70" y="38" width="16" height="24" fill="${c3}"/>`,
+ (c1,c2,c3)=>`<rect width="100" height="100" fill="${c1}"/><path d="M0 50 L20 30 L40 50 L60 30 L80 50 L100 30 L100 46 L80 66 L60 46 L40 66 L20 46 L0 66Z" fill="${c2}"/><rect y="80" width="100" height="10" fill="${c3}"/><rect y="10" width="100" height="10" fill="${c3}"/>`,
+ (c1,c2,c3)=>`<rect width="100" height="100" fill="${c1}"/><rect width="50" height="50" fill="${c2}"/><rect x="50" y="50" width="50" height="50" fill="${c2}"/><path d="M25 10 L40 25 L25 40 L10 25Z M75 60 L90 75 L75 90 L60 75Z" fill="${c3}"/>`,
+];
+const P=[['v','a','p'],['p','a','r'],['a','p','r'],['r','a','p'],['v','p','a'],['a','v','p'],['p','r','a'],['r','p','a'],['v','a','r'],['p','v','a'],['a','r','v']];
+document.querySelectorAll('.faixa').forEach(f=>{
+ const n=+f.dataset.n,s=+f.dataset.s;let g='';
+ for(let i=0;i<n;i++)for(let j=0;j<2;j++){const k=(s+i*3+j*5)%M.length,p=P[(s+i*2+j*7)%P.length];
+  g+=`<g transform="translate(${i*100} ${j*100})">${M[k](C[p[0]],C[p[1]],C[p[2]])}</g>`;}
+ f.innerHTML=`<svg viewBox="0 0 ${n*100} 200" preserveAspectRatio="xMinYMid slice" style="width:100%">${g}</svg>`;
+});
+</script>

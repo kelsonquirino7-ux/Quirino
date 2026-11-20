@@ -53,7 +53,7 @@ c0, c1 = round(t_saida(54)*FPS)/FPS, round(t_saida(107)*FPS)/FPS
 BL = "minterpolate=fps=24:mi_mode=blend"
 fc = (f"[0:v]setpts='({expr})/TB',split=2[r1][r2];[r1]{MI},split=2[m1][m2];[r2]{BL}[b];"
       f"[m1]trim=end={c0},setpts=PTS-STARTPTS[p1];[b]trim=start={c0}:end={c1},setpts=PTS-STARTPTS[p2];"
-      f"[m2]trim=start={c1},setpts=PTS-STARTPTS[p3];[p1][p2][p3]concat=n=3:v=1:a=0,format=yuv420p[v];") + ";".join(af) + ";" + "".join(labels) + \
+      f"[m2]trim=start={c1},setpts=PTS-STARTPTS[p3];[p1][p2][p3]concat=n=3:v=1:a=0,scale=1080:1920:flags=lanczos,unsharp=5:5:0.5,format=yuv420p[v];") + ";".join(af) + ";" + "".join(labels) + \
      f"amix=inputs={len(labels)}:normalize=0,loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000,apad[a]"
 print(f"duração final: {dur:.2f} s")
 subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", "bruto.mp4", "-i", "locucao-bruta.mp3",

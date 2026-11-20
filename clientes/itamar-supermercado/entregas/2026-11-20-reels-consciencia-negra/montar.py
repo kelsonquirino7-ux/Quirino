@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Reels Itamar · Consciência Negra — versão 4 (só o vídeo de melhor qualidade: bruto-v1.mp4).
+"""Reels Itamar · Consciência Negra — versão 5 (imagem só do vídeo de melhor qualidade: bruto-v1.mp4).
+- Capoeira sem a logo Itamar: magnific/capoeira-sem-logo-local.mp4 (gerado por magnific/remover_logo_capoeira.py).
+- Final com luzes girando em volta da logo: magnific/luzes-final.mp4 (Kling 2.5 no Magnific, a partir do
+  último quadro do vídeo); o texto da legenda é recolado do quadro original para continuar nítido.
 - Remove ícones do Reels (coração, 5118, comentário) por inpainting; barra do topo e @ saem com zoom leve.
 - Cenas na velocidade original; só a família (movimento suave) e o brilho final da logo ganham câmera lenta
   com interpolação de movimento. Fecha segurando a logo com aproximação suave.
@@ -8,18 +11,21 @@ import subprocess, os, tempfile
 import numpy as np, cv2
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 SRC, W, H, FPS = "bruto-v1.mp4", 720, 1280, 24
-TOTAL = int(subprocess.run(["ffprobe", "-v", "error", "-count_frames", "-select_streams", "v", "-show_entries",
-                           "stream=nb_read_frames", "-of", "csv=p=0", SRC], capture_output=True, text=True).stdout)
+def total(arq):
+    return int(subprocess.run(["ffprobe", "-v", "error", "-count_frames", "-select_streams", "v", "-show_entries",
+                               "stream=nb_read_frames", "-of", "csv=p=0", arq], capture_output=True, text=True).stdout)
+CAP = "magnific/capoeira-sem-logo-local.mp4"
+LUZES = "magnific/luzes-final.mp4"
 MCI = "minterpolate=fps=24:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1:scd=none"
 LUZ = "eq=brightness=0.02:contrast=1.05:saturation=1.06"
-# (quadro inicial, quadro final, câmera lenta, filtro, fusão com a cena anterior em s)
-CENAS = [(0,   110, 1.0, "",  0),     # senhora — "Uma história de força, coragem e resistência..."
-         (300, 333, 1.0, LUZ, 0.5),   # capoeira — "Uma cultura que atravessa gerações..."
-         (152, 238, 1.0, LUZ, 0.3),   # capoeira com a logo surgindo (mesma legenda)
-         (364, 431, 2.0, "",  0.6),   # família — "Uma história que merece ser reconhecida..."
-         (431, 451, 1.0, "",  0),     # logo se aproximando (velocidade original)
-         (451, 481, 3.0, "",  0)]     # logo pousada, brilho em câmera lenta
-SEGURA = 5.0                          # segundos segurando a logo no fim (aproximação suave)
+# (arquivo, quadro inicial, quadro final, câmera lenta, filtro, fusão com a cena anterior em s)
+CENAS = [(SRC,   0,   110, 1.0, "",  0),     # senhora — "Uma história de força, coragem e resistência..."
+         (SRC,   300, 333, 1.0, LUZ, 0.5),   # capoeira — "Uma cultura que atravessa gerações..."
+         (CAP,   0,   86,  1.0, LUZ, 0.3),   # capoeira (logo removida), mesma legenda
+         (SRC,   364, 431, 2.0, "",  0.6),   # família — "Uma história que merece ser reconhecida..."
+         (SRC,   431, 451, 1.0, "",  0),     # logo se aproximando (velocidade original)
+         (SRC,   451, 479, 3.0, "",  0),     # logo pousada, brilho em câmera lenta
+         (LUZES, 1,   121, 1.0, "",  0)]     # luzes girando em volta da logo (Magnific)
 # frases na gravação: (início, fim, aceleração, entrada no vídeo em s)
 FRASES = [(0.03, 3.66, 1.00, 0.45),    # Uma história de força, coragem e resistência...
           (4.06, 8.69, 1.08, 4.20),    # Uma cultura que atravessa gerações...
@@ -36,17 +42,24 @@ mask = cv2.dilate((mn > 150).astype(np.uint8) * 255, np.ones((9, 9), np.uint8))
 
 tmp = tempfile.mkdtemp()
 partes = []
-for i, (q0, q1, f, extra, _) in enumerate(CENAS):
+# texto da legenda final, recolado sobre o clipe das luzes (o gerador de vídeo amolece letras)
+fim = cv2.imread("magnific/logo-final.png")
+hsv = cv2.cvtColor(fim, cv2.COLOR_BGR2HSV)
+txt = ((hsv[..., 2] > 170) & (hsv[..., 1] < 60)).astype(np.uint8) * 255
+txt[:1000] = 0; txt[1140:] = 0
+txt_a = cv2.GaussianBlur(cv2.dilate(txt, np.ones((5, 5), np.uint8)), (0, 0), 1.2)[..., None] / 255.0
+
+for i, (arq, q0, q1, f, extra, _) in enumerate(CENAS):
     n = round((q1 - q0) * f)
     vf = f"trim=start_frame={q0}:end_frame={q1},setpts=(PTS-STARTPTS)*{f}"
     if f != 1.0:
         # lê um quadro a mais para a interpolação chegar ao fim sem repetir quadros (evita engasgo)
-        q1e = min(q1 + 1, TOTAL)
+        q1e = min(q1 + 1, total(arq))
         n = min(n, round((q1e - q0 - 1) * f) + 1)
         vf = f"trim=start_frame={q0}:end_frame={q1e},setpts=(PTS-STARTPTS)*{f},{MCI},setpts=N/24/TB,trim=end_frame={n}"
     if extra:
         vf += "," + extra
-    leitor = subprocess.Popen(["ffmpeg", "-v", "error", "-i", SRC, "-vf", vf, "-f", "rawvideo",
+    leitor = subprocess.Popen(["ffmpeg", "-v", "error", "-i", arq, "-vf", vf, "-f", "rawvideo",
                                "-pix_fmt", "bgr24", "-"], stdout=subprocess.PIPE)
     saida = f"{tmp}/{i}.mkv"
     escritor = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "bgr24",
@@ -58,19 +71,12 @@ for i, (q0, q1, f, extra, _) in enumerate(CENAS):
         if len(b) < W * H * 3: break
         fr = np.frombuffer(b, np.uint8).reshape(H, W, 3).copy()
         fr[Y0:Y1, X0:X1] = cv2.inpaint(fr[Y0:Y1, X0:X1], mask, 6, cv2.INPAINT_TELEA)
+        if arq == LUZES:
+            fr = (fr * (1 - txt_a) + fim * txt_a).astype(np.uint8)
         escritor.stdin.write(fr.tobytes()); ultimo_q = fr
     escritor.stdin.close(); escritor.wait(); leitor.wait()
     partes.append((saida, n / FPS))
-cv2.imwrite(f"{tmp}/fim.png", ultimo_q)
-
-# fim: segura a logo com aproximação suave (zoom feito em 4x para não tremer)
-nf = round(SEGURA * FPS)
-subprocess.run(["ffmpeg", "-v", "error", "-y", "-loop", "1", "-i", f"{tmp}/fim.png", "-vf",
-                f"scale={W*4}:{H*4}:flags=lanczos,zoompan=z='1+0.06*on/{nf}':x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2'"
-                f":d={nf}:s={W}x{H}:fps=24", "-frames:v", str(nf), "-c:v", "libx264", "-qp", "0",
-                "-preset", "ultrafast", f"{tmp}/fim.mkv"], check=True)
-partes.append((f"{tmp}/fim.mkv", SEGURA))
-fusoes = [c[4] for c in CENAS[1:]] + [0]
+fusoes = [c[5] for c in CENAS[1:]]
 
 fc, ultimo, t = [], "[0:v]", partes[0][1]
 for i, d in enumerate(fusoes):

@@ -20,18 +20,17 @@ MCI = "minterpolate=fps=24:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1:scd=n
 LUZ = "eq=brightness=0.02:contrast=1.05:saturation=1.06"
 # (arquivo, quadro inicial, quadro final, câmera lenta, filtro, fusão com a cena anterior em s)
 CENAS = [(SRC,   0,   110, 1.0, "",  0),     # senhora — "Uma história de força, coragem e resistência..."
-         (SRC,   156, 178, 1.6, LUZ, 0.5),   # capoeira (antes da logo e das luzes) — "Uma cultura..."
-         (SRC,   300, 356, 1.6, LUZ, 0.25),  # capoeira, mesma legenda (câmera lenta por fluxo óptico)
+         (SRC,   300, 357, 2.25, LUZ, 0.5),  # capoeira — "Uma cultura..." (câmera lenta por fluxo óptico)
          (SRC,   364, 431, 2.0, "",  0.6),   # família — "Uma história que merece ser reconhecida..."
          (SRC,   431, 451, 1.0, "",  0),     # logo se aproximando (velocidade original)
          (SRC,   451, 479, 3.0, "",  0),     # logo pousada, brilho em câmera lenta
          (LUZES, 1,   121, 1.0, "",  0)]     # luzes girando em volta da logo (Magnific)
 # frases na gravação: (início, fim, aceleração, entrada no vídeo em s)
 FRASES = [(0.03, 3.66, 1.00, 0.45),    # Uma história de força, coragem e resistência...
-          (4.06, 8.69, 1.08, 4.35),    # Uma cultura que atravessa gerações...
-          (9.10, 14.75, 1.12, 9.10),   # Uma história que merece ser reconhecida...
-          (15.07, 18.04, 1.00, 14.80), # Porque igualdade se constrói todos os dias.
-          (18.38, 23.60, 1.00, 17.95)] # Itamar Supermercado. Respeitar nossas raízes é valorizar nossa história.
+          (4.06, 8.69, 1.08, 4.40),    # Uma cultura que atravessa gerações...
+          (9.10, 14.75, 1.12, 9.48),   # Uma história que merece ser reconhecida...
+          (15.07, 18.04, 1.00, 15.18), # Porque igualdade se constrói todos os dias.
+          (18.38, 23.60, 1.00, 18.33)] # Itamar Supermercado. Respeitar nossas raízes é valorizar nossa história.
 
 # máscara dos ícones do Reels (fixos na lateral direita)
 p = subprocess.run(["ffmpeg", "-v", "error", "-ss", "0.5", "-to", "5", "-i", SRC, "-f", "rawvideo",

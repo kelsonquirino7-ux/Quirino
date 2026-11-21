@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<!-- Camada de grafismos do vídeo "EMPRESA X CONFRATERNIZAÇÃO" (Itamar Supermercado).
+     Desenhada quadro a quadro por render.js (window.setT(t)) e sobreposta ao vídeo original.
+     Cores: só as do logo — amarelo #FFD302, vermelho #FF291E e o vermelho-sombra do próprio logo #BF0101.
+     Sem preto, sem "@", sem frases além do título. -->
+<link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+</head><body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script>
+const AM = '#FFD302', VM = '#FF291E', VS = '#BF0101';   // amarelo · vermelho · vermelho-sombra (contraste amarelo/VS = 4,5:1)
+const FIM_VIDEO = 1814 / 30;   // 60,467 s — a filmagem original termina com 6 quadros pretos, cortados aqui
+const DUR_FIM = 3.6;                                       // encerramento com o logo
+const WIPES = [11.2667, 23.7, 36.4, 49.1, FIM_VIDEO];      // transições gráficas (centro = corte)
+const CONFETES = [[2.05, 'faixa'], [44.97, 'topo'], [FIM_VIDEO + 0.45, 'logo']];
+// Faixa em arco: cobre exatamente o arco do texto antigo gravado no vídeo
+const CX = 540, CY = 1004, R = 806, H = 66, A = 34 * Math.PI / 180;
+
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+const logo = new Image(); logo.src = '../../identidade/logo-itamar-3d-transparente.png';
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const backOut = (x, s = 1.70158) => 1 + (s + 1) * Math.pow(x - 1, 3) + s * Math.pow(x - 1, 2);
+const cubicIO = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const bounceOut = x => { const n = 7.5625, d = 2.75;
+  if (x < 1 / d) return n * x * x; if (x < 2 / d) return n * (x -= 1.5 / d) * x + .75;
+  if (x < 2.5 / d) return n * (x -= 2.25 / d) * x + .9375; return n * (x -= 2.625 / d) * x + .984375; };
+function rnd(seed) { return () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; }
+
+// ---------- título ----------
+const PAL1 = 'EMPRESA', PAL2 = 'CONFRATERNIZAÇÃO';
+let F, itens = [], capH;
+function layout() {
+  const maxArc = R * 2 * (A - 0.05);
+  for (F = 64; F > 30; F--) {
+    ctx.font = `800 ${F}px "Baloo 2"`;
+    const ls = F * 0.03, badge = F * 1.75, gap = F * 0.28;
+    itens = []; let s = 0;
+    const add = (ch, w, tipo, i) => { itens.push({ ch, s: s + w / 2, tipo, i }); s += w; };
+    [...PAL1].forEach((ch, i) => add(ch, ctx.measureText(ch).width + ls, 1, i));
+    s += gap; add('X', badge, 'x', 0); s += gap;
+    [...PAL2].forEach((ch, i) => add(ch, ctx.measureText(ch).width + ls, 2, i));
+    if (s <= maxArc) { itens.forEach(it => it.s -= s / 2); break; }
+  }
+  ctx.font = `800 ${F}px "Baloo 2"`; capH = ctx.measureText('E').actualBoundingBoxAscent;
+}
+
+function caminhoFaixa(r1, r2, a, notch) {
+  const p = (r, th) => [CX + r * Math.sin(th), CY - r * Math.cos(th)];
+  ctx.beginPath();
+  ctx.arc(CX, CY, r2, -Math.PI / 2 - a, -Math.PI / 2 + a);
+  ctx.lineTo(...p((r1 + r2) / 2, a - notch));
+  ctx.arc(CX, CY, r1, -Math.PI / 2 + a, -Math.PI / 2 - a, true);
+  ctx.lineTo(...p((r1 + r2) / 2, -a + notch));
+  ctx.closePath();
+}
+
+function faixa(t) {
+  caminhoFaixa(R - H, R + H, A, 0.045); ctx.fillStyle = VM; ctx.fill();
+  caminhoFaixa(R - H + 9, R + H - 9, A - 0.008, 0.04); ctx.fillStyle = VS; ctx.fill();
+  ctx.save(); caminhoFaixa(R - H + 9, R + H - 9, A - 0.008, 0.04); ctx.clip();
+  ctx.strokeStyle = AM; ctx.lineWidth = 3; ctx.setLineDash([2, 12]); ctx.lineCap = 'round';
+  for (const rr of [R - H + 19, R + H - 19]) { ctx.beginPath(); ctx.arc(CX, CY, rr, -Math.PI / 2 - A, -Math.PI / 2 + A); ctx.stroke(); }
+  ctx.setLineDash([]);
+  // brilho que passa pela faixa (abre o vídeo e repete a cada 6 s)
+  const per = 6, ph = t < 2.6 ? (t - 2.0) / 0.7 : ((t - 2.6) % per) / 0.7;
+  if (ph >= 0 && ph <= 1) {
+    const th = -A - 0.1 + ph * (2 * A + 0.2);
+    ctx.translate(CX, CY); ctx.rotate(th);
+    const g = ctx.createLinearGradient(-40, 0, 40, 0);
+    g.addColorStop(0, 'rgba(255,211,2,0)'); g.addColorStop(0.5, 'rgba(255,211,2,0.32)'); g.addColorStop(1, 'rgba(255,211,2,0)');
+    ctx.fillStyle = g; ctx.fillRect(-40, -R - 90, 80, 180);
+  }
+  ctx.restore();
+}
+
+function estrela(n, ro, ri, rot) {
+  ctx.beginPath();
+  for (let k = 0; k < n * 2; k++) { const r = k % 2 ? ri : ro, a = rot + k * Math.PI / n; ctx.lineTo(r * Math.sin(a), -r * Math.cos(a)); }
+  ctx.closePath();
+}
+
+function titulo(t) {
+  ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  const ondaT0 = t >= 5 ? 5 + Math.floor((t - 5) / 7) * 7 : -99;
+  itens.forEach((it, k) => {
+    const th = it.s / R;
+    ctx.save(); ctx.translate(CX, CY); ctx.rotate(th); ctx.translate(0, -R);
+    const hop = -10 * Math.sin(Math.PI * cl((t - ondaT0 - 0.03 * k) / 0.35));
+    if (it.tipo === 1) {                      // EMPRESA: letras caem quicando
+      const p = cl((t - 0.35 - 0.055 * it.i) / 0.55);
+      if (p <= 0) { ctx.restore(); return; }
+      ctx.globalAlpha = cl(p * 5);
+      ctx.translate(0, -170 * (1 - bounceOut(p)) + hop);
+    } else if (it.tipo === 2) {               // CONFRATERNIZAÇÃO: letras saltam crescendo
+      const p = cl((t - 1.55 - 0.035 * it.i) / 0.45);
+      if (p <= 0) { ctx.restore(); return; }
+      const sc = backOut(p, 2.2); ctx.globalAlpha = cl(p * 4);
+      ctx.translate(0, hop); ctx.rotate((1 - p) * 0.7); ctx.scale(sc, sc);
+    } else {                                  // X: selo de oferta girando
+      const p = cl((t - 1.0) / 0.6);
+      if (p <= 0) { ctx.restore(); return; }
+      const sc = backOut(p, 2.8);
+      ctx.scale(sc, sc);
+      ctx.save(); estrela(14, F * 1.18, F * 0.98, (1 - p) * -Math.PI + t * 0.35);
+      ctx.fillStyle = AM; ctx.fill(); ctx.lineWidth = 6; ctx.strokeStyle = VM; ctx.stroke(); ctx.restore();
+      ctx.rotate(Math.sin(t * 2.2) * 0.07 + (1 - p) * -1.2);
+      ctx.font = `400 ${F * 1.3}px "Lilita One"`;
+      ctx.fillStyle = VM; ctx.fillText('X', 0, F * 0.45 + 4);
+      ctx.fillStyle = VS; ctx.fillText('X', 0, F * 0.45);
+      ctx.restore(); return;
+    }
+    ctx.font = `800 ${F}px "Baloo 2"`;
+    ctx.fillStyle = VM; ctx.fillText(it.ch, 0, capH / 2 + 4);     // relevo vermelho (sem sombra preta)
+    ctx.fillStyle = AM; ctx.fillText(it.ch, 0, capH / 2);
+    ctx.restore();
+  });
+}
+
+function brilho(x, y, s) {           // faísca de 4 pontas
+  if (s <= 0) return;
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s); ctx.fillStyle = AM;
+  ctx.beginPath(); ctx.moveTo(0, -1); ctx.quadraticCurveTo(0.12, -0.12, 1, 0); ctx.quadraticCurveTo(0.12, 0.12, 0, 1);
+  ctx.quadraticCurveTo(-0.12, 0.12, -1, 0); ctx.quadraticCurveTo(-0.12, -0.12, 0, -1); ctx.fill(); ctx.restore();
+}
+function brilhosFaixa(t) {
+  const pts = [[-0.50, 50, 0], [0.52, 46, 0.8], [-0.22, 104, 1.6], [0.30, 100, 0.4], [0.05, 112, 1.2]];
+  pts.forEach(([th, dr, of]) => {
+    const ph = ((t + of) % 2.4) / 2.4, s = Math.sin(Math.PI * cl(ph / 0.45)) * 20 * cl((t - 2.2) / 0.3);
+    brilho(CX + (R + dr) * Math.sin(th), CY - (R + dr) * Math.cos(th), s);
+  });
+}
+
+// ---------- confete ----------
+const cores = [AM, VM, VS, AM];
+function confete(t, t0, tipo, seed) {
+  const dt = t - t0; if (dt < 0 || dt > 2.6) return;
+  const r = rnd(seed), n = tipo === 'logo' ? 90 : 46;
+  for (let i = 0; i < n; i++) {
+    let x0, y0, vx, vy;
+    if (tipo === 'faixa') { const th = (r() - .5) * 2 * A; x0 = CX + R * Math.sin(th); y0 = CY - R * Math.cos(th); vx = (r() - .5) * 700; vy = -300 - r() * 500; }
+    else if (tipo === 'topo') { const lado = i % 2 ? 1 : -1; x0 = 540 + lado * 560; y0 = 520 + r() * 200; vx = -lado * (300 + r() * 600); vy = -500 - r() * 500; }
+    else { x0 = 540 + (r() - .5) * 300; y0 = 900; const a = r() * Math.PI * 2, v = 700 + r() * 900; vx = Math.cos(a) * v; vy = Math.sin(a) * v - 500; }
+    const g = 1500, drag = 0.55;
+    const x = x0 + vx * (1 - Math.exp(-drag * dt * 3)) / (drag * 3) + Math.sin(dt * 6 + i) * 18;
+    const y = y0 + vy * (1 - Math.exp(-drag * dt * 3)) / (drag * 3) + 0.5 * g * dt * dt * 0.55;
+    const w = 12 + r() * 10, h = 7 + r() * 5, rot = r() * 6 + dt * (4 + r() * 8);
+    ctx.save(); ctx.globalAlpha = cl((2.6 - dt) / 0.6); ctx.translate(x, y); ctx.rotate(rot);
+    ctx.scale(1, Math.cos(dt * (6 + i % 5))); ctx.fillStyle = cores[i % 4];
+    if (i % 3 === 0) { ctx.beginPath(); ctx.arc(0, 0, h * 0.8, 0, 7); ctx.fill(); } else ctx.fillRect(-w / 2, -h / 2, w, h);
+    ctx.restore();
+  }
+}
+
+// ---------- transição em faixas diagonais ----------
+function wipe(t, tc) {
+  const D = 0.7, p = (t - (tc - D / 2)) / D; if (p <= 0 || p >= 1) return false;
+  const e = cubicIO(p), bandas = [[AM, 420], [VM, 420], [VS, 640], [VM, 200], [AM, 160]];
+  const total = bandas.reduce((a, b) => a + b[1], 0);
+  ctx.save(); ctx.translate(540, 960); ctx.rotate(-0.21);
+  let x = -1300 - total + e * (2600 + total);  // borda de trás → atravessa a tela
+  for (const [c, w] of bandas) { ctx.fillStyle = c; ctx.fillRect(x, -1500, w + 1, 3000); x += w; }
+  ctx.restore(); return true;
+}
+
+// ---------- encerramento com o logo ----------
+function encerramento(t) {
+  const u = t - FIM_VIDEO; if (u < 0) return;
+  ctx.fillStyle = VM; ctx.fillRect(0, 0, 1080, 1920);
+  ctx.save(); ctx.translate(540, 900); ctx.rotate(u * 0.18); ctx.fillStyle = VS;
+  for (let k = 0; k < 18; k++) { ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, 1500, k * Math.PI / 9, k * Math.PI / 9 + Math.PI / 18); ctx.fill(); }
+  ctx.restore();
+  const ph = cl((u - 0.2) / 0.6), ps = backOut(ph, 2.0);
+  if (ph > 0) { ctx.save(); ctx.translate(540, 900); ctx.scale(ps, ps * 0.78); estrela(26, 560, 500, -u * 0.25);
+    ctx.fillStyle = AM; ctx.fill(); ctx.restore(); }
+  const pl = cl((u - 0.35) / 0.7);
+  if (pl > 0) {
+    const s = backOut(pl, 1.9) * (1 + 0.012 * Math.sin(u * 3.2)), w = 880, h = w * logo.height / logo.width;
+    ctx.save(); ctx.translate(540, 900 + Math.sin(u * 2.4) * 8); ctx.scale(s, s); ctx.rotate((1 - pl) * -0.25);
+    ctx.drawImage(logo, -w / 2, -h / 2, w, h); ctx.restore();
+  }
+  [[150, 560, 0], [930, 600, .7], [190, 1250, 1.3], [900, 1230, .3], [540, 470, 1.9], [540, 1340, 1.0]].forEach(([x, y, of]) => {
+    const p2 = ((u + of) % 1.8) / 1.8; brilho(x, y, Math.sin(Math.PI * cl(p2 / 0.5)) * 34 * cl((u - 0.9) / 0.3));
+  });
+}
+
+window.setT = t => {
+  ctx.clearRect(0, 0, 1080, 1920);
+  encerramento(t);
+  WIPES.slice(0, -1).forEach(w => wipe(t, w));
+  if (t < FIM_VIDEO) { faixa(t); titulo(t); brilhosFaixa(t); }
+  CONFETES.forEach(([t0, tipo], i) => confete(t, t0, tipo, 1000 + i * 77));
+  wipe(t, FIM_VIDEO);
+};
+window.DUR = FIM_VIDEO + DUR_FIM;
+window.pronto = Promise.all([document.fonts.load('800 60px "Baloo 2"'), document.fonts.load('400 60px "Lilita One"'),
+  new Promise(r => logo.complete ? r() : (logo.onload = r))]).then(() => { layout(); window.setT(0); });
+</script></body></html>

@@ -6,7 +6,7 @@ AQUI="$(cd "$(dirname "$0")" && pwd)"; IN=$1; Q=$2; TMP=${TMPDIR_MONTAR:-$(mktem
 DUR=64.067   # 60,467 s de filmagem (sem os 6 quadros pretos do fim) + 3,6 s de encerramento com o logo
 
 # Cortes da filmagem que ganham um "assentamento" de câmera (zoom 4% → 100%); os demais cortes têm transição gráfica.
-CORTES="2.1 4.5 5.733 7.267 9.033 15.5 17.9 19.233 20.767 22.133 27.467 29.167 31.1 33.167 34.867 38.033 40.4 43.7 44.967 47.267 50.733 52.3 53.667 55 57 58.6"
+CORTES="2.1 4.5 5.733 7.267 9.033 15.5 17.9 19.233 20.767 22.133 25.967 27.467 29.167 31.1 33.167 34.867 38.033 40.4 43.7 44.967 47.267 50.733 52.3 53.667 55 57 58.6"
 Z="1"; for T in $CORTES; do Z+="+0.045*gte(t\,$T)*pow(clip(1-(t-$T)/0.6\,0\,1)\,2)"; done
 
 # Efeitos sonoros sintetizados (sem custo)
@@ -17,7 +17,7 @@ sfx "anoisesrc=color=pink:amplitude=0.9,bandpass=f=1800:w=2500,afade=t=in:d=0.3:
 sfx "aevalsrc='0.35*(sin(2*PI*1318*t)+sin(2*PI*1760*t)+0.6*sin(2*PI*2637*t))*exp(-3.5*t)'" 1.4 brilho
 
 # Trilha (30,8 s) em loop com fusão de 1,5 s
-M="$AQUI/trilha-magnific.mp3"
+M="$AQUI/trilha-magnific-animada.mp3"
 AF="[1:a][2:a]acrossfade=d=1.5[m12];[m12][3:a]acrossfade=d=1.5,atrim=0:$DUR,afade=t=in:d=0.3,afade=t=out:st=$(echo "$DUR-2" | bc):d=2,volume=0.85[mus];"
 # Efeitos: [arquivo instante volume]
 EF=(pop 0.35 .5  pop 0.6 .3  pop 0.85 .3  boing 1.0 .6  whoosh 1.25 .45  pop 1.55 .45  pop 1.85 .35  brilho 2.05 .5

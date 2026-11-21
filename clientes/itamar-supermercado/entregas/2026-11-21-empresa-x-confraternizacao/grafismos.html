@@ -1,24 +1,40 @@
 <!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8">
-<!-- Camada de grafismos do vídeo "EMPRESA X CONFRATERNIZAÇÃO" (Itamar Supermercado).
+<!-- Camada de grafismos do vídeo "EMPRESA X CONFRA" (Itamar Supermercado).
      Desenhada quadro a quadro por render.js (window.setT(t)) e sobreposta ao vídeo original.
      Cores: só as do logo — amarelo #FFD302, vermelho #FF291E e o vermelho-sombra do próprio logo #BF0101.
      Sem preto, sem "@", sem frases além do título. -->
 <link rel="stylesheet" href="../../../../ferramentas/fontes.css">
-<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+<style>html,body{margin:0;background:transparent;overflow:hidden}
+canvas{position:absolute;left:0;top:0}
+#cena{position:absolute;left:0;top:0;width:1080px;height:1920px;perspective:1400px}
+#logo3d{position:absolute;left:0;top:0;width:880px;transform-style:preserve-3d;transform-origin:50% 50%}
+#logo3d img{position:absolute;left:0;top:0;width:880px;display:block;backface-visibility:visible}
+</style>
 </head><body>
 <canvas id="c" width="1080" height="1920"></canvas>
+<div id="cena"><div id="logo3d"></div></div>
+<canvas id="f" width="1080" height="1920"></canvas>
 <script>
 const AM = '#FFD302', VM = '#FF291E', VS = '#BF0101';   // amarelo · vermelho · vermelho-sombra (contraste amarelo/VS = 4,5:1)
 const FIM_VIDEO = 1814 / 30;   // 60,467 s — a filmagem original termina com 6 quadros pretos, cortados aqui
 const DUR_FIM = 3.6;                                       // encerramento com o logo
 const WIPES = [11.2667, 23.7, 36.4, 49.1, FIM_VIDEO];      // transições gráficas (centro = corte)
-const CONFETES = [[2.05, 'faixa'], [44.97, 'topo'], [FIM_VIDEO + 0.45, 'logo']];
+const CONFETES = [];   // confete do vídeo: só a chuva do arco nos trechos de festa
 // Faixa em arco: cobre exatamente o arco do texto antigo gravado no vídeo
-const CX = 540, CY = 1004, R = 806, H = 66, A = 34 * Math.PI / 180;
+const CX = 540, CY = 1188, R = 1008, H = 70, A = 36 * Math.PI / 180;   // tarja de ponta a ponta da tela; a borda de baixo cobre o texto antigo
+const BORDA = 12;                                                         // moldura fina vermelha
+const TH_MAX = Math.asin((540 - BORDA - 30) / R);                        // texto dentro da tela                                                    // último ângulo para texto
 
-const cv = document.getElementById('c'), ctx = cv.getContext('2d');
-const logo = new Image(); logo.src = '../../identidade/logo-itamar-3d-transparente.png';
+const cv = document.getElementById('c'), ctxFundo = cv.getContext('2d');
+const ctxFrente = document.getElementById('f').getContext('2d');
+let ctx = ctxFundo;
+const L3D = document.getElementById('logo3d'), CAMADAS = 16;
+const SRC = '../../identidade/logo-itamar-3d-transparente.png';
+const logo = new Image(); logo.src = SRC;
+// logo original na frente + cópias atrás (escurecidas) só para dar espessura 3D quando gira; o logo em si não muda
+for (let k = CAMADAS; k >= 0; k--) { const im = document.createElement('img'); im.src = SRC;
+  im.style.transform = `translateZ(${-k * 2.2}px)`; if (k) im.style.filter = `brightness(${0.78 - k * 0.012})`; L3D.appendChild(im); }
 const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const backOut = (x, s = 1.70158) => 1 + (s + 1) * Math.pow(x - 1, 3) + s * Math.pow(x - 1, 2);
 const cubicIO = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
@@ -28,21 +44,24 @@ const bounceOut = x => { const n = 7.5625, d = 2.75;
 function rnd(seed) { return () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; }
 
 // ---------- título ----------
-const PAL1 = 'EMPRESA', PAL2 = 'CONFRATERNIZAÇÃO';
+const PAL1 = 'EMPRESA', PAL2 = 'CONFRA';     // maiúsculas, fonte geométrica arredondada como a do logo
+const FONTE = '"Comfortaa"', PESO = 700;
 let F, itens = [], capH;
 function layout() {
-  const maxArc = R * 2 * (A - 0.05);
-  for (F = 64; F > 30; F--) {
-    ctx.font = `800 ${F}px "Baloo 2"`;
-    const ls = F * 0.03, badge = F * 1.75, gap = F * 0.28;
-    itens = []; let s = 0;
-    const add = (ch, w, tipo, i) => { itens.push({ ch, s: s + w / 2, tipo, i }); s += w; };
-    [...PAL1].forEach((ch, i) => add(ch, ctx.measureText(ch).width + ls, 1, i));
-    s += gap; add('X', badge, 'x', 0); s += gap;
-    [...PAL2].forEach((ch, i) => add(ch, ctx.measureText(ch).width + ls, 2, i));
-    if (s <= maxArc) { itens.forEach(it => it.s -= s / 2); break; }
+  for (F = 92; F > 30; F--) {
+    ctx.font = `${PESO} ${F}px ${FONTE}`;
+    const ls = F * 0.02, badge = F * 2.5, gap = F * 0.3;   // badge = diâmetro do selo do X (raio 1,18F) + folga
+    const th0 = (badge / 2 + gap) / R, meio = (th0 + TH_MAX) / 2, livre = (TH_MAX - th0) * R;
+    const larg = p => [...p].reduce((a, ch) => a + ctx.measureText(ch).width + ls, 0);
+    if (larg(PAL2) > livre || larg(PAL1) > livre) continue;
+    itens = [{ ch: 'X', s: 0, tipo: 'x', i: 0 }];
+    [[PAL1, -meio, 1], [PAL2, meio, 2]].forEach(([p, c, tipo]) => {
+      let s = c * R - larg(p) / 2;
+      [...p].forEach((ch, i) => { const w = ctx.measureText(ch).width + ls; itens.push({ ch, s: s + w / 2, tipo, i }); s += w; });
+    });
+    break;
   }
-  ctx.font = `800 ${F}px "Baloo 2"`; capH = ctx.measureText('E').actualBoundingBoxAscent;
+  ctx.font = `${PESO} ${F}px ${FONTE}`; capH = ctx.measureText('E').actualBoundingBoxAscent;
 }
 
 function caminhoFaixa(r1, r2, a, notch) {
@@ -56,20 +75,25 @@ function caminhoFaixa(r1, r2, a, notch) {
 }
 
 function faixa(t) {
-  caminhoFaixa(R - H, R + H, A, 0.045); ctx.fillStyle = VM; ctx.fill();
-  caminhoFaixa(R - H + 9, R + H - 9, A - 0.008, 0.04); ctx.fillStyle = VS; ctx.fill();
-  ctx.save(); caminhoFaixa(R - H + 9, R + H - 9, A - 0.008, 0.04); ctx.clip();
+  const arco = (r1, r2) => caminhoFaixa(r1, r2, A, 0.04);
+  // espessura (lateral de baixo) — degraus em vermelho-sombra
+  for (let d = 10; d > 0; d -= 2) { ctx.save(); ctx.translate(0, d); arco(R - H, R + H); ctx.fillStyle = d > 5 ? VS : VM; ctx.fill(); ctx.restore(); }
+  arco(R - H, R + H); ctx.fillStyle = VM; ctx.fill();                       // borda clara
+  arco(R - H + 10, R + H - 10); ctx.fillStyle = VS; ctx.fill();             // face
+  ctx.save(); arco(R - H + 10, R + H - 10); ctx.clip();
+  const g = ctx.createRadialGradient(CX, CY, R - H + 10, CX, CY, R + H - 10);  // volume: luz em cima, sombra em baixo
+  g.addColorStop(0, 'rgba(255,41,30,0.35)'); g.addColorStop(0.45, 'rgba(191,1,1,0)'); g.addColorStop(0.8, 'rgba(255,41,30,0.25)'); g.addColorStop(1, 'rgba(255,211,2,0.30)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, 1080, 700);
   ctx.strokeStyle = AM; ctx.lineWidth = 3; ctx.setLineDash([2, 12]); ctx.lineCap = 'round';
-  for (const rr of [R - H + 19, R + H - 19]) { ctx.beginPath(); ctx.arc(CX, CY, rr, -Math.PI / 2 - A, -Math.PI / 2 + A); ctx.stroke(); }
+  for (const rr of [R - H + 21, R + H - 21]) { ctx.beginPath(); ctx.arc(CX, CY, rr, -Math.PI / 2 - A, -Math.PI / 2 + A); ctx.stroke(); }
   ctx.setLineDash([]);
-  // brilho que passa pela faixa (abre o vídeo e repete a cada 6 s)
-  const per = 6, ph = t < 2.6 ? (t - 2.0) / 0.7 : ((t - 2.6) % per) / 0.7;
+  const per = 6, ph = t < 2.6 ? (t - 2.0) / 0.8 : ((t - 2.6) % per) / 0.8;   // brilho que atravessa
   if (ph >= 0 && ph <= 1) {
-    const th = -A - 0.1 + ph * (2 * A + 0.2);
+    const th = -TH_MAX - 0.1 + ph * (2 * TH_MAX + 0.2);
     ctx.translate(CX, CY); ctx.rotate(th);
-    const g = ctx.createLinearGradient(-40, 0, 40, 0);
-    g.addColorStop(0, 'rgba(255,211,2,0)'); g.addColorStop(0.5, 'rgba(255,211,2,0.32)'); g.addColorStop(1, 'rgba(255,211,2,0)');
-    ctx.fillStyle = g; ctx.fillRect(-40, -R - 90, 80, 180);
+    const g2 = ctx.createLinearGradient(-45, 0, 45, 0);
+    g2.addColorStop(0, 'rgba(255,211,2,0)'); g2.addColorStop(0.5, 'rgba(255,211,2,0.32)'); g2.addColorStop(1, 'rgba(255,211,2,0)');
+    ctx.fillStyle = g2; ctx.fillRect(-45, -R - 90, 90, 180);
   }
   ctx.restore();
 }
@@ -92,7 +116,7 @@ function titulo(t) {
       if (p <= 0) { ctx.restore(); return; }
       ctx.globalAlpha = cl(p * 5);
       ctx.translate(0, -170 * (1 - bounceOut(p)) + hop);
-    } else if (it.tipo === 2) {               // CONFRATERNIZAÇÃO: letras saltam crescendo
+    } else if (it.tipo === 2) {               // CONFRA: letras saltam crescendo
       const p = cl((t - 1.55 - 0.035 * it.i) / 0.45);
       if (p <= 0) { ctx.restore(); return; }
       const sc = backOut(p, 2.2); ctx.globalAlpha = cl(p * 4);
@@ -102,16 +126,20 @@ function titulo(t) {
       if (p <= 0) { ctx.restore(); return; }
       const sc = backOut(p, 2.8);
       ctx.scale(sc, sc);
+      ctx.save(); ctx.translate(0, 6); estrela(14, F * 1.18, F * 0.98, (1 - p) * -Math.PI + t * 0.35); ctx.fillStyle = VS; ctx.fill(); ctx.restore();
       ctx.save(); estrela(14, F * 1.18, F * 0.98, (1 - p) * -Math.PI + t * 0.35);
       ctx.fillStyle = AM; ctx.fill(); ctx.lineWidth = 6; ctx.strokeStyle = VM; ctx.stroke(); ctx.restore();
       ctx.rotate(Math.sin(t * 2.2) * 0.07 + (1 - p) * -1.2);
-      ctx.font = `400 ${F * 1.3}px "Lilita One"`;
-      ctx.fillStyle = VM; ctx.fillText('X', 0, F * 0.45 + 4);
-      ctx.fillStyle = VS; ctx.fillText('X', 0, F * 0.45);
+      ctx.font = `${PESO} ${F * 1.35}px ${FONTE}`; ctx.lineJoin = 'round';
+      const yx = ctx.measureText('X').actualBoundingBoxAscent / 2;
+      for (let d = 5; d > 0; d--) { ctx.fillStyle = VM; ctx.fillText('X', d * 0.3, yx + d); }
+      ctx.lineWidth = F * 0.09; ctx.strokeStyle = VS; ctx.strokeText('X', 0, yx);
+      ctx.fillStyle = VS; ctx.fillText('X', 0, yx);
       ctx.restore(); return;
     }
-    ctx.font = `800 ${F}px "Baloo 2"`;
-    ctx.fillStyle = VM; ctx.fillText(it.ch, 0, capH / 2 + 4);     // relevo vermelho (sem sombra preta)
+    ctx.font = `${PESO} ${F}px ${FONTE}`;
+    for (let d = 7; d > 0; d--) { ctx.fillStyle = d > 4 ? VS : VM; ctx.fillText(it.ch, d * 0.35, capH / 2 + d); }  // relevo 3D
+    ctx.lineJoin = 'round'; ctx.lineWidth = F * 0.07; ctx.strokeStyle = AM; ctx.strokeText(it.ch, 0, capH / 2);  // engorda o traço
     ctx.fillStyle = AM; ctx.fillText(it.ch, 0, capH / 2);
     ctx.restore();
   });
@@ -124,7 +152,7 @@ function brilho(x, y, s) {           // faísca de 4 pontas
   ctx.quadraticCurveTo(-0.12, 0.12, -1, 0); ctx.quadraticCurveTo(-0.12, -0.12, 0, -1); ctx.fill(); ctx.restore();
 }
 function brilhosFaixa(t) {
-  const pts = [[-0.50, 50, 0], [0.52, 46, 0.8], [-0.22, 104, 1.6], [0.30, 100, 0.4], [0.05, 112, 1.2]];
+  const pts = [[-0.45, 85, 0], [0.45, 85, 0.8], [-0.25, 95, 1.6], [0.30, 92, 0.4], [0.08, 100, 1.2]];
   pts.forEach(([th, dr, of]) => {
     const ph = ((t + of) % 2.4) / 2.4, s = Math.sin(Math.PI * cl(ph / 0.45)) * 20 * cl((t - 2.2) / 0.3);
     brilho(CX + (R + dr) * Math.sin(th), CY - (R + dr) * Math.cos(th), s);
@@ -152,6 +180,24 @@ function confete(t, t0, tipo, seed) {
   }
 }
 
+// ---------- chuva de confete caindo do arco: só na 2ª parte de cada pessoa (roupa de festa) ----------
+const CONFRA = [[2.1, 4.5], [5.733, 7.267], [9.033, 11.267], [15.5, 17.9], [19.233, 20.767], [22.133, 23.7], [25.967, 27.467],
+  [29.167, 31.1], [33.167, 34.867], [36.4, 38.033], [40.4, 43.7], [44.967, 47.267], [49.1, 50.733], [52.3, 53.667], [55, 57], [58.6, FIM_VIDEO]];
+const CHUVA_ARCO = (() => { const r = rnd(9090), v = [], POR_S = 120;
+  CONFRA.forEach(([a, b], seg) => { for (let i = 0, n = Math.round((b - a) * POR_S); i < n; i++) {
+    const th = (r() * 2 - 1) * TH_MAX;
+    v.push({ seg, t0: a + (i === 0 ? 0 : r()) * (b - a) - (i % 3 === 0 ? 0.6 * r() : 0), th, vy: 240 + r() * 360, vx: (r() - .5) * 120, sw: 10 + r() * 30, fs: 2 + r() * 4,
+      w: 16 + r() * 16, h: 9 + r() * 8, rot: r() * 6, vr: 3 + r() * 8, c: [AM, AM, VM, VS, AM][i % 5], forma: i % 4 === 3 ? 1 : i % 4 }); } });
+  return v; })();
+function chuvaArco(t) {
+  const seg = CONFRA.findIndex(([a, b]) => t >= a && t < b); if (seg < 0) return;
+  CHUVA_ARCO.forEach(p => { if (p.seg !== seg) return; const dt = t - p.t0; if (dt < 0 || dt > 4.5) return;
+    const x0 = CX + (R - H + 20) * Math.sin(p.th), y0 = CY - (R - H + 20) * Math.cos(p.th);
+    const y = y0 + p.vy * dt + 120 * dt * dt, x = x0 + p.vx * dt + Math.sin(dt * p.fs + p.rot) * p.sw;
+    if (y > 1950) return;
+    peca(ctx, x, y, p, p.rot + dt * p.vr, Math.cos(dt * (p.vr + 2))); });
+}
+
 // ---------- transição em faixas diagonais ----------
 function wipe(t, tc) {
   const D = 0.7, p = (t - (tc - D / 2)) / D; if (p <= 0 || p >= 1) return false;
@@ -163,36 +209,87 @@ function wipe(t, tc) {
   ctx.restore(); return true;
 }
 
+// ---------- confete em tela cheia (encerramento) ----------
+const CHUVA = (() => { const r = rnd(4242), v = [];
+  for (let i = 0; i < 950; i++) v.push({ x: r() * 1180 - 50, t0: r() * 2.6 - 0.6, vy: 380 + r() * 520, sw: 20 + r() * 50, fs: 1 + r() * 3,
+    w: 18 + r() * 20, h: 10 + r() * 9, rot: r() * 6, vr: 3 + r() * 9, c: [AM, VM, VS, AM, AM][i % 5], forma: i % 4, frente: i % 3 === 0 });
+  return v; })();
+const ESTOURO = (() => { const r = rnd(777), v = [];
+  for (let i = 0; i < 450; i++) { const a = r() * Math.PI * 2, sp = 900 + r() * 1700;
+    v.push({ vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 600, w: 14 + r() * 14, h: 8 + r() * 7, rot: r() * 6, vr: 4 + r() * 10,
+      c: [AM, VM, VS, AM][i % 4], forma: i % 4, frente: i % 2 === 0 }); }
+  return v; })();
+function peca(c, x, y, p, rot, flip) {
+  c.save(); c.translate(x, y); c.rotate(rot); c.scale(1, flip); c.fillStyle = p.c;
+  if (p.forma === 0) { c.beginPath(); c.arc(0, 0, p.h * 0.75, 0, 7); c.fill(); }
+  else if (p.forma === 3) { c.lineWidth = 5; c.strokeStyle = p.c; c.beginPath(); c.moveTo(-p.w, 0);           // serpentina
+    c.bezierCurveTo(-p.w / 2, -p.h * 1.6, p.w / 2, p.h * 1.6, p.w, 0); c.stroke(); }
+  else c.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+  c.restore();
+}
+function confeteFinal(u) {
+  if (u < 0.3) return;
+  const ue = u - 0.3;
+  CHUVA.forEach(p => { const dt = ue - p.t0; if (dt < 0) return;
+    const y = -60 + dt * p.vy, x = p.x + Math.sin(dt * p.fs + p.rot) * p.sw;
+    peca(p.frente ? ctxFrente : ctxFundo, x, y, p, p.rot + dt * p.vr, Math.cos(dt * (p.vr + 2))); });
+  const de = u - 0.55; if (de < 0) return;
+  ESTOURO.forEach(p => { const k = 2.2, f = (1 - Math.exp(-k * de)) / k;
+    const x = 540 + p.vx * f, y = 900 + p.vy * f + 420 * de * de;
+    peca(p.frente ? ctxFrente : ctxFundo, x, y, p, p.rot + de * p.vr, Math.cos(de * (p.vr + 1))); });
+}
+
 // ---------- encerramento com o logo ----------
 function encerramento(t) {
   const u = t - FIM_VIDEO; if (u < 0) return;
   ctx.fillStyle = VM; ctx.fillRect(0, 0, 1080, 1920);
-  ctx.save(); ctx.translate(540, 900); ctx.rotate(u * 0.18); ctx.fillStyle = VS;
+  ctx.save(); ctx.translate(540, 900); ctx.rotate(u * 0.25); ctx.fillStyle = VS;
   for (let k = 0; k < 18; k++) { ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, 1500, k * Math.PI / 9, k * Math.PI / 9 + Math.PI / 18); ctx.fill(); }
   ctx.restore();
-  const ph = cl((u - 0.2) / 0.6), ps = backOut(ph, 2.0);
-  if (ph > 0) { ctx.save(); ctx.translate(540, 900); ctx.scale(ps, ps * 0.78); estrela(26, 560, 500, -u * 0.25);
-    ctx.fillStyle = AM; ctx.fill(); ctx.restore(); }
-  const pl = cl((u - 0.35) / 0.7);
-  if (pl > 0) {
-    const s = backOut(pl, 1.9) * (1 + 0.012 * Math.sin(u * 3.2)), w = 880, h = w * logo.height / logo.width;
-    ctx.save(); ctx.translate(540, 900 + Math.sin(u * 2.4) * 8); ctx.scale(s, s); ctx.rotate((1 - pl) * -0.25);
-    ctx.drawImage(logo, -w / 2, -h / 2, w, h); ctx.restore();
-  }
-  [[150, 560, 0], [930, 600, .7], [190, 1250, 1.3], [900, 1230, .3], [540, 470, 1.9], [540, 1340, 1.0]].forEach(([x, y, of]) => {
+  [[150, 560, 0], [930, 600, .7], [190, 1250, 1.3], [900, 1230, .3], [540, 440, 1.9], [540, 1370, 1.0]].forEach(([x, y, of]) => {
     const p2 = ((u + of) % 1.8) / 1.8; brilho(x, y, Math.sin(Math.PI * cl(p2 / 0.5)) * 34 * cl((u - 0.9) / 0.3));
   });
 }
 
+// ---------- logo: fixo embaixo durante o vídeo → sobe girando em 3D no final ----------
+const LOGO_BAIXO = { x: 540, y: 1738, w: 300 };
+function posLogo(t) {
+  const u = t - FIM_VIDEO, hLogo = 880 * logo.height / logo.width;
+  let x = LOGO_BAIXO.x, y = LOGO_BAIXO.y, w = LOGO_BAIXO.w, ry = 0, rx = 0, rz = 0, op = 1;
+  if (u < 0) {                                   // entrada no início
+    const p = cl((t - 0.2) / 0.6); w *= backOut(p, 2.0); op = cl(p * 4);
+    ry = (1 - p) * 180;
+  } else {                                       // voa para o centro dando uma volta, depois balança em 3D
+    const p = cubicIO(cl((u - 0.05) / 0.8));
+    x = 540; y = LOGO_BAIXO.y + (900 - LOGO_BAIXO.y) * p; w = LOGO_BAIXO.w + (860 - LOGO_BAIXO.w) * backOut(cl((u - 0.05) / 0.8), 1.6);
+    const q = cl((u - 0.85) / 0.4);
+    ry = 360 * p + q * 24 * Math.sin((u - 0.85) * 2.6); rx = q * 10 * Math.sin((u - 0.85) * 1.9 + 1); rz = q * 2.5 * Math.sin((u - 0.85) * 1.7);
+    y += q * Math.sin(u * 2.4) * 10;
+  }
+  const s = w / 880;
+  L3D.style.opacity = op;
+  L3D.style.transform = `translate(${x - 440}px, ${y - hLogo / 2}px) scale(${s}) rotateY(${ry}deg) rotateX(${rx}deg) rotateZ(${rz}deg)`;
+  L3D.style.height = hLogo + 'px';
+}
+
+// ---------- moldura fina ----------
+function moldura(c) {
+  c.save(); c.fillStyle = VM; c.beginPath(); c.rect(0, 0, 1080, 1920); c.rect(BORDA, BORDA, 1080 - 2 * BORDA, 1920 - 2 * BORDA); c.fill('evenodd');
+  c.strokeStyle = AM; c.lineWidth = 3; c.strokeRect(BORDA + 1.5, BORDA + 1.5, 1080 - 2 * BORDA - 3, 1920 - 2 * BORDA - 3); c.restore();
+}
 window.setT = t => {
-  ctx.clearRect(0, 0, 1080, 1920);
+  ctxFundo.clearRect(0, 0, 1080, 1920); ctxFrente.clearRect(0, 0, 1080, 1920); ctx = ctxFundo;
   encerramento(t);
   WIPES.slice(0, -1).forEach(w => wipe(t, w));
-  if (t < FIM_VIDEO) { faixa(t); titulo(t); brilhosFaixa(t); }
+  if (t < FIM_VIDEO) { chuvaArco(t); faixa(t); titulo(t); brilhosFaixa(t); }
   CONFETES.forEach(([t0, tipo], i) => confete(t, t0, tipo, 1000 + i * 77));
   wipe(t, FIM_VIDEO);
+  confeteFinal(t - FIM_VIDEO);
+  posLogo(t);
+  moldura(ctxFrente);
 };
 window.DUR = FIM_VIDEO + DUR_FIM;
-window.pronto = Promise.all([document.fonts.load('800 60px "Baloo 2"'), document.fonts.load('400 60px "Lilita One"'),
-  new Promise(r => logo.complete ? r() : (logo.onload = r))]).then(() => { layout(); window.setT(0); });
+window.pronto = Promise.all([document.fonts.load('800 60px "Baloo 2"'), document.fonts.load('700 60px "Comfortaa"'),
+  new Promise(r => logo.complete ? r() : (logo.onload = r)),
+  ...[...L3D.querySelectorAll('img')].map(im => im.decode())]).then(() => { layout(); window.setT(0); });
 </script></body></html>

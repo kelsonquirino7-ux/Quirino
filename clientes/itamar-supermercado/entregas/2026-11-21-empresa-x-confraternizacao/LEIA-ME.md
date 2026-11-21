@@ -20,3 +20,4 @@ Decisões
 - v3 (pedidos do dono): texto "EMPRESA X CONFRA" em maiúsculas na fonte Comfortaa Bold (OFL, em `ferramentas/fontes/`), a mais próxima do
   "itamar" do logo; tarja ampliada 1,25× para cima e de ponta a ponta da tela (a borda de baixo segue cobrindo o texto antigo);
   confete caindo do arco só na 2ª parte de cada pessoa (roupa de festa) — trechos listados em `CONFRA` no grafismos.html.
+- v4: logo de baixo mais interativo — balança em 3D e flutua o tempo todo, dá um pulo com rebolado no início de cada trecho de festa e um quique quando volta ao uniforme.

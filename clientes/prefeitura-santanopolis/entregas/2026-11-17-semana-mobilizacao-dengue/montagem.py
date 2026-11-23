@@ -5,7 +5,7 @@ Fonte editável da edição: lista de cenas, cortes no ritmo da trilha, transiç
 tratamento de cor, faixas institucionais, legenda e vinheta.
 
 Uso: python3 montagem.py <pasta-com-os-brutos IMG_55xx.MOV> <trilha.mp3>
-Brutos: pasta do Drive "AGENTES DE ENDEMIAS" + IMG_5522/5528/5529 (links avulsos). Trilha: Magnific (Lyria 3 Pro).
+Brutos: pasta do Drive "AGENTES DE ENDEMIAS" (15 vídeos) + pasta das equipes de aplicação (IMG_88xx/89xx, 8 vídeos). Trilha: Magnific (Lyria 3 Pro).
 Duração fechada em 60 s. A trilha é emendada uma vez (fim do 1º bloco → trecho calmo da introdução)
 e segue contínua até a batida final, que cai junto com a vinheta.
 """
@@ -31,24 +31,32 @@ CENAS = [
     # Cada vídeo do Drive aparece UMA vez, inteiro (enquadramento original, sem zoom nem recorte).
     # duração: inteiro = batidas; decimal = segundos. enquadramento "H" = vídeo horizontal inteiro sobre fundo desfocado.
     # etiqueta: "LINHA 1|LINHA 2"; "+" = continua a anterior
-    # — bloco 1 (drop, 32 batidas)
-    ("IMG_5514", 0.3, 8, None, "zoomin",     "EQUIPES|NAS RUAS"),
-    ("IMG_5527", 0.3, 8, None, "smoothleft", "MUTIRÃO|DE LIMPEZA"),
-    ("IMG_5516", 0.3, 8, None, "smoothup",   "+"),
-    ("IMG_5517", 0.3, 8, None, "smoothleft", "ELIMINAÇÃO|DE CRIADOUROS"),
+    # — bloco 1 (drop, 32 batidas): equipes nas ruas e aplicação
+    ("IMG_5514", 0.3, 4, None, "zoomin",      "EQUIPES|NAS RUAS"),
+    ("IMG_8903", 8.0, 4, None, "smoothleft",  "+"),
+    ("IMG_8902", 1.0, 4, None, "smoothup",    "+"),
+    ("IMG_8883", 0.3, 4, None, "zoomin",      "APLICAÇÃO|DE INSETICIDA"),
+    ("IMG_8896", 0.3, 4, None, "smoothleft",  "+"),
+    ("IMG_8897", 0.5, 4, None, "smoothup",    "+"),
+    ("IMG_8886", 0.3, 4, None, "smoothleft",  "+"),
+    ("IMG_8900", 0.5, 2, None, "slideup",     "+"),
+    ("IMG_8901", 0.5, 2, None, "smoothright", "+"),
     # — bloco 2 (introdução calma, 20 batidas)
-    ("IMG_5528", 0.3, 12, None, "fade",      "VISITA ÀS|RESIDÊNCIAS"),
-    ("IMG_5529", 5.6, 8, None,  "fade",      "TRATAMENTO DE|RESERVATÓRIOS"),
+    ("IMG_5528", 0.3, 8, None, "fade",        "VISITA ÀS|RESIDÊNCIAS"),
+    ("IMG_5529", 5.6, 6, None, "fade",        "TRATAMENTO DE|RESERVATÓRIOS"),
+    ("IMG_5534", 0.5, 6, "H",  "fade",        "+"),
     # — bloco 3 (1º drop 12 batidas + respiro)
-    ("IMG_5534", 0.5, 8, "H",   "zoomin",    "+"),
-    ("IMG_5522", 0.4, 4, None,  "smoothup",  "RECOLHIMENTO|DE GARRAFAS"),
+    ("IMG_5527", 0.3, 4, None, "zoomin",      "MUTIRÃO|DE LIMPEZA"),
+    ("IMG_5516", 0.3, 4, None, "smoothleft",  "+"),
+    ("IMG_5517", 0.3, 4, None, "smoothup",    "ELIMINAÇÃO|DE CRIADOUROS"),
     ("IMG_5535", 4.3, 8.42 - 12 * 0.519375, None, "fade", "VISTORIA EM|CAIXAS-D'ÁGUA"),
     # — bloco 4 (drop final, 27 batidas + grito nas 5 últimas)
-    ("IMG_5538", 0.5, 6, None,  "zoomin",     "TRATAMENTO|DE FOCOS"),
-    ("IMG_5539", 1.7, 6, None,  "smoothleft", "VISTORIA|EM PNEUS"),
-    ("IMG_5541", 0.3, 4, "H",   "smoothup",   "+"),
-    ("IMG_5542", 3.6, 6, "H",   "smoothleft", "VISTORIA|EM QUINTAIS"),
-    ("IMG_5543", 4.4, 5, None,  "smoothup",   "FERROS-VELHOS|E SUCATAS"),
+    ("IMG_5522", 0.4, 4, None, "zoomin",      "RECOLHIMENTO|DE GARRAFAS"),
+    ("IMG_5538", 0.5, 5, None, "smoothleft",  "TRATAMENTO|DE FOCOS"),
+    ("IMG_5539", 1.7, 5, None, "smoothup",    "VISTORIA|EM PNEUS"),
+    ("IMG_5541", 0.3, 4, "H",  "smoothleft",  "+"),
+    ("IMG_5542", 3.6, 5, "H",  "smoothup",    "VISTORIA|EM QUINTAIS"),
+    ("IMG_5543", 4.4, 4, None, "smoothleft",  "FERROS-VELHOS|E SUCATAS"),
 ]
 GRITO = ("IMG_5546", 5.75, 2.6, "zoomin")  # grupo: "Todos contra a dengue!" (rotação da câmera mantida)
 

@@ -2,7 +2,7 @@
 # Finaliza um vídeo de cliente: ajusta formato, legenda opcional, logo no canto e vinheta final.
 #
 # Uso:
-#   bash ferramentas/video.sh -c <cliente> -i entrada.mp4 -o saida.mp4 [-f 9x16|16x9] [-l legenda.srt [-a] [-b]] [-d destaques.txt] [-e lettering.txt] [-r esq|dir] [-z 2.5,8] [-m] [-q]
+#   bash ferramentas/video.sh -c <cliente> -i entrada.mp4 -o saida.mp4 [-f 9x16|16x9] [-l legenda.srt [-a] [-b]] [-d destaques.txt] [-e lettering.txt] [-r centro|esq|dir] [-z 2.5,8] [-m] [-q]
 #     -c  pasta do cliente em clientes/ (ex.: itamar-supermercado)
 #     -f  formato final (padrão 9x16 = Reels/Stories; 16x9 = YouTube/TV)
 #     -l  arquivo .srt para queimar a legenda no vídeo
@@ -13,7 +13,7 @@
 #     -d  arquivo de textos de destaque, uma linha por texto:  0:03-0:06 OBRA ENTREGUE
 #     -b  legenda animada na borda inferior (em vez de 2/3 da altura)
 #     -e  arquivo de lettering estilo manchete (palavra-chave entre *asteriscos*):  0:03-0:06 DIRETO DE\N*BRASÍLIA*
-#     -r  reenquadra: pessoa a 80 % encostada embaixo e à esquerda (esq) ou direita (dir), abrindo espaço p/ lettering
+#     -r  reenquadra: pessoa menor; centro = 75 % com fundo desfocado nos 4 lados (mais espaço em cima), esq ou dir (encostada embaixo num lado)
 #     -z  zoom de impacto nos segundos indicados, separados por vírgula (ex.: -z 2.5,8,14)
 set -euo pipefail
 RAIZ="$(cd "$(dirname "$0")/.." && pwd)"
@@ -36,8 +36,10 @@ TEM_AUDIO=$(ffprobe -v error -select_streams a -show_entries stream=index -of cs
 # 1) enquadra: vídeo inteiro no centro, fundo = o próprio vídeo ampliado e desfocado
 F="[0:v]split[a][b];[a]scale=$W:$H:force_original_aspect_ratio=increase,crop=$W:$H,gblur=sigma=40,eq=brightness=-0.08[bg];"
 if [ -n "$REENQ" ]; then   # pessoa menor, encostada embaixo e num lado
-  RW=$((W*80/100)); RH=$((H*80/100)); [ "$REENQ" = dir ] && RX="W-w" || RX=0
-  F+="[b]scale=$RW:$RH:force_original_aspect_ratio=decrease[fg];[bg][fg]overlay=$RX:H-h,setsar=1,fps=30,format=yuv420p[v0];"
+  RW=$((W*80/100)); RH=$((H*80/100)); RX=0; RY="H-h"
+  [ "$REENQ" = dir ] && RX="W-w"
+  [ "$REENQ" = centro ] && { RW=$((W*75/100)); RH=$((H*75/100)); RX="(W-w)/2"; RY="(H-h)*0.7"; }
+  F+="[b]scale=$RW:$RH:force_original_aspect_ratio=decrease[fg];[bg][fg]overlay=$RX:$RY,setsar=1,fps=30,format=yuv420p[v0];"
 else
   F+="[b]scale=$W:$H:force_original_aspect_ratio=decrease[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1,fps=30,format=yuv420p[v0];"
 fi

@@ -12,7 +12,7 @@ import cv2
 
 ap = argparse.ArgumentParser()
 ap.add_argument("video"); ap.add_argument("-f", default="9x16"); ap.add_argument("-o", required=True)
-ap.add_argument("-r", help="reenquadramento do video.sh: esq|dir (pessoa a 80 %% embaixo)")
+ap.add_argument("-r", help="reenquadramento do video.sh: centro|esq|dir (pessoa a 80 %%)")
 ap.add_argument("--passo", type=float, default=0.25)
 a = ap.parse_args()
 W, H = (1080, 1920) if a.f == "9x16" else (1920, 1080)
@@ -22,6 +22,9 @@ iw, ih = cap.get(cv2.CAP_PROP_FRAME_WIDTH), cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
 s = min(W / iw, H / ih); oy = (H - ih * s) / 2; ox = (W - iw * s) / 2
 if a.r:
     s = min(W * 0.8 / iw, H * 0.8 / ih); oy = H - ih * s; ox = 0 if a.r == "esq" else W - iw * s
+    if a.r == "centro":   # igual ao video.sh: 75 %, centralizado, 70 % da sobra em cima
+        s = min(W * 0.75 / iw, H * 0.75 / ih)
+        oy, ox = (H - ih * s) * 0.7, (W - iw * s) / 2
 cas = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 topo, cabeca, n, prox = [], [], 0, 0.0
 while True:

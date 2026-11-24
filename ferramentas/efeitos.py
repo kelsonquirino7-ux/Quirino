@@ -176,20 +176,93 @@ def geometria(rosto, a, z, W, H, zooms):
     return min(xs0), min(ys0), max(xs1), min(ys1)
 
 
+CAP, DESC = 0.496, 0.19      # proporções da Anton: altura das maiúsculas e descida (fs = altura da caixa)
+
+
+def hexagono(w, h):
+    k = w * 0.25
+    return f"m {k:.0f} 0 l {w - k:.0f} 0 l {w:.0f} {h / 2:.0f} l {w - k:.0f} {h:.0f} l {k:.0f} {h:.0f} l 0 {h / 2:.0f}"
+
+
+def montar_manchete(txt, med):
+    """Monta a composição em unidades (palavra grande = 100). Devolve lista de peças:
+    dict(tipo='texto'|'caixa'|'hex', ...). Formatos (separados por |):
+      TOPO|*GRANDE*|BAIXO      pequena em cima à esquerda, grande, pequena embaixo à direita
+      *+60*|MILHÕES|EM INVESTIMENTOS   "+" branco, número grande, palavra ao lado e linha embaixo
+      SELO:O|TRABALHO|CHEGOU   selo em caixas (emblema, caixa clara, caixa escura)"""
+    W = lambda t, fs: med(t) * fs / 100
+    pecas = []
+    def texto(t, fs, x, base, papel, ordem):
+        pecas.append(dict(tipo="texto", t=t, fs=fs, x=x, base=base, papel=papel, ordem=ordem, w=W(t, fs)))
+    if txt.startswith("SELO:"):
+        emb, c1, c2 = (txt[5:].split("|") + ["", ""])[:3]
+        fs1, fs2, pad = 100, 62, 14
+        w1 = W(c1, fs1) + 2 * pad + 30
+        h1 = CAP * fs1 + 2 * pad + 6
+        eh = h1 * 0.78
+        pecas.append(dict(tipo="caixa", x=eh * 0.55, y=-h1, w=w1, h=h1, papel="caixa1", ordem=0))
+        texto(c1, fs1, eh * 0.55 + pad + 22, -pad - 3, "caixa1_txt", 0)
+        pecas.append(dict(tipo="hex", x=0, y=-h1 * 0.5 - eh * 0.25, w=eh * 0.95, h=eh, papel="emblema", ordem=1))
+        texto(emb, fs2 * 0.9, eh * 0.95 / 2 - W(emb, fs2 * 0.9) / 2, -h1 * 0.5 - eh * 0.25 + eh / 2 + CAP * fs2 * 0.9 / 2, "emblema_txt", 1)
+        w2 = W(c2, fs2) + 2 * pad + 20
+        h2 = CAP * fs2 + 2 * pad + 4
+        x2 = eh * 0.55 + w1 - w2 + w1 * 0.08
+        pecas.append(dict(tipo="caixa", x=x2, y=-6, w=w2, h=h2, papel="caixa2", ordem=2))
+        texto(c2, fs2, x2 + pad + 10, -6 + h2 - pad - 2, "caixa2_txt", 2)
+        return pecas
+    campos = (txt.split("|") + ["", ""])[:3]
+    if campos[0].startswith("*"):          # *+60*|MILHÕES|EM INVESTIMENTOS
+        grande, topo, baixo = campos
+    else:
+        topo, grande, baixo = campos
+    grande = grande.strip("*")
+    if campos[0].startswith("*"):
+        num = grande.lstrip("+")
+        fp = 62
+        xb = 0
+        if grande.startswith("+"):
+            texto("+", fp, 0, -CAP * 100 / 2 + CAP * fp / 2, "branco", 1)
+            xb = W("+", fp) + 4
+        texto(num, 100, xb, 0, "grande", 0)
+        wb = W(num, 100)
+        if topo:
+            texto(topo, 50, xb + wb + 8, -CAP * 100 + CAP * 50, "branco", 1)
+        if baixo:
+            texto(baixo, 32, xb + wb * 0.25, 7 + CAP * 32, "branco", 2)
+        return pecas
+    texto(grande, 100, 0, 0, "grande", 0)
+    wb = W(grande, 100)
+    if topo:
+        texto(topo, 42, 2, -CAP * 100 - 5, "branco", 1)
+    if baixo:
+        fb = 36
+        texto(baixo, fb, wb - W(baixo, fb), 7 + CAP * fb, "branco", 2)
+    return pecas
+
+
+def caixa_pecas(pecas):
+    xs0, ys0, xs1, ys1 = [], [], [], []
+    for p in pecas:
+        if p["tipo"] == "texto":
+            xs0.append(p["x"]); xs1.append(p["x"] + p["w"] + 0.14 * CAP * p["fs"])
+            ys0.append(p["base"] - CAP * p["fs"] * 1.25); ys1.append(p["base"] + 2)
+        else:
+            xs0.append(p["x"]); xs1.append(p["x"] + p["w"]); ys0.append(p["y"]); ys1.append(p["y"] + p["h"])
+    return min(xs0), min(ys0), max(xs1), max(ys1)
+
+
 def lettering(arquivo, cfg, W, H, vertical, rosto=None, zooms=()):
-    r"""Lettering estilo manchete: fonte condensada inclinada, linhas coladas, palavra-chave
-    entre *asteriscos* enorme com degradê na cor do cliente, palavras de apoio pequenas em branco.
-    Fica AO LADO da cabeça (lado mais livre, alinhado à borda), subindo para cima da cabeça
-    quando precisa; nunca cobre rosto nem corpo (usa rosto.json). Sombra suave atrás do texto.
-    Linha:  0:03-0:06 DIRETO DE\N*BRASÍLIA*"""
+    r"""Lettering fiel à referência "manchete de obra" (ver montar_manchete para os formatos).
+    Bloco no canto superior esquerdo, levemente girado, peças entrando em sequência com
+    borrão de movimento e saindo em varredura. Nunca cobre rosto nem corpo (rosto.json)."""
     med = Medidor(FONTES / cfg.get("arquivo_lettering", "anton-latin-400-normal.ttf"), 100)
-    c1 = cfg.get("lettering_destaque", cfg["caixa"])
-    c2 = mistura(c1, cfg.get("lettering_borda", cfg["caixa"]), 0.45)
-    escuro = cor_ass(cfg.get("lettering_borda", cfg["caixa"]))
-    G0, RP = (300 if vertical else 220), 0.48
-    CAP, DESC, ACENTO, GAP = 0.496, 0.19, 0.10, 0.07     # proporções da Anton (fs = altura da caixa)
-    M = W * 0.045                                         # margem da borda e da cabeça
-    ytop = H * (0.095 if vertical else 0.10)              # abaixo do logo do canto
+    claro = mistura(cfg.get("lettering_destaque", cfg["caixa"]), "#FFFFFF", 0.30)
+    vivo = cfg.get("lettering_destaque", cfg["caixa"])
+    escuro_hex = cfg.get("lettering_borda", cfg["caixa"])
+    escuro = cor_ass(escuro_hex)
+    M = W * 0.05
+    ytop = H * 0.03
+    ROT = 4                                  # graus, sobe para a direita
     ev = []
     for n, linha in enumerate(Path(arquivo).read_text(encoding="utf-8").splitlines(), 1):
         linha = linha.strip()
@@ -199,95 +272,86 @@ def lettering(arquivo, cfg, W, H, vertical, rosto=None, zooms=()):
         if not m:
             sys.exit(f"lettering linha {n} fora do formato '0:03-0:06 TEXTO': {linha}")
         a, z = seg(m[1]), seg(m[2])
-        linhas = [[p for p in re.split(r"(\*[^*]+\*)", l) if p.strip()] for l in m[3].strip().upper().split("\\N")]
-        larg = [sum(med(p.strip("*").strip()) * (1 if p.startswith("*") else RP) + (0 if p.startswith("*") else med(" ") * RP)
-                    for p in l) * 1.06 for l in linhas]          # 6 % de folga p/ inclinação
-        alt = [max(1 if p.startswith("*") else RP for p in l) for l in linhas]
-        cab = geometria(rosto, a, z, W, H, zooms)
-        if cab is None:   # sem rosto: centro-alto da tela
-            cab = (W * 0.3, H * 0.30, W * 0.7, H * 0.55)
+        pecas = montar_manchete(m[3].strip().upper().replace("SELO:", "SELO:"), med)
+        bx0, by0, bx1, by1 = caixa_pecas(pecas)
+        bw, bh = bx1 - bx0, by1 - by0
+        cab = geometria(rosto, a, z, W, H, zooms) or (W * 0.3, H * 0.3, W * 0.7, H * 0.55)
         hx0, htop, hx1, queixo = cab
-        esq, dir_ = hx0 - 2 * M, W - hx1 - 2 * M          # largura livre de cada lado
-        lado = "dir" if dir_ >= esq else "esq"
-        col = max(dir_, esq)
-        larga = W - 2 * M
-
-        def montar(G, fundo):
-            """Empilha de baixo (a partir de `fundo`) para cima. Devolve [(baseline, linha, h)] ou None."""
-            y = fundo
-            pos = []
-            for l, h, lw in reversed(list(zip(linhas, alt, larg))):
-                fs = h * G
-                base = y - DESC * fs * 0.3
-                topo_linha = base - CAP * fs - ACENTO * G
-                disponivel = larga if base < htop - M * 0.5 else col
-                if lw * G / 100 > disponivel or topo_linha < ytop:
-                    return None
-                pos.append((base, l, h))
-                y = topo_linha + ACENTO * G - GAP * G
-            return list(reversed(pos))
-
-        def buscar(fundo):
-            lo, hi, melhor = 30.0, float(G0), None
-            for _ in range(20):
+        hw = hx1 - hx0
+        proibido = [(hx0 - M * 0.6, htop - M * 0.6, hx1 + M * 0.6, queixo + M * 0.3),
+                    (hx0 - hw * 0.75, queixo, hx1 + hw * 0.75, H),
+                    (W * 0.70, 0, W, H * 0.085)]        # logo do canto (video.sh -m)
+        folga_rot = 0.07                     # crescimento da caixa pelo giro
+        def cabe(sx, X, Y):
+            x0, y0 = X, Y
+            x1, y1 = X + bw * sx * (1 + folga_rot), Y + bh * sx * (1 + folga_rot) + bw * sx * 0.07
+            if x1 > W - M or y1 > H * 0.62:
+                return False
+            return all(x1 < r0 or x0 > r1 or y1 < s0 or y0 > s1 for r0, s0, r1, s1 in proibido)
+        melhor = None
+        for k in range(30):
+            Y = ytop + k * H * 0.015
+            lo, hi, ok = 0.3, 4.0, None
+            for _ in range(18):
                 mid = (lo + hi) / 2
-                r = montar(mid, fundo)
-                if r:
-                    melhor, lo = (mid, r), mid
+                if cabe(mid, M, Y):
+                    ok, lo = mid, mid
                 else:
                     hi = mid
-            return melhor
-        # testa várias alturas para o pé do bloco (do queixo para cima) e fica com a letra maior;
-        # entre opções quase iguais (≥ 92 %), prefere a mais baixa, perto do rosto
-        opcoes = []
-        for k in range(16):
-            fundo = (queixo - M * 0.5) - k * ((queixo - M * 0.5) - (ytop + H * 0.08)) / 15
-            r = buscar(fundo)
-            if r:
-                opcoes.append((r[0], fundo, r))
-        melhor = None
-        if opcoes:
-            gmax = max(o[0] for o in opcoes)
-            melhor = max((o for o in opcoes if o[0] >= gmax * 0.92), key=lambda o: o[1])[2]
+            if ok and (melhor is None or ok > melhor[0] * 1.04):
+                melhor = (ok, Y)
         if not melhor:
-            sys.exit(f"lettering linha {n}: não cabe ao lado da cabeça; quebre em mais linhas: {linha}")
-        G, pos = melhor
-        P = G * RP
-        an, x = (3, W - M) if lado == "dir" else (1, M)
-        dx = (-1 if lado == "dir" else 1) * W * 0.10 * -1
-        anim_txt = r"\fax-0.14\blur9\t(0,170,\blur0)\fscx128\t(0,170,\fscx100)\fad(0,150)"
+            sys.exit(f"lettering linha {n}: sem espaço livre fora da pessoa: {linha}")
+        sx, Y = melhor
+        sx = min(sx, 4.2 if vertical else 3.0)
+        X0 = M - bx0 * sx
+        Y0 = Y - by0 * sx + bw * sx * 0.07          # compensa o giro (lado esquerdo desce)
+        org = rf"\org({M:.0f},{Y0:.0f})\frz{ROT}"
+        dur = (z - a) * 1000
+        SAI = 180
         # sombra suave atrás do bloco
-        topo_b = pos[0][0] - CAP * pos[0][2] * G - ACENTO * G
-        fundo_b = pos[-1][0]
-        largura_b = max(lw * G / 100 for lw in larg)
-        bx0 = (W - M - largura_b) if lado == "dir" else 0
-        bx1 = W if lado == "dir" else (M + largura_b)
-        pad = G * 0.35
-        ev.append((0, a, z, "Caixa", rf"{{\an7\pos({bx0 - pad:.0f},{topo_b - pad:.0f})\bord0\shad0\1c&H000000&\1a&H80&\blur{G * 0.35:.0f}\fad(180,150)\p1}}"
-                                     + caixa_arredondada(bx1 - bx0 + 2 * pad, fundo_b - topo_b + 2 * pad, pad)))
-        for base, l, h in pos:
-            fs = h * G
-            pe = base + DESC * fs                 # \an1/\an3 ancoram no pé da caixa da linha
-            mv = rf"\an{an}\move({x + dx:.0f},{pe:.0f},{x:.0f},{pe:.0f},0,170)"
-            def texto(grande_vis, peq_vis, cor_g="&HFFFFFF&"):
-                out = ""
-                for i, p in enumerate(l):
-                    sep = "" if i == len(l) - 1 else " "
-                    if p.startswith("*"):
-                        al = "00" if grande_vis else "FF"
-                        out += rf"{{\fs{G:.0f}\1c{cor_g}\1a&H{al}&\bord0\shad{G*0.03 if grande_vis else 0:.0f}\4c{escuro}\4a&H{'60' if grande_vis else 'FF'}&}}{p.strip('*').strip()}{sep}"
-                    else:
-                        al = "00" if peq_vis else "FF"
-                        out += rf"{{\fs{P:.0f}\1c&HFFFFFF&\1a&H{al}&\bord{P*0.03 if peq_vis else 0:.0f}\3c{escuro}\3a&H40&\shad{P*0.05 if peq_vis else 0:.0f}\4c&H000000&\4a&H{'50' if peq_vis else 'FF'}&}}{p.strip()}{sep}"
-                return out
-            ev.append((4, a, z, "Lettering", rf"{{{mv}{anim_txt}}}" + texto(False, True)))
-            topo_l = base - CAP * G * 1.25
-            nb = 6
-            for b in range(nb):
-                ya = 0 if b == 0 else topo_l + (base + 2 - topo_l) * b / nb
-                yb = topo_l + (base + 2 - topo_l) * (b + 1) / nb
-                cor = cor_ass(mistura(c1, c2, b / (nb - 1)))
-                ev.append((5, a, z, "Lettering", rf"{{{mv}{anim_txt}\clip(0,{ya:.0f},{W},{yb:.0f})}}" + texto(True, False, cor)))
+        pad = 40 * sx
+        ev.append((0, a, z, "Caixa", rf"{{\an7\pos({M - pad:.0f},{Y - pad * 0.6:.0f}){org}\bord0\shad0\1c&H000000&\1a&H90&\blur{35 * sx:.0f}\fad(200,150)\p1}}"
+                                     + caixa_arredondada(bw * sx + 2 * pad, bh * sx + 2 * pad, pad)))
+        for p in sorted(pecas, key=lambda q: q["ordem"]):
+            atraso = p["ordem"] * 110
+            entra = (rf"\alpha&HFF&\t({atraso},{atraso + 1},\alpha&H00&)" if atraso else "")
+            def mov(x, y):
+                d = 160 * sx
+                return (rf"\move({x - d:.0f},{y:.0f},{x:.0f},{y:.0f},{atraso},{atraso + 200})"
+                        rf"\blur12\t({atraso},{atraso + 200},\blur0)\fscx135\t({atraso},{atraso + 200},\fscx100)"
+                        rf"\t({dur - SAI:.0f},{dur:.0f},\blur16\fscx150\alpha&HFF&)")
+            if p["tipo"] in ("caixa", "hex"):
+                x, y = X0 + p["x"] * sx, Y0 + p["y"] * sx
+                w, h = p["w"] * sx, p["h"] * sx
+                forma = hexagono(w, h) if p["tipo"] == "hex" else caixa_arredondada(w, h, 10 * sx)
+                if p["papel"] == "caixa1":
+                    cor, borda = "&HFFFFFF&", escuro
+                elif p["papel"] == "caixa2":
+                    cor, borda = escuro, "&HFFFFFF&"
+                else:
+                    cor, borda = cor_ass(vivo), "&HFFFFFF&"
+                ev.append((3, a, z, "Caixa", rf"{{\an7{mov(x, y)}{org}{entra}\fax-0.10\1c{cor}\3c{borda}\bord{5 * sx:.0f}\shad{6 * sx:.0f}\4c&H000000&\4a&H70&\p1}}{forma}"))
+                continue
+            fs = p["fs"] * sx
+            pe = Y0 + (p["base"] + DESC * p["fs"]) * sx
+            x = X0 + p["x"] * sx
+            base_txt = rf"\an1{mov(x, pe)}{org}{entra}\fax-0.14\fs{fs:.0f}"
+            if p["papel"] == "grande":
+                topo_l = Y0 + (p["base"] - CAP * p["fs"] * 1.3) * sx
+                fim_l = Y0 + p["base"] * sx
+                nb = 6
+                for b in range(nb):
+                    ya = 0 if b == 0 else topo_l + (fim_l - topo_l) * b / nb
+                    yb = H if b == nb - 1 else topo_l + (fim_l - topo_l) * (b + 1) / nb
+                    cor = cor_ass(mistura(claro, vivo, b / (nb - 1)))
+                    ev.append((5, a, z, "Lettering", rf"{{{base_txt}\clip(0,{ya:.0f},{W},{yb:.0f})\1c{cor}\bord0\shad{fs * 0.035:.0f}\4c{escuro}\4a&H40&}}{p['t']}"))
+            elif p["papel"] == "caixa1_txt":
+                ev.append((4, a, z, "Lettering", rf"{{{base_txt}\1c{escuro}\bord0\shad0}}{p['t']}"))
+            elif p["papel"] == "emblema_txt":
+                ev.append((4, a, z, "Lettering", rf"{{{base_txt}\1c&HFFFFFF&\bord{fs * 0.04:.0f}\3c{escuro}\shad0}}{p['t']}"))
+            else:   # branco
+                ev.append((4, a, z, "Lettering", rf"{{{base_txt}\1c&HFFFFFF&\bord{fs * 0.025:.0f}\3c{escuro}\3a&H60&\shad{fs * 0.05:.0f}\4c&H000000&\4a&H50&}}{p['t']}"))
     return ev
 
 

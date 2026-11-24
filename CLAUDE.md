@@ -54,15 +54,15 @@ Fontes locais (licença OFL) em `ferramentas/fontes/`, declaradas em `ferramenta
 - Não abrir PR sem pedido explícito.
 
 ## Como finalizar um vídeo
-`bash ferramentas/video.sh -c <cliente> -i bruto.mp4 -o clientes/<cliente>/entregas/AAAA-MM-DD-nome/video.mp4 [-f 9x16|16x9] [-l legenda.srt [-a] [-b]] [-d destaques.txt] [-e lettering.txt] [-r esq|dir] [-z 2.5,8] [-m] [-q]`
+`bash ferramentas/video.sh -c <cliente> -i bruto.mp4 -o clientes/<cliente>/entregas/AAAA-MM-DD-nome/video.mp4 [-f 9x16|16x9] [-l legenda.srt [-a] [-b]] [-d destaques.txt] [-e lettering.txt] [-r centro|esq|dir] [-z 2.5,8] [-m] [-q]`
 - Ajusta para Reels (9x16, padrão) ou YouTube (16x9) com fundo desfocado, sem cortar o vídeo.
 - `-l` queima legenda .srt (o Claude escreve o .srt a partir do texto/roteiro enviado pelo dono;
   não há transcrição automática de áudio neste ambiente).
 - `-a` legenda animada estilo Reels (blocos curtos em maiúsculas, palavra da vez em caixa na cor do cliente).
   Padrão para Reels quando houver legenda.
 - `-d` textos de destaque grandes e animados; arquivo com uma linha por texto: `0:03-0:06 OBRA ENTREGUE`.
-- `-e` lettering estilo manchete: fonte Anton inclinada, palavra-chave entre `*asteriscos*` grande na cor do cliente, resto pequeno em branco (`0:03-0:06 DIRETO DE\N*BRASÍLIA*`).
-- `-r esq|dir` reenquadra a pessoa a 80 % encostada embaixo num lado, abrindo espaço para o lettering grande ao lado da cabeça (o lettering nunca cobre rosto/corpo: `ferramentas/rosto.py`).
+- `-e` lettering "manchete" (fiel à referência de obra): Anton inclinada e girada, no canto superior esquerdo, peças entrando em sequência. Formatos por linha: `0:03-0:06 TOPO|*GRANDE*|BAIXO`, `*+3*|AO LADO|EMBAIXO`, `SELO:É|VITOR|DO POVO`.
+- `-r centro|esq|dir` reenquadra a pessoa a 80 % (centro = fundo desfocado nos 4 lados), abrindo espaço para o lettering sem cobrir rosto/corpo (`ferramentas/rosto.py`).
 - `-z` zoom de impacto nos segundos indicados (ex.: `-z 2.5,8`), para frases fortes ou viradas.
 - Cores e fonte dos efeitos: `clientes/<cliente>/video.json` (tiradas do brief, contraste AA conferido).
   O `.ass` gerado fica ao lado do vídeo como fonte editável.

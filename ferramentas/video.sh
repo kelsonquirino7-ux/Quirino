@@ -2,7 +2,7 @@
 # Finaliza um vídeo de cliente: ajusta formato, legenda opcional, logo no canto e vinheta final.
 #
 # Uso:
-#   bash ferramentas/video.sh -c <cliente> -i entrada.mp4 -o saida.mp4 [-f 9x16|16x9] [-l legenda.srt [-a] [-b]] [-d destaques.txt] [-z 2.5,8] [-m] [-q]
+#   bash ferramentas/video.sh -c <cliente> -i entrada.mp4 -o saida.mp4 [-f 9x16|16x9] [-l legenda.srt [-a] [-b]] [-d destaques.txt] [-e lettering.txt] [-z 2.5,8] [-m] [-q]
 #     -c  pasta do cliente em clientes/ (ex.: itamar-supermercado)
 #     -f  formato final (padrão 9x16 = Reels/Stories; 16x9 = YouTube/TV)
 #     -l  arquivo .srt para queimar a legenda no vídeo
@@ -12,14 +12,15 @@
 #     -a  legenda animada estilo Reels (usa o .srt do -l; palavra da vez em caixa na cor do cliente)
 #     -d  arquivo de textos de destaque, uma linha por texto:  0:03-0:06 OBRA ENTREGUE
 #     -b  legenda animada na borda inferior (em vez de 2/3 da altura)
+#     -e  arquivo de lettering estilo manchete (palavra-chave entre *asteriscos*):  0:03-0:06 DIRETO DE\N*BRASÍLIA*
 #     -z  zoom de impacto nos segundos indicados, separados por vírgula (ex.: -z 2.5,8,14)
 set -euo pipefail
 RAIZ="$(cd "$(dirname "$0")/.." && pwd)"
-FMT=9x16; LEG=""; MARCA=0; CRED=0; VDUR=3; ANIM=0; BAIXO=0; DEST=""; ZOOM=""
-while getopts "c:i:o:f:l:mqv:abd:z:" o; do case $o in
-  a) ANIM=1;; b) BAIXO=1;; d) DEST=$OPTARG;; z) ZOOM=$OPTARG;;
+FMT=9x16; LEG=""; MARCA=0; CRED=0; VDUR=3; ANIM=0; BAIXO=0; DEST=""; LETT=""; ZOOM=""
+while getopts "c:i:o:f:l:mqv:abd:e:z:" o; do case $o in
+  a) ANIM=1;; b) BAIXO=1;; e) LETT=$OPTARG;; d) DEST=$OPTARG;; z) ZOOM=$OPTARG;;
   c) CLI=$OPTARG;; i) IN=$OPTARG;; o) OUT=$OPTARG;; f) FMT=$OPTARG;; l) LEG=$OPTARG;;
-  m) MARCA=1;; q) CRED=1;; v) VDUR=$OPTARG;; *) sed -n '2,16p' "$0"; exit 1;; esac; done
+  m) MARCA=1;; q) CRED=1;; v) VDUR=$OPTARG;; *) sed -n '2,17p' "$0"; exit 1;; esac; done
 : "${CLI:?falta -c cliente}" "${IN:?falta -i entrada}" "${OUT:?falta -o saida}"
 D="$RAIZ/clientes/$CLI"; [ -d "$D" ] || { echo "Cliente não encontrado: $D"; exit 1; }
 if [ "$FMT" = 9x16 ]; then W=1080; H=1920; else W=1920; H=1080; fi
@@ -40,12 +41,17 @@ if [ -n "$ZOOM" ]; then
   Z="1"; for T in ${ZOOM//,/ }; do Z+="+0.18*clip((it-$T)/0.15,0,1)*clip(($T+0.95-it)/0.3,0,1)"; done
   F+="[$ATUAL]zoompan=z='$Z':x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':d=1:s=${W}x$H:fps=30,setsar=1[vz];"; ATUAL=vz
 fi
-if [ $ANIM = 1 ] || [ -n "$DEST" ]; then
+if [ $ANIM = 1 ] || [ -n "$DEST" ] || [ -n "$LETT" ]; then
   # legenda animada e/ou destaques: gera o .ass editável ao lado do vídeo final
   python3 -c "import fontTools" 2>/dev/null || pip install -q fonttools 2>/dev/null
   ASS="${OUT%.*}-efeitos.ass"; mkdir -p "$(dirname "$OUT")"
+  ROSTO=""
+  if [ -n "$LETT" ]; then   # mede a posição da cabeça para o lettering não cobrir a pessoa
+    python3 -c "import cv2; cv2.CascadeClassifier" 2>/dev/null || pip install -q "opencv-python-headless<5" 2>/dev/null
+    ROSTO="${OUT%.*}-rosto.json"; python3 "$RAIZ/ferramentas/rosto.py" "$IN" -f "$FMT" -o "$ROSTO" >/dev/null
+  fi
   python3 "$RAIZ/ferramentas/efeitos.py" -c "$CLI" -f "$FMT" -o "$ASS" $([ $BAIXO = 1 ] && echo -b) \
-    $([ $ANIM = 1 ] && [ -n "$LEG" ] && echo "-l $LEG") $([ -n "$DEST" ] && echo "-d $DEST") >/dev/null
+    $([ $ANIM = 1 ] && [ -n "$LEG" ] && echo "-l $LEG") $([ -n "$DEST" ] && echo "-d $DEST") $([ -n "$LETT" ] && echo "-e $LETT --rosto $ROSTO --zoom=$ZOOM") >/dev/null
   F+="[$ATUAL]ass='$(realpath "$ASS")':fontsdir='$RAIZ/ferramentas/fontes/ttf'[va];"; ATUAL=va
   [ $ANIM = 1 ] && LEG=""   # já está no .ass
 fi

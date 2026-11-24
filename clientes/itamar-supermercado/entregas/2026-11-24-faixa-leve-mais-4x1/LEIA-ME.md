@@ -3,4 +3,4 @@
 - `faixa-4x1.png` — 8000 x 2000 px (alternativa ao PDF).
 - `faixa-4x1.html` — fonte editável; `node exportar.js` regera tudo.
 - Margem de segurança de 6 cm para ilhós/bainha.
-- Selo 3D e carrinho gerados no Magnific (121 créditos), salvos em `identidade/campanhas/` e `fotos/elementos/` para reuso.
+- Selo 3D gerado no Magnific (121 créditos, junto com um carrinho que saiu). Carrinho final: foto do dono, recortada no Adobe sem custo, salvos em `identidade/campanhas/` e `fotos/elementos/` para reuso.

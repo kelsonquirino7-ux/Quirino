@@ -7,7 +7,7 @@
 <!--
   Faixa 4 m x 1 m (proporção 4:1). Palco 4000x1000 px = 1 px por mm.
   Margem de segurança de 60 mm em volta (ilhós/bainha): nada importante fora dela.
-  Selo 3D e carrinho gerados no Magnific (arquivos em identidade/campanhas e fotos/elementos).
+  Selo 3D gerado no Magnific; carrinho = foto enviada pelo dono, recortada no Adobe (arquivos em identidade/campanhas e fotos/elementos).
   Exportar: node exportar.js  → faixa-4x1.png (8000x2000), faixa-4x1.pdf e preview.jpg
 -->
 <style>
@@ -30,7 +30,7 @@ html,body{width:4000px;height:1000px;overflow:hidden;background:#A50E07}
 #topo{position:absolute;left:0;top:0;width:4000px;height:14px;background:linear-gradient(90deg,#E8A400,#FFE45C 40%,#FFD302 70%,#E8A400)}
 /* elementos */
 #selo{position:absolute;left:95px;top:75px;height:850px;filter:drop-shadow(0 26px 22px rgba(70,20,0,.45))}
-#carro{position:absolute;left:1020px;top:405px;height:525px;filter:drop-shadow(0 22px 18px rgba(60,0,0,.5))}
+#carro{position:absolute;left:1000px;top:420px;width:580px;filter:drop-shadow(0 22px 18px rgba(60,0,0,.5))}
 #logo{position:absolute;left:1830px;top:262px;width:990px;filter:drop-shadow(0 24px 24px rgba(60,0,0,.55))}
 #cond{position:absolute;left:2860px;top:70px;width:1080px;height:860px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 #cond .ap{font-family:"Montserrat";font-weight:800;font-size:53px;line-height:1.14;color:#FFD302;letter-spacing:1px;white-space:nowrap}
@@ -48,7 +48,7 @@ html,body{width:4000px;height:1000px;overflow:hidden;background:#A50E07}
   <div id="topo"></div><div id="base"></div>
 
   <img id="selo" src="../../identidade/campanhas/selo-leve-mais-pague-menos.png" alt="Leve mais, pague menos">
-  <img id="carro" src="../../fotos/elementos/carrinho-caixas-amarelas.png" alt="">
+  <img id="carro" src="../../fotos/elementos/carrinho-cheio-recorte.png" alt="">
   <img id="logo" src="../../identidade/logo-itamar-3d-transparente.png" alt="Itamar Supermercado">
 
   <div id="cond">

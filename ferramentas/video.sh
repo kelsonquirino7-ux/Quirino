@@ -2,7 +2,7 @@
 # Finaliza um vídeo de cliente: ajusta formato, legenda opcional, logo no canto e vinheta final.
 #
 # Uso:
-#   bash ferramentas/video.sh -c <cliente> -i entrada.mp4 -o saida.mp4 [-f 9x16|16x9] [-l legenda.srt [-a] [-b]] [-d destaques.txt] [-e lettering.txt] [-z 2.5,8] [-m] [-q]
+#   bash ferramentas/video.sh -c <cliente> -i entrada.mp4 -o saida.mp4 [-f 9x16|16x9] [-l legenda.srt [-a] [-b]] [-d destaques.txt] [-e lettering.txt] [-r esq|dir] [-z 2.5,8] [-m] [-q]
 #     -c  pasta do cliente em clientes/ (ex.: itamar-supermercado)
 #     -f  formato final (padrão 9x16 = Reels/Stories; 16x9 = YouTube/TV)
 #     -l  arquivo .srt para queimar a legenda no vídeo
@@ -13,14 +13,15 @@
 #     -d  arquivo de textos de destaque, uma linha por texto:  0:03-0:06 OBRA ENTREGUE
 #     -b  legenda animada na borda inferior (em vez de 2/3 da altura)
 #     -e  arquivo de lettering estilo manchete (palavra-chave entre *asteriscos*):  0:03-0:06 DIRETO DE\N*BRASÍLIA*
+#     -r  reenquadra: pessoa a 80 % encostada embaixo e à esquerda (esq) ou direita (dir), abrindo espaço p/ lettering
 #     -z  zoom de impacto nos segundos indicados, separados por vírgula (ex.: -z 2.5,8,14)
 set -euo pipefail
 RAIZ="$(cd "$(dirname "$0")/.." && pwd)"
-FMT=9x16; LEG=""; MARCA=0; CRED=0; VDUR=3; ANIM=0; BAIXO=0; DEST=""; LETT=""; ZOOM=""
-while getopts "c:i:o:f:l:mqv:abd:e:z:" o; do case $o in
-  a) ANIM=1;; b) BAIXO=1;; e) LETT=$OPTARG;; d) DEST=$OPTARG;; z) ZOOM=$OPTARG;;
+FMT=9x16; LEG=""; MARCA=0; CRED=0; VDUR=3; ANIM=0; BAIXO=0; DEST=""; LETT=""; ZOOM=""; REENQ=""
+while getopts "c:i:o:f:l:mqv:abd:e:r:z:" o; do case $o in
+  a) ANIM=1;; b) BAIXO=1;; e) LETT=$OPTARG;; r) REENQ=$OPTARG;; d) DEST=$OPTARG;; z) ZOOM=$OPTARG;;
   c) CLI=$OPTARG;; i) IN=$OPTARG;; o) OUT=$OPTARG;; f) FMT=$OPTARG;; l) LEG=$OPTARG;;
-  m) MARCA=1;; q) CRED=1;; v) VDUR=$OPTARG;; *) sed -n '2,17p' "$0"; exit 1;; esac; done
+  m) MARCA=1;; q) CRED=1;; v) VDUR=$OPTARG;; *) sed -n '2,18p' "$0"; exit 1;; esac; done
 : "${CLI:?falta -c cliente}" "${IN:?falta -i entrada}" "${OUT:?falta -o saida}"
 D="$RAIZ/clientes/$CLI"; [ -d "$D" ] || { echo "Cliente não encontrado: $D"; exit 1; }
 if [ "$FMT" = 9x16 ]; then W=1080; H=1920; else W=1920; H=1080; fi
@@ -34,7 +35,12 @@ CREDITO="$RAIZ/aplicacoes/video/credito-producao.png"
 TEM_AUDIO=$(ffprobe -v error -select_streams a -show_entries stream=index -of csv=p=0 "$IN" | head -1)
 # 1) enquadra: vídeo inteiro no centro, fundo = o próprio vídeo ampliado e desfocado
 F="[0:v]split[a][b];[a]scale=$W:$H:force_original_aspect_ratio=increase,crop=$W:$H,gblur=sigma=40,eq=brightness=-0.08[bg];"
-F+="[b]scale=$W:$H:force_original_aspect_ratio=decrease[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1,fps=30,format=yuv420p[v0];"
+if [ -n "$REENQ" ]; then   # pessoa menor, encostada embaixo e num lado
+  RW=$((W*80/100)); RH=$((H*80/100)); [ "$REENQ" = dir ] && RX="W-w" || RX=0
+  F+="[b]scale=$RW:$RH:force_original_aspect_ratio=decrease[fg];[bg][fg]overlay=$RX:H-h,setsar=1,fps=30,format=yuv420p[v0];"
+else
+  F+="[b]scale=$W:$H:force_original_aspect_ratio=decrease[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1,fps=30,format=yuv420p[v0];"
+fi
 ENTR=(-i "$IN"); N=1; ATUAL=v0
 if [ -n "$ZOOM" ]; then
   # zoom rápido de 18% (entra em 0,15 s, segura 0,5 s, volta em 0,3 s) em cada instante pedido
@@ -48,7 +54,7 @@ if [ $ANIM = 1 ] || [ -n "$DEST" ] || [ -n "$LETT" ]; then
   ROSTO=""
   if [ -n "$LETT" ]; then   # mede a posição da cabeça para o lettering não cobrir a pessoa
     python3 -c "import cv2; cv2.CascadeClassifier" 2>/dev/null || pip install -q "opencv-python-headless<5" 2>/dev/null
-    ROSTO="${OUT%.*}-rosto.json"; python3 "$RAIZ/ferramentas/rosto.py" "$IN" -f "$FMT" -o "$ROSTO" >/dev/null
+    ROSTO="${OUT%.*}-rosto.json"; python3 "$RAIZ/ferramentas/rosto.py" "$IN" -f "$FMT" $([ -n "$REENQ" ] && echo "-r $REENQ") -o "$ROSTO" >/dev/null
   fi
   python3 "$RAIZ/ferramentas/efeitos.py" -c "$CLI" -f "$FMT" -o "$ASS" $([ $BAIXO = 1 ] && echo -b) \
     $([ $ANIM = 1 ] && [ -n "$LEG" ] && echo "-l $LEG") $([ -n "$DEST" ] && echo "-d $DEST") $([ -n "$LETT" ] && echo "-e $LETT --rosto $ROSTO --zoom=$ZOOM") >/dev/null

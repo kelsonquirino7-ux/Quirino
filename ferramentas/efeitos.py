@@ -149,40 +149,47 @@ def mistura(c1, c2, f):
     return "#" + "".join(f"{round(x + (y - x) * f):02X}" for x, y in zip(a, b))
 
 
-def topo_livre(rosto, a, z, H, zooms):
-    """Menor y do topo da cabeça entre a e z (considera o zoom de impacto). None = sem dados."""
-    if not rosto:
+def geometria(rosto, a, z, W, H, zooms):
+    """Caixa da cabeça (união no intervalo a..z, já com zoom): (x0, topo, x1, queixo) ou None."""
+    if not rosto or not rosto.get("rosto"):
         return None
-    passo, topo = rosto["passo"], rosto["topo"]
-    vals = []
+    passo, caixas = rosto["passo"], rosto["rosto"]
+    xs0, ys0, xs1, ys1 = [], [], [], []
     t = a - 0.3
     while t <= z + 0.3:
         k = int(round(t / passo))
-        viz = [topo[x] for x in range(k - 2, k + 3) if 0 <= x < len(topo) and topo[x] is not None]
-        if viz:
-            y = min(viz)
+        for c in caixas[max(0, k - 2):k + 3]:
+            if c is None:
+                continue
+            x0, y0, x1, y1 = c
+            w, h = x1 - x0, y1 - y0
             f = 1.0
             for T in zooms:
                 f += 0.18 * min(max((t - T) / 0.15, 0), 1) * min(max((T + 0.95 - t) / 0.3, 0), 1)
-            vals.append(H / 2 + (y - H / 2) * f)
+            tx = lambda v: W / 2 + (v - W / 2) * f
+            ty = lambda v: H / 2 + (v - H / 2) * f
+            xs0.append(tx(x0 - 0.02 * w)); xs1.append(tx(x1 + 0.02 * w))
+            ys0.append(ty(y0 - 0.45 * h)); ys1.append(ty(y1 + 0.08 * h))
         t += passo
-    return min(vals) if vals else None
+    if not xs0:
+        return None
+    return min(xs0), min(ys0), max(xs1), min(ys1)
 
 
 def lettering(arquivo, cfg, W, H, vertical, rosto=None, zooms=()):
     r"""Lettering estilo manchete: fonte condensada inclinada, linhas coladas, palavra-chave
     entre *asteriscos* enorme com degradê na cor do cliente, palavras de apoio pequenas em branco.
-    Fica sempre acima da cabeça (usa rosto.json) e ganha uma sombra suave no topo da tela.
+    Fica AO LADO da cabeça (lado mais livre, alinhado à borda), subindo para cima da cabeça
+    quando precisa; nunca cobre rosto nem corpo (usa rosto.json). Sombra suave atrás do texto.
     Linha:  0:03-0:06 DIRETO DE\N*BRASÍLIA*"""
     med = Medidor(FONTES / cfg.get("arquivo_lettering", "anton-latin-400-normal.ttf"), 100)
     c1 = cfg.get("lettering_destaque", cfg["caixa"])
     c2 = mistura(c1, cfg.get("lettering_borda", cfg["caixa"]), 0.45)
     escuro = cor_ass(cfg.get("lettering_borda", cfg["caixa"]))
-    G0, RP = (250 if vertical else 200), 0.48          # tamanho máximo da palavra grande; pequena = 48 %
-    maxw = W * (0.88 if vertical else 0.60)
-    ytop = H * (0.075 if vertical else 0.08)            # abaixo do logo do canto
-    ylim_padrao = H * (0.24 if vertical else 0.55)
-    x = W / 2 if vertical else W * 0.30
+    G0, RP = (300 if vertical else 220), 0.48
+    CAP, DESC, ACENTO, GAP = 0.496, 0.19, 0.10, 0.07     # proporções da Anton (fs = altura da caixa)
+    M = W * 0.045                                         # margem da borda e da cabeça
+    ytop = H * (0.095 if vertical else 0.10)              # abaixo do logo do canto
     ev = []
     for n, linha in enumerate(Path(arquivo).read_text(encoding="utf-8").splitlines(), 1):
         linha = linha.strip()
@@ -192,55 +199,93 @@ def lettering(arquivo, cfg, W, H, vertical, rosto=None, zooms=()):
         if not m:
             sys.exit(f"lettering linha {n} fora do formato '0:03-0:06 TEXTO': {linha}")
         a, z = seg(m[1]), seg(m[2])
-        linhas = [re.split(r"(\*[^*]+\*)", l) for l in m[3].strip().upper().split("\\N")]
-        linhas = [[p for p in l if p.strip()] for l in linhas]
-        # largura e altura de cada linha com G = 100
-        larg = [sum(med(p.strip("*").strip()) * (1 if p.startswith("*") else RP) + (med(" ") * RP if not p.startswith("*") else 0)
-                    for p in l) for l in linhas]
+        linhas = [[p for p in re.split(r"(\*[^*]+\*)", l) if p.strip()] for l in m[3].strip().upper().split("\\N")]
+        larg = [sum(med(p.strip("*").strip()) * (1 if p.startswith("*") else RP) + (0 if p.startswith("*") else med(" ") * RP)
+                    for p in l) * 1.06 for l in linhas]          # 6 % de folga p/ inclinação
         alt = [max(1 if p.startswith("*") else RP for p in l) for l in linhas]
-        cab = topo_livre(rosto, a, z, H, zooms)
-        ylim = (cab - H * 0.02) if cab is not None else ylim_padrao
-        disp = max(ylim - ytop, H * 0.08)
-        CAP, DESC, ACENTO, GAP = 0.496, 0.19, 0.10, 0.07   # proporções da Anton (fs = altura da caixa)
-        fator = CAP * sum(alt) + GAP * (len(alt) - 1) + ACENTO
-        G = min(G0, maxw / max(larg) * 100, disp / fator)
+        cab = geometria(rosto, a, z, W, H, zooms)
+        if cab is None:   # sem rosto: centro-alto da tela
+            cab = (W * 0.3, H * 0.30, W * 0.7, H * 0.55)
+        hx0, htop, hx1, queixo = cab
+        esq, dir_ = hx0 - 2 * M, W - hx1 - 2 * M          # largura livre de cada lado
+        lado = "dir" if dir_ >= esq else "esq"
+        col = max(dir_, esq)
+        larga = W - 2 * M
+
+        def montar(G, fundo):
+            """Empilha de baixo (a partir de `fundo`) para cima. Devolve [(baseline, linha, h)] ou None."""
+            y = fundo
+            pos = []
+            for l, h, lw in reversed(list(zip(linhas, alt, larg))):
+                fs = h * G
+                base = y - DESC * fs * 0.3
+                topo_linha = base - CAP * fs - ACENTO * G
+                disponivel = larga if base < htop - M * 0.5 else col
+                if lw * G / 100 > disponivel or topo_linha < ytop:
+                    return None
+                pos.append((base, l, h))
+                y = topo_linha + ACENTO * G - GAP * G
+            return list(reversed(pos))
+
+        def buscar(fundo):
+            lo, hi, melhor = 30.0, float(G0), None
+            for _ in range(20):
+                mid = (lo + hi) / 2
+                r = montar(mid, fundo)
+                if r:
+                    melhor, lo = (mid, r), mid
+                else:
+                    hi = mid
+            return melhor
+        # testa várias alturas para o pé do bloco (do queixo para cima) e fica com a letra maior;
+        # entre opções quase iguais (≥ 92 %), prefere a mais baixa, perto do rosto
+        opcoes = []
+        for k in range(16):
+            fundo = (queixo - M * 0.5) - k * ((queixo - M * 0.5) - (ytop + H * 0.08)) / 15
+            r = buscar(fundo)
+            if r:
+                opcoes.append((r[0], fundo, r))
+        melhor = None
+        if opcoes:
+            gmax = max(o[0] for o in opcoes)
+            melhor = max((o for o in opcoes if o[0] >= gmax * 0.92), key=lambda o: o[1])[2]
+        if not melhor:
+            sys.exit(f"lettering linha {n}: não cabe ao lado da cabeça; quebre em mais linhas: {linha}")
+        G, pos = melhor
         P = G * RP
-        bloco = fator * G
-        y0 = ytop + (disp - bloco) / 2 if bloco < disp else ytop
+        an, x = (3, W - M) if lado == "dir" else (1, M)
+        dx = (-1 if lado == "dir" else 1) * W * 0.10 * -1
         anim_txt = r"\fax-0.14\blur9\t(0,170,\blur0)\fscx128\t(0,170,\fscx100)\fad(0,150)"
-        dx = W * 0.10
-        # sombra suave no topo enquanto o lettering aparece (garante leitura do branco sobre céu claro)
-        fundo = int(y0 + bloco + H * 0.05)
-        faixas = 48
-        for b in range(faixas):
-            ya, yb = round(fundo * b / faixas), round(fundo * (b + 1) / faixas)
-            al = int(255 - 140 * (1 - b / faixas) ** 1.4)
-            ev.append((0, a, z, "Caixa", rf"{{\an7\pos(0,{ya})\bord0\shad0\1c&H000000&\1a&H{al:02X}&\fad(150,150)\p1}}"
-                                         rf"m 0 0 l {W} 0 l {W} {yb - ya} l 0 {yb - ya}"))
-        y = y0 + ACENTO * G
-        for l, h in zip(linhas, alt):
+        # sombra suave atrás do bloco
+        topo_b = pos[0][0] - CAP * pos[0][2] * G - ACENTO * G
+        fundo_b = pos[-1][0]
+        largura_b = max(lw * G / 100 for lw in larg)
+        bx0 = (W - M - largura_b) if lado == "dir" else 0
+        bx1 = W if lado == "dir" else (M + largura_b)
+        pad = G * 0.35
+        ev.append((0, a, z, "Caixa", rf"{{\an7\pos({bx0 - pad:.0f},{topo_b - pad:.0f})\bord0\shad0\1c&H000000&\1a&H80&\blur{G * 0.35:.0f}\fad(180,150)\p1}}"
+                                     + caixa_arredondada(bx1 - bx0 + 2 * pad, fundo_b - topo_b + 2 * pad, pad)))
+        for base, l, h in pos:
             fs = h * G
-            linha_base = y + CAP * fs
-            y = linha_base + GAP * G
-            base = linha_base + DESC * fs        # \an2 ancora no pé da caixa da linha
-            mv = rf"\an2\move({x - dx:.0f},{base:.0f},{x:.0f},{base:.0f},0,170)"
+            pe = base + DESC * fs                 # \an1/\an3 ancoram no pé da caixa da linha
+            mv = rf"\an{an}\move({x + dx:.0f},{pe:.0f},{x:.0f},{pe:.0f},0,170)"
             def texto(grande_vis, peq_vis, cor_g="&HFFFFFF&"):
                 out = ""
-                for p in l:
+                for i, p in enumerate(l):
+                    sep = "" if i == len(l) - 1 else " "
                     if p.startswith("*"):
                         al = "00" if grande_vis else "FF"
-                        out += rf"{{\fs{G:.0f}\1c{cor_g}\1a&H{al}&\bord0\shad{G*0.03 if grande_vis else 0:.0f}\4c{escuro}\4a&H{'60' if grande_vis else 'FF'}&}}{p.strip('*').strip()}"
+                        out += rf"{{\fs{G:.0f}\1c{cor_g}\1a&H{al}&\bord0\shad{G*0.03 if grande_vis else 0:.0f}\4c{escuro}\4a&H{'60' if grande_vis else 'FF'}&}}{p.strip('*').strip()}{sep}"
                     else:
                         al = "00" if peq_vis else "FF"
-                        out += rf"{{\fs{P:.0f}\1c&HFFFFFF&\1a&H{al}&\bord{P*0.03 if peq_vis else 0:.0f}\3c{escuro}\3a&H40&\shad{P*0.05 if peq_vis else 0:.0f}\4c&H000000&\4a&H{'50' if peq_vis else 'FF'}&}}{' ' + p.strip() + ' '}"
+                        out += rf"{{\fs{P:.0f}\1c&HFFFFFF&\1a&H{al}&\bord{P*0.03 if peq_vis else 0:.0f}\3c{escuro}\3a&H40&\shad{P*0.05 if peq_vis else 0:.0f}\4c&H000000&\4a&H{'50' if peq_vis else 'FF'}&}}{p.strip()}{sep}"
                 return out
             ev.append((4, a, z, "Lettering", rf"{{{mv}{anim_txt}}}" + texto(False, True)))
-            # palavra grande em faixas de cor (degradê vertical claro → escuro)
-            topo_l = linha_base - CAP * G * 1.25
+            topo_l = base - CAP * G * 1.25
             nb = 6
             for b in range(nb):
-                ya, yb = topo_l + (linha_base + 2 - topo_l) * b / nb, topo_l + (linha_base + 2 - topo_l) * (b + 1) / nb
-                if b == 0: ya = 0
+                ya = 0 if b == 0 else topo_l + (base + 2 - topo_l) * b / nb
+                yb = topo_l + (base + 2 - topo_l) * (b + 1) / nb
                 cor = cor_ass(mistura(c1, c2, b / (nb - 1)))
                 ev.append((5, a, z, "Lettering", rf"{{{mv}{anim_txt}\clip(0,{ya:.0f},{W},{yb:.0f})}}" + texto(True, False, cor)))
     return ev

@@ -1,47 +1,47 @@
 1
-00:00:00,500 --> 00:00:04,500
-[PREENCHER fala de 0s a 4s]
+00:00:01,560 --> 00:00:04,200
+Oi, gente! Hoje é diferente, hoje é direto de Brasília,
 
 2
-00:00:04,500 --> 00:00:08,500
-[PREENCHER fala de 4s a 8s]
+00:00:04,200 --> 00:00:06,340
+direto do Planalto, agradecer
 
 3
-00:00:08,500 --> 00:00:12,500
-[PREENCHER fala de 8s a 12s]
+00:00:06,340 --> 00:00:09,500
+a Deus sempre a oportunidade de estar trabalhando pela nossa Santanópolis cada vez melhor.
 
 4
-00:00:12,500 --> 00:00:16,500
-[PREENCHER fala de 12s a 16s]
+00:00:09,900 --> 00:00:13,220
+Fazer um agradecimento especial ao ex-ministro-chefe da Casa Civil, Rui Costa,
 
 5
-00:00:16,500 --> 00:00:20,500
-[PREENCHER fala de 16s a 20s]
+00:00:13,640 --> 00:00:18,340
+hoje senador eleito, graças a Deus, ao senador Otto Alencar, ao nosso querido amigo
 
 6
-00:00:20,500 --> 00:00:24,500
-[PREENCHER fala de 20s a 24s]
+00:00:18,340 --> 00:00:21,600
+prefeito de Ipecaetá, Júnior Piaggio, que fez essa ponte com o senador Otto para que
 
 7
-00:00:24,500 --> 00:00:28,500
-[PREENCHER fala de 24s a 28s]
+00:00:21,600 --> 00:00:23,840
+a gente conseguisse três novas especialidades.
 
 8
-00:00:28,500 --> 00:00:32,500
-[PREENCHER fala de 28s a 32s]
+00:00:24,320 --> 00:00:30,320
+Dentre elas, Pediatria, Ortopedia, Ginecologia. A partir do mês de fevereiro, Santanópolis
 
 9
-00:00:32,500 --> 00:00:36,500
-[PREENCHER fala de 32s a 36s]
+00:00:30,320 --> 00:00:31,980
+vai estar atuando com essas especialidades.
 
 10
-00:00:36,500 --> 00:00:40,500
-[PREENCHER fala de 36s a 40s]
+00:00:32,360 --> 00:00:36,380
+E também ao ex-ministro-chefe da Casa Civil, Rui Costa, onde nós vamos ter três veículos
 
 11
-00:00:40,500 --> 00:00:44,500
-[PREENCHER fala de 40s a 44s]
+00:00:36,380 --> 00:00:39,860
+novos para dar suporte à saúde no nosso município, trazendo mais qualidade de vida
 
 12
-00:00:44,500 --> 00:00:46,000
-[PREENCHER fala de 44s a 46s]
+00:00:39,860 --> 00:00:44,360
+para o nosso povo. É Vitor do Povo, trabalhando cada vez mais pela nossa Santanópolis cada vez melhor.

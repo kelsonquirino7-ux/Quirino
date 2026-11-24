@@ -30,7 +30,13 @@ html,body{width:4000px;height:1000px;overflow:hidden;background:#A50E07}
 #topo{position:absolute;left:0;top:0;width:4000px;height:14px;background:linear-gradient(90deg,#E8A400,#FFE45C 40%,#FFD302 70%,#E8A400)}
 /* elementos */
 #selo{position:absolute;left:95px;top:75px;height:850px;filter:drop-shadow(0 26px 22px rgba(70,20,0,.45))}
-#carro{position:absolute;left:1000px;top:420px;width:580px;filter:drop-shadow(0 22px 18px rgba(60,0,0,.5))}
+#carro{position:absolute;left:1000px;top:420px;width:580px;filter:drop-shadow(0 6px 6px rgba(90,40,0,.35))}
+/* sombra no chão sob o carrinho */
+#sombra{position:absolute;left:1050px;top:888px;width:500px;height:80px;border-radius:50%;
+  background:radial-gradient(ellipse at 50% 50%,rgba(90,45,0,.62) 0%,rgba(110,60,0,.34) 40%,rgba(120,70,0,0) 70%);filter:blur(6px)}
+#sombra2{position:absolute;left:1085px;top:918px;width:420px;height:30px;border-radius:50%;
+  background:radial-gradient(ellipse at 50% 50%,rgba(70,30,0,.45) 0%,rgba(70,30,0,0) 70%);filter:blur(3px)}
+.roda{position:absolute;width:70px;height:20px;border-radius:50%;background:radial-gradient(ellipse,rgba(50,20,0,.7) 0%,rgba(50,20,0,0) 70%);filter:blur(2px)}
 #logo{position:absolute;left:1830px;top:262px;width:990px;filter:drop-shadow(0 24px 24px rgba(60,0,0,.55))}
 #cond{position:absolute;left:2860px;top:70px;width:1080px;height:860px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 #cond .ap{font-family:"Montserrat";font-weight:800;font-size:53px;line-height:1.14;color:#FFD302;letter-spacing:1px;white-space:nowrap}
@@ -48,6 +54,7 @@ html,body{width:4000px;height:1000px;overflow:hidden;background:#A50E07}
   <div id="topo"></div><div id="base"></div>
 
   <img id="selo" src="../../identidade/campanhas/selo-leve-mais-pague-menos.png" alt="Leve mais, pague menos">
+  <div id="sombra"></div><div id="sombra2"></div><div class="roda" style="left:1080px;top:921px"></div><div class="roda" style="left:1443px;top:916px"></div><div class="roda" style="left:1115px;top:873px"></div><div class="roda" style="left:1420px;top:873px"></div>
   <img id="carro" src="../../fotos/elementos/carrinho-cheio-recorte.png" alt="">
   <img id="logo" src="../../identidade/logo-itamar-3d-transparente.png" alt="Itamar Supermercado">
 

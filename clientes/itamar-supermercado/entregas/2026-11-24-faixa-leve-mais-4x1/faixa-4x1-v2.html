@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="tamanho" content="4000x1000">
+<title>Itamar · Faixa 4x1 v2</title>
+<link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<!--
+  v2: arte enviada pelo dono (arte-v2-original-dono.jpg), com o selo e os textos da direita apagados
+  (limpar-textos-v2.py → arte-v2-fundo-sem-textos.png) e refeitos aqui em tamanho menor, para a arte respirar.
+-->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:4000px;height:1000px;overflow:hidden;background:#B3120A}
+#fundo{position:absolute;inset:0;width:4000px;height:1000px}
+#selo{position:absolute;left:150px;top:130px;height:740px;filter:drop-shadow(0 24px 22px rgba(70,20,0,.45))}
+#cond{position:absolute;left:2380px;top:150px;width:840px;height:720px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#cond .ap{font-family:"Montserrat";font-weight:800;font-size:42px;line-height:1.18;color:#FFD302;letter-spacing:1px;white-space:nowrap;
+  text-shadow:0 3px 0 #6B0800,0 6px 10px rgba(40,0,0,.4)}
+#juros{font-family:"Montserrat";font-weight:900;font-size:172px;line-height:.95;letter-spacing:-2px;margin-top:22px;white-space:nowrap;
+  -webkit-text-stroke:9px #5E0400;paint-order:stroke fill;
+  filter:drop-shadow(0 6px 0 #7A0600) drop-shadow(0 5px 0 #7A0600) drop-shadow(0 14px 14px rgba(30,0,0,.5))}
+#juros span{display:block}
+.am{color:#FFD302}.br{color:#fff}
+#juros .c{font-size:100px;letter-spacing:2px;margin-top:20px;-webkit-text-stroke:8px #5E0400}
+</style>
+<body>
+<img id="fundo" src="arte-v2-fundo-sem-textos.png" alt="">
+<img id="selo" src="../../identidade/campanhas/selo-leve-mais-pague-menos.png" alt="Leve mais, pague menos">
+<div id="cond">
+  <div class="ap">APROVEITE O MÊS DA ECONOMIA<br>E PARCELE SUAS COMPRAS EM ATÉ</div>
+  <div id="juros"><span><b class="am">3X</b> <b class="br">SEM</b></span><span class="am">JUROS!</span><span class="c br">NO CARTÃO</span></div>
+</div>

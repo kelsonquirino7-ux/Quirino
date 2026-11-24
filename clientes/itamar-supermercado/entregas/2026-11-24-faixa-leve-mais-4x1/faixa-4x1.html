@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="tamanho" content="4000x1000">
+<title>Itamar · Faixa Leve mais pague menos 4x1 m</title>
+<link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<!--
+  Faixa 4 m x 1 m (proporção 4:1). Palco 4000x1000 px = 1 px por mm.
+  Margem de segurança de 60 mm em volta (ilhós/bainha): nada importante fora dela.
+  Selo 3D e carrinho gerados no Magnific (arquivos em identidade/campanhas e fotos/elementos).
+  Exportar: node exportar.js  → faixa-4x1.png (8000x2000), faixa-4x1.pdf e preview.jpg
+-->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:4000px;height:1000px;overflow:hidden;background:#A50E07}
+#faixa{position:absolute;inset:0;overflow:hidden;
+  background:radial-gradient(ellipse 1300px 760px at 2120px 500px,#E8301F 0%,#C7180E 50%,#9C0C06 100%)}
+/* painel amarelo inclinado atrás do selo */
+.pa{position:absolute;top:0;left:0;height:1000px}
+#pa3{width:1780px;background:#7A0600;clip-path:polygon(0 0,100% 0,82% 100%,0 100%)}
+#pa2{width:1740px;background:linear-gradient(90deg,#E8A400,#FFE45C);clip-path:polygon(0 0,100% 0,82% 100%,0 100%)}
+#pa1{width:1690px;background:radial-gradient(ellipse 900px 700px at 620px 480px,#FFF07A 0%,#FFD302 55%,#F2B200 100%);clip-path:polygon(0 0,100% 0,82% 100%,0 100%)}
+#pa1::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.10) 0 40px,rgba(255,255,255,0) 40px 120px)}
+/* luzes (bokeh) e brilho atrás do logo */
+#luz{position:absolute;left:2120px;top:500px;width:1500px;height:1500px;margin:-750px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,220,120,.45) 0%,rgba(255,200,80,.12) 35%,rgba(255,200,80,0) 62%)}
+.bk{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,230,150,.55),rgba(255,210,90,.18) 60%,rgba(255,210,90,0) 72%)}
+/* faixa dourada inferior */
+#base{position:absolute;left:0;bottom:0;width:4000px;height:26px;background:linear-gradient(90deg,#E8A400,#FFE45C 40%,#FFD302 70%,#E8A400)}
+#topo{position:absolute;left:0;top:0;width:4000px;height:14px;background:linear-gradient(90deg,#E8A400,#FFE45C 40%,#FFD302 70%,#E8A400)}
+/* elementos */
+#selo{position:absolute;left:95px;top:75px;height:850px;filter:drop-shadow(0 26px 22px rgba(70,20,0,.45))}
+#carro{position:absolute;left:1040px;top:410px;height:520px;filter:drop-shadow(0 22px 18px rgba(60,0,0,.5))}
+#logo{position:absolute;left:1610px;top:225px;width:1120px;filter:drop-shadow(0 24px 24px rgba(60,0,0,.55))}
+#cond{position:absolute;left:2760px;top:70px;width:1180px;height:860px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#cond .ap{font-family:"Montserrat";font-weight:800;font-size:58px;line-height:1.14;color:#FFD302;letter-spacing:1px;white-space:nowrap}
+#juros{font-family:"Montserrat";font-weight:900;font-size:232px;line-height:.92;letter-spacing:-3px;margin-top:22px;white-space:nowrap;
+  color:#FFD302;-webkit-text-stroke:12px #5E0400;paint-order:stroke fill;
+  filter:drop-shadow(0 7px 0 #7A0600) drop-shadow(0 7px 0 #7A0600) drop-shadow(0 16px 16px rgba(30,0,0,.5))}
+#juros span{display:block}
+#cartao{margin-top:40px;font-family:"Montserrat";font-weight:900;font-size:92px;line-height:1;color:#B3120A;
+  background:#fff;padding:20px 72px 18px;border-radius:90px;letter-spacing:3px;box-shadow:0 12px 0 #6B0800,0 22px 20px rgba(40,0,0,.35)}
+</style>
+<body>
+<div id="faixa">
+  <div class="pa" id="pa3"></div><div class="pa" id="pa2"></div><div class="pa" id="pa1"></div>
+  <div id="luz"></div>
+  <div id="bokeh"></div>
+  <div id="topo"></div><div id="base"></div>
+
+  <img id="selo" src="../../identidade/campanhas/selo-leve-mais-pague-menos.png" alt="Leve mais, pague menos">
+  <img id="carro" src="../../fotos/elementos/carrinho-caixas-amarelas.png" alt="">
+  <img id="logo" src="../../identidade/logo-itamar-3d-transparente.png" alt="Itamar Supermercado">
+
+  <div id="cond">
+    <div class="ap">APROVEITE O MÊS DA ECONOMIA<br>E PARCELE SUAS COMPRAS EM ATÉ</div>
+    <div id="juros"><span>3X SEM</span><span>JUROS!</span></div>
+    <div id="cartao">NO CARTÃO</div>
+  </div>
+</div>
+<script>
+// luzes desfocadas fixas (semente fixa = sempre o mesmo resultado)
+let s=11;const r=()=>(s=(s*16807)%2147483647)/2147483647;
+const c=document.getElementById('bokeh');
+for(let i=0;i<34;i++){const x=1500+r()*2450,y=r()*1000,d=40+r()*170;
+  const e=document.createElement('div');e.className='bk';
+  Object.assign(e.style,{left:(x-d/2)+'px',top:(y-d/2)+'px',width:d+'px',height:d+'px',opacity:.35+r()*.5});c.appendChild(e);}
+</script>

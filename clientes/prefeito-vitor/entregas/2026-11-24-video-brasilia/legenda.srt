@@ -1,0 +1,47 @@
+1
+00:00:00,500 --> 00:00:04,500
+[PREENCHER fala de 0s a 4s]
+
+2
+00:00:04,500 --> 00:00:08,500
+[PREENCHER fala de 4s a 8s]
+
+3
+00:00:08,500 --> 00:00:12,500
+[PREENCHER fala de 8s a 12s]
+
+4
+00:00:12,500 --> 00:00:16,500
+[PREENCHER fala de 12s a 16s]
+
+5
+00:00:16,500 --> 00:00:20,500
+[PREENCHER fala de 16s a 20s]
+
+6
+00:00:20,500 --> 00:00:24,500
+[PREENCHER fala de 20s a 24s]
+
+7
+00:00:24,500 --> 00:00:28,500
+[PREENCHER fala de 24s a 28s]
+
+8
+00:00:28,500 --> 00:00:32,500
+[PREENCHER fala de 28s a 32s]
+
+9
+00:00:32,500 --> 00:00:36,500
+[PREENCHER fala de 32s a 36s]
+
+10
+00:00:36,500 --> 00:00:40,500
+[PREENCHER fala de 36s a 40s]
+
+11
+00:00:40,500 --> 00:00:44,500
+[PREENCHER fala de 40s a 44s]
+
+12
+00:00:44,500 --> 00:00:46,000
+[PREENCHER fala de 44s a 46s]

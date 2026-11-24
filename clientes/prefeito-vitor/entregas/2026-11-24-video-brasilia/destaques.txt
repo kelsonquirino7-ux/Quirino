@@ -1,0 +1,4 @@
+# Chamadas de interação (genéricas, sem afirmar fatos)
+0:00.3-0:03.5 ASSISTE ATÉ O FIM
+0:21-0:24 MARCA QUEM\NPRECISA VER
+0:39-0:46 VOCÊ CONCORDA?\NCOMENTA AQUI

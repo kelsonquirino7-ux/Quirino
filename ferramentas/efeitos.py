@@ -8,7 +8,7 @@
     Arquivo de texto, uma por linha:  0:03-0:06 OBRA ENTREGUE
     (aceita segundos, M:SS ou M:SS.d; linhas com # são ignoradas)
 
-Uso: python3 ferramentas/efeitos.py -c <cliente> -f 9x16|16x9 [-l legenda.srt] [-d destaques.txt] -o saida.ass
+Uso: python3 ferramentas/efeitos.py -c <cliente> -f 9x16|16x9 [-l legenda.srt] [-b] [-d destaques.txt] -o saida.ass
 As cores e a fonte vêm de clientes/<cliente>/video.json.
 """
 import argparse, json, re, sys
@@ -78,11 +78,13 @@ def caixa_arredondada(w, h, r):
             f"l 0 {r:.0f} b 0 {k:.0f} {k:.0f} 0 {r:.0f} 0")
 
 
-def legenda_animada(cues, cfg, W, H, vertical, medir, S):
+def legenda_animada(cues, cfg, W, H, vertical, medir, S, baixo=False):
     caixa, tcaixa = cor_ass(cfg["caixa"]), cor_ass(cfg["texto_caixa"])
     maxw = W * (0.80 if vertical else 0.70)
     maxp = 3 if vertical else 5
     cy = H * (0.68 if vertical else 0.84)
+    if baixo:  # borda inferior, acima da barra de botões do Reels
+        cy = H * (0.83 if vertical else 0.90)
     esp = medir(" ") * 2  # espaço duplo ("\h ") para respirar entre as palavras
     ev = []
     for ini, fim, texto in cues:
@@ -147,6 +149,7 @@ def main():
     ap.add_argument("-f", default="9x16")
     ap.add_argument("-l")
     ap.add_argument("-d")
+    ap.add_argument("-b", action="store_true", help="legenda na borda inferior")
     ap.add_argument("-o", required=True)
     a = ap.parse_args()
     cfg = json.loads((RAIZ / "clientes" / a.c / "video.json").read_text(encoding="utf-8"))
@@ -159,7 +162,7 @@ def main():
     caixa, tcaixa = cor_ass(cfg["caixa"]), cor_ass(cfg["texto_caixa"])
     ev = []
     if a.l:
-        ev += legenda_animada(ler_srt(a.l), cfg, W, H, vertical, medir, S)
+        ev += legenda_animada(ler_srt(a.l), cfg, W, H, vertical, medir, S, a.b)
     if a.d:
         ev += destaques(a.d, W, H, vertical)
     cab = f"""[Script Info]

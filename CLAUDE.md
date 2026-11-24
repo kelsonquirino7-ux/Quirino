@@ -54,7 +54,7 @@ Fontes locais (licença OFL) em `ferramentas/fontes/`, declaradas em `ferramenta
 - Não abrir PR sem pedido explícito.
 
 ## Como finalizar um vídeo
-`bash ferramentas/video.sh -c <cliente> -i bruto.mp4 -o clientes/<cliente>/entregas/AAAA-MM-DD-nome/video.mp4 [-f 9x16|16x9] [-l legenda.srt [-a]] [-d destaques.txt] [-z 2.5,8] [-m] [-q]`
+`bash ferramentas/video.sh -c <cliente> -i bruto.mp4 -o clientes/<cliente>/entregas/AAAA-MM-DD-nome/video.mp4 [-f 9x16|16x9] [-l legenda.srt [-a] [-b]] [-d destaques.txt] [-z 2.5,8] [-m] [-q]`
 - Ajusta para Reels (9x16, padrão) ou YouTube (16x9) com fundo desfocado, sem cortar o vídeo.
 - `-l` queima legenda .srt (o Claude escreve o .srt a partir do texto/roteiro enviado pelo dono;
   não há transcrição automática de áudio neste ambiente).

@@ -67,7 +67,7 @@ Fontes locais (licença OFL) em `ferramentas/fontes/`, declaradas em `ferramenta
 - Cores e fonte dos efeitos: `clientes/<cliente>/video.json` (tiradas do brief, contraste AA conferido).
   O `.ass` gerado fica ao lado do vídeo como fonte editável.
 - `-m` logo do cliente no canto · `-q` crédito "PRODUÇÃO quirino" nos 4 s iniciais (só se o brief permitir).
-- Vinheta final de 3 s com logo e @ do cliente (`-v 0` desliga). Vinhetas: `python3 ferramentas/vinhetas.py`.
+- Vinheta final de 3 s com logo e @ do cliente (`-v 0` desliga; `-V outra.png` troca, ex.: `modelos/vinheta-9x16-sem-arroba.png`). Vinhetas: `python3 ferramentas/vinhetas.py`.
 - Depois de gerar, extrair 2 quadros com ffmpeg, conferir e mandar o vídeo pelo SendUserFile.
 
 ## Fotos

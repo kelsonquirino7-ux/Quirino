@@ -7,11 +7,11 @@ body{width:1080px;height:1350px;overflow:hidden;position:relative;font-family:In
 .topo img{height:78px}
 .pag{position:absolute;top:58px;right:56px;background:rgba(0,20,60,.55);font:600 28px Inter;padding:12px 24px;border-radius:40px}
 .palavra{position:absolute;left:0;right:0;text-align:center;font:900 210px/1 Montserrat;letter-spacing:-.02em;
-  transform:skewX(-11deg);color:#fff;white-space:nowrap}
+  transform:skewX(-11deg);color:rgba(255,255,255,.14);white-space:nowrap}
 .p1{top:160px}
-.p2{top:330px;-webkit-mask:linear-gradient(180deg,#000 0%,transparent 60%);mask:linear-gradient(180deg,#000 0%,transparent 60%)}
-.p3{top:850px;color:transparent;background:linear-gradient(180deg,rgba(255,255,255,.0) 0%,rgba(255,255,255,.55) 100%);-webkit-background-clip:text;background-clip:text}
-.p4{top:985px;text-shadow:0 14px 30px rgba(0,20,60,.35)}
+.p2{top:330px;opacity:.6;-webkit-mask:linear-gradient(180deg,#000 0%,transparent 60%);mask:linear-gradient(180deg,#000 0%,transparent 60%)}
+.p3{top:850px;color:transparent;background:linear-gradient(180deg,rgba(255,255,255,.0) 0%,rgba(255,255,255,.08) 100%);-webkit-background-clip:text;background-clip:text}
+.p4{top:985px}
 .palco{position:absolute;top:300px;left:0;right:0;height:880px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .card{position:relative;width:840px;border-radius:48px;padding:52px 60px 40px;
   background:linear-gradient(160deg,var(--azul3) 0%,var(--azul2) 100%);box-shadow:0 40px 80px rgba(0,15,45,.55)}
@@ -38,7 +38,7 @@ body{width:1080px;height:1350px;overflow:hidden;position:relative;font-family:In
   box-shadow:0 18px 36px rgba(0,15,45,.4);white-space:nowrap}
 .pilula .rot{background:linear-gradient(90deg,#3b7fd0,var(--azul3));padding:14px 34px;font:600 26px/1.1 Inter}
 .pilula .val{background:var(--claro);color:var(--azul);padding:0 40px;display:flex;align-items:center;font:700 34px Inter}
-.rodape{position:absolute;left:56px;right:56px;bottom:30px;height:124px;background:#fff;border-radius:30px;
-  display:flex;align-items:center;justify-content:space-around;padding:0 30px}
-.rodape img{height:86px}.rodape img.pm{height:70px}
+.rodape{position:absolute;left:50%;transform:translateX(-50%);bottom:30px;height:124px;gap:90px;background:#fff;border-radius:30px;
+  display:flex;align-items:center;justify-content:center;padding:0 60px}
+.rodape img{height:98px}.rodape img.pm{height:70px}
 .ph{background:#ffe08a;color:#002F67;padding:0 8px;border-radius:6px;font-weight:700}

@@ -1,0 +1,44 @@
+/* Carrossel "informe" — Prefeitura de Santanópolis. Layout inspirado no modelo azul de referência. */
+:root{--azul:#002F67;--azul2:#1D4F8F;--azul3:#2462AE;--claro:#E7EEF8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1080px;height:1350px;overflow:hidden;position:relative;font-family:Inter,sans-serif;color:#fff;
+  background:radial-gradient(900px 700px at 20% 30%,#2a66b3 0%,transparent 70%),linear-gradient(180deg,var(--azul2) 0%,var(--azul) 100%)}
+.topo{position:absolute;top:52px;left:0;right:0;text-align:center}
+.topo img{height:78px}
+.pag{position:absolute;top:58px;right:56px;background:rgba(0,20,60,.55);font:600 28px Inter;padding:12px 24px;border-radius:40px}
+.palavra{position:absolute;left:0;right:0;text-align:center;font:900 210px/1 Montserrat;letter-spacing:-.02em;
+  transform:skewX(-11deg);color:#fff;white-space:nowrap}
+.p1{top:160px}
+.p2{top:330px;-webkit-mask:linear-gradient(180deg,#000 0%,transparent 60%);mask:linear-gradient(180deg,#000 0%,transparent 60%)}
+.p3{top:850px;color:transparent;background:linear-gradient(180deg,rgba(255,255,255,.0) 0%,rgba(255,255,255,.55) 100%);-webkit-background-clip:text;background-clip:text}
+.p4{top:985px;text-shadow:0 14px 30px rgba(0,20,60,.35)}
+.palco{position:absolute;top:300px;left:0;right:0;height:880px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.card{position:relative;width:840px;border-radius:48px;padding:52px 60px 40px;
+  background:linear-gradient(160deg,var(--azul3) 0%,var(--azul2) 100%);box-shadow:0 40px 80px rgba(0,15,45,.55)}
+.perfil{display:flex;align-items:center;gap:26px;margin-bottom:28px}
+.avatar{width:96px;height:96px;border-radius:50%;background:#fff;display:grid;place-items:center;flex:none}
+.avatar img{height:64px}
+.perfil b{display:block;font:700 36px "Exo 2"}
+.perfil span{font:400 28px Inter;opacity:.9}
+.card p{font:400 31px/1.38 Inter}
+.card p strong{font-weight:600}
+.card h3{font:800 30px "Exo 2";letter-spacing:.06em;margin:22px 0 10px;color:var(--claro)}
+.card ul{list-style:none;display:grid;gap:8px}
+.card li{font:400 30px/1.3 Inter;padding-left:34px;position:relative}
+.card li:before{content:"";position:absolute;left:4px;top:13px;width:14px;height:14px;border-radius:50%;background:var(--claro)}
+.acoes{display:flex;align-items:center;gap:26px;margin-top:34px}
+.acoes svg{width:40px;height:40px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+.acoes .pontos{margin-left:auto;display:flex;gap:9px}.acoes .pontos i{width:11px;height:11px;border-radius:50%;background:#fff}
+.alerta{position:absolute;top:-70px;right:-36px;width:170px;height:170px;border-radius:38px;transform:rotate(9deg);
+  background:linear-gradient(145deg,#fff 0%,#cfdcef 100%);box-shadow:0 22px 40px rgba(0,15,45,.45),inset 0 -8px 0 rgba(0,47,103,.12);
+  display:grid;place-items:center}
+.alerta:after{content:"";position:absolute;bottom:-26px;left:62px;border:24px solid transparent;border-top:30px solid #d5e0f0}
+.alerta b{font:900 118px/1 Montserrat;color:var(--azul)}
+.pilula{position:relative;z-index:2;margin-top:-30px;display:flex;border-radius:60px;overflow:hidden;
+  box-shadow:0 18px 36px rgba(0,15,45,.4);white-space:nowrap}
+.pilula .rot{background:linear-gradient(90deg,#3b7fd0,var(--azul3));padding:14px 34px;font:600 26px/1.1 Inter}
+.pilula .val{background:var(--claro);color:var(--azul);padding:0 40px;display:flex;align-items:center;font:700 34px Inter}
+.rodape{position:absolute;left:56px;right:56px;bottom:30px;height:124px;background:#fff;border-radius:30px;
+  display:flex;align-items:center;justify-content:space-around;padding:0 30px}
+.rodape img{height:86px}.rodape img.pm{height:70px}
+.ph{background:#ffe08a;color:#002F67;padding:0 8px;border-radius:6px;font-weight:700}

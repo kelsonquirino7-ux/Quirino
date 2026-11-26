@@ -5,22 +5,24 @@
 *{box-sizing:border-box;margin:0}
 body{width:1080px;height:1350px;background:var(--azul);font-family:Inter,sans-serif;color:var(--txt);position:relative;overflow:hidden}
 svg.laco{position:absolute;inset:0}
-.nota{position:absolute;left:150px;top:300px;width:790px;padding:92px 64px 70px;transform:rotate(-3.5deg);
+.brilho{position:absolute;left:540px;top:640px;width:1800px;height:1800px;margin:-900px 0 0 -900px;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,.5) 0%,rgba(210,228,255,.38) 28%,rgba(150,185,255,.14) 42%,transparent 58%)}
+.nota{position:absolute;left:95px;top:215px;width:890px;padding:96px 66px 74px;transform:rotate(-3.5deg);
   background-color:#fff;
   background-image:linear-gradient(#cfe0f5 1.5px,transparent 1.5px),linear-gradient(90deg,#cfe0f5 1.5px,transparent 1.5px);
   background-size:26px 26px;box-shadow:14px 14px 0 rgba(0,0,30,.35);text-align:center}
 .fita{position:absolute;left:50%;top:-30px;width:200px;height:62px;transform:translateX(-50%) rotate(1deg);background:rgba(225,214,195,.85)}
-.pre{font-size:44px;line-height:1.15}
-.grande{font:600 76px/1.02 Inter;letter-spacing:-.02em;margin:8px 0 22px}
-.marca{display:inline-block;background:var(--azul);color:#fff;font:600 66px/1 Inter;padding:10px 26px 16px;border-radius:14px;
+.pre{font-size:50px;line-height:1.15}
+.grande{font:600 86px/1.02 Inter;letter-spacing:-.02em;margin:8px 0 22px}
+.marca{display:inline-block;background:var(--azul);color:#fff;font:600 76px/1 Inter;padding:10px 30px 18px;border-radius:14px;
   box-shadow:8px 8px 0 #000;transform:rotate(-1.5deg);margin-bottom:46px}
-.sub{font-size:31px;line-height:1.3;margin-bottom:26px}
+.sub{font-size:35px;line-height:1.3;margin-bottom:26px}
 ul{list-style:none;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:12px 14px;margin-bottom:34px}
-li{font:600 25px/1 Inter;border:2.5px solid var(--azul);color:var(--azul);background:#fff;border-radius:40px;padding:12px 20px}
+li{font:600 28px/1 Inter;border:2.5px solid var(--azul);color:var(--azul);background:#fff;border-radius:40px;padding:12px 20px}
 .ok{display:flex;justify-content:center;gap:22px}
-.ok span{display:flex;align-items:center;gap:12px;background:var(--azul);color:#fff;font:600 32px/1 Inter;padding:14px 26px 14px 16px;border-radius:12px;box-shadow:6px 6px 0 #000}
-.ok i{width:38px;height:38px;border-radius:50%;background:var(--laranja);display:grid;place-items:center;font-style:normal;font-size:26px}
-.selo{position:absolute;left:50%;bottom:58px;transform:translateX(-50%) rotate(1.5deg);background:#fff;padding:22px 36px;display:flex;align-items:center;gap:30px;box-shadow:10px 10px 0 rgba(0,0,30,.35)}
+.ok span{display:flex;align-items:center;gap:12px;background:var(--azul);color:#fff;font:600 36px/1 Inter;padding:16px 28px 16px 18px;border-radius:12px;box-shadow:6px 6px 0 #000}
+.ok i{width:42px;height:42px;border-radius:50%;background:var(--laranja);display:grid;place-items:center;font-style:normal;font-size:26px}
+.selo{position:absolute;left:50%;bottom:44px;transform:translateX(-50%) rotate(1.5deg);background:#fff;padding:22px 36px;display:flex;align-items:center;gap:30px;box-shadow:10px 10px 0 rgba(0,0,30,.35)}
 .selo img{display:block}
 .selo hr{border:0;width:2px;height:90px;background:#c9d3e6}
 </style>
@@ -29,6 +31,7 @@ li{font:600 25px/1 Inter;border:2.5px solid var(--azul);color:var(--azul);backgr
            C580 820 470 900 470 1000 C470 1100 620 1140 760 1120 C920 1100 1020 980 980 880 C940 790 820 800 760 880 C680 990 640 1150 700 1400"
         fill="none" stroke="#FF5A00" stroke-width="108" stroke-linecap="butt"/>
 </svg>
+<div class="brilho"></div>
 <div class="nota">
   <div class="fita"></div>
   <p class="pre">Santanópolis está</p>

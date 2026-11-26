@@ -1,0 +1,48 @@
+<!doctype html><meta charset="utf-8"><meta name="tamanho" content="1080x1350"><link rel="stylesheet" href="../../../../ferramentas/fontes.css">
+<!-- Card VAAR 100% habilitada · layout "bilhete na parede" (fundo azul + laço laranja). -->
+<style>
+:root{--azul:#1534A0;--laranja:#FF5A00;--txt:#111}
+*{box-sizing:border-box;margin:0}
+body{width:1080px;height:1350px;background:var(--azul);font-family:Inter,sans-serif;color:var(--txt);position:relative;overflow:hidden}
+svg.laco{position:absolute;inset:0}
+.nota{position:absolute;left:150px;top:300px;width:790px;padding:92px 64px 70px;transform:rotate(-3.5deg);
+  background-color:#fff;
+  background-image:linear-gradient(#cfe0f5 1.5px,transparent 1.5px),linear-gradient(90deg,#cfe0f5 1.5px,transparent 1.5px);
+  background-size:26px 26px;box-shadow:14px 14px 0 rgba(0,0,30,.35);text-align:center}
+.fita{position:absolute;left:50%;top:-30px;width:200px;height:62px;transform:translateX(-50%) rotate(1deg);background:rgba(225,214,195,.85)}
+.pre{font-size:44px;line-height:1.15}
+.grande{font:600 76px/1.02 Inter;letter-spacing:-.02em;margin:8px 0 22px}
+.marca{display:inline-block;background:var(--azul);color:#fff;font:600 66px/1 Inter;padding:10px 26px 16px;border-radius:14px;
+  box-shadow:8px 8px 0 #000;transform:rotate(-1.5deg);margin-bottom:46px}
+.sub{font-size:31px;line-height:1.3;margin-bottom:26px}
+ul{list-style:none;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:12px 14px;margin-bottom:34px}
+li{font:600 25px/1 Inter;border:2.5px solid var(--azul);color:var(--azul);background:#fff;border-radius:40px;padding:12px 20px}
+.ok{display:flex;justify-content:center;gap:22px}
+.ok span{display:flex;align-items:center;gap:12px;background:var(--azul);color:#fff;font:600 32px/1 Inter;padding:14px 26px 14px 16px;border-radius:12px;box-shadow:6px 6px 0 #000}
+.ok i{width:38px;height:38px;border-radius:50%;background:var(--laranja);display:grid;place-items:center;font-style:normal;font-size:26px}
+.selo{position:absolute;left:50%;bottom:58px;transform:translateX(-50%) rotate(1.5deg);background:#fff;padding:22px 36px;display:flex;align-items:center;gap:30px;box-shadow:10px 10px 0 rgba(0,0,30,.35)}
+.selo img{display:block}
+.selo hr{border:0;width:2px;height:90px;background:#c9d3e6}
+</style>
+<svg class="laco" viewBox="0 0 1080 1350">
+  <path d="M1180 520 C1000 600 820 640 700 560 C560 470 470 330 520 200 C570 80 760 40 880 120 C1000 200 1000 380 900 470 C800 560 700 600 640 700
+           C580 820 470 900 470 1000 C470 1100 620 1140 760 1120 C920 1100 1020 980 980 880 C940 790 820 800 760 880 C680 990 640 1150 700 1400"
+        fill="none" stroke="#FF5A00" stroke-width="108" stroke-linecap="butt"/>
+</svg>
+<div class="nota">
+  <div class="fita"></div>
+  <p class="pre">Santanópolis está</p>
+  <p class="grande">100% habilitada</p>
+  <span class="marca">no VAAR</span>
+  <p class="sub">O município atendeu todas<br>as condicionalidades:</p>
+  <ul>
+    <li>Gestão democrática</li><li>Participação no SAEB</li><li>Redução de desigualdades</li>
+    <li>ICMS educacional</li><li>Currículo alinhado à BNCC</li>
+  </ul>
+  <div class="ok"><span><i>✓</i>Atendimento</span><span><i>✓</i>Aprendizagem</span></div>
+</div>
+<div class="selo">
+  <img src="../../identidade/logo-prefeitura-azul-transparente-hd.png" style="height:82px" alt="">
+  <hr>
+  <img src="../../identidade/logo-secretaria-educacao-transparente.png" style="height:100px" alt="">
+</div>
